@@ -13,6 +13,8 @@ public class FindCommand extends Command {
     private static Logger logger = Logger.getLogger("Find Command Logger");
     private String newItem;
     private ArrayList<Book> listOfBooks;
+    private int numberOfBookFound;
+
     public FindCommand(String newItem, ArrayList<Book> listOfBooks) {
         this.newItem = newItem;
         this.listOfBooks = listOfBooks;
@@ -36,6 +38,7 @@ public class FindCommand extends Command {
 
         try {
             processFind(keyword);
+            System.out.println(numberOfBookFound);
         } catch (emptyListException e) {
             Ui.printEmptyListMessage();
         }
@@ -48,7 +51,7 @@ public class FindCommand extends Command {
 
         logger.log(Level.INFO, "processing find books based on keyword");
         assert keyword != null : "keyword should not be empty";
-        int numberOfBookFound = 0;
+        numberOfBookFound = 0;
         ArrayList<Book> bookFound = new ArrayList<>();
 
         // filter books based on keyword
@@ -69,10 +72,15 @@ public class FindCommand extends Command {
 
         logger.log(Level.INFO, "processing print of matching book lists");
         System.out.println("Here's the list of matching books in your library:");
-        for (int i = 0; i < bookFound.size(); i += 1) {
+        numberOfBookFound = bookFound.size();
+        for (int i = 0; i < numberOfBookFound; i += 1) {
             String currentBookTitle = bookFound.get(i).getName();
             System.out.println(" " + (i + 1) + ". " + currentBookTitle);
         }
         logger.log(Level.INFO, "end processing");
+    }
+
+    public int getNumberOfBookFound() {
+        return numberOfBookFound;
     }
 }
