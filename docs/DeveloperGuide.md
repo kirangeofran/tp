@@ -5,8 +5,21 @@
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
 
 ## Design & implementation
+## Design
+### Architecture
+![ArchitectureDiagram.png](images%2FArchitectureDiagram.png)
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+The architecture given above explains the high-level design of BookMarked application.
+
+Given below is quick overview of main components and how they interact with each other.
+
+#### Main components of the architecture
+- `Ui`: The UI of the app shown in CLI
+- `Main`: The main code that handles the running of program 
+- `Storage`: Handles write and read data to and from txt file
+- `Parser`: Handles user input and execute the necessary command
+- `Command`: Handles functionality of the app
+- `Book`: Books in the library
 
 
 ## Product scope
