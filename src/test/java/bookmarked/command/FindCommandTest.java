@@ -38,7 +38,7 @@ public class FindCommandTest {
     @Test
     public void handleCommand_keywordNoMatch_numberOfBookFoundZero() {
         ArrayList<Book> listOfBook = new ArrayList<>();
-        String userInput = "find book";
+        String userInput = "find nomatch";
         FindCommand userCommand = new FindCommand(userInput, listOfBook);
         userCommand.handleCommand();
 
@@ -46,6 +46,20 @@ public class FindCommandTest {
         System.out.println("number of books: " + numberOfBookFound);
         assertEquals(0, numberOfBookFound);
     }
+
+    //    @Test
+    //    public void handleCommand_nullKeyword_exceptionThrown() {
+    //        ArrayList<Book> listOfBooks = new ArrayList<>();
+    //        String userInput = null;
+    //        Command userCommand = new FindCommand(userInput, listOfBooks);
+    //
+    //        try {
+    //            userCommand.handleCommand();
+    //        } catch (Exception e) {
+    //            assertEquals("keyword should not be empty", e.getMessage());
+    //        }
+    //
+    //    }
 
     @Test
     public void handleCommand_keywordMatch_numberOfBookFoundMoreThanZero() {
