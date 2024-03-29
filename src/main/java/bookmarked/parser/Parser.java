@@ -27,7 +27,7 @@ public class Parser {
 
             try {
                 parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem);
-            } catch (BookMarkedException e) {
+            } catch (BookMarkedException | ArrayIndexOutOfBoundsException e) {
                 Ui.printUnknownCommand();
             }
             Ui.setLineBreak();
@@ -40,7 +40,7 @@ public class Parser {
 
     public static void parseCommand(String newItem, Command userCommand, ArrayList<Book> listOfBooks,
                                      File bookDataFile, String[] splitItem)
-                                     throws BookMarkedException {
+                                     throws BookMarkedException, ArrayIndexOutOfBoundsException {
         switch(splitItem[0]) {
         case ("/help"):
             userCommand = new HelpCommand();
