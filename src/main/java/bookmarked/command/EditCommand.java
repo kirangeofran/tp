@@ -1,6 +1,8 @@
 package bookmarked.command;
 
 import bookmarked.Book;
+import bookmarked.exceptions.EmptyArgumentsException;
+import bookmarked.exceptions.EmptyListException;
 import bookmarked.storage.BookStorage;
 
 import java.io.File;
@@ -11,7 +13,6 @@ public class EditCommand extends Command {
     private File bookDataFile;
 
     private String userInput;
-    private ArrayList<Book> editedListOfBooks;
 
     private static final int TITLE_START_INDEX = 7;
 
@@ -25,24 +26,46 @@ public class EditCommand extends Command {
     @Override
     public void handleCommand() {
         String[] splitInput = userInput.split(" ");
-        int bookNumberToEdit = Integer.parseInt(splitInput[1]);
+        int totalBooks = listOfBooks.size();
+        Book bookToEdit = null;
+        int bookNumberToEdit = 0;
+        String bookName = null;
 
-        Book bookToEdit = listOfBooks.get(bookNumberToEdit - 1);
-        String bookName = bookToEdit.getName();
+        try {
+            bookNumberToEdit = Integer.parseInt(splitInput[1]);
 
-        if (userInput.contains("/title")) {
-            int titleIndex = userInput.indexOf("/title");
-            int nextSlash = userInput.indexOf("/", titleIndex + TITLE_START_INDEX);
+            bookToEdit = listOfBooks.get(bookNumberToEdit - 1);
 
-            if (nextSlash == -1) {
-                bookName = userInput.substring(titleIndex + TITLE_START_INDEX);
-            } else {
-                bookName = userInput.substring(titleIndex + TITLE_START_INDEX, nextSlash);
+            assert bookNumberToEdit > 0 : "bookNumberToEdit must be an integer greater than 0";
+            assert bookNumberToEdit <= totalBooks : "bookNumberToEdit must be an integer " +
+                    "less than or equals to the total number of books in library";
+
+            if (userInput.contains("/title")) {
+                int titleIndex = userInput.indexOf("/title");
+                int nextSlash = userInput.indexOf("/", titleIndex + TITLE_START_INDEX);
+
+                if (nextSlash == -1) {
+                    bookName = userInput.substring(titleIndex + TITLE_START_INDEX);
+                } else {
+                    bookName = userInput.substring(titleIndex + TITLE_START_INDEX, nextSlash);
+                }
+
+                if (bookName.isBlank()) {
+                    throw new EmptyArgumentsException();
+                }
+
+                bookToEdit.setName(bookName);
+                BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
             }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter a book number in integer format");
+        } catch (StringIndexOutOfBoundsException | EmptyArgumentsException e) {
+            System.out.println("Sorry, description cannot be empty");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Sorry, no book number of: " + bookNumberToEdit);
+        } catch (NullPointerException e) {
+            System.out.println("Please enter in the format as mentioned in help");
         }
-
-        bookToEdit.setName(bookName);
-
-        BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
     }
 }
