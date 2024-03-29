@@ -13,7 +13,7 @@ public class FindCommand extends Command {
     private static Logger logger = Logger.getLogger("Find Command Logger");
     private String newItem;
     private ArrayList<Book> listOfBooks;
-    private int numberOfBookFound;
+    private static int numberOfBookFound;
 
     public FindCommand(String newItem, ArrayList<Book> listOfBooks) {
         this.newItem = newItem;

@@ -36,29 +36,33 @@ public class FindCommandTest {
 
     @Test
     public void handleCommand_keywordNoMatch_numberOfBookFoundZero() {
-        ArrayList<Book> listOfBooks = new ArrayList<Book>();
+        ArrayList<Book> listOfBook = new ArrayList<>();
         String userInput = "find book";
-        FindCommand userCommand = new FindCommand(userInput, listOfBooks);
+        FindCommand userCommand = new FindCommand(userInput, listOfBook);
+        userCommand.handleCommand();
 
         int numberOfBookFound = userCommand.getNumberOfBookFound();
+        System.out.println("number of books: " + numberOfBookFound);
         assertEquals(0, numberOfBookFound);
     }
-//
-//    @Test
-//    public void handleCommand_keywordMatch_numberOfBookFoundMoreThanZero() {
-//        ArrayList<Book> listOfBooks = new ArrayList<>();
-//        String userInput1 = "find book";
-//        String userInput2 = "find orld";
-//        listOfBooks.add(new Book("book1"));
-//        listOfBooks.add(new Book("book2"));
-//        listOfBooks.add(new Book ("hello world"));
-//        System.out.println(listOfBooks);
-////        FindCommand userCommand1 = new FindCommand(userInput1, listOfBooks);
-////        int numberOfBookFound = userCommand1.getNumberOfBookFound();
-////        assertEquals(2, numberOfBookFound);
-//
-//        FindCommand userCommand2 = new FindCommand(userInput2, listOfBooks);
-//        int numberOfBookFound = userCommand2.getNumberOfBookFound();
-//        assertEquals(1, numberOfBookFound);
-//    }
+
+    @Test
+    public void handleCommand_keywordMatch_numberOfBookFoundMoreThanZero() {
+        ArrayList<Book> listOfBooks = new ArrayList<>();
+        String userInput1 = "find book";
+        String userInput2 = "find orld";
+        listOfBooks.add(new Book("book1"));
+        listOfBooks.add(new Book("book2"));
+        listOfBooks.add(new Book ("hello world"));
+
+        FindCommand userCommand1 = new FindCommand(userInput1, listOfBooks);
+        userCommand1.handleCommand();
+        int numberOfBookFound = userCommand1.getNumberOfBookFound();
+        assertEquals(2, numberOfBookFound);
+
+        FindCommand userCommand2 = new FindCommand(userInput2, listOfBooks);
+        userCommand2.handleCommand();
+        numberOfBookFound = userCommand2.getNumberOfBookFound();
+        assertEquals(1, numberOfBookFound);
+    }
 }
