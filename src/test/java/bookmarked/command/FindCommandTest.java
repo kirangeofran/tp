@@ -46,7 +46,7 @@ public class FindCommandTest {
         System.out.println("number of books: " + numberOfBookFound);
         assertEquals(0, numberOfBookFound);
     }
-    
+
     @Test
     public void handleCommand_keywordMatch_numberOfBookFoundMoreThanZero() {
         ArrayList<Book> listOfBooks = new ArrayList<>();
