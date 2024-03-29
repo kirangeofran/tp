@@ -10,3 +10,5 @@
 
 !define BUFFERED_READER_COLOR #royalblue
 !define FILE_READER_COLOR #teal
+!define BUFFERED_WRITER_COLOR #tomato
+!define FILE_WRITER_COLOR #palevioletred
