@@ -7,3 +7,6 @@
 
 !define USER_COLOR #pink
 !define FILE_COLOR #limegreen
+
+!define BUFFERED_READER_COLOR #royalblue
+!define FILE_READER_COLOR #teal

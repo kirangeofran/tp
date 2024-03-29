@@ -21,6 +21,25 @@ Given below is quick overview of main components and how they interact with each
 - `Command`: Handles functionality of the app
 - `Book`: Books in the library
 
+### Ui Component
+
+### Storage Component
+BookMarked application is using txt file as its main storage for all the data.
+All data related to books are stored in `book.txt`.
+
+At the start of running the application, `readFileStorage` is called to get the data saved 
+from the previous runs of the application
+
+![ReadFileStorageDiagram.png](images%2FReadFileStorageDiagram.png)
+
+
+### Parser Component
+
+### Command Component
+
+### Book Component
+
+
 
 ## Product scope
 ### Target user profile
