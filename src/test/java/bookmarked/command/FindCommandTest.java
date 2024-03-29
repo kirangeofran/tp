@@ -23,7 +23,7 @@ public class FindCommandTest {
 
     @Test
     public void handleCommand_emptyKeyword_exceptionThrown() {
-        ArrayList<Book> listOfBooks = new ArrayList<Book>();
+        ArrayList<Book> listOfBooks = new ArrayList<>();
         String userInput = "";
         Command userCommand = new FindCommand(userInput, listOfBooks);
 
@@ -33,6 +33,7 @@ public class FindCommandTest {
             assertEquals("keyword should not be empty", e.getMessage());
         }
     }
+
 
     @Test
     public void handleCommand_keywordNoMatch_numberOfBookFoundZero() {

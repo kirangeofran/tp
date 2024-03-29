@@ -11,9 +11,9 @@ import java.util.logging.Level;
 public class FindCommand extends Command {
     public static final int FIND_KEYWORD_START_INDEX = 5;
     private static Logger logger = Logger.getLogger("Find Command Logger");
+    private static int numberOfBookFound;
     private String newItem;
     private ArrayList<Book> listOfBooks;
-    private static int numberOfBookFound;
 
     public FindCommand(String newItem, ArrayList<Book> listOfBooks) {
         this.newItem = newItem;
