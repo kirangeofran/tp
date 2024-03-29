@@ -42,9 +42,34 @@ to the txt file, `book.txt`.
 
 ### Command Component
 
+#### BorrowCommand 
+##### Overview
+The "borrow command" is a feature that manages the borrowing of books. The enhancements to this 
+command aim to provide real-time feedback on book availability, track borrowing and due dates, 
+and notify users of due dates of books that are currently being borrow by others.
+##### Component-Level 
+The "borrow command" component interfaces with several others: 
+1. UI component : To relay messages back to the user. 
+2. Storage component : For persistent storage operations.
+3. Book Domain Model : Represents the state and behaviour of the individual book entities. 
+##### Class-Level
+1. Book Class : This class represents the domain entity with properties such as 'name', 'isAvailable', 
+'borrowDate' and 'returnDate' along with the methods to manipulate these properties. 
+2. BorrowCommand Class : Orchestrates the borrowing process. It parses the user command,
+interacts with the book objects to check availability, and updates book states. 
+3. BookStorage Class : Handles data persistence, ensuring that book statuses are consistently stored and 
+4. retrieved from a file or database. 
+##### Implementation Details 
+How ? The "BorrowCommand" upon execution will :
+- Use the book's name provided by the user to locate the book within an 'ArrayList<Book>'.
+- Check the 'isAvailable' attribute of the 'Book' instance to determine if it can be borrowed. 
+- If available, the book's 'borrowDate' is set to the current date, and 'returnDate' is calculated based
+on the pre-determined 2-week borrow period.
+- If not available, rhe user is informed of the 'returnDate'.
+- Post-interaction, 'BookStorage' updates the book's status in the storage file. 
+
+
 ### Book Component
-
-
 
 ## Product scope
 ### Target user profile
