@@ -12,3 +12,5 @@
 !define FILE_READER_COLOR #teal
 !define BUFFERED_WRITER_COLOR #tomato
 !define FILE_WRITER_COLOR #palevioletred
+!define STORAGE_COLOR #purple
+!define BOOK_COLOR #green
