@@ -28,10 +28,15 @@ BookMarked application is using txt file as its main storage for all the data.
 All data related to books are stored in `book.txt`.
 
 At the start of running the application, `readFileStorage` is called to get the data saved 
-from the previous runs of the application
+from the previous runs of the application.
 
 ![ReadFileStorageDiagram.png](images%2FReadFileStorageDiagram.png)
 
+Whenever any there's any changes in the data for books during the running of the application, 
+`writeBookToTxt` is called. Data stored in will be converted to formatted string and written 
+to the txt file, `book.txt`.
+
+![WriteBookToTxt.png](images%2FWriteBookToTxt.png)
 
 ### Parser Component
 
