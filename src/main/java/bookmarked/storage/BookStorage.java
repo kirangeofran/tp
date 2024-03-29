@@ -2,6 +2,7 @@ package bookmarked.storage;
 
 import bookmarked.Book;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
@@ -12,30 +13,28 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 
 public class BookStorage {
-    public static ArrayList<Book> listOfBooks = new ArrayList<>();
+
+
     public static File createFile(String bookDataPath) {
         File bookDataFile = new File(bookDataPath);
-        try {
-            bookDataFile.createNewFile();
-        } catch (IOException e) {
-            System.out.println("Sorry, something's wrong, file is not created");
+        if (!bookDataFile.exists()) {
+            try {
+                bookDataFile.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Sorry, something's wrong, file is not created");
+            }
         }
         return bookDataFile;
     }
 
-    public static ArrayList<Book> readFileStorage (File bookDataFile) {
-        try {
-            BufferedReader fileReader = new BufferedReader(new FileReader(bookDataFile));
-            String currentTextLine = fileReader.readLine();
-            int bookCount = 0;
 
-            while (currentTextLine != null) {
-                addToArrayList(currentTextLine, bookCount, listOfBooks);
-                bookCount += 1;
-                currentTextLine = fileReader.readLine();
+    public static ArrayList<Book> readFileStorage(File bookDataFile) {
+        ArrayList<Book> listOfBooks = new ArrayList<>();
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(bookDataFile))) {
+            String currentTextLine;
+            while ((currentTextLine = fileReader.readLine()) != null) {
+                addToArrayList(currentTextLine, listOfBooks);
             }
-
-            fileReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
         } catch (IOException e) {
@@ -46,11 +45,16 @@ public class BookStorage {
     }
 
     public static void writeBookToTxt(File bookDataFile, ArrayList<Book> listOfBooks) {
-        try {
-            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(bookDataFile, false));
-            int bookCount = listOfBooks.size();
-            for (int i = 0; i < bookCount; i += 1) {
-                writeFormattedString(i, fileWriter, listOfBooks);
+        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(bookDataFile, false))) {
+            for (Book currentBook : listOfBooks) {
+                String bookTitle = currentBook.getName();
+                String bookBorrowStatus = currentBook.getIsBorrowed() ? "True" : "False";
+                String borrowDate = (currentBook.getBorrowDate() != null) ?
+                        currentBook.getBorrowDate().toString() : "null";
+                String returnDate = (currentBook.getReturnDate() != null) ?
+                        currentBook.getReturnDate().toString() : "null";
+                fileWriter.write(String.format("%s | %s | %s | %s%n",
+                        bookTitle, bookBorrowStatus, borrowDate, returnDate));
             }
             fileWriter.close();
         } catch (FileNotFoundException e) {
@@ -60,23 +64,28 @@ public class BookStorage {
         }
     }
 
-    private static void writeFormattedString(int bookIndex, BufferedWriter fileWriter, ArrayList<Book> listOfBooks)
-            throws IOException {
-        Book currentBook = listOfBooks.get(bookIndex);
-        String bookTitle = currentBook.getName();
-        String bookBorrowStatus = currentBook.getBorrowedStatus().equals(", borrowed") ? "True" : "False";
-        fileWriter.write(bookTitle + " | " + bookBorrowStatus + "\n");
-    }
-
-    private static void addToArrayList(String currentTextLine, int bookCount, ArrayList<Book> listOfBooks) {
+    private static void addToArrayList(String currentTextLine, ArrayList<Book> listOfBooks) {
         String[] splitTextLine;
         splitTextLine = currentTextLine.split(" \\| ");
-        listOfBooks.add(new Book(splitTextLine[0]));
-
-        // Update borrow status in array list
-        if (splitTextLine[1].equalsIgnoreCase("True")) {
-            Book currentBook = listOfBooks.get(bookCount);
-            currentBook.setBorrowed();
+        if (splitTextLine.length < 4) {
+            System.out.println("Skipping malformatted line: " + currentTextLine);
+            return;
         }
+
+        String title = splitTextLine[0];
+
+        boolean isBorrowed = "True".equalsIgnoreCase(splitTextLine[1]);
+        LocalDate borrowDate = !"null".equals(splitTextLine[2]) ? LocalDate.parse(splitTextLine[2]) : null;
+        LocalDate returnDate = !"null".equals(splitTextLine[3]) ? LocalDate.parse(splitTextLine[3]) : null;
+
+        Book currentBook = new Book(title);
+
+        if (isBorrowed) {
+            currentBook.setBorrowed();
+            currentBook.setBorrowDate(borrowDate);
+            currentBook.setReturnDate(returnDate);
+        }
+
+        listOfBooks.add(currentBook);
     }
 }
