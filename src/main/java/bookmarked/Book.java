@@ -25,6 +25,10 @@ public class Book {
         this.isBorrowed = false;
     }
 
+    public void setName(String bookName) {
+        this.description = bookName;
+    }
+
     @Override
     public String toString() {
         return (this.description + getBorrowedStatus());
