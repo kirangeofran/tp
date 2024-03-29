@@ -9,17 +9,17 @@ participant ":FileReader" as FileReader FILE_READER_COLOR
 activate BookStorage
 
 create BufferedReader
-BookStorage -> BufferedReader
+BookStorage -> BufferedReader : new BufferedReader(:FileReader)
 activate BufferedReader
 
 create FileReader
-BufferedReader -> FileReader
+BufferedReader -> FileReader : new FileReader(bookDataFile:File)
 activate FileReader
 
-FileReader --> BufferedReader : new FileReader(bookDataFile:File)
+FileReader --> BufferedReader
 deactivate FileReader
 
-BufferedReader --> BookStorage : new BufferedReader(:FileReader)
+BufferedReader --> BookStorage
 
 BookStorage -> BufferedReader : fileReader.readLine()
 
