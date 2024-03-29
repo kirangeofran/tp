@@ -29,8 +29,7 @@ public class ListCommand extends Command {
         try {
             if (inputCommand.matches("list")) {
                 runListBlankCommand();
-            }
-            else if (splitCommand[1].equals("alphabetical")) {
+            } else if (splitCommand[1].equals("alphabetical")) {
                 runListAlphabeticalCommand();
             }
         } catch (EmptyListException e) {
