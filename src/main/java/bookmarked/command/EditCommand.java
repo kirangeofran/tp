@@ -2,11 +2,11 @@ package bookmarked.command;
 
 import bookmarked.Book;
 import bookmarked.exceptions.EmptyArgumentsException;
-import bookmarked.exceptions.EmptyListException;
 import bookmarked.storage.BookStorage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class EditCommand extends Command {
     private ArrayList<Book> listOfBooks;
@@ -56,6 +56,7 @@ public class EditCommand extends Command {
 
                 bookToEdit.setName(bookName);
                 BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
+                System.out.println("Edited Book: " + bookNumberToEdit);
             }
 
         } catch (NumberFormatException e) {
