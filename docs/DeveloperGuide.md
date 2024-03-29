@@ -41,7 +41,15 @@ to the txt file, `book.txt`.
 ### Parser Component
 
 ### Command Component
+Bookmarked is an application that allows new books bought to be added to the inventory
+Discarded books can also be deleted through the command delete BOOK_NUMBER
+- Add book:
+- The add book function allows for new book to be added into the inventory
+- It is processed through the AddCommand class
+- The handleCommand function splits the user command into the add and description of book
+- processAddCommand adds the new book into the bottom of the list based on the current number of books
 
+![img.png](img.png)
 ### Book Component
 
 
