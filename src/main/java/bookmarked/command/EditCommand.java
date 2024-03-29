@@ -6,15 +6,13 @@ import bookmarked.storage.BookStorage;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 public class EditCommand extends Command {
+    private static final int TITLE_START_INDEX = 7;
     private ArrayList<Book> listOfBooks;
     private File bookDataFile;
 
     private String userInput;
-
-    private static final int TITLE_START_INDEX = 7;
 
     public EditCommand(String userInput, ArrayList<Book> listOfBooks, File bookDataFile) {
         // Current book details
