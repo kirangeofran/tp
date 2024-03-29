@@ -1,0 +1,34 @@
+@startuml
+!include style.puml
+
+participant ":BookStorage" as BookStorage STORAGE_COLOR
+participant "fileReader:BufferedWriter" as BufferedWriter BUFFERED_WRITER_COLOR
+participant ":FileReader" as FileWriter FILE_WRITER_COLOR
+
+[-> BookStorage : writeBookToTxt(bookDataFile:File, listOfBooks:ArrayList<Book>)
+activate BookStorage
+
+create BufferedWriter
+BookStorage -> BufferedWriter : new BufferedWriter(:FileWriter)
+activate BufferedWriter
+
+create FileWriter
+BufferedWriter -> FileWriter : new FileWriter(bookDataFile:File, false:Boolean)
+activate FileWriter
+
+FileWriter --> BufferedWriter
+deactivate FileWriter
+
+BufferedWriter --> BookStorage
+
+loop#physical #technology i < bookCount
+BookStorage -> BookStorage : writeFormattedString(i, fileWriter, listOfBooks)
+activate BookStorage
+
+BookStorage --> BookStorage
+deactivate BookStorage
+
+end
+[<-- BookStorage
+
+@enduml

@@ -1,0 +1,40 @@
+@startuml
+!include style.puml
+
+!include <office/Users/user>
+!include <office/Concepts/documents>
+
+hide footbox
+hide circle
+hide members
+
+skinparam class {
+    DefaultWidth 200
+}
+
+package " " <<rectangle>> {
+    Class Ui UI_COLOR
+    Class Command COMMAND_COLOR
+    Class Parser PARSER_COLOR
+    Class Storage STORAGE_COLOR
+    Class Main MAIN_COLOR
+    Class Book BOOK_COLOR
+}
+
+Class "<$user>" as User USER_COLOR
+Class "<$documents>" as File FILE_COLOR
+
+Ui -[#red]-> Main
+Main -[#black]-> Ui
+Main -[#black]-> Storage
+Main -[#black]-> Parser
+Storage .[#green].> Main
+Parser -[#blue]-> Command
+Parser -[#blue]-> Storage
+Command -[#orange]-> Book
+Storage .[#green].> File
+User .[#black]> Ui
+
+
+
+@enduml

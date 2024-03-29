@@ -1,0 +1,14 @@
+!define UI_COLOR #red
+!define COMMAND_COLOR #yellow
+!define PARSER_COLOR #lightblue
+!define STORAGE_COLOR #lightgreen
+!define MAIN_COLOR #honeydew
+!define BOOK_COLOR #orange
+
+!define USER_COLOR #pink
+!define FILE_COLOR #limegreen
+
+!define BUFFERED_READER_COLOR #royalblue
+!define FILE_READER_COLOR #teal
+!define BUFFERED_WRITER_COLOR #tomato
+!define FILE_WRITER_COLOR #palevioletred
