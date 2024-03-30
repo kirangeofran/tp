@@ -45,7 +45,7 @@ public class DeleteCommand extends Command {
         }
 
         // checks if bookToDelete contains only the word "delete" or if there are only white spaces after it
-        if (this.bookToDelete.length < 1 || this.bookToDelete[1].isBlank()) {
+        if (this.bookToDelete.length <= 1 || this.bookToDelete[1].isBlank()) {
             throw new EmptyArgumentsException();
         }
 
