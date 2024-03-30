@@ -36,6 +36,15 @@ public class Book {
         }
     }
 
+    public void extendDueDate(int extraDays) {
+        if (this.returnDate != null) {
+            this.returnDate = this.returnDate.plusDays(extraDays);
+        } else {
+            System.out.println("This book has not been borrowed yet.");
+        }
+    }
+
+
     public LocalDate getBorrowDate() {
         return borrowDate;
     }
