@@ -49,7 +49,15 @@ Example of usage:
 `todo n/Refactor the User Guide to remove passive voice d/13/04/2020`
 
 ## FAQ
+> **Q**: How do I transfer my data to another computer?
+>
+> **A**: Copy the /book.txt file to another computer and paste it in the
+> same folder inside bookMarked.jar
 
+> **Q**: Can I access the task I previously added when I restart the application?
+>
+> **A**: Yes, all data are saved in local hard disk and will be reloaded every time
+> the application is restarted
 
 ## Command Summary
 
