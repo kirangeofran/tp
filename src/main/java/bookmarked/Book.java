@@ -82,8 +82,8 @@ public class Book {
                     (borrowDate != null) ? borrowDate.format(DATE_FORMATTER) : "Not set";
             String formattedReturnDate = getFormattedReturnDate();
             return String.format(
-                    "%s, borrowed on: %s, due on: %s", description, borrowDate.format(DATE_FORMATTER),
-                    getFormattedReturnDate());
+                    "%s, borrowed on: %s, due on: %s", description, formattedBorrowDate,
+                    formattedReturnDate);
         } else {
             return description + " available";
         }
