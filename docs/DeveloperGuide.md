@@ -41,6 +41,19 @@ to the txt file, `book.txt`.
 ### Parser Component
 
 ### Command Component
+#### AddCommand
+##### Overview
+Bookmarked is an application that allows new books bought to be added to the inventory
+Discarded books can also be deleted through the command delete BOOK_NUMBER
+- Add book:
+- The add book function allows for new book to be added into the inventory
+##### Class -Level
+1. AddCommand class : It is processed through the AddCommand class
+##### Implementation
+- The handleCommand function splits the user command into the add and description of book
+- processAddCommand adds the new book into the bottom of the list based on the current number of books
+
+![img.png](img.png)
 
 #### BorrowCommand 
 ##### Overview
@@ -67,6 +80,31 @@ How ? The "BorrowCommand" upon execution will :
 on the pre-determined 2-week borrow period.
 - If not available, the user is informed of the 'returnDate'.
 - Post-interaction, 'BookStorage' updates the book's status in the storage file. 
+
+
+#### List Command
+##### Overview
+The "list command" is a feature that manages the listing all the books in the inventory.
+It is so librarians can keep track of all the books, as well as their status of whether they have
+been borrowed or are currently available in the library.
+##### Component-Level
+The "list command" component interfaces with several others:
+1. UI component : To relay messages back to the user.
+3. Book Domain Model : Represents the state and behaviour of the individual book entities.
+##### Class-Level
+1. Book Class : This class represents the domain entity with properties such as 'name', 'isAvailable',
+   'borrowDate' and 'returnDate' along with the methods to manipulate these properties.
+2. ListCommand Class : It handles the different commands of the list input, such as regular list,
+    list by alphabetical order, and so on.
+##### Implementation Details
+How ? The "ListCommand" upon execution will:
+- Split user input with the regex "list" to determine the various arguments the user has for the list function
+- If without argument, the toString() function of each book in the ArrayList is called, printing out the books
+- If with argument, parses the argument to figure which it is, then creates a new ArrayList<Book> to copy
+    the original ArrayList and sort the new ArrayList according to the necessary argument. The toString()
+    function of each book in the newly sorted ArrayList is then called.
+- If there are no books in the original ArrayList, an exception is thrown and the user is informed of it.
+
 
 
 ### Book Component

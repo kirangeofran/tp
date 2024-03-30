@@ -6,11 +6,15 @@ import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class BorrowCommand extends Command {
+
+    private static final Period DEFAULT_BORROW_PERIOD = Period.ofWeeks(2);
     private String bookName;
     private ArrayList<Book> listOfBooks;
     private File bookDataFile;
@@ -44,13 +48,15 @@ public class BorrowCommand extends Command {
         }
 
         if (!foundBooks.isEmpty()) {
-            // Assuming that there can be multiple books with the same name,
-            // and we mark all copies as borrowed
-            foundBooks.forEach(book -> {
-                //assert !book.isBorrowed() : "Book is already borrowed: " + book.getName();
-                book.setBorrowed();
-                System.out.println("Borrowed " + book.getName() + "!");
-            });
+            Book bookToBorrow = foundBooks.get(0);
+            if (bookToBorrow.isAvailable()) {
+                bookToBorrow.borrowBook(LocalDate.now(), DEFAULT_BORROW_PERIOD);
+                System.out.println("Borrowed " + bookToBorrow.getName() + "!");
+                System.out.println("Please return by " + bookToBorrow.getFormattedReturnDate() + ".");
+            } else {
+                System.out.println("Book is currently unavailable. Expected return date is " +
+                        bookToBorrow.getFormattedReturnDate() + ".");
+            }
         } else {
             System.out.println("Book not found: " + bookName);
         }
