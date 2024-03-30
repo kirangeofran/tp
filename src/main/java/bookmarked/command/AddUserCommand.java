@@ -2,7 +2,7 @@ package bookmarked.command;
 
 import bookmarked.Book;
 import bookmarked.exceptions.EmptyArgumentsException;
-import bookmarked.storage.BookStorage;
+
 import bookmarked.ui.Ui;
 
 import java.io.File;
@@ -14,7 +14,8 @@ public class AddUserCommand extends Command {
     private ArrayList<Book> listOfUsers;
     private String[] splitItem;
     private File bookDataFile;
-    public AddUserCommand(String newItem, ArrayList<Book> listOfBooks, String[] splitItem, File bookDataFile, ArrayList<Book> listOfUsers){
+    public AddUserCommand(String newItem, ArrayList<Book> listOfBooks, String[] splitItem,
+                          File bookDataFile, ArrayList<Book> listOfUsers){
         this.newItem = newItem;
         this.listOfBooks = listOfBooks;
         this.listOfUsers = listOfUsers;

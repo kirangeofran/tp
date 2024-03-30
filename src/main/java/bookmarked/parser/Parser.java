@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Parser {
-    public static void runCommand(String newItem, Scanner in, ArrayList<Book> listOfBooks, File bookDataFile, ArrayList<Book> listOfUsers) {
+    public static void runCommand(String newItem, Scanner in, ArrayList<Book> listOfBooks,
+                                  File bookDataFile, ArrayList<Book> listOfUsers) {
         Command userCommand = new ListCommand(listOfBooks, newItem);
 
         while (!newItem.equalsIgnoreCase("bye")) {
@@ -68,7 +69,7 @@ public class Parser {
         case ("find"):
             userCommand = new FindCommand(newItem, listOfBooks);
             break;
-        case("listuser") :
+        case("listuser"):
             userCommand = new ListUserCommand(listOfUsers, newItem);
             break;
         default:
