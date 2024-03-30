@@ -5,7 +5,7 @@ import bookmarked.exceptions.EmptyListException;
 import bookmarked.ui.Ui;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+
 
 public class ListUserCommand extends Command {
     private ArrayList<Book> listOfUsers;
@@ -45,28 +45,4 @@ public class ListUserCommand extends Command {
             System.out.println((i + 1) + ". " + this.listOfUsers.get(i).toString());
         }
     }
-
-
-   /* public void runListAlphabeticalCommand() throws EmptyListException {
-        if (this.listOfUsers.isEmpty()) {
-            throw new EmptyListException();
-        }
-
-        System.out.println("Here are the list of all current books that are currently in\n" +
-                "the library's inventory listed by alphabetical order!\n");
-        this.sortedListOfBooks = new ArrayList<>(this.listOfBooks);
-        this.sortedListOfBooks.sort(new Comparator<Book>() {
-            @Override
-            public int compare(Book bookOne, Book bookTwo) {
-                return bookOne.getName().compareTo(bookTwo.getName());
-            }
-        });
-
-        for (int i = 0; i < numberOfBooks; i++) {
-            System.out.println((i + 1) + ". " + this.sortedListOfBooks.get(i).toString());
-        }
-    }
-   *
-    */
-
 }
