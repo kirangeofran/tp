@@ -145,6 +145,6 @@ public class DeleteCommandTest {
         userCommand.handleCommand();
         int numberOfBooksAfter = listOfBooks.size();
 
-        assert(numberOfBooksBefore - 1 == numberOfBooksAfter);
+        assertEquals(numberOfBooksBefore - 1, numberOfBooksAfter);
     }
 }
