@@ -1,14 +1,23 @@
 package bookmarked;
 
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.io.TempDir;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList ;
+
+import bookmarked.command.ExtendCommand ;
+
 
 public class BookTest {
+
+    @TempDir
+    Path tempDir;  // JUnit creates and cleans up a temporary directory
     @Test
     public void getBookDescription_returnsBookDescription() {
         Book testBook = new Book("Test");
@@ -47,6 +56,25 @@ public class BookTest {
         testBook.setReturned(); // Now, return the book
         String expectedOutput = "The Book Thief available";
         assertEquals(expectedOutput, testBook.toString());
+    }
+
+
+    @Test
+    public void extendDueDate_bookExtended_returnsExtendedDate() {
+        ArrayList<Book> listOfBooks = new ArrayList<>();
+        Book testBook = new Book("Test Book");
+        testBook.borrowBook(LocalDate.now().minusDays(10), Period.ofDays(14));
+        listOfBooks.add(testBook);
+
+        File tempFile = tempDir.resolve("tempBookData.txt").toFile();  // Create a temporary file
+
+        ExtendCommand command = new ExtendCommand("Test Book", listOfBooks, tempFile);
+        command.handleCommand();
+
+        LocalDate expectedDueDate = LocalDate.now().minusDays(10).plusDays(14).plusDays(7);
+        LocalDate actualDueDate = testBook.getReturnDate();
+
+        assertEquals(expectedDueDate, actualDueDate);
     }
 
 }
