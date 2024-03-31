@@ -11,16 +11,16 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DeleteCommandTest {
+    private static final String TEST_FILE_PATH = "./test.txt";
     private String userInput;
     private String[] splitInput;
     private ArrayList<Book> listOfBooks;
     private File bookDataFile;
     private DeleteCommand userCommand;
-    private static final String TEST_FILE_PATH = "./test.txt";
 
     @BeforeEach
     public void init() {
