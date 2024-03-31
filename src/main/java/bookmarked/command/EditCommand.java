@@ -7,6 +7,9 @@ import bookmarked.storage.BookStorage;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * EditCommand class is to edit the details of the available book added in the library.
+ */
 public class EditCommand extends Command {
     private static final int TITLE_START_INDEX = 7;
     private ArrayList<Book> listOfBooks;
@@ -29,6 +32,11 @@ public class EditCommand extends Command {
         this.userInput = userInput;
     }
 
+    /**
+     * Handles user's command to edit currently available book details in the library. If
+     * description of what to edit is empty, book number to edit is not integer within the
+     * range of the available books, or wrong input format, exceptions are handled.
+     */
     @Override
     public void handleCommand() {
         String[] splitInput = userInput.split(" ");
