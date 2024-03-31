@@ -11,11 +11,11 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class DeleteCommand extends Command {
-    private String[] bookToDelete;
+    private String[] splitInput;
     private ArrayList<Book> listOfBooks;
     private File bookDataFile;
-    public DeleteCommand(String[] bookToDelete, ArrayList<Book> listOfBooks, File bookDataFile) {
-        this.bookToDelete = bookToDelete;
+    public DeleteCommand(String[] splitInput, ArrayList<Book> listOfBooks, File bookDataFile) {
+        this.splitInput = splitInput;
         this.listOfBooks = listOfBooks;
         this.bookDataFile = bookDataFile;
     }
@@ -24,7 +24,7 @@ public class DeleteCommand extends Command {
     public void handleCommand() {
         try {
             processDeleteCommand(listOfBooks);
-            assert this.bookToDelete.length >= 1 : "There should be an argument to the command";
+            assert this.splitInput.length >= 1 : "There should be an argument to the command";
             assert !this.listOfBooks.isEmpty() : "The current list of books should not be empty";
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
         } catch (EmptyListException e) {
@@ -45,11 +45,11 @@ public class DeleteCommand extends Command {
         }
 
         // checks if bookToDelete contains only the word "delete" or if there are only white spaces after it
-        if (this.bookToDelete.length <= 1 || this.bookToDelete[1].isBlank()) {
+        if (this.splitInput.length <= 1 || this.splitInput[1].isBlank()) {
             throw new EmptyArgumentsException();
         }
 
-        int inputtedIndex = Integer.parseInt(this.bookToDelete[1]);
+        int inputtedIndex = Integer.parseInt(this.splitInput[1]);
         if (inputtedIndex <= 0 || inputtedIndex > listOfBooks.size()) {
             throw new IndexOutOfListBounds();
         }
