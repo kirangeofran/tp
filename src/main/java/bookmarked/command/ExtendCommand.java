@@ -22,7 +22,7 @@ public class ExtendCommand extends Command {
     public void handleCommand() {
         for (Book book : listOfBooks) {
             if (book.getName().equalsIgnoreCase(bookName) && book.getIsBorrowed()) {
-                book.extendDueDate(7); // extend due date by 7 days
+                book.extendDueDate(); // extend due date by 7 days
                 System.out.println("Due date for " + bookName + " has been extended by a week.");
                 BookStorage.writeBookToTxt(bookDataFile, listOfBooks); // Save the updated due date
                 return;
