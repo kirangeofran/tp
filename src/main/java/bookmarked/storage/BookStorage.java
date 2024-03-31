@@ -56,7 +56,6 @@ public class BookStorage {
                 fileWriter.write(String.format("%s | %s | %s | %s%n",
                         bookTitle, bookBorrowStatus, borrowDate, returnDate));
             }
-            fileWriter.close();
         } catch (FileNotFoundException e) {
             System.out.println("FILE NOT FOUND!!!");
         } catch (IOException e) {
