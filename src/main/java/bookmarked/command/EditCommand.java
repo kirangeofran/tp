@@ -38,24 +38,7 @@ public class EditCommand extends Command {
             assert bookNumberToEdit <= totalBooks : "bookNumberToEdit must be an integer " +
                     "less than or equals to the total number of books in library";
 
-            if (userInput.contains("/title")) {
-                int titleIndex = userInput.indexOf("/title");
-                int nextSlash = userInput.indexOf("/", titleIndex + TITLE_START_INDEX);
-
-                if (nextSlash == -1) {
-                    bookName = userInput.substring(titleIndex + TITLE_START_INDEX);
-                } else {
-                    bookName = userInput.substring(titleIndex + TITLE_START_INDEX, nextSlash);
-                }
-
-                if (bookName.isBlank()) {
-                    throw new EmptyArgumentsException();
-                }
-
-                bookToEdit.setName(bookName);
-                BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
-                System.out.println("Edited Book: " + bookNumberToEdit);
-            }
+            handleEditTitle(bookToEdit, bookNumberToEdit);
 
         } catch (NumberFormatException e) {
             System.out.println("Please enter a book number in integer format");
@@ -65,6 +48,29 @@ public class EditCommand extends Command {
             System.out.println("Sorry, no book number of: " + bookNumberToEdit);
         } catch (NullPointerException e) {
             System.out.println("Please enter in the format as mentioned in help");
+        }
+    }
+
+    private void handleEditTitle(Book bookToEdit, int bookNumberToEdit) throws EmptyArgumentsException {
+        String bookName;
+        if (userInput.contains("/title")) {
+            int titleIndex = userInput.indexOf("/title");
+            int nextSlash = userInput.indexOf("/", titleIndex + TITLE_START_INDEX);
+
+            // if "/" is not found after the "/title"
+            if (nextSlash == -1) {
+                bookName = userInput.substring(titleIndex + TITLE_START_INDEX);
+            } else {
+                bookName = userInput.substring(titleIndex + TITLE_START_INDEX, nextSlash);
+            }
+
+            if (bookName.isBlank()) {
+                throw new EmptyArgumentsException();
+            }
+
+            bookToEdit.setName(bookName);
+            BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
+            System.out.println("Edited Book: " + bookNumberToEdit);
         }
     }
 }
