@@ -14,6 +14,14 @@ public class EditCommand extends Command {
 
     private String userInput;
 
+    /**
+     * Constructor for EditCommand, taking in user's input, array lists of books, and file for
+     * book data storage.
+     *
+     * @param userInput user input to the terminal.
+     * @param listOfBooks array list that stores all the books and its details in the library.
+     * @param bookDataFile file for storing all the books and details.
+     */
     public EditCommand(String userInput, ArrayList<Book> listOfBooks, File bookDataFile) {
         // Current book details
         this.listOfBooks = listOfBooks;
