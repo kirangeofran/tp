@@ -24,9 +24,11 @@ Given below is quick overview of main components and how they interact with each
 ### Ui Component
 
 ### Storage Component
+##### Overview
 BookMarked application is using txt file as its main storage for all the data.
 All data related to books are stored in `book.txt`.
 
+##### Implementation Details
 At the start of running the application, `readFileStorage` is called to get the data saved 
 from the previous runs of the application.
 
@@ -36,11 +38,26 @@ Whenever any there's any changes in the data for books during the running of the
 `writeBookToTxt` is called. Data stored in will be converted to formatted string and written 
 to the txt file, `book.txt`.
 
-![WriteBookToTxt.png](images%2FWriteBookToTxt.png)
+![WriteBookToTxtDiagram.png](images%2FWriteBookToTxtDiagram.png)
 
 ### Parser Component
 
 ### Command Component
+#### HelpCommand
+##### Overview
+The "help command" is a feature that summarise to user all the available commands in
+BookMarked application. It also includes all the command format that user can follow for use in the application.
+
+##### Component-Level
+"Help command" interfaces with another component:
+1. UI component : To relay messages back to the user.
+
+##### Implementation
+Whenever the user input in `/help`, "help command" is called and command handled by calling method in UI
+to show to user the messages.
+
+![HelpCommandDiagram.png](images%2FHelpCommandDiagram.png)
+
 #### AddCommand
 ##### Overview
 Bookmarked is an application that allows new books bought to be added to the inventory
@@ -49,11 +66,11 @@ Discarded books can also be deleted through the command delete BOOK_NUMBER
 - The add book function allows for new book to be added into the inventory
 ##### Class -Level
 1. AddCommand class : It is processed through the AddCommand class
-##### Implementation
+##### Implementation Details
 - The handleCommand function splits the user command into the add and description of book
 - processAddCommand adds the new book into the bottom of the list based on the current number of books
 
-![img.png](img.png)
+![AddCommandDiagram.png](images%2FAddCommandDiagram.png)
 
 #### BorrowCommand 
 ##### Overview
@@ -104,7 +121,6 @@ How ? The "ListCommand" upon execution will:
     the original ArrayList and sort the new ArrayList according to the necessary argument. The toString()
     function of each book in the newly sorted ArrayList is then called.
 - If there are no books in the original ArrayList, an exception is thrown and the user is informed of it.
-
 
 
 ### Book Component
