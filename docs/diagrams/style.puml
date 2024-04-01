@@ -13,4 +13,5 @@
 !define BUFFERED_WRITER_COLOR #tomato
 !define FILE_WRITER_COLOR #palevioletred
 !define STORAGE_COLOR #purple
-!define BOOK_COLOR #green
+
+!define HELP_COLOR #green
