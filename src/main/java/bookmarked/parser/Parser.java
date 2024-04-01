@@ -68,6 +68,7 @@ public class Parser {
             break;
         case ("edit"):
             userCommand = new EditCommand(newItem, listOfBooks, bookDataFile);
+            break;
         case "extend":
             // Ensure 'extend' is followed by the name of the book to extend
             if (splitItem.length > 1) {
