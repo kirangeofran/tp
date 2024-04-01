@@ -1,6 +1,7 @@
 package bookmarked.parser;
 
 import bookmarked.Book;
+import bookmarked.command.EditCommand;
 import bookmarked.ui.Ui;
 import bookmarked.command.ExitCommand;
 import bookmarked.command.FindCommand;
@@ -29,7 +30,7 @@ public class Parser {
 
             try {
                 parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem);
-            } catch (BookMarkedException e) {
+            } catch (BookMarkedException | ArrayIndexOutOfBoundsException e) {
                 Ui.printUnknownCommand();
             }
             Ui.setLineBreak();
@@ -42,7 +43,7 @@ public class Parser {
 
     public static void parseCommand(String newItem, Command userCommand, ArrayList<Book> listOfBooks,
                                      File bookDataFile, String[] splitItem)
-                                     throws BookMarkedException {
+                                     throws BookMarkedException, ArrayIndexOutOfBoundsException {
         switch(splitItem[0]) {
         case ("/help"):
             userCommand = new HelpCommand();
@@ -64,6 +65,9 @@ public class Parser {
             break;
         case ("find"):
             userCommand = new FindCommand(newItem, listOfBooks);
+            break;
+        case ("edit"):
+            userCommand = new EditCommand(newItem, listOfBooks, bookDataFile);
             break;
         case "extend":
             // Ensure 'extend' is followed by the name of the book to extend

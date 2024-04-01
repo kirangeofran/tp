@@ -1,1 +1,3 @@
-b | Falsebook 1 | Falsebook 2 | Falsebook 3 | False
+b | False
+book 1 | True
+book 2 | False

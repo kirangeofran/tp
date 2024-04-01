@@ -1,5 +1,6 @@
 @startuml
 !include style.puml
+hide footbox
 
 participant ":BookStorage" as BookStorage STORAGE_COLOR
 participant "fileReader:BufferedWriter" as BufferedWriter BUFFERED_WRITER_COLOR
