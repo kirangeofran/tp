@@ -1,18 +1,33 @@
 package bookmarked;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList ;
+
+import bookmarked.command.ExtendCommand ;
+
+
 public class BookTest {
+
+    @TempDir
+    Path tempDir;  // JUnit creates and cleans up a temporary directory
     @Test
     public void getBookDescription_returnsBookDescription() {
-        Book testBook = new Book ("Test");
+        Book testBook = new Book("Test");
         assertEquals("Test", testBook.getName());
     }
+
     @Test
-    public void getBorrowedStatus_unBorrowed_returnsSpace() {
-        Book testBook = new Book("Test Book");
-        assertEquals(" ", testBook.getBorrowedStatus());
+    public void getBorrowedStatus_unBorrowed_returnsAvailable() {
+        Book book = new Book("Some description");
+        assertEquals("available", book.getBorrowedStatus());
     }
 
     @Test
@@ -25,21 +40,41 @@ public class BookTest {
     @Test
     public void toString_descriptionAndBorrowed_returnFormattedString() {
         Book testBook = new Book("The Book Thief");
-        testBook.isBorrowed = true;
-        assertEquals("The Book Thief, borrowed", testBook.toString());
+        testBook.borrowBook(LocalDate.now(), Period.ofDays(14)); // Set a borrow date to avoid NullPointerException
+        // Update the expected string to what should be output by the toString() method
+        String expectedOutput = String.format("The Book Thief, borrowed on: %s, due on: %s",
+                LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                LocalDate.now().plusDays(14).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        assertEquals(expectedOutput, testBook.toString());
     }
+
 
     @Test
     public void toString_descriptionAndReturned_returnNonFormattedString() {
         Book testBook = new Book("The Book Thief");
+        testBook.setBorrowed(); // Borrow the book first
+        testBook.setReturned(); // Now, return the book
+        String expectedOutput = "The Book Thief available";
+        assertEquals(expectedOutput, testBook.toString());
+    }
 
-        // Borrow the book
-        testBook.isBorrowed = true;
-        assertEquals("The Book Thief, borrowed", testBook.toString()); // Check the borrowed status
 
-        // Return the book
-        testBook.isBorrowed = false;
-        assertEquals("The Book Thief ", testBook.toString()); // Check the returned status
+    @Test
+    public void extendDueDate_bookExtended_returnsExtendedDate() {
+        ArrayList<Book> listOfBooks = new ArrayList<>();
+        Book testBook = new Book("Test Book");
+        testBook.borrowBook(LocalDate.now().minusDays(10), Period.ofDays(14));
+        listOfBooks.add(testBook);
+
+        File tempFile = tempDir.resolve("tempBookData.txt").toFile();  // Create a temporary file
+
+        ExtendCommand command = new ExtendCommand("Test Book", listOfBooks, tempFile);
+        command.handleCommand();
+
+        LocalDate expectedDueDate = LocalDate.now().minusDays(10).plusDays(14).plusDays(7);
+        LocalDate actualDueDate = testBook.getReturnDate();
+
+        assertEquals(expectedDueDate, actualDueDate);
     }
 
 }

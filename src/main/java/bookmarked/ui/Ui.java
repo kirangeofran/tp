@@ -31,11 +31,13 @@ public class Ui {
         System.out.println("   delete NUMBER_ACCORDING_TO_LIST");
         System.out.println("3. To mark book as borrowed");
         System.out.println("   borrow NAME_OF_BOOK");
-        System.out.println("4. To unmark book as returned");
+        System.out.println("4. To extend the due date of a borrowed book by a week:");
+        System.out.println("   extend NAME_OF_BOOK");
+        System.out.println("5. To unmark book as returned");
         System.out.println("   return NAME_OF_BOOK");
-        System.out.println("5. To list all the books added");
+        System.out.println("6. To list all the books added");
         System.out.println("   list");
-        System.out.println("6. To list all the books added in alphabetical order");
+        System.out.println("7. To list all the books added in alphabetical order");
         System.out.println("   list alphabetical");
         System.out.println("7. To edit the details of the existing book");
         System.out.println("   edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION");
