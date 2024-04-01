@@ -1,0 +1,18 @@
+@startuml
+!include style.puml
+
+participant ":HelpCommand" as help HELP_COLOR
+participant ":UI" as UI UI_COLOR
+
+[->help : handleCommand()
+activate help
+
+help -> UI : printHelpMessage()
+activate UI
+
+UI --> help
+deactivate UI
+
+[<-- help
+deactivate help
+@enduml

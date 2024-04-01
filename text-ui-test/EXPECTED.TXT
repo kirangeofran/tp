@@ -29,6 +29,9 @@ to follow to use it in using this software:
    list /sortby alphabetical
 8. To list all the borrowed books by return date
    list /sortby returndate
+9. To edit the details of the existing book
+   edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION
+   example: edit 1 /title book
 
 _______________________________________
 _______________________________________

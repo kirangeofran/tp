@@ -25,14 +25,8 @@ public class FindCommand extends Command {
         assert listOfBooks != null : "list of books should not be empty";
         String keyword;
         logger.log(Level.INFO, "going to start processing find command");
-        try {
-            keyword = this.newItem.substring(FIND_KEYWORD_START_INDEX);
-            if (keyword.isBlank()) {
-                throw new StringIndexOutOfBoundsException();
-            }
-        } catch (StringIndexOutOfBoundsException e) {
-            logger.log(Level.WARNING, "processing error for empty keyword");
-            System.out.println("Find keyword cannot be empty!");
+        keyword = getKeyword();
+        if (keyword == null) {
             return;
         }
 
@@ -41,6 +35,21 @@ public class FindCommand extends Command {
         } catch (EmptyListException e) {
             Ui.printEmptyListMessage();
         }
+    }
+
+    private String getKeyword() {
+        String keyword;
+        try {
+            keyword = this.newItem.substring(FIND_KEYWORD_START_INDEX);
+            if (keyword.isBlank()) {
+                throw new StringIndexOutOfBoundsException();
+            }
+        } catch (StringIndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "processing error for empty keyword");
+            System.out.println("Find keyword cannot be empty!");
+            return null;
+        }
+        return keyword;
     }
 
     private void processFind(String keyword) throws EmptyListException {
@@ -56,13 +65,7 @@ public class FindCommand extends Command {
         ArrayList<Book> bookFound = new ArrayList<>();
 
         // filter books based on keyword
-        for (Book currentBook : this.listOfBooks) {
-            if (!(currentBook.getName().contains(keyword))) {
-                continue;
-            }
-            assert currentBook.getName().contains(keyword) : "current book should contain the keyword";
-            bookFound.add(currentBook);
-        }
+        filterBooks(keyword, bookFound);
 
         numberOfBookFound = bookFound.size();
         if (numberOfBookFound == 0) {
@@ -78,6 +81,16 @@ public class FindCommand extends Command {
             System.out.println(" " + (i + 1) + ". " + currentBookTitle);
         }
         logger.log(Level.INFO, "end processing");
+    }
+
+    private void filterBooks(String keyword, ArrayList<Book> bookFound) {
+        for (Book currentBook : this.listOfBooks) {
+            if (!(currentBook.getName().contains(keyword))) {
+                continue;
+            }
+            assert currentBook.getName().contains(keyword) : "current book should contain the keyword";
+            bookFound.add(currentBook);
+        }
     }
 
     public int getNumberOfBookFound() {
