@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Book {
 
+    private static final int EXTENSION_DAYS = 7;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     protected String description;
     protected boolean isBorrowed;
@@ -35,6 +36,15 @@ public class Book {
             this.returnDate = borrowDate.plus(borrowPeriod);
         }
     }
+
+    public void extendDueDate() {
+        if (this.returnDate != null) {
+            this.returnDate = this.returnDate.plusDays(EXTENSION_DAYS);
+        } else {
+            System.out.println("This book has not been borrowed yet.");
+        }
+    }
+
 
     public LocalDate getBorrowDate() {
         return borrowDate;
