@@ -43,7 +43,6 @@ public class EditCommand extends Command {
         int totalBooks = listOfBooks.size();
         Book bookToEdit = null;
         int bookNumberToEdit = 0;
-        String bookName = null;
 
         try {
             bookNumberToEdit = Integer.parseInt(splitInput[1]);
@@ -67,7 +66,7 @@ public class EditCommand extends Command {
         }
     }
 
-    private void handleEditTitle(Book bookToEdit, int bookNumberToEdit) throws EmptyArgumentsException {
+    public void handleEditTitle(Book bookToEdit, int bookNumberToEdit) throws EmptyArgumentsException {
         String bookName;
         if (userInput.contains("/title")) {
             int titleIndex = userInput.indexOf("/title");
