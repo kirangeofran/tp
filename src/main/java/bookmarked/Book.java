@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Book {
 
-    private static final int extensionDays = 7;
+    private static final int EXTENSION_DAYS = 7;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final LocalDate DEFAULT_RETURNED_DATE = LocalDate.of(1900,1,1);
     protected String description;
