@@ -7,6 +7,7 @@ To get started, you can type /help to see a list of commands!
 _______________________________________
 _______________________________________
 
+New file created: book.txt
 
 _______________________________________
 
@@ -18,12 +19,19 @@ to follow to use it in using this software:
    delete NUMBER_ACCORDING_TO_LIST
 3. To mark book as borrowed
    borrow NAME_OF_BOOK
-4. To unmark book as returned
+4. To extend the due date of a borrowed book by a week:
+   extend NAME_OF_BOOK
+5. To unmark book as returned
    return NAME_OF_BOOK
-5. To list all the books added
+6. To list all the books added
    list
-6. To list all the books added in alphabetical order
-   list alphabetical
+7. To list all the books added in alphabetical order
+   list /sortby alphabetical
+8. To list all the borrowed books by return date
+   list /sortby returndate
+9. To edit the details of the existing book
+   edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION
+   example: edit 1 /title book
 
 _______________________________________
 _______________________________________

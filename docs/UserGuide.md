@@ -1,8 +1,27 @@
-# User Guide
+# BookMarked User Guide 📖
 
 ## Introduction
 
-{Give a product intro}
+BookMarked is a desktop application designed specifically for librarians to streamline
+the management of library inventory and borrower records. Optimized for use via a
+Command Line Interface (CLI) while incorporating a Graphical User Interface (GUI),
+BookMarked offers efficiency and speed in managing tasks. If you can type fast,
+BookMarked enables you to perform inventory management tasks more swiftly than
+traditional GUI-based applications.
+
+## Table of Contents
+- Quick Start
+- Features
+  - Viewing help : `help` 
+  - Adding a book : `add`
+  - Deleting a book : `delete`
+  - Viewing all books : `list`
+  - Editing a book : `edit`
+  - borrowing book : `borrow`
+  - returning borrowed book : `return`
+  - finding books : `find`
+- FAQ
+- Command Summary
 
 ## Quick Start
 
@@ -30,10 +49,15 @@ Example of usage:
 `todo n/Refactor the User Guide to remove passive voice d/13/04/2020`
 
 ## FAQ
+> **Q**: How do I transfer my data to another computer?
+>
+> **A**: Copy the /book.txt file to another computer and paste it in the
+> same folder inside bookMarked.jar
 
-**Q**: How do I transfer my data to another computer? 
-
-**A**: {your answer here}
+> **Q**: Can I access the task I previously added when I restart the application?
+>
+> **A**: Yes, all data are saved in local hard disk and will be reloaded every time
+> the application is restarted
 
 ## Command Summary
 
