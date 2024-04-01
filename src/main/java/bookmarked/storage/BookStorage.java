@@ -14,27 +14,26 @@ import java.io.FileNotFoundException;
 
 public class BookStorage {
 
-
     public static File createFile(String bookDataPath) {
         File bookDataFile = new File(bookDataPath);
-        if (!bookDataFile.exists()) {
-            try {
-                bookDataFile.createNewFile();
-            } catch (IOException e) {
-                System.out.println("Sorry, something's wrong, file is not created");
+        try{
+            if (bookDataFile.createNewFile()) {
+                System.out.println("New file created: " + bookDataFile.getName());
+            } else {
+                System.out.println("File already exists.");
             }
+        } catch (IOException e) {
+            System.out.println("Sorry, something's wrong, file is not created");
         }
+
         return bookDataFile;
     }
-
 
     public static ArrayList<Book> readFileStorage(File bookDataFile) {
         ArrayList<Book> listOfBooks = new ArrayList<>();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(bookDataFile))) {
-            String currentTextLine;
-            while ((currentTextLine = fileReader.readLine()) != null) {
-                addToArrayList(currentTextLine, listOfBooks);
-            }
+            fileReader.lines().forEach(line -> parseLineAndAddToBooks(line, listOfBooks));
+
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
         } catch (IOException e) {
@@ -46,46 +45,51 @@ public class BookStorage {
 
     public static void writeBookToTxt(File bookDataFile, ArrayList<Book> listOfBooks) {
         try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(bookDataFile, false))) {
-            for (Book currentBook : listOfBooks) {
-                String bookTitle = currentBook.getName();
-                String bookBorrowStatus = currentBook.getIsBorrowed() ? "True" : "False";
-                String borrowDate = (currentBook.getBorrowDate() != null) ?
-                        currentBook.getBorrowDate().toString() : "null";
-                String returnDate = (currentBook.getReturnDate() != null) ?
-                        currentBook.getReturnDate().toString() : "null";
-                fileWriter.write(String.format("%s | %s | %s | %s%n",
-                        bookTitle, bookBorrowStatus, borrowDate, returnDate));
+            for (Book book : listOfBooks) {
+                fileWriter.write(serializeBook(book));
             }
-            fileWriter.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("FILE NOT FOUND!!!");
         } catch (IOException e) {
             System.out.println("Failed to write to file");
         }
     }
 
-    private static void addToArrayList(String currentTextLine, ArrayList<Book> listOfBooks) {
-        String[] splitTextLine;
-        splitTextLine = currentTextLine.split(" \\| ");
-        if (splitTextLine.length < 4) {
-            System.out.println("Skipping malformatted line: " + currentTextLine);
+    private static void parseLineAndAddToBooks(String line, ArrayList<Book> books) {
+        String[] tokens = line.split(" \\| ");
+        if (tokens.length < 4) {
+            System.out.println("Skipping malformatted line: " + line);
             return;
         }
-
-        String title = splitTextLine[0];
-
-        boolean isBorrowed = "True".equalsIgnoreCase(splitTextLine[1]);
-        LocalDate borrowDate = !"null".equals(splitTextLine[2]) ? LocalDate.parse(splitTextLine[2]) : null;
-        LocalDate returnDate = !"null".equals(splitTextLine[3]) ? LocalDate.parse(splitTextLine[3]) : null;
-
-        Book currentBook = new Book(title);
-
-        if (isBorrowed) {
-            currentBook.setBorrowed();
-            currentBook.setBorrowDate(borrowDate);
-            currentBook.setReturnDate(returnDate);
-        }
-
-        listOfBooks.add(currentBook);
+        Book book = createBookFromTokens(tokens);
+        books.add(book);
     }
+
+    private static Book createBookFromTokens(String[] tokens) {
+        String title = tokens[0];
+        boolean isBorrowed = Boolean.parseBoolean(tokens[1]);
+        LocalDate borrowDate = parseDate(tokens[2]);
+        LocalDate returnDate = parseDate(tokens[3]);
+
+        Book book = new Book(title);
+        if (isBorrowed) {
+            book.setBorrowed();
+            book.setBorrowDate(borrowDate);
+            book.setReturnDate(returnDate);
+        }
+        return book;
+    }
+
+    private static String serializeBook(Book book) {
+        String bookTitle = book.getName();
+        String bookBorrowStatus = book.getIsBorrowed() ? "True" : "False";
+        String borrowDate = (book.getBorrowDate() != null) ? book.getBorrowDate().toString() : "null";
+        String returnDate = (book.getReturnDate() != null) ? book.getReturnDate().toString() : "null";
+        String formattedString =
+                String.format("%s | %s | %s | %s%n", bookTitle, bookBorrowStatus, borrowDate, returnDate);
+        return formattedString; // Return the formatted string
+    }
+
+    private static LocalDate parseDate(String dateString) {
+        return !"null".equals(dateString) ? LocalDate.parse(dateString) : null;
+    }
+
 }
