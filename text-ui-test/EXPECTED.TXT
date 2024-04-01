@@ -30,7 +30,6 @@ to follow to use it in using this software:
 8. To list all the borrowed books by return date
    list /sortby returndate
 
-
 _______________________________________
 _______________________________________
 
