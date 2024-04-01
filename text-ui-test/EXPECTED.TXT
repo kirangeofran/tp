@@ -27,6 +27,9 @@ to follow to use it in using this software:
    list
 7. To list all the books added in alphabetical order
    list alphabetical
+7. To edit the details of the existing book
+   edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION
+   example: edit 1 /title book
 
 _______________________________________
 _______________________________________
