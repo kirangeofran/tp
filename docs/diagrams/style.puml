@@ -15,3 +15,5 @@
 !define STORAGE_COLOR #purple
 
 !define HELP_COLOR #green
+!define FIND_COLOR #mediumturquoise
+!define FIND_LIST_COLOR #lightskyblue
