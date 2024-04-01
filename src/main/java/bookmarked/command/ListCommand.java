@@ -16,6 +16,10 @@ public class ListCommand extends Command {
     private String[] splitCommand;
     private int numberOfBooks;
 
+    public enum Status {
+        DEFAULT, ALPHABETICAL, RETURNDATE, UNBORROWED
+    }
+
 
     public ListCommand(ArrayList<Book> listOfBooks, String newItem) {
         this.listOfBooks = listOfBooks;
@@ -63,7 +67,7 @@ public class ListCommand extends Command {
             throw new EmptyListException();
         }
 
-        System.out.println("Here are all the books currently in the library's inventory!");
+        System.out.println(printMessage(Status.DEFAULT));
         for (int i = 0; i < numberOfBooks; i++) {
             System.out.println((i + 1) + ". " + this.listOfBooks.get(i).toString());
         }
@@ -75,8 +79,7 @@ public class ListCommand extends Command {
             throw new EmptyListException();
         }
 
-        System.out.println("Here are the list of all current books that are currently in\n" +
-                "the library's inventory listed by alphabetical order!\n");
+        System.out.println(printMessage(Status.ALPHABETICAL));
         this.sortedListOfBooks = new ArrayList<>(this.listOfBooks);
 
         //compares two books by their names, and sorts based on alphabetical order
@@ -93,8 +96,7 @@ public class ListCommand extends Command {
             throw new EmptyListException();
         }
 
-        System.out.println("Here are the list of all current books that are currently\n" +
-                "being borrowed by users by date of return!\n");
+        System.out.println(printMessage(Status.RETURNDATE));
         this.sortedListOfBooks = new ArrayList<>(this.listOfBooks);
 
         //compares two books by their names, and sorts based by return date
@@ -111,9 +113,26 @@ public class ListCommand extends Command {
         }
 
         if (j == 0) {
-            System.out.println("There are no currently borrowed books!");
+            System.out.println(printMessage(Status.UNBORROWED));
         }
+    }
 
+
+    public String printMessage(Status status) {
+        switch (status) {
+        case DEFAULT:
+            return "Here are all the books currently in the library's inventory!";
+        case ALPHABETICAL:
+            return "Here are the list of all current books that are currently in\n" +
+                    "the library's inventory listed by alphabetical order!\n";
+        case RETURNDATE:
+            return "Here are the list of all current books that are currently\n" +
+                    "being borrowed by users by date of return!\n";
+        case UNBORROWED:
+            return "There are no currently borrowed books!";
+        default:
+            return "Error";
+        }
     }
 
 }
