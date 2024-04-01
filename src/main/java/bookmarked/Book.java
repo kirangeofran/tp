@@ -8,6 +8,7 @@ public class Book {
 
     private static final int EXTENSION_DAYS = 7;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final LocalDate DEFAULT_RETURNED_DATE = LocalDate.of(1900,1,1);
     protected String description;
     protected boolean isBorrowed;
     protected LocalDate borrowDate;
@@ -18,7 +19,7 @@ public class Book {
         this.description = description;
         this.isBorrowed = false;
         this.borrowDate = null;
-        this.returnDate = null;
+        this.returnDate = DEFAULT_RETURNED_DATE;
     }
 
     public String getName() {
@@ -26,7 +27,7 @@ public class Book {
     }
 
     public boolean isAvailable() {
-        return !isBorrowed;
+        return !this.isBorrowed;
     }
 
     public void borrowBook(LocalDate borrowDate, Period borrowPeriod) {
@@ -38,7 +39,7 @@ public class Book {
     }
 
     public void extendDueDate() {
-        if (this.returnDate != null) {
+        if (this.isBorrowed) {
             this.returnDate = this.returnDate.plusDays(EXTENSION_DAYS);
         } else {
             System.out.println("This book has not been borrowed yet.");
@@ -47,15 +48,15 @@ public class Book {
 
 
     public LocalDate getBorrowDate() {
-        return borrowDate;
+        return this.borrowDate;
     }
 
     public LocalDate getReturnDate() {
-        return returnDate;
+        return this.returnDate;
     }
 
     public boolean getIsBorrowed() {
-        return isBorrowed;
+        return this.isBorrowed;
     }
 
     public void setBorrowed() {
@@ -73,7 +74,7 @@ public class Book {
     public void setReturned() {
         this.isBorrowed = false;
         this.borrowDate = null;
-        this.returnDate = null;
+        this.returnDate = DEFAULT_RETURNED_DATE;
     }
 
     public void setName(String bookName) {
@@ -81,7 +82,7 @@ public class Book {
     }
 
     public String getFormattedReturnDate() {
-        return returnDate != null ? returnDate.format(DATE_FORMATTER) : "Not borrowed";
+        return isBorrowed ? returnDate.format(DATE_FORMATTER) : "Not borrowed";
     }
 
     public String getBorrowedStatus() {
@@ -95,10 +96,10 @@ public class Book {
                     (borrowDate != null) ? borrowDate.format(DATE_FORMATTER) : "Not set";
             String formattedReturnDate = getFormattedReturnDate();
             return String.format(
-                    "%s, borrowed on: %s, due on: %s", description, formattedBorrowDate,
+                    "%s, borrowed on: %s, due on: %s", this.description, formattedBorrowDate,
                     formattedReturnDate);
         } else {
-            return description + " available";
+            return this.description + " available";
         }
     }
 
