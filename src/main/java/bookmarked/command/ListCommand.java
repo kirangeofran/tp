@@ -8,7 +8,6 @@ import bookmarked.ui.Ui;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Collections;
 
 public class ListCommand extends Command {
     private ArrayList<Book> listOfBooks;
