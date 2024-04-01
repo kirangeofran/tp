@@ -7,6 +7,7 @@ To get started, you can type /help to see a list of commands!
 _______________________________________
 _______________________________________
 
+New file created: book.txt
 
 _______________________________________
 
