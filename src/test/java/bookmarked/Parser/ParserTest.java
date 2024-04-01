@@ -52,7 +52,7 @@ public class ParserTest {
     }
 
     @Test
-    public void parseCommand_spaceInput_arrayIndexOufOfBoundsException() {
+    public void parseCommand_spaceInput_arrayIndexOutOfBoundsException() {
         newItem = "   ";
         splitItem = newItem.split(" ");
 
