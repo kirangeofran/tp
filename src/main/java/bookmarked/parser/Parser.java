@@ -1,6 +1,7 @@
 package bookmarked.parser;
 
 import bookmarked.Book;
+import bookmarked.command.EditCommand;
 import bookmarked.ui.Ui;
 import bookmarked.command.ExitCommand;
 import bookmarked.command.FindCommand;
@@ -64,6 +65,9 @@ public class Parser {
             break;
         case ("find"):
             userCommand = new FindCommand(newItem, listOfBooks);
+            break;
+        case ("edit"):
+            userCommand = new EditCommand(newItem, listOfBooks, bookDataFile);
             break;
         case "extend":
             // Ensure 'extend' is followed by the name of the book to extend

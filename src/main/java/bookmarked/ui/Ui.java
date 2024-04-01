@@ -39,6 +39,9 @@ public class Ui {
         System.out.println("   list");
         System.out.println("7. To list all the books added in alphabetical order");
         System.out.println("   list alphabetical");
+        System.out.println("7. To edit the details of the existing book");
+        System.out.println("   edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION");
+        System.out.println("   example: edit 1 /title book");
     }
 
     public static void printUnknownCommand() {

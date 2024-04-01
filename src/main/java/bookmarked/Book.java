@@ -76,6 +76,10 @@ public class Book {
         this.returnDate = null;
     }
 
+    public void setName(String bookName) {
+        this.description = bookName;
+    }
+
     public String getFormattedReturnDate() {
         return returnDate != null ? returnDate.format(DATE_FORMATTER) : "Not borrowed";
     }
@@ -83,7 +87,6 @@ public class Book {
     public String getBorrowedStatus() {
         return (isBorrowed ? ", borrowed" : "available"); // mark done task with X
     }
-
 
     @Override
     public String toString() {
