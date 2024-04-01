@@ -38,7 +38,9 @@ public class Ui {
         System.out.println("6. To list all the books added");
         System.out.println("   list");
         System.out.println("7. To list all the books added in alphabetical order");
-        System.out.println("   list alphabetical");
+        System.out.println("   list /sortby alphabetical");
+        System.out.println("8. To list all the borrowed books by return date");
+        System.out.println("   list /sortby returndate");
     }
 
     public static void printUnknownCommand() {

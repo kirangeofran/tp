@@ -25,7 +25,10 @@ to follow to use it in using this software:
 6. To list all the books added
    list
 7. To list all the books added in alphabetical order
-   list alphabetical
+   list /sortby alphabetical
+7. To list all the borrowed books by return date
+   list /sortby returndate
+
 
 _______________________________________
 _______________________________________
