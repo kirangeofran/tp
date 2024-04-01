@@ -11,8 +11,10 @@ import java.util.logging.Level;
 public class FindCommand extends Command {
     public static final int FIND_KEYWORD_START_INDEX = 5;
     private static Logger logger = Logger.getLogger("Find Command Logger");
+    private static int numberOfBookFound = 0;
     private String newItem;
     private ArrayList<Book> listOfBooks;
+
     public FindCommand(String newItem, ArrayList<Book> listOfBooks) {
         this.newItem = newItem;
         this.listOfBooks = listOfBooks;
@@ -42,13 +44,15 @@ public class FindCommand extends Command {
     }
 
     private void processFind(String keyword) throws EmptyListException {
+        numberOfBookFound = 0;
+
         if (this.listOfBooks.isEmpty()) {
             throw new EmptyListException();
         }
 
         logger.log(Level.INFO, "processing find books based on keyword");
         assert keyword != null : "keyword should not be empty";
-        int numberOfBookFound = 0;
+
         ArrayList<Book> bookFound = new ArrayList<>();
 
         // filter books based on keyword
@@ -57,10 +61,10 @@ public class FindCommand extends Command {
                 continue;
             }
             assert currentBook.getName().contains(keyword) : "current book should contain the keyword";
-            numberOfBookFound =+ 1;
             bookFound.add(currentBook);
         }
 
+        numberOfBookFound = bookFound.size();
         if (numberOfBookFound == 0) {
             logger.log(Level.INFO, "giving no matching book found warning");
             System.out.println("Sorry, no book with matching keyword: " + keyword);
@@ -69,10 +73,14 @@ public class FindCommand extends Command {
 
         logger.log(Level.INFO, "processing print of matching book lists");
         System.out.println("Here's the list of matching books in your library:");
-        for (int i = 0; i < bookFound.size(); i += 1) {
+        for (int i = 0; i < numberOfBookFound; i += 1) {
             String currentBookTitle = bookFound.get(i).getName();
             System.out.println(" " + (i + 1) + ". " + currentBookTitle);
         }
         logger.log(Level.INFO, "end processing");
+    }
+
+    public int getNumberOfBookFound() {
+        return numberOfBookFound;
     }
 }
