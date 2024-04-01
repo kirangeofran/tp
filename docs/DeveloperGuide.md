@@ -152,6 +152,9 @@ How? The "FindCommand" upon execution will:
 - Books are filtered based on the given keyword.
 - All the filtered books are output to user in a list.
 
+![FindCommandDiagram.png](images%2FFindCommandDiagram.png)
+
+
 #### Edit Command
 
 
