@@ -1,0 +1,3 @@
+b | False
+book 1 | True
+book 2 | False
