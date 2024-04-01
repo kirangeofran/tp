@@ -38,9 +38,9 @@ public class Book {
         }
     }
 
-    public void extendDueDate(int extensionDays) {
+    public void extendDueDate() {
         if (!this.isBorrowed) {
-            this.returnDate = this.returnDate.plusDays(extensionDays);
+            this.returnDate = this.returnDate.plusDays(EXTENSION_DAYS);
         } else {
             System.out.println("This book has not been borrowed yet.");
         }
