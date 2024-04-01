@@ -27,7 +27,7 @@ to follow to use it in using this software:
    list
 7. To list all the books added in alphabetical order
    list /sortby alphabetical
-7. To list all the borrowed books by return date
+8. To list all the borrowed books by return date
    list /sortby returndate
 
 
