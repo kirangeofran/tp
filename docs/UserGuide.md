@@ -25,8 +25,6 @@ traditional GUI-based applications.
 
 ## Quick Start
 
-{Give steps to get started quickly}
-
 1. Ensure that you have Java 11 or above installed.
 1. Down the latest version of `Duke` from [here](http://link.to/duke).
 
@@ -90,8 +88,10 @@ There are three ways of sorting the list:
 
 ## Command Summary
 
-{Give a 'cheat sheet' of commands here}
-
 * View all commands `/help`
 * Add a book `add NAME_OF_BOOK`
 * List books `list /sortby ARGUMENT`
+* Edit books `edit /ARGUMENT_TO_EDIT ARGUMENT`
+* Find books `find ARGUMENT`
+* Exit programme `bye`
+* Delete books `delete ARGUMENT`
