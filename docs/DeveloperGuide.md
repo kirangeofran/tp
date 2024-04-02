@@ -158,6 +158,53 @@ How? The "FindCommand" upon execution will:
 #### Edit Command
 
 
+#### AddCommand
+##### Overview
+Bookmarked is an application that allows new books bought to be added to the inventory
+Discarded books can also be deleted through the command delete BOOK_NUMBER
+- Add book:
+- The add book function allows for new book to be added into the inventory
+##### Class -Level
+1. AddCommand class : It is processed through the AddCommand class
+##### Implementation Details
+- The handleCommand function splits the user command into the add and description of book
+- processAddCommand adds the new book into the bottom of the list based on the current number of books
+
+#### Extend Command 
+##### Overview
+The ExtendCommand is a feature within the book management system that enables users to extend the borrowing period 
+of books. This command augments user experience by providing the flexibility to extend due dates, 
+ensuring better management of borrowed materials.
+
+##### Component-Level Design
+The ExtendCommand component interfaces with the following components of the system:
+
+1. UI Component: To communicate feedback and errors to the user.
+2. Storage Component: For updating the persistence layer with the new return dates.
+3. Book Domain Model: Represents the state and behavior of book entities, 
+   particularly regarding their borrowing status.
+
+##### Class-Level Design 
+1. Book Class: Represents a book with properties such as name, isBorrowed, borrowDate, and dueDate. 
+   It includes methods for extending the borrowing period.
+2. ExtendCommand Class: Responsible for handling the extension of the book's borrowing period by interacting 
+   with book instances to update their due dates.
+3. BookStorage Class: Manages data persistence by saving updated book information to storage, 
+   ensuring the changes are maintained across sessions.
+
+##### Implementation Details 
+How ?Upon execution, the ExtendCommand performs the following actions:
+1. Parses the input to identify the book name specified by the user.
+2. Searches for the book in an ArrayList of Book instances.
+3. Verifies if the book is currently borrowed by checking the isBorrowed attribute.
+4. If the book is borrowed, it calls extendDueDate() on the Book instance to
+   extend the return date by a predefined period (e.g., one week).
+5. Notifies the user of the successful extension of the due date.
+6. In case the book is not available or not found, it throws BookNotFoundException or BookNotBorrowedException, 
+   respectively, and the UI component handles user notification.
+7. Post-interaction, the BookStorage class is tasked with updating the storage with the new state of the book entity.
+
+
 #### Exit Command
 
 
