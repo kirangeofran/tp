@@ -152,7 +152,7 @@ Format: `bye`
 
 Example of usage: 
 
-`exit`
+`bye`
 
 ## FAQ
 > **Q**: How do I transfer my data to another computer?
