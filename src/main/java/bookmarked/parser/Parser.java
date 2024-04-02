@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class Parser {
     public static void runCommand(String newItem, Scanner in, ArrayList<Book> listOfBooks,
                                   File bookDataFile, ArrayList<User> listOfUsers) {
@@ -70,6 +71,12 @@ public class Parser {
             break;
         case("listuser"):
             userCommand = new ListUserCommand(listOfUsers);
+        case ("edit"):
+            userCommand = new EditCommand(newItem, listOfBooks, bookDataFile);
+            break;
+        case "extend":
+            // Ensure 'extend' is followed by the name of the book to extend
+            userCommand = new ExtendCommand(splitItem, listOfBooks, bookDataFile);
             break;
         default:
             throw new BookMarkedException();

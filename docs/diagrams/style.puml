@@ -4,6 +4,7 @@
 !define STORAGE_COLOR #lightgreen
 !define MAIN_COLOR #honeydew
 !define BOOK_COLOR #orange
+!define LIST_COLOR #pink
 
 !define USER_COLOR #pink
 !define FILE_COLOR #limegreen

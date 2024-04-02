@@ -62,6 +62,13 @@ public class Ui {
         System.out.println("Please enter a book index that exists on the current list.");
     }
 
+    public static void printBookNotFoundExceptionMessage() {
+        System.out.println("Book not found");}
+
+
+    public static void printBookNotBorrowedExceptionMessage() {
+        System.out.println("Book not borrowed");
+    }
     public static void printNotNumberMessage() {
         System.out.println("Please enter the number index of the book.");
     }
