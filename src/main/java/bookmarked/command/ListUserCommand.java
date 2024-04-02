@@ -1,48 +1,48 @@
 package bookmarked.command;
 
-import bookmarked.Book;
+import bookmarked.User;
 import bookmarked.exceptions.EmptyListException;
 import bookmarked.ui.Ui;
 
 import java.util.ArrayList;
 
-
 public class ListUserCommand extends Command {
-    private ArrayList<Book> listOfUsers;
-    private String inputCommand;
-    private String[] splitCommand;
-    private int numberOfUsers;
+    private ArrayList<User> listOfUsers;
 
-
-    public ListUserCommand(ArrayList<Book> listOfUsers, String newItem) {
+    public ListUserCommand(ArrayList<User> listOfUsers) {
         this.listOfUsers = listOfUsers;
-        this.inputCommand = newItem;
-        this.numberOfUsers = listOfUsers.size();
     }
 
     @Override
     public void handleCommand() {
-        this.splitCommand = inputCommand.split("listuser ");
-
-        //This will be updated to switch/case when the date feature is added
         try {
-            if (inputCommand.matches("listuser")) {
-                runListCommand();
-            }
+            printUsersAndBooks();
         } catch (EmptyListException e) {
             Ui.printEmptyListMessage();
         }
     }
 
-
-    public void runListCommand() throws EmptyListException {
-        if (this.listOfUsers.isEmpty()) {
+    private void printUsersAndBooks() throws EmptyListException {
+        if (listOfUsers.isEmpty()) {
             throw new EmptyListException();
         }
 
-        System.out.println("Here are all the users currently in the library's inventory!");
-        for (int i = 0; i < numberOfUsers; i++) {
-            System.out.println((i + 1) + ". " + this.listOfUsers.get(i).toString());
+        System.out.println("List of Users and Borrowed Books:");
+        for (User user : listOfUsers) {
+            System.out.println("User: " + user.getName());
+            System.out.print("Borrowed Books: ");
+            if (user.getUserBooks().isEmpty()) {
+                System.out.println("None");
+            } else {
+                for (int i = 0; i < user.getUserBooks().size(); i++) {
+                    System.out.print(user.getUserBooks().get(i).getName());
+                    if (i < user.getUserBooks().size() - 1) {
+                        System.out.print(", ");
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println();
         }
     }
 }

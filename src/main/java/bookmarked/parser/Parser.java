@@ -1,6 +1,8 @@
 package bookmarked.parser;
 
 import bookmarked.Book;
+import bookmarked.User;
+import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.ui.Ui;
 import bookmarked.command.ExitCommand;
 import bookmarked.command.FindCommand;
@@ -21,7 +23,7 @@ import java.util.Scanner;
 
 public class Parser {
     public static void runCommand(String newItem, Scanner in, ArrayList<Book> listOfBooks,
-                                  File bookDataFile, ArrayList<Book> listOfUsers) {
+                                  File bookDataFile, ArrayList<User> listOfUsers) {
         Command userCommand = new ListCommand(listOfBooks, newItem);
 
         while (!newItem.equalsIgnoreCase("bye")) {
@@ -30,7 +32,7 @@ public class Parser {
 
             try {
                 parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers);
-            } catch (BookMarkedException e) {
+            } catch (BookMarkedException | EmptyArgumentsException e) {
                 Ui.printUnknownCommand();
             }
             Ui.setLineBreak();
@@ -42,8 +44,8 @@ public class Parser {
 
 
     public static void parseCommand(String newItem, Command userCommand, ArrayList<Book> listOfBooks,
-                                     File bookDataFile, String[] splitItem, ArrayList<Book> listOfUsers)
-                                     throws BookMarkedException {
+                                     File bookDataFile, String[] splitItem, ArrayList<User> listOfUsers)
+            throws BookMarkedException, EmptyArgumentsException {
         switch(splitItem[0]) {
         case ("/help"):
             userCommand = new HelpCommand();
@@ -54,14 +56,14 @@ public class Parser {
         case ("add"):
             userCommand = new AddCommand(newItem, listOfBooks, splitItem, bookDataFile);
             break;
-        case("adduser"):
-            userCommand =  new AddUserCommand(newItem, listOfBooks, splitItem, bookDataFile, listOfUsers);
-            break;
+        //case("adduser"):
+          //  userCommand =  new AddUserCommand(newItem, listOfBooks, splitItem, bookDataFile, listOfUsers);
+            //break;
         case ("delete"):
             userCommand = new DeleteCommand(splitItem, listOfBooks, bookDataFile);
             break;
         case ("borrow"):
-            userCommand = new BorrowCommand(splitItem, listOfBooks, bookDataFile);
+            userCommand = new BorrowCommand(splitItem, listOfBooks, bookDataFile, listOfUsers, newItem);
             break;
         case ("return"):
             userCommand = new ReturnCommand(splitItem, listOfBooks, bookDataFile);
@@ -70,7 +72,7 @@ public class Parser {
             userCommand = new FindCommand(newItem, listOfBooks);
             break;
         case("listuser"):
-            userCommand = new ListUserCommand(listOfUsers, newItem);
+            userCommand = new ListUserCommand(listOfUsers);
             break;
         default:
             throw new BookMarkedException();

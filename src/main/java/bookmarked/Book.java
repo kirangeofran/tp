@@ -3,6 +3,7 @@ package bookmarked;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import bookmarked.User;
 
 public class Book {
 
@@ -11,6 +12,9 @@ public class Book {
     protected boolean isBorrowed;
     protected LocalDate borrowDate;
     protected LocalDate returnDate;
+    protected String user;
+
+
 
 
     public Book(String description) {

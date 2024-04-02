@@ -1,6 +1,7 @@
 package bookmarked.command;
 
 import bookmarked.Book;
+import bookmarked.User;
 import bookmarked.exceptions.EmptyArgumentsException;
 
 import bookmarked.ui.Ui;
@@ -11,11 +12,11 @@ import java.util.ArrayList;
 public class AddUserCommand extends Command {
     private String newItem;
     private ArrayList<Book> listOfBooks;
-    private ArrayList<Book> listOfUsers;
+    private ArrayList<User> listOfUsers;
     private String[] splitItem;
     private File bookDataFile;
     public AddUserCommand(String newItem, ArrayList<Book> listOfBooks, String[] splitItem,
-                          File bookDataFile, ArrayList<Book> listOfUsers){
+                          File bookDataFile, ArrayList<User> listOfUsers){
         this.newItem = newItem;
         this.listOfBooks = listOfBooks;
         this.listOfUsers = listOfUsers;
@@ -36,13 +37,13 @@ public class AddUserCommand extends Command {
         }
     }
 
-    public void processAddUserCommand(String[] newSplitUser, ArrayList<Book> listOfUsers)
+    public void processAddUserCommand(String[] newSplitUser, ArrayList<User> listOfUsers)
             throws EmptyArgumentsException {
 
         if (newSplitUser.length < 1 || newSplitUser[1].isBlank()) {
             throw new EmptyArgumentsException();
         }
-        Book userName = new Book(newSplitUser[1].trim());
+        User userName = new User(newSplitUser[1].trim());
         this.listOfUsers.add(userName);
         System.out.println("Added User " + userName + "!");
     }

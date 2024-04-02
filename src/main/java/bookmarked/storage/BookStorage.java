@@ -1,6 +1,7 @@
 package bookmarked.storage;
 
 import bookmarked.Book;
+import bookmarked.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,8 +42,10 @@ public class BookStorage {
             System.out.println("Access to file is interrupted");
         }
 
+
         return listOfBooks;
     }
+
 
     public static void writeBookToTxt(File bookDataFile, ArrayList<Book> listOfBooks) {
         try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(bookDataFile, false))) {
@@ -53,8 +56,9 @@ public class BookStorage {
                         currentBook.getBorrowDate().toString() : "null";
                 String returnDate = (currentBook.getReturnDate() != null) ?
                         currentBook.getReturnDate().toString() : "null";
-                fileWriter.write(String.format("%s | %s | %s | %s%n",
-                        bookTitle, bookBorrowStatus, borrowDate, returnDate));
+                String userName = (currentBook.getName() !=null ) ? currentBook.getName():"null" ;
+                fileWriter.write(String.format("%s | %s | %s | %s | %s%n",
+                        bookTitle, bookBorrowStatus, borrowDate, returnDate, userName));
             }
             fileWriter.close();
         } catch (FileNotFoundException e) {
