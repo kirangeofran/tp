@@ -29,8 +29,8 @@ public class Ui {
         System.out.println("   add NAME_OF_BOOK");
         System.out.println("2. To delete current existing book");
         System.out.println("   delete NUMBER_ACCORDING_TO_LIST");
-        System.out.println("3. To mark book as borrowed");
-        System.out.println("   borrow NAME_OF_BOOK");
+        System.out.println("3. To mark book as borrowed by a user");
+        System.out.println("   borrow NAME_OF_BOOK by USER_NAME");
         System.out.println("4. To extend the due date of a borrowed book by a week:");
         System.out.println("   extend NAME_OF_BOOK");
         System.out.println("5. To unmark book as returned");
@@ -44,6 +44,8 @@ public class Ui {
         System.out.println("9. To edit the details of the existing book");
         System.out.println("   edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION");
         System.out.println("   example: edit 1 /title book");
+        System.out.println("10.To list all the users and their borrowed books ");
+        System.out.println("   listuser");
     }
 
     public static void printUnknownCommand() {
