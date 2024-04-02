@@ -13,7 +13,6 @@ import bookmarked.command.DeleteCommand;
 import bookmarked.command.BorrowCommand;
 import bookmarked.command.HelpCommand;
 import bookmarked.command.ListCommand;
-import bookmarked.command.AddUserCommand;
 import bookmarked.command.ListUserCommand;
 import bookmarked.exceptions.BookMarkedException;
 
@@ -56,9 +55,6 @@ public class Parser {
         case ("add"):
             userCommand = new AddCommand(newItem, listOfBooks, splitItem, bookDataFile);
             break;
-        //case("adduser"):
-          //  userCommand =  new AddUserCommand(newItem, listOfBooks, splitItem, bookDataFile, listOfUsers);
-            //break;
         case ("delete"):
             userCommand = new DeleteCommand(splitItem, listOfBooks, bookDataFile);
             break;

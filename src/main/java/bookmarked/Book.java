@@ -3,7 +3,6 @@ package bookmarked;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import bookmarked.User;
 
 public class Book {
 

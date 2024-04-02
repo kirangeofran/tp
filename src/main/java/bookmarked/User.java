@@ -1,5 +1,7 @@
 package bookmarked;
+
 import java.util.ArrayList;
+
 public class User {
     protected String description;
     protected ArrayList<Book> userBooks;
