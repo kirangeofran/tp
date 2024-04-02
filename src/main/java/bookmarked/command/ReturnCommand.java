@@ -48,7 +48,7 @@ public class ReturnCommand extends Command {
         List<Book> foundBooks = listOfBooks.stream()
                 .filter(book -> book.getName().equalsIgnoreCase(bookName))
                 .collect(Collectors.toList());
-        assert !foundBooks.isEmpty() : "Book should exist to return";
+        //assert !foundBooks.isEmpty() : "Book should exist to return";
 
         try {
             runReturnCommand(foundBooks);
@@ -73,12 +73,19 @@ public class ReturnCommand extends Command {
         if (!foundBooks.isEmpty()) {
             // It's possible there are multiple copies of the book, so mark all as returned
             foundBooks.forEach(book -> {
-                //assert book.isBorrowed() : "Book should be borrowed to return";
-                book.setReturned();
-                System.out.println("Returned " + book.getName() + "!");
+                if (book.getIsBorrowed()) {
+                    book.setReturned();
+                    System.out.println("Returned " + book.getName() + "!");
+                } else {
+                    System.out.println("Book is not borrowed: " + book.getName());
+                }
             });
         } else {
             System.out.println("Book not found: " + bookName);
         }
+
+
     }
 }
+
+
