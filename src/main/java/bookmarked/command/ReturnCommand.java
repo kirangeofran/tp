@@ -84,7 +84,7 @@ public class ReturnCommand extends Command {
                     System.out.println("Book is not borrowed: " + book.getName());
                 }
 
-                System.out.println("Returned " + book.getName() + "!");
+                //System.out.println("Returned " + book.getName() + "!");
                 if (listOfUsers != null) {
                     for (User user : listOfUsers) {
                         user.unborrowBook(book);

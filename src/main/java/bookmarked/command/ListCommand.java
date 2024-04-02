@@ -87,7 +87,7 @@ public class ListCommand extends Command {
 
         System.out.println(printMessage(Status.DEFAULT));
         for (int i = 0; i < numberOfBooks; i++) {
-            System.out.println((i + 1) + ". " + this.listOfBooks.get(i).toString() + ", borrowed by: ");
+            System.out.println((i + 1) + ". " + this.listOfBooks.get(i).toString() );
         }
     }
 

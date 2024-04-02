@@ -12,11 +12,11 @@ import bookmarked.command.AddCommand;
 import bookmarked.command.DeleteCommand;
 import bookmarked.command.BorrowCommand;
 import bookmarked.command.HelpCommand;
-
+import bookmarked.command.EditCommand;
 import bookmarked.command.ListCommand;
 import bookmarked.command.ListUserCommand;
 import bookmarked.exceptions.BookMarkedException;
-
+import bookmarked.command.ExtendCommand;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -71,6 +71,7 @@ public class Parser {
             break;
         case("listuser"):
             userCommand = new ListUserCommand(listOfUsers);
+            break;
         case ("edit"):
             userCommand = new EditCommand(newItem, listOfBooks, bookDataFile);
             break;
