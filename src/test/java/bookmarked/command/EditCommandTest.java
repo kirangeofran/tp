@@ -2,7 +2,6 @@ package bookmarked.command;
 
 import bookmarked.Book;
 import bookmarked.exceptions.EmptyArgumentsException;
-import bookmarked.exceptions.IndexOutOfListBounds;
 import bookmarked.storage.BookStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class EditCommandTest {
     private static final String TEST_FILE_PATH = "./test.txt";
