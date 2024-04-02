@@ -15,7 +15,6 @@ public class ListCommand extends Command {
     private ArrayList<Book> sortedListOfBooks;
     private String[] splitCommand;
     private int numberOfBooks;
-
     public enum Status {
         DEFAULT, ALPHABETICAL, RETURNDATE, UNBORROWED
     }
@@ -27,6 +26,12 @@ public class ListCommand extends Command {
         this.numberOfBooks = listOfBooks.size();
     }
 
+
+    /**
+     * Handles the input command given by the user and exceptions.
+     * Runs the default list function if there are no other arguments,
+     * else calls on the ParseCommand() method.
+     */
     @Override
     public void handleCommand() {
         this.splitCommand = inputCommand.split("/sortby");
@@ -43,6 +48,13 @@ public class ListCommand extends Command {
         }
     }
 
+    /**
+     * Parses the user input command for list arguments.
+     * Calls on the respective methods as needed.
+     *
+     * @throws EmptyListException If the methods throw an EmptyListException
+     * @throws EmptyArgumentsException If there are no arguments after "/sortby".
+     */
 
     public void parseCommand() throws EmptyListException, EmptyArgumentsException {
         if (this.splitCommand.length <= 1) {
@@ -61,7 +73,11 @@ public class ListCommand extends Command {
         }
     }
 
-
+    /**
+     * Handles the default list command.
+     *
+     * @throws EmptyListException If the current list of books are empty.
+     */
     public void runListBlankCommand() throws EmptyListException {
         if (this.listOfBooks.isEmpty()) {
             throw new EmptyListException();
@@ -74,6 +90,12 @@ public class ListCommand extends Command {
     }
 
 
+    /**
+     *  Copies the current listOfBooks to sortedListOfBooks,
+     *  sorts sortedListOfBooks by comparing the titles alphabetically.
+     *
+     * @throws EmptyListException If the current list of books are empty.
+     */
     public void runListAlphabeticalCommand() throws EmptyListException {
         if (this.listOfBooks.isEmpty()) {
             throw new EmptyListException();
@@ -90,7 +112,13 @@ public class ListCommand extends Command {
         }
     }
 
-
+    /**
+     * Copies the current listOfBooks to sortedListOfBooks,
+     * sorts sortedListOfBooks by comparing the return dates.
+     * If there are no borrowed books, a message is printed out.
+     *
+     * @throws EmptyListException If the current list of books are empty.
+     */
     public void runListDateCommand() throws EmptyListException {
         if (this.listOfBooks.isEmpty()) {
             throw new EmptyListException();
@@ -118,6 +146,11 @@ public class ListCommand extends Command {
     }
 
 
+
+    /**
+     * Uses enumerations to handle message output
+     * as called by different methods.
+     */
     public String printMessage(Status status) {
         switch (status) {
         case DEFAULT:
