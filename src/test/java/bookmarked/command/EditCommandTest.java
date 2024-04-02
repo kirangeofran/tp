@@ -2,6 +2,7 @@ package bookmarked.command;
 
 import bookmarked.Book;
 import bookmarked.exceptions.EmptyArgumentsException;
+import bookmarked.exceptions.IndexOutOfListBounds;
 import bookmarked.storage.BookStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class EditCommandTest {
     private static final String TEST_FILE_PATH = "./test.txt";
@@ -60,78 +62,80 @@ public class EditCommandTest {
     }
 
     @Test
-    public void handleCommand_nonIntegerBookNumber_NumberFormatExceptionCaught() {
+    public void getBookNumberToEdit_nonIntegerBookNumber_numberFormatExceptionCaught() {
         userInput = "edit x /title book";
-        Command userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
 
-        try {
-            userCommand.handleCommand();
-        } catch (NumberFormatException e) {
-            String errorMessage = "Please enter a book number in integer format";
-            assertEquals(e.getMessage(), errorMessage);
-        }
+        assertThrows(NumberFormatException.class, () -> {
+            userCommand.getBookNumberToEdit(userInput.split(" "));
+        });
 
         userInput = "edit #*? /title book";
         userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
 
-        try {
-            userCommand.handleCommand();
-        } catch (NumberFormatException e) {
-            String errorMessage = "Please enter a book number in integer format";
-            assertEquals(e.getMessage(), errorMessage);
-        }
+        assertThrows(NumberFormatException.class, () -> {
+            userCommand.getBookNumberToEdit(userInput.split(" "));
+        });
 
         userInput = "edit 1.5 /title book";
         userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
 
-        try {
-            userCommand.handleCommand();
-        } catch (NumberFormatException e) {
-            String errorMessage = "Please enter a book number in integer format";
-            assertEquals(e.getMessage(), errorMessage);
-        }
+        assertThrows(NumberFormatException.class, () -> {
+            userCommand.getBookNumberToEdit(userInput.split(" "));
+        });
 
         userInput = "edit   /title book";
         userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
 
-        try {
-            userCommand.handleCommand();
-        } catch (NumberFormatException e) {
-            String errorMessage = "Please enter a book number in integer format";
-            assertEquals(e.getMessage(), errorMessage);
-        }
+        assertThrows(NumberFormatException.class, () -> {
+            userCommand.getBookNumberToEdit(userInput.split(" "));
+        });
     }
 
     @Test
-    public void handleCommand_invalidIntegerBookNumber_IndexOutOfBoundsExceptionCaught() {
+    public void getBookToEdit_invalidIntegerBookNumber_indexOutOfBoundsExceptionCaught() {
         userInput = "edit 10 /title book";
-        Command userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        bookNumberToEdit = 10;
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
 
-        try {
-            userCommand.handleCommand();
-        } catch (NumberFormatException e) {
-            String errorMessage = "Sorry,, no book number of: " + bookNumberToEdit;
-            assertEquals(e.getMessage(), errorMessage);
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            userCommand.getBookToEdit(bookNumberToEdit);
+        });
 
         userInput = "edit 0 /title book";
+        bookNumberToEdit = 0;
         userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
 
-        try {
-            userCommand.handleCommand();
-        } catch (NumberFormatException e) {
-            String errorMessage = "Sorry, no book number of: " + bookNumberToEdit;
-            assertEquals(e.getMessage(), errorMessage);
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            userCommand.getBookToEdit(bookNumberToEdit);
+        });
 
         userInput = "edit -5 /title book";
+        bookNumberToEdit = -5;
         userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
 
-        try {
-            userCommand.handleCommand();
-        } catch (NumberFormatException e) {
-            String errorMessage = "Sorry, no book number of: " + bookNumberToEdit;
-            assertEquals(e.getMessage(), errorMessage);
-        }
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            userCommand.getBookToEdit(bookNumberToEdit);
+        });
+    }
+
+    @Test
+    public void handleCommand_validInputArgument_editCorrectly() {
+        bookNumberToEdit = 1;
+        userInput = "edit 1 /title book";
+        Book book2 = listOfBooks.get(1);
+        Book book3 = listOfBooks.get(2);
+
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand.handleCommand();
+        Book bookAfterEdit = listOfBooks.get(bookNumberToEdit - 1);
+        Book book2AfterEdit = listOfBooks.get(1);
+        Book book3AfterEdit = listOfBooks.get(2);
+
+        assertEquals("book", bookAfterEdit.getName());
+
+        // Test the rest are unchanged
+        assertEquals(book2.getName(), book2AfterEdit.getName());
+        assertEquals(book3.getName(), book3AfterEdit.getName());
     }
 }
