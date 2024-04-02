@@ -55,7 +55,6 @@ public class BookStorage {
             System.out.println("Access to file is interrupted");
         }
 
-
         return listOfBooks;
     }
 
@@ -76,20 +75,6 @@ public class BookStorage {
             System.out.println("Failed to write to file");
         }
     }
-  
-
-    public static void writeBookToTxt(File bookDataFile, ArrayList<Book> listOfBooks) {
-        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(bookDataFile, false))) {
-            for (Book currentBook : listOfBooks) {
-                String bookTitle = currentBook.getName();
-                String bookBorrowStatus = currentBook.getIsBorrowed() ? "True" : "False";
-                String borrowDate = (currentBook.getBorrowDate() != null) ?
-                        currentBook.getBorrowDate().toString() : "null";
-                String returnDate = (currentBook.getReturnDate() != null) ?
-                        currentBook.getReturnDate().toString() : "null";
-                String userName = (currentBook.getName() !=null ) ? currentBook.getName():"null" ;
-                fileWriter.write(String.format("%s | %s | %s | %s | %s%n",
-                        bookTitle, bookBorrowStatus, borrowDate, returnDate, userName));
 
     /**
      * Parses a line of text into a Book object and adds it to the provided list.
