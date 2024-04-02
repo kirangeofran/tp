@@ -13,29 +13,43 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 
+/**
+ * This class provides storage functionalities for Book objects.
+ */
 public class BookStorage {
 
-
+    /**
+     * Creates a file at the specified path if it does not already exist.
+     *
+     * @param bookDataPath The path where the file is to be created.
+     * @return The file object.
+     */
     public static File createFile(String bookDataPath) {
         File bookDataFile = new File(bookDataPath);
-        if (!bookDataFile.exists()) {
-            try {
-                bookDataFile.createNewFile();
-            } catch (IOException e) {
-                System.out.println("Sorry, something's wrong, file is not created");
+        try{
+            if (bookDataFile.createNewFile()) {
+                System.out.println("New file created: " + bookDataFile.getName());
+            } else {
+                System.out.println("File already exists.");
             }
+        } catch (IOException e) {
+            System.out.println("Sorry, something's wrong, file is not created");
         }
+
         return bookDataFile;
     }
 
-
+    /**
+     * Reads books from a storage file and returns them as a list.
+     *
+     * @param bookDataFile The file from which to read Book data.
+     * @return A list of books read from the file.
+     */
     public static ArrayList<Book> readFileStorage(File bookDataFile) {
         ArrayList<Book> listOfBooks = new ArrayList<>();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(bookDataFile))) {
-            String currentTextLine;
-            while ((currentTextLine = fileReader.readLine()) != null) {
-                addToArrayList(currentTextLine, listOfBooks);
-            }
+            fileReader.lines().forEach(line -> parseLineAndAddToBooks(line, listOfBooks));
+
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
         } catch (IOException e) {
@@ -46,6 +60,24 @@ public class BookStorage {
         return listOfBooks;
     }
 
+    /**
+     * Writes a list of books to a specified file.
+     *
+     * @param bookDataFile The file to which the books should be written.
+     * @param listOfBooks  The list of books to write.
+     */
+    public static void writeBookToTxt(File bookDataFile, ArrayList<Book> listOfBooks) {
+        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(bookDataFile, false))) {
+            for (Book book : listOfBooks) {
+                fileWriter.write(serializeBook(book));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("FILE NOT FOUND!!!");
+        }catch (IOException e) {
+            System.out.println("Failed to write to file");
+        }
+    }
+  
 
     public static void writeBookToTxt(File bookDataFile, ArrayList<Book> listOfBooks) {
         try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(bookDataFile, false))) {
@@ -59,37 +91,74 @@ public class BookStorage {
                 String userName = (currentBook.getName() !=null ) ? currentBook.getName():"null" ;
                 fileWriter.write(String.format("%s | %s | %s | %s | %s%n",
                         bookTitle, bookBorrowStatus, borrowDate, returnDate, userName));
-            }
-            fileWriter.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("FILE NOT FOUND!!!");
-        } catch (IOException e) {
-            System.out.println("Failed to write to file");
-        }
-    }
 
-    private static void addToArrayList(String currentTextLine, ArrayList<Book> listOfBooks) {
-        String[] splitTextLine;
-        splitTextLine = currentTextLine.split(" \\| ");
-        if (splitTextLine.length < 4) {
-            System.out.println("Skipping malformatted line: " + currentTextLine);
+    /**
+     * Parses a line of text into a Book object and adds it to the provided list.
+     *
+     * @param line  A string representing a line of text from the storage file.
+     * @param books The list to which the parsed Book will be added.
+     */
+    private static void parseLineAndAddToBooks(String line, ArrayList<Book> books) {
+        String[] bookAttributes = line.split(" \\| ");
+        if (bookAttributes.length < 4) {
+            System.out.println("Skipping malformatted line: " + line);
             return;
         }
+        Book book = createBookFromAttributes(bookAttributes);
+        books.add(book);
+    }
 
-        String title = splitTextLine[0];
+    /**
+     * Creates a Book object from an array of String attributes.
+     *
+     * @param bookAttributes An array of strings representing the book's attributes.
+     * @return A Book object or null if the input is malformed.
+     */
 
-        boolean isBorrowed = "True".equalsIgnoreCase(splitTextLine[1]);
-        LocalDate borrowDate = !"null".equals(splitTextLine[2]) ? LocalDate.parse(splitTextLine[2]) : null;
-        LocalDate returnDate = !"null".equals(splitTextLine[3]) ? LocalDate.parse(splitTextLine[3]) : null;
-
-        Book currentBook = new Book(title);
-
-        if (isBorrowed) {
-            currentBook.setBorrowed();
-            currentBook.setBorrowDate(borrowDate);
-            currentBook.setReturnDate(returnDate);
+    private static Book createBookFromAttributes(String[] bookAttributes) {
+        if (bookAttributes.length <4){
+            System.out.println("Skipping malformatted line due to insufficient attributes.");
+            return null;
         }
 
-        listOfBooks.add(currentBook);
+        String title = bookAttributes[0];
+        boolean isBorrowed = Boolean.parseBoolean(bookAttributes[1]);
+        LocalDate borrowDate = parseDate(bookAttributes[2]);
+        LocalDate returnDate = parseDate(bookAttributes[3]);
+
+        Book book = new Book(title);
+        if (isBorrowed) {
+            book.setBorrowed();
+            book.setBorrowDate(borrowDate);
+            book.setReturnDate(returnDate);
+        }
+        return book;
     }
+
+    /**
+     * Serializes a Book object into a string representation for file storage.
+     *
+     * @param book The Book object to serialize.
+     * @return A string representation of the Book object.
+     */
+    private static String serializeBook(Book book) {
+        String bookTitle = book.getName();
+        String bookBorrowStatus = book.getIsBorrowed() ? "True" : "False";
+        String borrowDate = (book.getBorrowDate() != null) ? book.getBorrowDate().toString() : "null";
+        String returnDate = (book.getReturnDate() != null) ? book.getReturnDate().toString() : "null";
+        String formattedString =
+                String.format("%s | %s | %s | %s%n", bookTitle, bookBorrowStatus, borrowDate, returnDate);
+        return formattedString; // Return the formatted string
+    }
+
+    /**
+     * Parses a date from a string unless the string represents a null value.
+     *
+     * @param dateString The string to parse.
+     * @return The LocalDate object or null if the string represents a null value.
+     */
+    private static LocalDate parseDate(String dateString) {
+        return !"null".equals(dateString) ? LocalDate.parse(dateString) : null;
+    }
+
 }

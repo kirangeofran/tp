@@ -1,0 +1,24 @@
+@startuml
+!include style.puml
+hide footbox
+
+participant ":FindCommand" as find FIND_COLOR
+participant ":FindCommandList" as findList FIND_LIST_COLOR
+participant ":UI" as Ui UI_COLOR
+
+[->find : handleCommand()
+activate find
+
+find -> findList : filterBooks(keyword, bookFound)
+activate findList
+findList --> find
+deactivate findList
+
+find -> Ui : printMatchingBooks(bookFound)
+activate Ui
+Ui --> find
+deactivate Ui
+
+[<-- find
+
+@enduml
