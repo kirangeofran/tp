@@ -42,6 +42,6 @@ public class AddCommand extends Command {
         }
         Book bookName = new Book(newSplitBook[1].trim());
         this.listOfBooks.add(bookName);
-        System.out.println("Added " + bookName + "!");
+        System.out.println("Added " + bookName.getName() + "!");
     }
 }
