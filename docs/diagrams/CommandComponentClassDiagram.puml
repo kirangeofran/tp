@@ -1,0 +1,7 @@
+@startuml
+!include style.puml
+
+abstract Class Command {
+    +handleCommand()
+}
+@enduml
