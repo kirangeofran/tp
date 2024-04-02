@@ -45,6 +45,7 @@ to the txt file, `book.txt`.
 
 
 ### Command Component
+![CommandComponentClassDiagram.png](images%2FCommandComponentClassDiagram.png)
 
 #### HelpCommand
 ##### Overview
