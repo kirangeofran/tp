@@ -1,7 +1,8 @@
 package bookmarked.parser;
 
 import bookmarked.Book;
-import bookmarked.command.EditCommand;
+import bookmarked.User;
+import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.ui.Ui;
 import bookmarked.command.ExitCommand;
 import bookmarked.command.FindCommand;
@@ -11,17 +12,19 @@ import bookmarked.command.AddCommand;
 import bookmarked.command.DeleteCommand;
 import bookmarked.command.BorrowCommand;
 import bookmarked.command.HelpCommand;
+import bookmarked.command.EditCommand;
 import bookmarked.command.ListCommand;
+import bookmarked.command.ListUserCommand;
 import bookmarked.exceptions.BookMarkedException;
-import bookmarked.command.ExtendCommand ;
-
+import bookmarked.command.ExtendCommand;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class Parser {
-    public static void runCommand(String newItem, Scanner in, ArrayList<Book> listOfBooks, File bookDataFile) {
+    public static void runCommand(String newItem, Scanner in, ArrayList<Book> listOfBooks,
+                                  File bookDataFile, ArrayList<User> listOfUsers) {
         Command userCommand = new ListCommand(listOfBooks, newItem);
 
         while (!newItem.equalsIgnoreCase("bye")) {
@@ -29,8 +32,8 @@ public class Parser {
             Ui.setSmallerLineBreak();
 
             try {
-                parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem);
-            } catch (BookMarkedException | ArrayIndexOutOfBoundsException e) {
+                parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers);
+            } catch (BookMarkedException | EmptyArgumentsException e) {
                 Ui.printUnknownCommand();
             }
             Ui.setLineBreak();
@@ -42,8 +45,8 @@ public class Parser {
 
 
     public static void parseCommand(String newItem, Command userCommand, ArrayList<Book> listOfBooks,
-                                     File bookDataFile, String[] splitItem)
-                                     throws BookMarkedException, ArrayIndexOutOfBoundsException {
+                                     File bookDataFile, String[] splitItem, ArrayList<User> listOfUsers)
+            throws BookMarkedException, EmptyArgumentsException {
         switch(splitItem[0]) {
         case ("/help"):
             userCommand = new HelpCommand();
@@ -58,13 +61,16 @@ public class Parser {
             userCommand = new DeleteCommand(splitItem, listOfBooks, bookDataFile);
             break;
         case ("borrow"):
-            userCommand = new BorrowCommand(splitItem, listOfBooks, bookDataFile);
+            userCommand = new BorrowCommand(splitItem, listOfBooks, bookDataFile, listOfUsers, newItem);
             break;
         case ("return"):
             userCommand = new ReturnCommand(splitItem, listOfBooks, bookDataFile);
             break;
         case ("find"):
             userCommand = new FindCommand(newItem, listOfBooks);
+            break;
+        case("listuser"):
+            userCommand = new ListUserCommand(listOfUsers);
             break;
         case ("edit"):
             userCommand = new EditCommand(newItem, listOfBooks, bookDataFile);

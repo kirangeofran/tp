@@ -1,5 +1,5 @@
 package bookmarked.command;
-
+import bookmarked.User;
 import bookmarked.Book;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.EmptyListException;
@@ -11,6 +11,7 @@ import java.util.Comparator;
 
 public class ListCommand extends Command {
     private ArrayList<Book> listOfBooks;
+    private ArrayList<User> listOfUsers;
     private String inputCommand;
     private ArrayList<Book> sortedListOfBooks;
     private String[] splitCommand;
@@ -24,6 +25,7 @@ public class ListCommand extends Command {
         this.listOfBooks = listOfBooks;
         this.inputCommand = newItem;
         this.numberOfBooks = listOfBooks.size();
+        this.listOfUsers = listOfUsers;
     }
 
 
@@ -85,7 +87,7 @@ public class ListCommand extends Command {
 
         System.out.println(printMessage(Status.DEFAULT));
         for (int i = 0; i < numberOfBooks; i++) {
-            System.out.println((i + 1) + ". " + this.listOfBooks.get(i).toString());
+            System.out.println((i + 1) + ". " + this.listOfBooks.get(i).toString() );
         }
     }
 

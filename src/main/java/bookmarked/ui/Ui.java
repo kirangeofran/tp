@@ -44,6 +44,7 @@ public class Ui {
         System.out.println("9. To edit the details of the existing book");
         System.out.println("   edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION");
         System.out.println("   example: edit 1 /title book");
+
     }
 
     public static void printUnknownCommand() {
