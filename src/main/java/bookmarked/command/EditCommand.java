@@ -45,9 +45,8 @@ public class EditCommand extends Command {
         int bookNumberToEdit = 0;
 
         try {
-            bookNumberToEdit = Integer.parseInt(splitInput[1]);
-
-            bookToEdit = listOfBooks.get(bookNumberToEdit - 1);
+            bookNumberToEdit = getBookNumberToEdit(splitInput);
+            bookToEdit = getBookToEdit(bookNumberToEdit);
 
             assert bookNumberToEdit > 0 : "bookNumberToEdit must be an integer greater than 0";
             assert bookNumberToEdit <= totalBooks : "bookNumberToEdit must be an integer " +
@@ -64,6 +63,16 @@ public class EditCommand extends Command {
         } catch (NullPointerException e) {
             System.out.println("Please enter in the format as mentioned in help");
         }
+    }
+
+    public int getBookNumberToEdit(String[] splitInput) {
+        return Integer.parseInt(splitInput[1]);
+    }
+
+    public Book getBookToEdit(int bookNumberToEdit) {
+        Book bookToEdit;
+        bookToEdit = listOfBooks.get(bookNumberToEdit - 1);
+        return bookToEdit;
     }
 
     public void handleEditTitle(Book bookToEdit, int bookNumberToEdit) throws EmptyArgumentsException {
