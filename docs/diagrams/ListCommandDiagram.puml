@@ -1,0 +1,55 @@
+@startuml
+!include style.puml
+
+participant ":ListCommand" as ListCommand LIST_COLOR
+
+[->ListCommand : handleCommand()
+activate ListCommand
+
+ListCommand -> ListCommand : parseCommand()
+activate ListCommand
+
+alt inputCommand.matches("list")
+ListCommand -> ListCommand : runListBlankCommand()
+activate ListCommand
+
+ListCommand -> ListCommand : printMessage(Status.DEFAULT)
+activate ListCommand
+ListCommand --> ListCommand
+deactivate ListCommand
+ListCommand --> ListCommand
+deactivate ListCommand
+
+
+
+else
+alt splitCommand[1].trim().equals("alphabetical")
+ListCommand -> ListCommand : runListAlphabeticalCommand()
+activate ListCommand
+ListCommand -> ListCommand : printMessage(Status.ALPHABETICAL)
+activate ListCommand
+ListCommand --> ListCommand
+deactivate ListCommand
+ListCommand --> ListCommand
+deactivate ListCommand
+deactivate ListCommand
+
+else splitCommand[1].trim().equals("returndate")
+ListCommand -> ListCommand : runListDateCommand()
+activate ListCommand
+ListCommand -> ListCommand : printMessage(Status.RETURNDATE)
+activate ListCommand
+ListCommand --> ListCommand
+deactivate ListCommand
+ListCommand --> ListCommand
+deactivate ListCommand
+deactivate ListCommand
+
+end
+end
+
+
+
+[<-- ListCommand
+deactivate ListCommand
+@enduml

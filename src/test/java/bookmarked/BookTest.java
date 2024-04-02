@@ -18,6 +18,7 @@ public class BookTest {
 
     @TempDir
     Path tempDir;  // JUnit creates and cleans up a temporary directory
+
     @Test
     public void getBookDescription_returnsBookDescription() {
         Book testBook = new Book("Test");
@@ -61,20 +62,26 @@ public class BookTest {
 
     @Test
     public void extendDueDate_bookExtended_returnsExtendedDate() {
+        // Initialize the list of books with a test book already borrowed
         ArrayList<Book> listOfBooks = new ArrayList<>();
         Book testBook = new Book("Test Book");
         testBook.borrowBook(LocalDate.now().minusDays(10), Period.ofDays(14));
         listOfBooks.add(testBook);
 
-        File tempFile = tempDir.resolve("tempBookData.txt").toFile();  // Create a temporary file
+        // Create a temporary file to act as the book data file
+        File tempFile = tempDir.resolve("tempBookData.txt").toFile();
 
-        ExtendCommand command = new ExtendCommand("Test Book", listOfBooks, tempFile);
+        // Split the input as the Parser would do and pass it to the ExtendCommand
+        String[] commandParts = {"extend", "Test Book"};
+        ExtendCommand command = new ExtendCommand(commandParts, listOfBooks, tempFile);
         command.handleCommand();
 
-        LocalDate expectedDueDate = LocalDate.now().minusDays(10).plusDays(14).plusDays(7);
+        // Calculate the expected due date after extension
+        LocalDate expectedDueDate = LocalDate.now().minusDays(10).plusDays(14).plusDays(7); // 7 days extension
         LocalDate actualDueDate = testBook.getReturnDate();
 
-        assertEquals(expectedDueDate, actualDueDate);
+        // Check if the actual due date matches the expected due date
+        assertEquals(expectedDueDate, actualDueDate, "The due date should be extended by 7 days.");
     }
-
 }
+
