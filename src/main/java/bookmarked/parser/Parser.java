@@ -18,7 +18,7 @@ import bookmarked.command.ExtendCommand ;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Arrays ;
+
 
 public class Parser {
     public static void runCommand(String newItem, Scanner in, ArrayList<Book> listOfBooks, File bookDataFile) {
@@ -71,12 +71,7 @@ public class Parser {
             break;
         case "extend":
             // Ensure 'extend' is followed by the name of the book to extend
-            if (splitItem.length > 1) {
-                String bookName = String.join(" ", Arrays.copyOfRange(splitItem, 1, splitItem.length));
-                userCommand = new ExtendCommand(bookName, listOfBooks, bookDataFile);
-            } else {
-                throw new BookMarkedException(); // Throw exception if 'extend' command is not followed by a book name
-            }
+            userCommand = new ExtendCommand(splitItem, listOfBooks, bookDataFile);
             break;
         default:
             throw new BookMarkedException();
