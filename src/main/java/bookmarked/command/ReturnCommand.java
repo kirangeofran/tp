@@ -1,6 +1,7 @@
 package bookmarked.command;
 
 import bookmarked.Book;
+import bookmarked.User;
 import bookmarked.exceptions.EmptyListException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class ReturnCommand extends Command {
     private String bookName;
     private ArrayList<Book> listOfBooks;
+    private ArrayList<User> listOfUsers;
     private File bookDataFile;
 
     /**
@@ -34,6 +36,7 @@ public class ReturnCommand extends Command {
         assert commandParts.length > 1 : "commandParts should contain at least the command and the book name";
         this.bookName =  String.join(" ", List.of(commandParts).subList(1, commandParts.length));
         this.listOfBooks = listOfBooks;
+        this.listOfUsers = listOfUsers;
         this.bookDataFile = bookDataFile;
     }
 
@@ -73,11 +76,21 @@ public class ReturnCommand extends Command {
         if (!foundBooks.isEmpty()) {
             // It's possible there are multiple copies of the book, so mark all as returned
             foundBooks.forEach(book -> {
+                //assert book.isBorrowed() : "Book should be borrowed to return";
                 if (book.getIsBorrowed()) {
                     book.setReturned();
                     System.out.println("Returned " + book.getName() + "!");
                 } else {
                     System.out.println("Book is not borrowed: " + book.getName());
+                }
+
+                //System.out.println("Returned " + book.getName() + "!");
+                if (listOfUsers != null) {
+                    for (User user : listOfUsers) {
+                        user.unborrowBook(book);
+
+                        System.out.print(user);
+                    }
                 }
             });
         } else {

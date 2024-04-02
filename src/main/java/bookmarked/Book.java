@@ -13,6 +13,9 @@ public class Book {
     protected boolean isBorrowed;
     protected LocalDate borrowDate;
     protected LocalDate returnDate;
+    protected String user;
+
+
 
 
     public Book(String description) {
