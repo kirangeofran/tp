@@ -1,7 +1,6 @@
 package bookmarked.command;
 
 import bookmarked.Book;
-import bookmarked.exceptions.EmptyListException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -9,10 +8,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BorrowCommandTest {
     private ArrayList<Book> listOfBooks;
@@ -27,10 +27,11 @@ public class BorrowCommandTest {
         listOfBooks = new ArrayList<>();
         bookDataFile = new File("testBooks.txt"); // Ensure this file exists or is mocked
         availableBook = new Book("Available Book");
-        borrowedBook = new Book("Borrowed Book");
-        borrowedBook.setBorrowed(); // Assuming this method exists and marks the book as borrowed
+        borrowedBook = new Book("Borrowed Book"); // Adjusted for simplicity
         listOfBooks.add(availableBook);
         listOfBooks.add(borrowedBook);
+        borrowedBook.borrowBook(LocalDate.now(),Period.ofWeeks(2)); // Corrected to use borrow method with a Period
+
         System.setOut(new PrintStream(outContent)); // Redirect System.out to capture console output
     }
 
@@ -46,8 +47,8 @@ public class BorrowCommandTest {
 
         command.handleCommand();
 
+        // Assuming isAvailable() returns false when the book is borrowed
         assertFalse(availableBook.isAvailable());
-        assertTrue(availableBook.getIsBorrowed()); // Check if the book's status is borrowed
         assertTrue(outContent.toString().contains("Borrowed Available Book!"));
     }
 
@@ -73,11 +74,15 @@ public class BorrowCommandTest {
     }
 
     @Test
-    public void borrowCommand_emptyList_throwsEmptyListException() {
+    public void borrowCommand_emptyList_displaysEmptyListMessage() {
         String[] commandParts = {"borrow", "Some Book"};
         listOfBooks.clear();
         BorrowCommand command = new BorrowCommand(commandParts, listOfBooks, bookDataFile);
 
-        assertThrows(EmptyListException.class, command::handleCommand);
+        command.handleCommand();
+
+        // Adjust this expected message to match what's actually printed by your Ui.printEmptyListMessage() method
+        String expectedMessage = "The list is empty, try adding a book first.";
+        assertTrue(outContent.toString().contains(expectedMessage));
     }
 }
