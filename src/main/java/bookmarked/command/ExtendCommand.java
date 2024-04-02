@@ -18,7 +18,7 @@ public class ExtendCommand extends Command {
     private File bookDataFile;
 
     /**
-     * Constructs an {@code ExtendCommand} with the specified command parts, list of books, and file.
+     * Constructs an {ExtendCommand} with the specified command parts, list of books, and file.
      *
      * @param commandParts the parts of the command input, including the book name
      * @param listOfBooks  the current list of books

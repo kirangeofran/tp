@@ -25,14 +25,14 @@ public class BorrowCommand extends Command {
     private File bookDataFile;
 
     /**
-            * Constructs a BorrowCommand object with the specified parameters.
-            *
-            * @param commandParts The array of strings containing the command and its arguments,
-            *                     where the command is the first element and the book name
+     * Constructs a BorrowCommand object with the specified parameters.
+     *
+     * @param commandParts The array of strings containing the command and its arguments,
+     *                     where the command is the first element and the book name
      *                     is constructed from the subsequent elements.
-            * @param listOfBooks  The list of books to be searched for borrowing.
+     * @param listOfBooks  The list of books to be searched for borrowing.
      * @param bookDataFile The file where book data is stored.
-            */
+     */
     public BorrowCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile) {
         assert commandParts != null : "commandParts should not be null";
         assert commandParts.length > 1 : "commandParts should contain at least two elements";
