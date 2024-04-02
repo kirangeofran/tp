@@ -45,6 +45,8 @@ to the txt file, `book.txt`.
 
 
 ### Command Component
+![CommandComponentClassDiagram.png](images%2FCommandComponentClassDiagram.png)
+
 #### HelpCommand
 ##### Overview
 The "help command" is a feature that summarise to user all the available commands in
