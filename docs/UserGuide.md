@@ -12,10 +12,10 @@ traditional GUI-based applications.
 ## Table of Contents
 - Quick Start
 - Features
-  - Viewing help : `help` 
+  - Viewing help : `/help`
   - Adding a book : `add`
   - Deleting a book : `delete`
-  - Viewing all books : `list`
+  - Viewing books : `list`
   - Editing a book : `edit`
   - borrowing book : `borrow`
   - returning borrowed book : `return`
@@ -30,23 +30,52 @@ traditional GUI-based applications.
 1. Ensure that you have Java 11 or above installed.
 1. Down the latest version of `Duke` from [here](http://link.to/duke).
 
-## Features 
+## Features
+### Adding a book to inventory: `/help`
+Lists out all available commands and their format.
 
-{Give detailed description of each feature}
+Format: `/help`
 
-### Adding a todo: `todo`
-Adds a new item to the list of todo items.
+### Adding a book to inventory: `add`
+Adds a new book to the library's inventory.
 
-Format: `todo n/TODO_NAME d/DEADLINE`
+Format: `add NAME_OF_BOOK`
 
-* The `DEADLINE` can be in a natural language format.
-* The `TODO_NAME` cannot contain punctuation.  
+* The `add` cannot be in capital letters.
 
-Example of usage: 
+Example of usage:
 
-`todo n/Write the rest of the User Guide d/next week`
+`add The Book Thief`
 
-`todo n/Refactor the User Guide to remove passive voice d/13/04/2020`
+`add The Hunger Games`
+
+### Viewing books in the library: `list`
+Provides a list of books in the library.
+
+Format: `list /sortby ARGUMENT`
+
+
+
+There are three ways of sorting the list:
+1. **Default**
+
+   Format: `list`
+
+
+2. **Alphabetical order**
+
+   Format: `list /sortby alphabetical`
+
+
+3. **By return date**
+
+   Format: `list /sortby returndate`
+* Sorting list by return date will only list books
+  that are currently being borrowed.
+
+
+
+
 
 ## FAQ
 > **Q**: How do I transfer my data to another computer?
@@ -63,4 +92,6 @@ Example of usage:
 
 {Give a 'cheat sheet' of commands here}
 
-* Add todo `todo n/TODO_NAME d/DEADLINE`
+* View all commands `/help`
+* Add a book `add NAME_OF_BOOK`
+* List books `list /sortby ARGUMENT`
