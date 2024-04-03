@@ -8,6 +8,7 @@ import bookmarked.ui.Ui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,6 +63,7 @@ public class ReturnCommand extends Command {
         }
     }
 
+
     /**
      * Marks the books found in the list with the name provided as returned.
      * If the book is not found, prints an error message.
@@ -74,32 +76,31 @@ public class ReturnCommand extends Command {
             throw new EmptyListException();
         }
 
-        if (!foundBooks.isEmpty()) {
-            // It's possible there are multiple copies of the book, so mark all as returned
-            foundBooks.forEach(book -> {
-                //assert book.isBorrowed() : "Book should be borrowed to return";
-                if (book.getIsBorrowed()) {
-                    book.setReturned();
-                    System.out.println("Returned " + book.getName() + "!");
-                } else {
-                    System.out.println("Book is not borrowed: " + book.getName());
-                }
-
-                //System.out.println("Returned " + book.getName() + "!");
-                if (listOfUsers != null) {
-                    for (User user : listOfUsers) {
-                        user.unborrowBook(book);
-//                        listOfUsers.remove(user);
-
-                        System.out.print(user);
-                    }
-                }
-            });
-        } else {
+        if (foundBooks.isEmpty()) {
             System.out.println("Book not found: " + bookName);
+            return;
         }
 
+        Book returnedBook = null;
+        for (Book currentBook : foundBooks) {
+            returnedBook = currentBook;
+            if (currentBook.getIsBorrowed()) {
+                currentBook.setReturned();
 
+                System.out.println("Returned " + currentBook.getName() + "!");
+            } else {
+                System.out.println("Book is not borrowed: " + currentBook.getName());
+            }
+        }
+
+        Iterator<User> iterator = listOfUsers.iterator();
+        while (iterator.hasNext()) {
+            User currentUser = iterator.next();
+            currentUser.unborrowBook(returnedBook);
+            if (currentUser.getUserBooks().isEmpty()) {
+                iterator.remove();
+            }
+        }
     }
 }
 
