@@ -67,7 +67,7 @@ Format: `list /sortby ARGUMENT`
 
 
 
-There are three ways of sorting the list:
+There are four ways of sorting the list:
 1. **Default**
 
    Format: `list`
@@ -84,6 +84,11 @@ There are three ways of sorting the list:
 * Sorting list by return date will only list books
   that are currently being borrowed.
 
+4. **By user**
+   
+    Format: `listuser`
+* Listing all users along with their borrowed books
+
 
 ### Editing books in the library: `edit`
 Allows for the modification of the details of an existing book in the library. 
@@ -99,14 +104,14 @@ Example of usage:
 Allows a user to borrow a book from the library's inventory if it is available. 
 The book will be marked as borrowed, and a due date will be set for its return.
 
-Format: `borrow BOOK_NAME`
+Format: `borrow BOOK_NAME by USER_NAME`
 
 * Books are borrowed for a default period of two weeks from the date of borrowing.
 
 
 Example of usage:
 
-`borrow The Book Thief`
+`borrow The Book Thief by Tom`
 
 ### Extending borrowed books in the library: `extend`
 Allows a user to extend the borrowing period of a book they have already borrowed. 

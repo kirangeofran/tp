@@ -18,7 +18,7 @@ to follow to use it in using this software:
 2. To delete current existing book
    delete NUMBER_ACCORDING_TO_LIST
 3. To mark book as borrowed
-   borrow NAME_OF_BOOK
+   borrow NAME_OF_BOOK by USER_NAME
 4. To extend the due date of a borrowed book by a week:
    extend NAME_OF_BOOK
 5. To unmark book as returned
@@ -32,6 +32,8 @@ to follow to use it in using this software:
 9. To edit the details of the existing book
    edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION
    example: edit 1 /title book
+10.To list the users with their borrowed books
+   listuser
 
 _______________________________________
 _______________________________________
