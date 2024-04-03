@@ -28,6 +28,8 @@ public class ReturnCommandTest {
     @BeforeEach
     public void setUp() {
         listOfBooks = new ArrayList<>();
+        listOfUser = new ArrayList<>();
+
         // Assume bookDataFile is either a mock or set to a temporary/testing file path
         bookDataFile = new File("testBooks.txt");
 
