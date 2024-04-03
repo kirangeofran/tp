@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import bookmarked.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,7 @@ import java.time.Period;
 
 public class ReturnCommandTest {
     private ArrayList<Book> listOfBooks;
+    private ArrayList<User> listOfUser;
     private File bookDataFile;
     private Book borrowedBook;
     private Book notBorrowedBook;
@@ -47,7 +50,7 @@ public class ReturnCommandTest {
     @Test
     public void returnCommand_borrowedBook_bookIsReturned() {
         String[] commandParts = {"return", "Borrowed Book"};
-        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile);
+        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile, listOfUser);
 
         command.handleCommand();
 
@@ -57,7 +60,7 @@ public class ReturnCommandTest {
     @Test
     public void returnCommand_notBorrowedBook_printsNotBorrowedMessage() {
         String[] commandParts = {"return", "Not Borrowed Book"};
-        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile);
+        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile, listOfUser);
 
         command.handleCommand();
 
@@ -69,7 +72,7 @@ public class ReturnCommandTest {
     @Test
     public void returnCommand_bookNotFound_printsNotFoundMessage() {
         String[] commandParts = {"return", "Nonexistent Book"};
-        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile);
+        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile, listOfUser);
 
         command.handleCommand();
 

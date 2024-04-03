@@ -64,7 +64,7 @@ public class Parser {
             userCommand = new BorrowCommand(splitItem, listOfBooks, bookDataFile, listOfUsers, newItem);
             break;
         case ("return"):
-            userCommand = new ReturnCommand(splitItem, listOfBooks, bookDataFile);
+            userCommand = new ReturnCommand(splitItem, listOfBooks, bookDataFile, listOfUsers);
             break;
         case ("find"):
             userCommand = new FindCommand(newItem, listOfBooks);

@@ -30,7 +30,8 @@ public class ReturnCommand extends Command {
      * @param listOfBooks  The list of books from which a book will be returned.
      * @param bookDataFile The data file where books are stored.
      */
-    public ReturnCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile) {
+    public ReturnCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
+                         ArrayList<User> listOfUsers) {
         assert listOfBooks != null : "list of books should not be empty";
         assert commandParts != null : "commandParts should not be null";
         assert commandParts.length > 1 : "commandParts should contain at least the command and the book name";
@@ -88,6 +89,7 @@ public class ReturnCommand extends Command {
                 if (listOfUsers != null) {
                     for (User user : listOfUsers) {
                         user.unborrowBook(book);
+//                        listOfUsers.remove(user);
 
                         System.out.print(user);
                     }
