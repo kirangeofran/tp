@@ -70,7 +70,7 @@ public class BookStorage {
             }
         } catch (FileNotFoundException e) {
             System.out.println("FILE NOT FOUND!!!");
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Failed to write to file");
         }
     }

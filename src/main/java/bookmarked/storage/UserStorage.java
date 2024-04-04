@@ -4,9 +4,11 @@ import bookmarked.Book;
 import bookmarked.User;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -49,6 +51,36 @@ public class UserStorage {
         }
 
         return listOfUser;
+    }
+
+    public static void writeUserToTxt(File userDataFile, ArrayList<User> listOfUsers) {
+        try {
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(userDataFile, false));
+
+            for (User user : listOfUsers) {
+                fileWriter.write(serializeUser(user));
+            }
+
+            fileWriter.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("FILE NOT FOUND!!!");
+        } catch (IOException e) {
+            System.out.println("Failed to write to file");
+        }
+    }
+
+    private static String serializeUser(User user) {
+        StringBuilder serializedString = new StringBuilder();
+        serializedString.append(user.getName());
+
+        ArrayList<Book> userBooks = user.getUserBooks();
+
+        for (Book currentBook : userBooks) {
+            serializedString.append(" | ");
+            serializedString.append(currentBook.getName());
+        }
+
+        return serializedString.toString();
     }
 
     /**
