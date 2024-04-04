@@ -53,6 +53,12 @@ public class UserStorage {
         return listOfUser;
     }
 
+    /**
+     * Write all users in listOfUsers to txt file for storage, with a specific format.
+     *
+     * @param userDataFile The file from which to read Book data.
+     * @param listOfUsers The list to which users who borrowed books are kept tracked.
+     */
     public static void writeUserToTxt(File userDataFile, ArrayList<User> listOfUsers) {
         try {
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(userDataFile, false));
@@ -69,6 +75,13 @@ public class UserStorage {
         }
     }
 
+    /**
+     * Takes in a user from an array list and convert into a formatted string to be written
+     * in txt file for storage.
+     *
+     * @param user a user from the array list who currently have at least a book borrowed.
+     * @return string of user and the book borrowed in a specific format.
+     */
     private static String serializeUser(User user) {
         StringBuilder serializedString = new StringBuilder();
         serializedString.append(user.getName());
