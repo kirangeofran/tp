@@ -20,10 +20,13 @@ public class ReturnCommandTest {
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUser;
     private File bookDataFile;
+    private File userDataFile;
     private Book borrowedBook;
     private Book notBorrowedBook;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
+    private static final String TEST_BOOK_FILE_PATH = "./testBooks.txt";
+    private static final String TEST_USER_FILE_PATH = "./testUsers.txt";
 
     @BeforeEach
     public void setUp() {
@@ -31,7 +34,8 @@ public class ReturnCommandTest {
         listOfUser = new ArrayList<>();
 
         // Assume bookDataFile is either a mock or set to a temporary/testing file path
-        bookDataFile = new File("testBooks.txt");
+        bookDataFile = new File(TEST_BOOK_FILE_PATH);
+        userDataFile = new File(TEST_USER_FILE_PATH);
 
         borrowedBook = new Book("Borrowed Book");
         // Simulate that the book has been borrowed
@@ -52,7 +56,7 @@ public class ReturnCommandTest {
     @Test
     public void returnCommand_borrowedBook_bookIsReturned() {
         String[] commandParts = {"return", "Borrowed Book"};
-        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile, listOfUser);
+        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile, listOfUser, userDataFile);
 
         command.handleCommand();
 
@@ -62,7 +66,7 @@ public class ReturnCommandTest {
     @Test
     public void returnCommand_notBorrowedBook_printsNotBorrowedMessage() {
         String[] commandParts = {"return", "Not Borrowed Book"};
-        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile, listOfUser);
+        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile, listOfUser, userDataFile);
 
         command.handleCommand();
 
@@ -74,7 +78,7 @@ public class ReturnCommandTest {
     @Test
     public void returnCommand_bookNotFound_printsNotFoundMessage() {
         String[] commandParts = {"return", "Nonexistent Book"};
-        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile, listOfUser);
+        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile, listOfUser, userDataFile);
 
         command.handleCommand();
 

@@ -4,6 +4,7 @@ import bookmarked.Book;
 import bookmarked.User;
 import bookmarked.exceptions.EmptyListException;
 import bookmarked.storage.BookStorage;
+import bookmarked.storage.UserStorage;
 import bookmarked.ui.Ui;
 
 import java.io.File;
@@ -22,6 +23,7 @@ public class ReturnCommand extends Command {
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
     private File bookDataFile;
+    private File userDataFile;
 
     /**
      * Constructs a ReturnCommand object.
@@ -32,7 +34,7 @@ public class ReturnCommand extends Command {
      * @param bookDataFile The data file where books are stored.
      */
     public ReturnCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
-                         ArrayList<User> listOfUsers) {
+                         ArrayList<User> listOfUsers, File userDataFile) {
         assert listOfBooks != null : "list of books should not be empty";
         assert commandParts != null : "commandParts should not be null";
         assert commandParts.length > 1 : "commandParts should contain at least the command and the book name";
@@ -40,6 +42,7 @@ public class ReturnCommand extends Command {
         this.listOfBooks = listOfBooks;
         this.listOfUsers = listOfUsers;
         this.bookDataFile = bookDataFile;
+        this.userDataFile = userDataFile;
     }
 
     /**
@@ -101,6 +104,7 @@ public class ReturnCommand extends Command {
                 iterator.remove();
             }
         }
+        UserStorage.writeUserToTxt(userDataFile, listOfUsers);
     }
 }
 
