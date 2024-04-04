@@ -6,6 +6,7 @@ import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.EmptyListException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
+import bookmarked.storage.UserStorage;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -39,7 +40,8 @@ public class BorrowCommand extends Command {
      * @param bookDataFile The file where book data is stored.
      */
     public BorrowCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
-                         ArrayList<User> listOfUsers,String newItem) throws EmptyArgumentsException{
+                         ArrayList<User> listOfUsers, String newItem, File userDataFile)
+            throws EmptyArgumentsException {
         assert commandParts != null : "commandParts should not be null";
         assert commandParts.length > 1 : "commandParts should contain at least two elements";
         //this.bookName = String.join(" ", List.of(commandParts).subList(1, commandParts.length));
@@ -55,6 +57,7 @@ public class BorrowCommand extends Command {
         this.listOfBooks = listOfBooks;
         this.listOfUsers = listOfUsers;
         this.bookDataFile = bookDataFile;
+        this.userDataFile = userDataFile;
     }
     public boolean containsUser(String[] commandParts) {
         for (int i = 0; i <commandParts.length;i ++) {
@@ -117,6 +120,7 @@ public class BorrowCommand extends Command {
         for (User user : listOfUsers) {
             if (user.getName().equalsIgnoreCase(userName)) {
                 user.borrowedBook(book); // Add the borrowed book to the user's list of borrowed books
+                UserStorage.writeUserToTxt(userDataFile, listOfUsers);
                 return;
             }
         }
@@ -124,5 +128,6 @@ public class BorrowCommand extends Command {
         User newUser = new User(userName);
         newUser.borrowedBook(book);
         listOfUsers.add(newUser);
+        UserStorage.writeUserToTxt(userDataFile, listOfUsers);
     }
 }
