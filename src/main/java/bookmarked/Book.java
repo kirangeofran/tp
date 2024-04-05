@@ -3,6 +3,7 @@ package bookmarked;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Book {
 
@@ -102,6 +103,12 @@ public class Book {
         } else {
             return this.description + " available";
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Book otherBook = (Book) obj;
+        return Objects.equals(this.description, otherBook.description);
     }
 
 }
