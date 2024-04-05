@@ -87,6 +87,7 @@ public class ReturnCommand extends Command {
         Book returnedBook = null;
         for (Book currentBook : foundBooks) {
             returnedBook = currentBook;
+
             if (currentBook.getIsBorrowed()) {
                 currentBook.setReturned();
 
@@ -100,6 +101,7 @@ public class ReturnCommand extends Command {
         while (iterator.hasNext()) {
             User currentUser = iterator.next();
             currentUser.unborrowBook(returnedBook);
+
             if (currentUser.getUserBooks().isEmpty()) {
                 iterator.remove();
             }
