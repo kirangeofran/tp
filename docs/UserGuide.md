@@ -107,6 +107,7 @@ The book will be marked as borrowed, and a due date will be set for its return.
 Format: `borrow BOOK_NAME by USER_NAME`
 
 * Books are borrowed for a default period of two weeks from the date of borrowing.
+* Users do not need to be pre-added. They can be added directly when using the borrow command. 
 
 
 Example of usage:
