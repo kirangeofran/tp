@@ -1,2 +1,4 @@
-package bookmarked.exceptions;public class NoEditChangeException {
+package bookmarked.exceptions;
+
+public class NoEditChangeException extends Exception {
 }
