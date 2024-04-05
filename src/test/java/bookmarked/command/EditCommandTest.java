@@ -66,7 +66,6 @@ public class EditCommandTest {
         userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
 
         assertThrows(NumberFormatException.class, () -> {
-//            userCommand.getBookNumberToEdit(userInput.split(" "));
             userCommand.getBookNumberToEdit("x");
         });
 
@@ -74,7 +73,6 @@ public class EditCommandTest {
         userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
 
         assertThrows(NumberFormatException.class, () -> {
-//            userCommand.getBookNumberToEdit(userInput.split(" "));
             userCommand.getBookNumberToEdit("#*?");
         });
 
@@ -82,7 +80,6 @@ public class EditCommandTest {
         userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
 
         assertThrows(NumberFormatException.class, () -> {
-//            userCommand.getBookNumberToEdit(userInput.split(" "));
             userCommand.getBookNumberToEdit("1.5");
         });
 
@@ -90,7 +87,6 @@ public class EditCommandTest {
         userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
 
         assertThrows(NumberFormatException.class, () -> {
-//            userCommand.getBookNumberToEdit(userInput.split(" "));
             userCommand.getBookNumberToEdit("  ");
         });
     }
