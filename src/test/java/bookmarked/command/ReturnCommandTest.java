@@ -17,6 +17,8 @@ import java.time.Period;
 
 
 public class ReturnCommandTest {
+    private static final String TEST_BOOK_FILE_PATH = "./testBooks.txt";
+    private static final String TEST_USER_FILE_PATH = "./testUsers.txt";
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUser;
     private File bookDataFile;
@@ -25,8 +27,6 @@ public class ReturnCommandTest {
     private Book notBorrowedBook;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
-    private static final String TEST_BOOK_FILE_PATH = "./testBooks.txt";
-    private static final String TEST_USER_FILE_PATH = "./testUsers.txt";
 
     @BeforeEach
     public void setUp() {
