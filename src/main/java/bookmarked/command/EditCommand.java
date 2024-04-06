@@ -1,8 +1,11 @@
 package bookmarked.command;
 
 import bookmarked.Book;
+import bookmarked.exceptions.BookNotFoundException;
 import bookmarked.exceptions.EmptyArgumentsException;
+import bookmarked.exceptions.NoEditChangeException;
 import bookmarked.storage.BookStorage;
+import bookmarked.ui.Ui;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,11 +14,12 @@ import java.util.ArrayList;
  * EditCommand class is to edit the details of the available book added in the library.
  */
 public class EditCommand extends Command {
+    private static final int BOOK_TO_EDIT_START_INDEX = 5;
     private static final int TITLE_START_INDEX = 7;
     private ArrayList<Book> listOfBooks;
     private File bookDataFile;
-
     private String userInput;
+    private int bookNumberToEdit;
 
     /**
      * Constructor for EditCommand, taking in user's input, array lists of books, and file for
@@ -39,44 +43,74 @@ public class EditCommand extends Command {
      */
     @Override
     public void handleCommand() {
-        String[] splitInput = userInput.split(" ");
-        int totalBooks = listOfBooks.size();
-        Book bookToEdit = null;
-        int bookNumberToEdit = 0;
+        Book bookToEdit;
+        boolean isInputIndex = true;
+        String bookToEditArgument = null;
 
         try {
-            bookNumberToEdit = getBookNumberToEdit(splitInput);
-            bookToEdit = getBookToEdit(bookNumberToEdit);
+            if (!userInput.contains("/")) {
+                throw new NoEditChangeException();
+            }
 
-            assert bookNumberToEdit > 0 : "bookNumberToEdit must be an integer greater than 0";
-            assert bookNumberToEdit <= totalBooks : "bookNumberToEdit must be an integer " +
-                    "less than or equals to the total number of books in library";
+            int firstSlashIndex = userInput.indexOf("/");
+            bookToEditArgument = userInput.substring(BOOK_TO_EDIT_START_INDEX, firstSlashIndex).strip();
+            bookNumberToEdit = getBookNumberToEdit(bookToEditArgument);
+        } catch (NumberFormatException e) {
+            isInputIndex = false;
+        } catch (NoEditChangeException e) {
+            Ui.printNoEditChangeException();
+            return;
+        }
+
+        try {
+            bookToEdit = getBookToEdit(bookToEditArgument, isInputIndex);
+            if (bookToEdit == null) {
+                throw new BookNotFoundException();
+            }
 
             handleEditTitle(bookToEdit, bookNumberToEdit);
-
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter a book number in integer format");
         } catch (StringIndexOutOfBoundsException | EmptyArgumentsException e) {
-            System.out.println("Sorry, description cannot be empty");
+            Ui.printEmptyArgumentsMessage();
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Sorry, no book number of: " + bookNumberToEdit);
+            Ui.printOutOfBoundsMessage();
         } catch (NullPointerException e) {
-            System.out.println("Please enter in the format as mentioned in help");
+            Ui.printIncorrectInputFormat();
+        } catch (BookNotFoundException e) {
+            Ui.printBookNotFoundExceptionMessage();
         }
     }
 
-    public int getBookNumberToEdit(String[] splitInput) {
-        return Integer.parseInt(splitInput[1]);
+    public int getBookNumberToEdit(String bookToEditArgument) {
+        return Integer.parseInt(bookToEditArgument);
     }
 
-    public Book getBookToEdit(int bookNumberToEdit) {
-        Book bookToEdit;
-        bookToEdit = listOfBooks.get(bookNumberToEdit - 1);
+    public Book getBookToEdit(String bookToEditArgument, boolean isInputIndex) {
+        Book bookToEdit = null;
+
+        if (isInputIndex) {
+            bookToEdit = listOfBooks.get(bookNumberToEdit - 1);
+            return bookToEdit;
+        }
+
+        bookToEdit = getBookByTitleInput(bookToEditArgument, bookToEdit);
         return bookToEdit;
     }
 
-    public void handleEditTitle(Book bookToEdit, int bookNumberToEdit) throws EmptyArgumentsException {
+    private Book getBookByTitleInput(String bookToEditArgument, Book bookToEdit) {
+        Book inputBook = new Book(bookToEditArgument);
+        for (int i = 0; i < listOfBooks.size(); i += 1) {
+            if (listOfBooks.get(i).equals(inputBook)) {
+                bookToEdit = listOfBooks.get(i);
+                bookNumberToEdit = i + 1;
+            }
+        }
+        return bookToEdit;
+    }
+
+    public void handleEditTitle(Book bookToEdit, int bookNumberToEdit)
+            throws EmptyArgumentsException {
         String bookName;
+
         if (userInput.contains("/title")) {
             int titleIndex = userInput.indexOf("/title");
             int nextSlash = userInput.indexOf("/", titleIndex + TITLE_START_INDEX);
@@ -94,7 +128,7 @@ public class EditCommand extends Command {
 
             bookToEdit.setName(bookName);
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
-            System.out.println("Edited Book: " + bookNumberToEdit);
+            Ui.printEditedBookConfirmation(bookNumberToEdit);
         }
     }
 }
