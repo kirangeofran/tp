@@ -50,7 +50,7 @@ public class Ui {
     }
 
     public static void printUnknownCommand() {
-        System.out.println("Unknown command; please type /help to see what commands you can use.");
+        System.out.println("Unknown command; please type help to see what commands you can use.");
     }
 
     public static void printEmptyListMessage() {
@@ -87,6 +87,10 @@ public class Ui {
 
     public static void printEditedBookConfirmation(int bookNumberToEdit) {
         System.out.println("Edited Book: " + bookNumberToEdit);
+    }
+
+    public static void printWrongInputFormat() {
+        System.out.println("Please input command in the correct format");
     }
 
     public static void exitProgramme() {
