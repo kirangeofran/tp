@@ -5,6 +5,7 @@ import bookmarked.command.Command;
 import bookmarked.exceptions.BookMarkedException;
 import bookmarked.parser.Parser;
 import bookmarked.storage.BookStorage;
+import bookmarked.storage.UserStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import bookmarked.User;
@@ -15,9 +16,11 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ParserTest {
     private static final String TEST_FILE_PATH = "./test.txt";
+    private static final String TEST_USER_FILE_PATH = "./test.txt";
     private ArrayList<Book> listOfBooks;
     private String newItem;
     private File bookDataFile;
+    private File userDataFile;
     private String[] splitItem;
     private Command userCommand;
     private ArrayList<User> listOfUsers;
@@ -27,6 +30,7 @@ public class ParserTest {
         listOfBooks = new ArrayList<>();
         listOfUsers = new ArrayList<>();
         bookDataFile = BookStorage.createFile(TEST_FILE_PATH);
+        userDataFile = UserStorage.createFile(TEST_USER_FILE_PATH);
         userCommand = null;
     }
 
@@ -36,20 +40,20 @@ public class ParserTest {
         splitItem = newItem.split(" ");
 
         assertThrows(BookMarkedException.class, () -> {
-            Parser.parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers);
+            Parser.parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers, userDataFile);
         });
 
         newItem = "1";
         splitItem = newItem.split(" ");
 
         assertThrows(BookMarkedException.class, () -> {
-            Parser.parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers);
+            Parser.parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers, userDataFile);
         });
 
         newItem = "hello";
         splitItem = newItem.split(" ");
         assertThrows(BookMarkedException.class, () -> {
-            Parser.parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers);
+            Parser.parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers, userDataFile);
         });
     }
 
@@ -59,7 +63,7 @@ public class ParserTest {
         splitItem = newItem.split(" ");
 
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            Parser.parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers);
+            Parser.parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers, userDataFile);
         });
     }
 

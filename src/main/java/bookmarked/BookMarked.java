@@ -6,7 +6,6 @@ import bookmarked.ui.Ui;
 import bookmarked.storage.BookStorage;
 
 import java.io.File;
-import java.net.UnknownServiceException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
