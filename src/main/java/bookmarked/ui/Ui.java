@@ -66,14 +66,27 @@ public class Ui {
     }
 
     public static void printBookNotFoundExceptionMessage() {
-        System.out.println("Book not found");}
-
+        System.out.println("Book not found");
+    }
 
     public static void printBookNotBorrowedExceptionMessage() {
         System.out.println("Book not borrowed");
     }
+
     public static void printNotNumberMessage() {
         System.out.println("Please enter the number index of the book.");
+    }
+
+    public static void printIncorrectInputFormat() {
+        System.out.println("Please enter in the format as mentioned in help");
+    }
+
+    public static void printNoEditChangeException() {
+        System.out.println("Please specify what to edit using '/'");
+    }
+
+    public static void printEditedBookConfirmation(int bookNumberToEdit) {
+        System.out.println("Edited Book: " + bookNumberToEdit);
     }
 
     public static void exitProgramme() {
