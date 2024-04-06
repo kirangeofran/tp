@@ -3,6 +3,7 @@ package bookmarked.parser;
 import bookmarked.Book;
 import bookmarked.User;
 import bookmarked.exceptions.EmptyArgumentsException;
+import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.ui.Ui;
 import bookmarked.command.ExitCommand;
 import bookmarked.command.FindCommand;
@@ -35,6 +36,8 @@ public class Parser {
                 parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers);
             } catch (BookMarkedException | EmptyArgumentsException e) {
                 Ui.printUnknownCommand();
+            } catch (WrongInputFormatException e) {
+                Ui.printWrongInputFormat();
             }
             Ui.setLineBreak();
             newItem = in.nextLine();
@@ -46,9 +49,12 @@ public class Parser {
 
     public static void parseCommand(String newItem, Command userCommand, ArrayList<Book> listOfBooks,
                                      File bookDataFile, String[] splitItem, ArrayList<User> listOfUsers)
-            throws BookMarkedException, EmptyArgumentsException {
+            throws BookMarkedException, EmptyArgumentsException, WrongInputFormatException {
         switch(splitItem[0]) {
-        case ("/help"):
+        case ("help"):
+            if (splitItem.length > 1) {
+                throw new WrongInputFormatException();
+            }
             userCommand = new HelpCommand();
             break;
         case ("list"):
