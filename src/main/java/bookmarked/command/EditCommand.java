@@ -4,6 +4,7 @@ import bookmarked.Book;
 import bookmarked.exceptions.BookNotFoundException;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.NoEditChangeException;
+import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
 
@@ -20,6 +21,7 @@ public class EditCommand extends Command {
     private File bookDataFile;
     private String userInput;
     private int bookNumberToEdit;
+    private int numberOfEdits = 0;
 
     /**
      * Constructor for EditCommand, taking in user's input, array lists of books, and file for
@@ -43,7 +45,6 @@ public class EditCommand extends Command {
      */
     @Override
     public void handleCommand() {
-        Book bookToEdit;
         boolean isInputIndex = true;
         String bookToEditArgument = null;
 
@@ -52,7 +53,7 @@ public class EditCommand extends Command {
                 throw new NoEditChangeException();
             }
 
-            int firstSlashIndex = userInput.indexOf("/");
+            int firstSlashIndex = userInput.indexOf(" /");
             bookToEditArgument = userInput.substring(BOOK_TO_EDIT_START_INDEX, firstSlashIndex).strip();
             bookNumberToEdit = getBookNumberToEdit(bookToEditArgument);
         } catch (NumberFormatException e) {
@@ -60,8 +61,16 @@ public class EditCommand extends Command {
         } catch (NoEditChangeException e) {
             Ui.printNoEditChangeException();
             return;
+        } catch (IndexOutOfBoundsException e) { // wrong format input (e.g. edit 1/title book)
+            Ui.printWrongInputFormat();
+            return;
         }
 
+        handleBookEdit(bookToEditArgument, isInputIndex);
+    }
+
+    private void handleBookEdit(String bookToEditArgument, boolean isInputIndex) {
+        Book bookToEdit;
         try {
             bookToEdit = getBookToEdit(bookToEditArgument, isInputIndex);
             if (bookToEdit == null) {
@@ -69,6 +78,11 @@ public class EditCommand extends Command {
             }
 
             handleEditTitle(bookToEdit, bookNumberToEdit);
+
+            if (numberOfEdits == 0) {
+                Ui.printEmptyArgumentsMessage();
+            }
+
         } catch (StringIndexOutOfBoundsException | EmptyArgumentsException e) {
             Ui.printEmptyArgumentsMessage();
         } catch (IndexOutOfBoundsException e) {
@@ -77,6 +91,8 @@ public class EditCommand extends Command {
             Ui.printIncorrectInputFormat();
         } catch (BookNotFoundException e) {
             Ui.printBookNotFoundExceptionMessage();
+        } catch (WrongInputFormatException e) {
+            Ui.printWrongInputFormat();
         }
     }
 
@@ -108,10 +124,13 @@ public class EditCommand extends Command {
     }
 
     public void handleEditTitle(Book bookToEdit, int bookNumberToEdit)
-            throws EmptyArgumentsException {
+            throws WrongInputFormatException, EmptyArgumentsException {
         String bookName;
+        boolean isEditTitle = false;
+        String[] splitInput = userInput.split(" ");
+        isEditTitle = isEditTitle(splitInput, isEditTitle);
 
-        if (userInput.contains("/title")) {
+        if (isEditTitle) {
             int titleIndex = userInput.indexOf("/title");
             int nextSlash = userInput.indexOf("/", titleIndex + TITLE_START_INDEX);
 
@@ -129,6 +148,19 @@ public class EditCommand extends Command {
             bookToEdit.setName(bookName);
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
             Ui.printEditedBookConfirmation(bookNumberToEdit);
+            numberOfEdits += 1;
+        } else {
+            throw new WrongInputFormatException();
         }
+    }
+
+    private static boolean isEditTitle(String[] splitInput, boolean isEditTitle) {
+        for (String word : splitInput) {
+            if (word.equals("/title")) {
+                isEditTitle = true;
+                break;
+            }
+        }
+        return isEditTitle;
     }
 }
