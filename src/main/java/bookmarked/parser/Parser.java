@@ -2,22 +2,12 @@ package bookmarked.parser;
 
 import bookmarked.Book;
 import bookmarked.User;
+import bookmarked.command.*;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.ui.Ui;
-import bookmarked.command.ExitCommand;
-import bookmarked.command.FindCommand;
-import bookmarked.command.Command;
-import bookmarked.command.ReturnCommand;
-import bookmarked.command.AddCommand;
-import bookmarked.command.DeleteCommand;
-import bookmarked.command.BorrowCommand;
-import bookmarked.command.HelpCommand;
-import bookmarked.command.EditCommand;
-import bookmarked.command.ListCommand;
-import bookmarked.command.ListUserCommand;
 import bookmarked.exceptions.BookMarkedException;
-import bookmarked.command.ExtendCommand;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -77,6 +67,9 @@ public class Parser {
             break;
         case("listuser"):
             userCommand = new ListUserCommand(listOfUsers);
+            break;
+        case("finduser"):
+            userCommand = new FindUserCommand(listOfUsers, splitItem[1]);
             break;
         case ("edit"):
             userCommand = new EditCommand(newItem, listOfBooks, bookDataFile);
