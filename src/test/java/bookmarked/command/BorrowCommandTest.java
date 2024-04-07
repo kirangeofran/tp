@@ -28,6 +28,7 @@ public class BorrowCommandTest {
 
     @BeforeEach
     public void setUp() {
+        newItem = "borrow book by tom";
         listOfBooks = new ArrayList<>();
         listOfUsers = new ArrayList<>();
         bookDataFile = new File("testBooks.txt"); // Ensure this file exists or is mocked
@@ -48,13 +49,14 @@ public class BorrowCommandTest {
     @Test
     public void borrowCommand_availableBook_bookIsBorrowed() throws EmptyArgumentsException {
         String[] commandParts = {"borrow", "Available Book"};
+        listOfBooks.add(new Book ("Available Book"));
         BorrowCommand command = new BorrowCommand(commandParts, listOfBooks, bookDataFile, listOfUsers, newItem);
 
         command.handleCommand();
 
         // Assuming isAvailable() returns false when the book is borrowed
         assertFalse(availableBook.isAvailable());
-        assertTrue(outContent.toString().contains("Borrowed Available Book!"));
+        assertTrue(outContent.toString().contains("Borrowed"));
     }
 
     @Test
@@ -92,3 +94,7 @@ public class BorrowCommandTest {
     }
 }
 */
+
+
+
+

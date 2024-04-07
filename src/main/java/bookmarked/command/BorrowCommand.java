@@ -37,12 +37,16 @@ public class BorrowCommand extends Command {
      *                     is constructed from the subsequent elements.
      * @param listOfBooks  The list of books to be searched for borrowing.
      * @param bookDataFile The file where book data is stored.
+     * @param listOfUsers  The list of users who have books borrowed
+     * @param newItem      The new command that is given by user
+     * @throws EmptyArgumentsException Throws exception if there is no description following the borrow command
      */
     public BorrowCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
                          ArrayList<User> listOfUsers,String newItem) throws EmptyArgumentsException{
         assert commandParts != null : "commandParts should not be null";
         assert commandParts.length > 1 : "commandParts should contain at least two elements";
         //this.bookName = String.join(" ", List.of(commandParts).subList(1, commandParts.length));
+        assert newItem != null: "command should not be null";
         String itemUserName = newItem.substring(7);
         String[] splitParts = itemUserName.split ("by");
         assert splitParts.length > 1: "please enter both the borrowed book and userName";
@@ -56,6 +60,12 @@ public class BorrowCommand extends Command {
         this.listOfUsers = listOfUsers;
         this.bookDataFile = bookDataFile;
     }
+
+    /**
+     * checks whether there is a user input
+     * @param commandParts the command split into n arrays based on how many spaces it contains
+     * @return true if one of the arrays contain by, false otherwise
+     */
     public boolean containsUser(String[] commandParts) {
         for (int i = 0; i <commandParts.length;i ++) {
             if (commandParts[i].equalsIgnoreCase("by")) {
@@ -113,6 +123,15 @@ public class BorrowCommand extends Command {
             System.out.println("Book not found: " + bookName);
         }
     }
+
+    /**
+     * updates the list of users by adding the new user and its borrowed books to the user's list
+     * Checks whether the user has already borrowed books and hence is already in the user list
+     * If user is in user list, add new book to user's current list
+     * If user is a new user, create the new user and add the new book into user list
+     * @param book the book borrowed
+     * @param userName the name of the user
+     */
     private void updateListOfUsers(Book book, String userName) {
         for (User user : listOfUsers) {
             if (user.getName().equalsIgnoreCase(userName)) {

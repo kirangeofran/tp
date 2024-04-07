@@ -13,6 +13,10 @@ public class ListUserCommand extends Command {
         this.listOfUsers = listOfUsers;
     }
 
+    /**
+     * handles the command listuser
+     */
+
     @Override
     public void handleCommand() {
         try {
@@ -21,6 +25,13 @@ public class ListUserCommand extends Command {
             Ui.printEmptyListMessage();
         }
     }
+
+    /**
+     * prints users and their list of books
+     * iterates through the list of users to find and user printed
+     * iterates through each users list of books to print user followed by their books borrowed
+     * @throws EmptyListException if the list of users is empty
+     */
 
     private void printUsersAndBooks() throws EmptyListException {
         if (listOfUsers.isEmpty()) {
