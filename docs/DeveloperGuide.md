@@ -65,20 +65,47 @@ to show to user the messages.
 
 #### AddCommand
 ##### Overview
-Bookmarked is an application that allows new books bought to be added to the inventory
-Discarded books can also be deleted through the command delete BOOK_NUMBER
-- Add book:
-- The add book function allows for new book to be added into the inventory
+Bookmarked is an application that allows new books bought to be added to the inventory. The add
+book function allows new books to be added into the library's inventory
+##### Component - Level
+The 'add' command interfaces with:
+1. Ui component : To relay messages back to the user
+2. Storage component: For persistent storage operation
+3. Book domain model : represents the state and behaviour of the individual entities
+4. Exceptions component : to catch and print exceptions such as empty arguments
+
 ##### Class -Level
-1. AddCommand class : It is processed through the AddCommand class
+1. AddCommand class : It is processed through the AddCommand class where a string item
+   is taken in representing user command and is added into list of books
 ##### Implementation Details
 - The handleCommand function splits the user command into the add and description of book
-- processAddCommand adds the new book into the bottom of the list based on the current number of books
+  processAddCommand then takes in the split array array[1] which is the description of the book
+  adds the new book into the bottom of the list based on the current number of books
+- The storage component stores the book added and its borrowed status into a text file
+
 
 ![AddCommandDiagram.png](images%2FAddCommandDiagram.png)
 
 
 #### Delete Command
+##### Overview
+Bookmarked is an application that allows new books bought to be added to the inventory. The delete
+book function allows discarded books to be removed from the library's inventory
+##### Component - Level
+The 'delete' command interfaces with:
+1. Ui component : To relay messages back to the user
+2. Storage component: For persistent storage operation
+3. Book domain model : represents the state and behaviour of the individual entities
+4. Exceptions component : to catch and print exceptions such as empty arguments
+##### Class -Level
+1. ProcessDeleteCommand class : It is processed through the ProcessDeleteCommand class
+   where a the command delete ITEM_NUMBER is inputted as user command and split into 2 arrays.
+##### Implementation Details
+- The handleCommand function splits the user command into the add and description of book
+  processDeleteCommand then takes in the split array array[1] which is the number index of the book.
+  Iterates through the list of books to find the matching index number and deletes it from the list
+- The storage component stores the new list after the deletion into a text file
+
 
 
 #### BorrowCommand 
@@ -141,6 +168,26 @@ How? The "ListCommand" upon execution will:
 - If there are no books in the original ArrayList, an exception is thrown and the user is informed of it.
 
 ![ListCommandDiagram.png](images%2FListCommandDiagram.png)
+
+#### ListUser Command
+##### Overview
+The "listuser command" is a feature that allows the entire list of users who are people who have borrowed books
+along with all the books they borrowed 
+
+##### Component-Level
+The "listuser command" component interfaces with several others:
+1. UI component : To relay messages back to the user. 
+2. User Domain Model : Represents the state of the individual user entities.
+
+##### Class-Level
+1. User Class : This class represents the domain entity with properties such as 'name', 'borrowedBooks',
+   'unborrowBook' along with the methods to manipulate these properties.
+
+##### Implementation Details
+How? The "ListUserCommand" upon execution will:
+- Iterate through the list of users, by order of index
+- If list of users is empty, throws EmptyListException
+- For each user, iterates through the list of books and prints
 
 
 #### Find Command

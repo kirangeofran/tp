@@ -1,9 +1,8 @@
-package bookmarked.Parser;
+package bookmarked.parser;
 
 import bookmarked.Book;
 import bookmarked.command.Command;
 import bookmarked.exceptions.BookMarkedException;
-import bookmarked.parser.Parser;
 import bookmarked.storage.BookStorage;
 import bookmarked.storage.UserStorage;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ParserTest {
     private static final String TEST_FILE_PATH = "./test.txt";
-    private static final String TEST_USER_FILE_PATH = "./test.txt";
+    private static final String TEST_USER_FILE_PATH = "./userTest.txt";
     private ArrayList<Book> listOfBooks;
     private String newItem;
     private File bookDataFile;

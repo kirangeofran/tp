@@ -4,6 +4,7 @@ import bookmarked.Book;
 import bookmarked.User;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.EmptyListException;
+import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
 import bookmarked.storage.UserStorage;
@@ -41,16 +42,22 @@ public class BorrowCommand extends Command {
      */
     public BorrowCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
                          ArrayList<User> listOfUsers, String newItem, File userDataFile)
-            throws EmptyArgumentsException {
+            throws EmptyArgumentsException, WrongInputFormatException {
         assert commandParts != null : "commandParts should not be null";
         assert commandParts.length > 1 : "commandParts should contain at least two elements";
-        //this.bookName = String.join(" ", List.of(commandParts).subList(1, commandParts.length));
+
         String itemUserName = newItem.substring(7);
-        String[] splitParts = itemUserName.split ("by");
+        String[] splitParts = itemUserName.split ("/by");
         assert splitParts.length > 1: "please enter both the borrowed book and userName";
+
         if (!containsUser (commandParts)) {
             throw new EmptyArgumentsException();
         }
+
+        if (isMoreThanOneBy(splitParts)) {
+            throw new WrongInputFormatException();
+        }
+
         this.bookName = splitParts[0].trim();
         this.userName = splitParts[1].trim();
         assert listOfBooks != null : "listOfBooks should not be null";
@@ -59,9 +66,14 @@ public class BorrowCommand extends Command {
         this.bookDataFile = bookDataFile;
         this.userDataFile = userDataFile;
     }
+
+    private static boolean isMoreThanOneBy(String[] splitParts) {
+        return splitParts.length > 2;
+    }
+
     public boolean containsUser(String[] commandParts) {
         for (int i = 0; i <commandParts.length;i ++) {
-            if (commandParts[i].equalsIgnoreCase("by")) {
+            if (commandParts[i].equalsIgnoreCase("/by")) {
                 return true;
             }
         }
@@ -84,6 +96,8 @@ public class BorrowCommand extends Command {
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
         } catch (EmptyListException e) {
             Ui.printEmptyListMessage();
+        } catch (WrongInputFormatException e) {
+            Ui.printWrongInputFormat();
         }
     }
 
@@ -96,7 +110,8 @@ public class BorrowCommand extends Command {
      * @param foundBooks The list of books with names matching the one to borrow.
      * @throws EmptyListException If the list of books is empty.
      */
-    public void runBorrowCommand(List<Book> foundBooks) throws EmptyListException {
+    public void runBorrowCommand(List<Book> foundBooks)
+            throws EmptyListException, WrongInputFormatException {
         if (this.listOfBooks.isEmpty()) {
             throw new EmptyListException();
         }

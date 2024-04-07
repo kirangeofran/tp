@@ -30,7 +30,7 @@ public class Ui {
         System.out.println("2. To delete current existing book");
         System.out.println("   delete NUMBER_ACCORDING_TO_LIST");
         System.out.println("3. To mark book as borrowed");
-        System.out.println("   borrow NAME_OF_BOOK");
+        System.out.println("   borrow NAME_OF_BOOK by USER_NAME");
         System.out.println("4. To extend the due date of a borrowed book by a week:");
         System.out.println("   extend NAME_OF_BOOK");
         System.out.println("5. To unmark book as returned");
@@ -44,11 +44,13 @@ public class Ui {
         System.out.println("9. To edit the details of the existing book");
         System.out.println("   edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION");
         System.out.println("   example: edit 1 /title book");
+        System.out.println("10.To list the users with their borrowed books");
+        System.out.println("   listuser");
 
     }
 
     public static void printUnknownCommand() {
-        System.out.println("Unknown command; please type /help to see what commands you can use.");
+        System.out.println("Unknown command; please type help to see what commands you can use.");
     }
 
     public static void printEmptyListMessage() {
@@ -64,14 +66,31 @@ public class Ui {
     }
 
     public static void printBookNotFoundExceptionMessage() {
-        System.out.println("Book not found");}
-
+        System.out.println("Book not found");
+    }
 
     public static void printBookNotBorrowedExceptionMessage() {
         System.out.println("Book not borrowed");
     }
+
     public static void printNotNumberMessage() {
         System.out.println("Please enter the number index of the book.");
+    }
+
+    public static void printIncorrectInputFormat() {
+        System.out.println("Please enter in the format as mentioned in help");
+    }
+
+    public static void printNoEditChangeException() {
+        System.out.println("Please specify what to edit using '/'");
+    }
+
+    public static void printEditedBookConfirmation(int bookNumberToEdit) {
+        System.out.println("Edited Book: " + bookNumberToEdit);
+    }
+
+    public static void printWrongInputFormat() {
+        System.out.println("Please input command in the correct format");
     }
 
     public static void exitProgramme() {
