@@ -66,7 +66,7 @@ public class ReturnCommandTest {
     public void returnCommand_borrowedBookByIndex_bookIsReturned() {
         // Index of the borrowed book in the list is 1 since it's the first item
         String[] commandParts = {"return", "1"};
-        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile);
+        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile, listOfUser, userDataFile);
 
         command.handleCommand();
 
@@ -90,7 +90,7 @@ public class ReturnCommandTest {
     public void returnCommand_notBorrowedBookByIndex_printsNotBorrowedMessage() {
         // Index of the not borrowed book in the list is 2 since it's the second item
         String[] commandParts = {"return", "2"};
-        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile);
+        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile, listOfUser, userDataFile);
 
         command.handleCommand();
 
@@ -115,7 +115,7 @@ public class ReturnCommandTest {
     public void returnCommand_bookNotFoundByIndex_printsNotFoundMessage() {
         // Using an index that is out of bounds for the list
         String[] commandParts = {"return", "10"};
-        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile);
+        ReturnCommand command = new ReturnCommand(commandParts, listOfBooks, bookDataFile, listOfUser, userDataFile);
 
         command.handleCommand();
 
