@@ -10,7 +10,7 @@ public class Ui {
     public static void greetings() {
         System.out.println(LINE_BREAK);
         System.out.println("\nWelcome to BookMarked, a one-stop app for all your librarian needs!");
-        System.out.println("To get started, you can type /help to see a list of commands!\n");
+        System.out.println("To get started, you can type 'help' to see a list of commands!\n");
         System.out.println(LINE_BREAK + "\n");
     }
 
@@ -36,7 +36,7 @@ public class Ui {
         System.out.println("5. To unmark book as returned");
         System.out.println("   return NAME_OF_BOOK");
         System.out.println("6. To list all the books added");
-        System.out.println("   list");
+        System.out.println("   list /sortby default");
         System.out.println("7. To list all the books added in alphabetical order");
         System.out.println("   list /sortby alphabetical");
         System.out.println("8. To list all the borrowed books by return date");
@@ -46,6 +46,8 @@ public class Ui {
         System.out.println("   example: edit 1 /title book");
         System.out.println("10.To list the users with their borrowed books");
         System.out.println("   listuser");
+        System.out.println("11.To find a specific user and their borrowed books:");
+        System.out.println("   finduser USERNAME");
 
     }
 

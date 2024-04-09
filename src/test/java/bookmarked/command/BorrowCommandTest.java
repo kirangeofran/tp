@@ -28,6 +28,7 @@ public class BorrowCommandTest {
 
     @BeforeEach
     public void setUp() {
+        newItem = "borrow book by tom";
         listOfBooks = new ArrayList<>();
         listOfUsers = new ArrayList<>();
         bookDataFile = new File("testBooks.txt");
@@ -50,6 +51,7 @@ public class BorrowCommandTest {
     }
 
     @Test
+
     public void borrowCommand_availableBookByName_bookIsBorrowed() {
         String[] commandParts = {"borrow", "Test Book /by Test User"};
         String newItem = "borrow Test Book /by Test User";
@@ -119,3 +121,7 @@ public class BorrowCommandTest {
     }
 }
 */
+
+
+
+
