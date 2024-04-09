@@ -124,7 +124,8 @@ public class BookStorage {
                 }
                 book.setReturnDate(returnDate);
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage() + ". Automatically setting return date to two weeks after the borrow date.");
+                System.out.println(e.getMessage() +
+                        ". Automatically setting return date to two weeks after the borrow date.");
                 // Automatically set the return date to two weeks after the borrow date
                 returnDate = borrowDate.plusWeeks(2);
                 book.setReturnDate(returnDate);
