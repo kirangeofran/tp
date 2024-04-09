@@ -104,14 +104,29 @@ public class UserStorage {
      * @param line A string representing a line of text from the storage file.
      * @param listOfUsers The list to which users who borrowed books are kept tracked.
      */
-    private static void processLine(String line, ArrayList<User> listOfUsers) {
+    private static void processLine(String line, ArrayList<User> listOfUsers, ArrayList<Book> listOfBooks) {
         String[] userAttributes = line.split(" \\| ");
-        User currentUser = new User(userAttributes[0]);
+        User currentUser = new User(userAttributes[0], listOfBooks);
 
         for (int i = 1; i < userAttributes.length; i += 1) {
-            currentUser.borrowedBook(new Book(userAttributes[i]));
+            try {
+                int bookIndex = Integer.parseInt(userAttributes[i].strip());
+
+                checkValidBookIndex(listOfBooks, bookIndex);
+
+                currentUser.borrowedBook(bookIndex);
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                Ui.printInvalidTxtLine();
+                return;
+            }
         }
 
         listOfUsers.add(currentUser);
+    }
+
+    private static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
+        if (bookIndex <= 0 || bookIndex > listOfBooks.size()) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 }
