@@ -32,7 +32,7 @@ public class BorrowCommand extends Command {
     private static final Period DEFAULT_BORROW_PERIOD = Period.ofWeeks(2);
     private String bookName;
 
-    private int bookIndex = -1;
+    private int bookIndex = -1; // Index starting from 0
     private String userName;
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
@@ -77,7 +77,6 @@ public class BorrowCommand extends Command {
         } catch (NumberFormatException e) {
             this.bookName = splitParts[0].trim();
         }
-
 
         this.userName = splitParts[1].trim();
         assert listOfBooks != null : "listOfBooks should not be null";
@@ -175,14 +174,17 @@ public class BorrowCommand extends Command {
     private void updateListOfUsers(Book book, String userName) {
         for (User user : listOfUsers) {
             if (user.getName().equalsIgnoreCase(userName)) {
-                user.borrowedBook(book); // Add the borrowed book to the user's list of borrowed books
+                user.setListOfBooks(this.listOfBooks);
+                user.borrowedBook(this.bookIndex + 1);
+
                 UserStorage.writeUserToTxt(userDataFile, listOfUsers);
                 return;
             }
         }
+
         // If user not found, create a new user and add the borrowed book
-        User newUser = new User(userName);
-        newUser.borrowedBook(book);
+        User newUser = new User(userName, listOfBooks);
+        newUser.borrowedBook(bookIndex + 1);
         listOfUsers.add(newUser);
         UserStorage.writeUserToTxt(userDataFile, listOfUsers);
     }
