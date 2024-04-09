@@ -47,6 +47,8 @@ public class BookStorage {
         ArrayList<Book> listOfBooks = new ArrayList<>();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(bookDataFile))) {
             fileReader.lines().forEach(line -> parseLineAndAddToBooks(line, listOfBooks));
+            // After reading and potentially modifying the books, immediately write them back to ensure changes are saved.
+            writeBookToTxt(bookDataFile, listOfBooks); // Add this line
 
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
@@ -114,6 +116,19 @@ public class BookStorage {
             book.setBorrowed();
             book.setBorrowDate(borrowDate);
             book.setReturnDate(returnDate);
+
+            try {
+                // Check if the return date is before the borrow date
+                if (returnDate != null && borrowDate != null && returnDate.isBefore(borrowDate)) {
+                    throw new IllegalArgumentException("Return date cannot be before borrow date for book: " + title);
+                }
+                book.setReturnDate(returnDate);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage() + ". Automatically setting return date to two weeks after the borrow date.");
+                // Automatically set the return date to two weeks after the borrow date
+                returnDate = borrowDate.plusWeeks(2);
+                book.setReturnDate(returnDate);
+            }
         }
         return book;
     }
