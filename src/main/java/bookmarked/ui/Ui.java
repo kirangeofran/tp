@@ -95,6 +95,10 @@ public class Ui {
         System.out.println("Please input command in the correct format");
     }
 
+    public static void printInvalidTxtLine() {
+        System.out.println("Skipping a line due to invalid book index");
+    }
+
     public static void exitProgramme() {
         System.out.println("Bye!");
     }
