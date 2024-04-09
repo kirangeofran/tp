@@ -36,7 +36,7 @@ public class Ui {
         System.out.println("5. To unmark book as returned");
         System.out.println("   return NAME_OF_BOOK");
         System.out.println("6. To list all the books added");
-        System.out.println("   list");
+        System.out.println("   list /sortby default");
         System.out.println("7. To list all the books added in alphabetical order");
         System.out.println("   list /sortby alphabetical");
         System.out.println("8. To list all the borrowed books by return date");
