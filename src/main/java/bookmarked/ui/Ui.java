@@ -10,7 +10,7 @@ public class Ui {
     public static void greetings() {
         System.out.println(LINE_BREAK);
         System.out.println("\nWelcome to BookMarked, a one-stop app for all your librarian needs!");
-        System.out.println("To get started, you can type /help to see a list of commands!\n");
+        System.out.println("To get started, you can type 'help' to see a list of commands!\n");
         System.out.println(LINE_BREAK + "\n");
     }
 
