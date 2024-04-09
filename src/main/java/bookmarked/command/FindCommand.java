@@ -15,10 +15,20 @@ public class FindCommand extends Command {
     private String newItem;
     private ArrayList<Book> listOfBooks;
 
+    /**
+     * finds an item in the list
+     * @param newItem the command
+     * @param listOfBooks the current list of books
+     */
+
     public FindCommand(String newItem, ArrayList<Book> listOfBooks) {
         this.newItem = newItem;
         this.listOfBooks = listOfBooks;
     }
+
+    /**
+     * handles the command find and finds the books which matches the description
+     */
 
     @Override
     public void handleCommand() {
@@ -37,6 +47,11 @@ public class FindCommand extends Command {
         }
     }
 
+    /**
+     * ensures the book to be found is not an empty description
+     * @return book to be found
+     */
+
     private String getKeyword() {
         String keyword;
         try {
@@ -51,6 +66,14 @@ public class FindCommand extends Command {
         }
         return keyword;
     }
+
+    /**
+     * iterates through the list of books to find the matching description
+     * returns the book with the matching description
+     * if not found, returns no matching book
+     * @param keyword the book to be found
+     * @throws EmptyListException if the list of books is empty
+     */
 
     private void processFind(String keyword) throws EmptyListException {
         numberOfBookFound = 0;
@@ -82,6 +105,13 @@ public class FindCommand extends Command {
         }
         logger.log(Level.INFO, "end processing");
     }
+
+    /**
+     * adds multiple books which contains the matching name to the list
+     * prints the entire list of books
+     * @param keyword the book name
+     * @param bookFound the list of books with the book name
+     */
 
     private void filterBooks(String keyword, ArrayList<Book> bookFound) {
         for (Book currentBook : this.listOfBooks) {

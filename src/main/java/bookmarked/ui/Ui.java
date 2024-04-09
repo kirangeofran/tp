@@ -46,6 +46,8 @@ public class Ui {
         System.out.println("   example: edit 1 /title book");
         System.out.println("10.To list the users with their borrowed books");
         System.out.println("   listuser");
+        System.out.println("11.To find a specific user and their borrowed books:");
+        System.out.println("   finduser USERNAME");
 
     }
 

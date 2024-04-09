@@ -59,7 +59,7 @@ public class BorrowCommand extends Command {
             throws EmptyArgumentsException, WrongInputFormatException {
         assert commandParts != null : "commandParts should not be null";
         assert commandParts.length > 1 : "commandParts should contain at least two elements";
-
+        assert newItem != null: "command should not be null";
         String itemUserName = newItem.substring(7);
         String[] splitParts = itemUserName.split("/by");
         assert splitParts.length > 1 : "please enter both the borrowed book and userName";
@@ -91,6 +91,12 @@ public class BorrowCommand extends Command {
         return splitParts.length > 2;
     }
 
+
+    /**
+     * checks whether there is a user input
+     * @param commandParts the command split into n arrays based on how many spaces it contains
+     * @return true if one of the arrays contain by, false otherwise
+     */
     public boolean containsUser(String[] commandParts) {
         for (int i = 0; i < commandParts.length; i++) {
             if (commandParts[i].equalsIgnoreCase("/by")) {
@@ -159,11 +165,12 @@ public class BorrowCommand extends Command {
     }
 
     /**
-     * Updates the list of users with the information about the borrowed book. If the user does not exist in the
-     * list, a new user is created and added to the list.
-     *
-     * @param book     The book that has been borrowed.
-     * @param userName The name of the user who borrowed the book.
+     * updates the list of users by adding the new user and its borrowed books to the user's list
+     * Checks whether the user has already borrowed books and hence is already in the user list
+     * If user is in user list, add new book to user's current list
+     * If user is a new user, create the new user and add the new book into user list
+     * @param book the book borrowed
+     * @param userName the name of the user
      */
     private void updateListOfUsers(Book book, String userName) {
         for (User user : listOfUsers) {
