@@ -101,7 +101,7 @@ public class BookStorage {
      */
 
     private static Book createBookFromAttributes(String[] bookAttributes) {
-        if (bookAttributes.length <4){
+        if (bookAttributes.length < 4){
             System.out.println("Skipping malformatted line due to insufficient attributes.");
             return null;
         }
