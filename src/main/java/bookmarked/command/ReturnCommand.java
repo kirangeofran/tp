@@ -132,9 +132,10 @@ public class ReturnCommand extends Command {
         Iterator<User> iterator = listOfUsers.iterator();
         while (iterator.hasNext()) {
             User currentUser = iterator.next();
-            currentUser.unborrowBook(returnedBook);
+            currentUser.setListOfBooks(this.listOfBooks);
+            currentUser.unborrowBook(this.bookIndex + 1);
 
-            if (currentUser.getUserBooks().isEmpty()) {
+            if (currentUser.getUserBooksIndex().isEmpty()) {
                 iterator.remove();
             }
         }
