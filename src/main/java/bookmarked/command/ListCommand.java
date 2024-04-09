@@ -1,6 +1,7 @@
 package bookmarked.command;
 import bookmarked.User;
 import bookmarked.Book;
+import bookmarked.command.ListUserCommand;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.EmptyListException;
 import bookmarked.ui.Ui;
@@ -38,11 +39,7 @@ public class ListCommand extends Command {
     public void handleCommand() {
         this.splitCommand = inputCommand.split("/sortby");
         try {
-            if (inputCommand.matches("list")) {
-                runListBlankCommand();
-            } else {
-                parseCommand();
-            }
+            parseCommand();
         } catch (EmptyListException e) {
             Ui.printEmptyListMessage();
         } catch (EmptyArgumentsException e) {
@@ -69,6 +66,9 @@ public class ListCommand extends Command {
             break;
         case ("returndate"):
             runListDateCommand();
+            break;
+        case ("default"):
+            runListBlankCommand();
             break;
         default:
             Ui.printEmptyArgumentsMessage(); //prints an error message for incorrect or empty arguments
