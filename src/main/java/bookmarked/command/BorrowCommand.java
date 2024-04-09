@@ -4,8 +4,10 @@ import bookmarked.Book;
 import bookmarked.User;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.EmptyListException;
+import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
+import bookmarked.storage.UserStorage;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -15,14 +17,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Handles the "borrow" command from the user.
- * When executed, it borrows the book with the given name from the list of books,
- * if the book is available. It also sets the due date based on a default borrow period.
+ * Handles the "borrow" command from the user, allowing for borrowing a book specified either by its name
+ * or by its index in the list of books. This command enhances flexibility by enabling users to borrow books
+ * using the most convenient identifier for them at the moment. If a book is available for borrowing, the command
+ * marks the book as borrowed and sets a due date based on a default borrow period.
+ * <p>
+ * This command assumes that if a numeric value is provided as part of the command, it represents the index
+ * of the book to be borrowed, adjusted for a zero-based index. If a non-numeric value is provided, it is treated
+ * as the name of the book to be borrowed. The distinction between a book name and index input allows for a more
+ * intuitive interaction with the borrowing system.
  */
 public class BorrowCommand extends Command {
 
     private static final Period DEFAULT_BORROW_PERIOD = Period.ofWeeks(2);
     private String bookName;
+
+    private int bookIndex = -1;
     private String userName;
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
@@ -30,36 +40,57 @@ public class BorrowCommand extends Command {
     private File userDataFile;
 
     /**
-     * Constructs a BorrowCommand object with the specified parameters.
+     * Constructs a BorrowCommand object with specified parameters, allowing the user to specify
+     * the book to be borrowed either by name or by index. The constructor parses the input to determine
+     * whether the user has provided a numeric index or a book name.
      *
-     * @param commandParts The array of strings containing the command and its arguments,
-     *                     where the command is the first element and the book name
-     *                     is constructed from the subsequent elements.
-     * @param listOfBooks  The list of books to be searched for borrowing.
+     * @param commandParts An array of strings, where the first element is the command,
+     *                     the second element is either the index or the first part of the book name,
+     *                     and any subsequent elements are the remaining parts of the book name if applicable.
+     * @param listOfBooks  The list of books available for borrowing.
      * @param bookDataFile The file where book data is stored.
-     * @param listOfUsers  The list of users who have books borrowed
-     * @param newItem      The new command that is given by user
-     * @throws EmptyArgumentsException Throws exception if there is no description following the borrow command
+     * @param listOfUsers  The list of users in the system.
+     * @param newItem      A string representing the new item to be added, including the book name/index and the user.
+     * @throws EmptyArgumentsException   If the required arguments are not provided.
+     * @throws WrongInputFormatException If the input format does not match the expected format.
      */
     public BorrowCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
-                         ArrayList<User> listOfUsers,String newItem) throws EmptyArgumentsException{
+                         ArrayList<User> listOfUsers, String newItem, File userDataFile)
+            throws EmptyArgumentsException, WrongInputFormatException {
         assert commandParts != null : "commandParts should not be null";
         assert commandParts.length > 1 : "commandParts should contain at least two elements";
-        //this.bookName = String.join(" ", List.of(commandParts).subList(1, commandParts.length));
         assert newItem != null: "command should not be null";
         String itemUserName = newItem.substring(7);
-        String[] splitParts = itemUserName.split ("by");
-        assert splitParts.length > 1: "please enter both the borrowed book and userName";
-        if (!containsUser (commandParts)) {
+        String[] splitParts = itemUserName.split("/by");
+        assert splitParts.length > 1 : "please enter both the borrowed book and userName";
+
+        if (!containsUser(commandParts)) {
             throw new EmptyArgumentsException();
         }
-        this.bookName = splitParts[0].trim();
+
+        if (isMoreThanOneBy(splitParts)) {
+            throw new WrongInputFormatException();
+        }
+
+        try {
+            this.bookIndex = Integer.parseInt(splitParts[0].trim()) - 1;
+        } catch (NumberFormatException e) {
+            this.bookName = splitParts[0].trim();
+        }
+
+
         this.userName = splitParts[1].trim();
         assert listOfBooks != null : "listOfBooks should not be null";
         this.listOfBooks = listOfBooks;
         this.listOfUsers = listOfUsers;
         this.bookDataFile = bookDataFile;
+        this.userDataFile = userDataFile;
     }
+
+    private static boolean isMoreThanOneBy(String[] splitParts) {
+        return splitParts.length > 2;
+    }
+
 
     /**
      * checks whether there is a user input
@@ -67,8 +98,8 @@ public class BorrowCommand extends Command {
      * @return true if one of the arrays contain by, false otherwise
      */
     public boolean containsUser(String[] commandParts) {
-        for (int i = 0; i <commandParts.length;i ++) {
-            if (commandParts[i].equalsIgnoreCase("by")) {
+        for (int i = 0; i < commandParts.length; i++) {
+            if (commandParts[i].equalsIgnoreCase("/by")) {
                 return true;
             }
         }
@@ -76,34 +107,43 @@ public class BorrowCommand extends Command {
     }
 
     /**
-     * Executes the "borrow" command.
-     * Searches for the book by name in the list of books and attempts to borrow it.
-     * Updates the book data file with the changes if the book is successfully borrowed.
+     * Executes the "borrow" command by searching for the specified book in the list of books,
+     * either by its index or by its name, and attempts to mark the book as borrowed if it is available.
+     * Updates the book data file with the changes. If the specified book is not available or not found,
+     * it prints an appropriate message to the user.
      */
     @Override
     public void handleCommand() {
         // Find the book with the matching name
-        List<Book> foundBooks = listOfBooks.stream()
-                .filter(book -> book.getName().equalsIgnoreCase(bookName))
-                .collect(Collectors.toList());
+        List<Book> foundBooks = new ArrayList<>();
+        if (bookIndex >= 0 && bookIndex < listOfBooks.size()) {
+            foundBooks.add(listOfBooks.get(bookIndex));
+        } else {
+            foundBooks = listOfBooks.stream()
+                    .filter(book -> book.getName().equalsIgnoreCase(bookName))
+                    .collect(Collectors.toList());
+        }
         try {
             runBorrowCommand(foundBooks);
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
         } catch (EmptyListException e) {
             Ui.printEmptyListMessage();
+        } catch (WrongInputFormatException e) {
+            Ui.printWrongInputFormat();
         }
     }
 
     /**
-     * Attempts to borrow a book from the list based on its availability.
-     * If the book is found and available, marks it as borrowed and sets the return date.
-     * If the book is not available, informs the user of the expected return date.
-     * If the book is not found, notifies the user that the book could not be found.
+     * Attempts to mark a book as borrowed based on its availability. If the book is available,
+     * it is marked as borrowed, and a due date is set. If the book is currently borrowed, the user is
+     * informed of the expected return date. This method updates the user's list of borrowed books accordingly.
      *
-     * @param foundBooks The list of books with names matching the one to borrow.
-     * @throws EmptyListException If the list of books is empty.
+     * @param foundBooks The list of books that match the specified identifier for borrowing.
+     * @throws EmptyListException        If the overall list of books is empty.
+     * @throws WrongInputFormatException If the input format is incorrect.
      */
-    public void runBorrowCommand(List<Book> foundBooks) throws EmptyListException {
+    public void runBorrowCommand(List<Book> foundBooks)
+            throws EmptyListException, WrongInputFormatException {
         if (this.listOfBooks.isEmpty()) {
             throw new EmptyListException();
         }
@@ -113,7 +153,7 @@ public class BorrowCommand extends Command {
             if (bookToBorrow.isAvailable()) {
                 bookToBorrow.borrowBook(LocalDate.now(), DEFAULT_BORROW_PERIOD);
                 updateListOfUsers(bookToBorrow, userName);
-                System.out.println("Borrowed " + bookToBorrow.getName() + " by " + userName +"!");
+                System.out.println("Borrowed " + bookToBorrow.getName() + " by " + userName + "!");
                 System.out.println("Please return by " + bookToBorrow.getFormattedReturnDate() + ".");
             } else {
                 System.out.println("Book is currently unavailable. Expected return date is " +
@@ -136,6 +176,7 @@ public class BorrowCommand extends Command {
         for (User user : listOfUsers) {
             if (user.getName().equalsIgnoreCase(userName)) {
                 user.borrowedBook(book); // Add the borrowed book to the user's list of borrowed books
+                UserStorage.writeUserToTxt(userDataFile, listOfUsers);
                 return;
             }
         }
@@ -143,5 +184,7 @@ public class BorrowCommand extends Command {
         User newUser = new User(userName);
         newUser.borrowedBook(book);
         listOfUsers.add(newUser);
+        UserStorage.writeUserToTxt(userDataFile, listOfUsers);
     }
 }
+
