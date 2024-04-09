@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 public class User {
     private String description;
-    private ArrayList<Book> userBooks;
+    private ArrayList<Book> listOfBooks;
+    private ArrayList<Integer> userBooksIndex;
 
-    public User(String description) {
+    public User(String description, ArrayList<Book> listOfBooks) {
         this.description = description;
-        this.userBooks = new ArrayList<>();
-
+        this.userBooksIndex = new ArrayList<>();
+        this.listOfBooks = listOfBooks;
     }
 
     public String getName() {
