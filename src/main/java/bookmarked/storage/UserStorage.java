@@ -2,6 +2,7 @@ package bookmarked.storage;
 
 import bookmarked.Book;
 import bookmarked.User;
+import bookmarked.ui.Ui;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -39,11 +40,11 @@ public class UserStorage {
      * @param userDataFile The file from which to read Book data.
      * @return A list of books read from the file.
      */
-    public static ArrayList<User> readFileStorage(File userDataFile) {
+    public static ArrayList<User> readFileStorage(File userDataFile, ArrayList<Book> listOfBooks) {
         ArrayList<User> listOfUser = new ArrayList<>();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(userDataFile))) {
             fileReader.lines().forEach(line ->
-                    processLine(line, listOfUser));
+                    processLine(line, listOfUser, listOfBooks));
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
         } catch (IOException e) {
@@ -86,11 +87,11 @@ public class UserStorage {
         StringBuilder serializedString = new StringBuilder();
         serializedString.append(user.getName());
 
-        ArrayList<Book> userBooks = user.getUserBooks();
+        ArrayList<Integer> userBooksIndex = user.getUserBooksIndex();
 
-        for (Book currentBook : userBooks) {
+        for (Integer booksIndex : userBooksIndex) {
             serializedString.append(" | ");
-            serializedString.append(currentBook.getName());
+            serializedString.append(booksIndex);
         }
 
         return serializedString.toString();
