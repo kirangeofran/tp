@@ -3,8 +3,8 @@ package bookmarked;
 import java.util.ArrayList;
 
 public class User {
-    protected String description;
-    protected ArrayList<Book> userBooks;
+    private String description;
+    private ArrayList<Book> userBooks;
 
     public User(String description) {
         this.description = description;
@@ -17,13 +17,13 @@ public class User {
     }
 
     public ArrayList<Book> getUserBooks() {
-        return userBooks;
+        return this.userBooks;
     }
     public void borrowedBook (Book book) {
-        userBooks.add(book);
+        this.userBooks.add(book);
     }
     public void unborrowBook (Book book) {
-        userBooks.remove(book);
+        this.userBooks.remove(book);
     }
     @Override
     public String toString() {

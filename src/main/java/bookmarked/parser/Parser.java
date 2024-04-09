@@ -25,7 +25,7 @@ import java.util.Scanner;
 
 public class Parser {
     public static void runCommand(String newItem, Scanner in, ArrayList<Book> listOfBooks,
-                                  File bookDataFile, ArrayList<User> listOfUsers) {
+                                  File bookDataFile, ArrayList<User> listOfUsers, File userDataFile) {
         Command userCommand = new ListCommand(listOfBooks, newItem);
 
         while (!newItem.equalsIgnoreCase("bye")) {
@@ -33,7 +33,8 @@ public class Parser {
             Ui.setSmallerLineBreak();
 
             try {
-                parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers);
+                parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem,
+                        listOfUsers, userDataFile);
             } catch (BookMarkedException | EmptyArgumentsException e) {
                 Ui.printUnknownCommand();
             } catch (WrongInputFormatException e) {
@@ -48,7 +49,8 @@ public class Parser {
 
 
     public static void parseCommand(String newItem, Command userCommand, ArrayList<Book> listOfBooks,
-                                     File bookDataFile, String[] splitItem, ArrayList<User> listOfUsers)
+                                    File bookDataFile, String[] splitItem, ArrayList<User> listOfUsers,
+                                    File userDataFile)
             throws BookMarkedException, EmptyArgumentsException, WrongInputFormatException {
         switch(splitItem[0]) {
         case ("help"):
@@ -67,10 +69,11 @@ public class Parser {
             userCommand = new DeleteCommand(splitItem, listOfBooks, bookDataFile);
             break;
         case ("borrow"):
-            userCommand = new BorrowCommand(splitItem, listOfBooks, bookDataFile, listOfUsers, newItem);
+            userCommand = new BorrowCommand(splitItem, listOfBooks, bookDataFile, listOfUsers,
+                    newItem, userDataFile);
             break;
         case ("return"):
-            userCommand = new ReturnCommand(splitItem, listOfBooks, bookDataFile);
+            userCommand = new ReturnCommand(splitItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
             break;
         case ("find"):
             userCommand = new FindCommand(newItem, listOfBooks);

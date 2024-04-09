@@ -25,11 +25,10 @@ public class BookStorage {
      */
     public static File createFile(String bookDataPath) {
         File bookDataFile = new File(bookDataPath);
-        try{
-            if (bookDataFile.createNewFile()) {
+        try {
+            boolean fileCreated = bookDataFile.createNewFile();
+            if (fileCreated) {
                 System.out.println("New file created: " + bookDataFile.getName());
-            } else {
-                System.out.println("File already exists.");
             }
         } catch (IOException e) {
             System.out.println("Sorry, something's wrong, file is not created");
@@ -71,7 +70,7 @@ public class BookStorage {
             }
         } catch (FileNotFoundException e) {
             System.out.println("FILE NOT FOUND!!!");
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Failed to write to file");
         }
     }

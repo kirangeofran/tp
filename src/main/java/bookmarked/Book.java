@@ -108,7 +108,7 @@ public class Book {
     @Override
     public boolean equals(Object obj) {
         Book otherBook = (Book) obj;
-        return Objects.equals(this.description, otherBook.description);
+        return Objects.equals(this.description, otherBook.getName());
     }
 
 }
