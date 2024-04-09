@@ -47,7 +47,7 @@ public class BookStorage {
         ArrayList<Book> listOfBooks = new ArrayList<>();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(bookDataFile))) {
             fileReader.lines().forEach(line -> parseLineAndAddToBooks(line, listOfBooks));
-            // After reading and potentially modifying the books, immediately write them back to ensure changes are saved.
+            // After reading and potentially modifying the books, immediately write them back to save changed.
             writeBookToTxt(bookDataFile, listOfBooks); // Add this line
 
         } catch (FileNotFoundException e) {
