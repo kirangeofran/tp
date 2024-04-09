@@ -66,12 +66,24 @@ public class ReturnCommand extends Command {
             this.bookIndex = Integer.parseInt(bookIdentifier) - 1; // Use the processed identifier to parse the index
         } catch (NumberFormatException e) {
             this.bookName = bookIdentifier; // If not a number, treat as a book name
+
+            // Update bookIndex
+            updateBookIndex(listOfBooks);
         }
 
         this.listOfBooks = listOfBooks;
         this.listOfUsers = listOfUsers;
         this.bookDataFile = bookDataFile;
         this.userDataFile = userDataFile;
+    }
+
+    private void updateBookIndex(ArrayList<Book> listOfBooks) {
+        for (int i = 0; i < listOfBooks.size(); i += 1) {
+            String currentBookName = listOfBooks.get(i).getName();
+            if (currentBookName.equals(bookName)) {
+                this.bookIndex = i;
+            }
+        }
     }
 
     /**
