@@ -116,11 +116,14 @@ public class BorrowCommand extends Command {
         // Find the book with the matching name
         List<Book> foundBooks = new ArrayList<>();
         if (bookIndex >= 0 && bookIndex < listOfBooks.size()) {
-            foundBooks.add(listOfBooks.get(bookIndex));
+            foundBooks.add(listOfBooks.get(this.bookIndex));
         } else {
             foundBooks = listOfBooks.stream()
                     .filter(book -> book.getName().equalsIgnoreCase(bookName))
                     .collect(Collectors.toList());
+
+            // Update bookIndex
+            updateBookIndex();
         }
         try {
             runBorrowCommand(foundBooks);
@@ -129,6 +132,16 @@ public class BorrowCommand extends Command {
             Ui.printEmptyListMessage();
         } catch (WrongInputFormatException e) {
             Ui.printWrongInputFormat();
+        }
+    }
+
+    private void updateBookIndex() {
+        for (int i = 0; i < listOfBooks.size(); i += 1) {
+            String currentBookName = listOfBooks.get(i).getName();
+            if (currentBookName.equals(bookName)) {
+                this.bookIndex = i;
+                System.out.println(this.bookIndex);
+            }
         }
     }
 
