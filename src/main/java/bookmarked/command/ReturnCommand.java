@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  */
 public class ReturnCommand extends Command {
     private String bookName = null ;
-    private int bookIndex = -1 ;
+    private int bookIndex = -1; // Index starting from 0
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
     private File bookDataFile;
@@ -91,7 +91,6 @@ public class ReturnCommand extends Command {
                     .filter(book -> book.getName().equalsIgnoreCase(bookName))
                     .collect(Collectors.toList());
         }
-        //assert !foundBooks.isEmpty() : "Book should exist to return";
 
         try {
             runReturnCommand(foundBooks);
@@ -100,7 +99,6 @@ public class ReturnCommand extends Command {
             Ui.printEmptyListMessage();
         }
     }
-
 
     /**
      * Marks the books found in the list as returned. This method handles the case where multiple
@@ -121,10 +119,7 @@ public class ReturnCommand extends Command {
             return;
         }
 
-        Book returnedBook = null;
         for (Book currentBook : foundBooks) {
-            returnedBook = currentBook;
-
             if (currentBook.getIsBorrowed()) {
                 currentBook.setReturned();
 
