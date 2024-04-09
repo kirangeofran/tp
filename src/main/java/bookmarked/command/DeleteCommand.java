@@ -20,6 +20,11 @@ public class DeleteCommand extends Command {
         this.bookDataFile = bookDataFile;
     }
 
+    /**
+     * handles the delete command
+     * iterates through the list of books to find the book corresponding to index number
+     */
+
     @Override
     public void handleCommand() {
         try {
@@ -37,6 +42,14 @@ public class DeleteCommand extends Command {
             Ui.printNotNumberMessage();
         }
     }
+
+    /**
+     * deletes the book based on index number keyed
+     * @param listOfBooks the current list of books
+     * @throws EmptyListException if the list of books is empty
+     * @throws EmptyArgumentsException if there is no description after command
+     * @throws IndexOutOfListBounds if the index is less or more than the number of books
+     */
 
     public void processDeleteCommand(ArrayList<Book> listOfBooks)
             throws EmptyListException, EmptyArgumentsException, IndexOutOfListBounds {

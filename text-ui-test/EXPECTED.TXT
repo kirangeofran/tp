@@ -2,12 +2,13 @@ _______________________________________
 _______________________________________
 
 Welcome to BookMarked, a one-stop app for all your librarian needs!
-To get started, you can type /help to see a list of commands!
+To get started, you can type 'help' to see a list of commands!
 
 _______________________________________
 _______________________________________
 
 New file created: book.txt
+New file created: user.txt
 
 _______________________________________
 
