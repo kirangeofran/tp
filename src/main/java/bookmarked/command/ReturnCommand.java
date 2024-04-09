@@ -4,10 +4,12 @@ import bookmarked.Book;
 import bookmarked.User;
 import bookmarked.exceptions.EmptyListException;
 import bookmarked.storage.BookStorage;
+import bookmarked.storage.UserStorage;
 import bookmarked.ui.Ui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Arrays ;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +31,7 @@ public class ReturnCommand extends Command {
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
     private File bookDataFile;
+    private File userDataFile;
 
     /**
      * Constructs a ReturnCommand object with the specified parameters.
@@ -43,7 +46,8 @@ public class ReturnCommand extends Command {
      * @param listOfBooks  The list of books from which a book will be returned.
      * @param bookDataFile The data file where books are stored.
      */
-    public ReturnCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile) {
+    public ReturnCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
+                         ArrayList<User> listOfUsers, File userDataFile) {
         assert listOfBooks != null : "list of books should not be empty";
         assert commandParts != null : "commandParts should not be null";
         assert commandParts.length > 1 : "commandParts should contain at least the command and the book name";
@@ -67,6 +71,7 @@ public class ReturnCommand extends Command {
         this.listOfBooks = listOfBooks;
         this.listOfUsers = listOfUsers;
         this.bookDataFile = bookDataFile;
+        this.userDataFile = userDataFile;
     }
 
     /**
@@ -96,6 +101,7 @@ public class ReturnCommand extends Command {
         }
     }
 
+
     /**
      * Marks the books found in the list as returned. This method handles the case where multiple
      * copies of a book exist by marking all matched copies as returned. It also updates the status
@@ -110,31 +116,34 @@ public class ReturnCommand extends Command {
             throw new EmptyListException();
         }
 
-        if (!foundBooks.isEmpty()) {
-            // It's possible there are multiple copies of the book, so mark all as returned
-            foundBooks.forEach(book -> {
-                //assert book.isBorrowed() : "Book should be borrowed to return";
-                if (book.getIsBorrowed()) {
-                    book.setReturned();
-                    System.out.println("Returned " + book.getName() + "!");
-                } else {
-                    System.out.println("Book is not borrowed: " + book.getName());
-                }
-
-                //System.out.println("Returned " + book.getName() + "!");
-                if (listOfUsers != null) {
-                    for (User user : listOfUsers) {
-                        user.unborrowBook(book);
-
-                        System.out.print(user);
-                    }
-                }
-            });
-        } else {
+        if (foundBooks.isEmpty()) {
             System.out.println("Book not found: " + bookName);
+            return;
         }
 
+        Book returnedBook = null;
+        for (Book currentBook : foundBooks) {
+            returnedBook = currentBook;
 
+            if (currentBook.getIsBorrowed()) {
+                currentBook.setReturned();
+
+                System.out.println("Returned " + currentBook.getName() + "!");
+            } else {
+                System.out.println("Book is not borrowed: " + currentBook.getName());
+            }
+        }
+
+        Iterator<User> iterator = listOfUsers.iterator();
+        while (iterator.hasNext()) {
+            User currentUser = iterator.next();
+            currentUser.unborrowBook(returnedBook);
+
+            if (currentUser.getUserBooks().isEmpty()) {
+                iterator.remove();
+            }
+        }
+        UserStorage.writeUserToTxt(userDataFile, listOfUsers);
     }
 }
 

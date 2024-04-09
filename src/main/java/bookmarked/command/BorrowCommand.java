@@ -7,6 +7,7 @@ import bookmarked.exceptions.EmptyListException;
 import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
+import bookmarked.storage.UserStorage;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -54,7 +55,7 @@ public class BorrowCommand extends Command {
      * @throws WrongInputFormatException If the input format does not match the expected format.
      */
     public BorrowCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
-                         ArrayList<User> listOfUsers, String newItem)
+                         ArrayList<User> listOfUsers, String newItem, File userDataFile)
             throws EmptyArgumentsException, WrongInputFormatException {
         assert commandParts != null : "commandParts should not be null";
         assert commandParts.length > 1 : "commandParts should contain at least two elements";
@@ -83,6 +84,7 @@ public class BorrowCommand extends Command {
         this.listOfBooks = listOfBooks;
         this.listOfUsers = listOfUsers;
         this.bookDataFile = bookDataFile;
+        this.userDataFile = userDataFile;
     }
 
     private static boolean isMoreThanOneBy(String[] splitParts) {
@@ -167,6 +169,7 @@ public class BorrowCommand extends Command {
         for (User user : listOfUsers) {
             if (user.getName().equalsIgnoreCase(userName)) {
                 user.borrowedBook(book); // Add the borrowed book to the user's list of borrowed books
+                UserStorage.writeUserToTxt(userDataFile, listOfUsers);
                 return;
             }
         }
@@ -174,6 +177,7 @@ public class BorrowCommand extends Command {
         User newUser = new User(userName);
         newUser.borrowedBook(book);
         listOfUsers.add(newUser);
+        UserStorage.writeUserToTxt(userDataFile, listOfUsers);
     }
 }
 
