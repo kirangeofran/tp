@@ -64,10 +64,14 @@ public class BookStorage {
      * @param listOfBooks  The list of books to write.
      */
     public static void writeBookToTxt(File bookDataFile, ArrayList<Book> listOfBooks) {
-        try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(bookDataFile, false))) {
+        try {
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(bookDataFile, false));
+
             for (Book book : listOfBooks) {
                 fileWriter.write(serializeBook(book));
             }
+
+            fileWriter.close();
         } catch (FileNotFoundException e) {
             System.out.println("FILE NOT FOUND!!!");
         } catch (IOException e) {
