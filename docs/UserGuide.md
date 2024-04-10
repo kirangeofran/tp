@@ -55,13 +55,20 @@ Example of usage:
 ### Deleting books in the library: `delete`
 Removes a book from the library's inventory based on its index in the list.
 
-Format: `delete INDEX`
+Format: `delete INDEX (optional)/quantity NUMBER_OF_COPIES`
 
 * 'Index' is the position number of the book in the list as shown by the `list` command.
+* A maximum of 1000 copies can be stored, and thus deleted from the library's inventory.
+* Delete does not affect the books currently being borrowed by users, only those currently
+   available in the library's inventory.
+* To completely remove a title from the library, please ensure that all books are returned
+  to the library before deleting all copies in the inventory.
 
 Example of usage:
 
 `delete 1`
+
+`delete 3 /quantity 100`
 
 ### Viewing books in the library: `list`
 Provides a list of books in the library.
