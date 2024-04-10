@@ -1,7 +1,7 @@
 package bookmarked.command;
 
 import bookmarked.Book;
-import bookmarked.exceptions.BookMarkedException;
+import bookmarked.exceptions.NegativeAddQuantityException;
 import bookmarked.exceptions.MaxIntNumberException;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.WrongAddQuantityException;
@@ -79,30 +79,50 @@ public class AddCommand extends Command {
             Ui.printWrongAddQuantityFormat();
         } catch (MaxIntNumberException e) {
             Ui.printMaxNumberMessage();
+        } catch (NegativeAddQuantityException e) {
+            Ui.printNegativeAddQuantityMessage();
         }
     }
 
 
-    public int setQuantityToAdd() throws WrongAddQuantityException, NumberFormatException, MaxIntNumberException {
+    public int setQuantityToAdd() throws WrongAddQuantityException, NumberFormatException,
+            MaxIntNumberException, NegativeAddQuantityException {
         //if there is no /quantity argument
         if (newItem.contains(" /quantity")) {
             hasQuantityArgument = true;
         }
 
         if (hasQuantityArgument) {
-            if (splitQuantity.length < 2 || splitQuantity[1].isBlank()) {
-                throw new WrongAddQuantityException();
-            } else if (splitQuantity[1].trim().length() >= 4 && !splitQuantity[1].trim().equals("1000")) {
-                throw new MaxIntNumberException();
-            } else {
-                return Integer.parseInt(splitQuantity[1].trim());
+            checkQuantityStringValidity();
+            int quantityToAdd = Integer.parseInt(splitQuantity[1].trim());
+            if (quantityToAdd <= 0) {
+                throw new NegativeAddQuantityException();
             }
+            return quantityToAdd;
         } else {
             return DEFAULT_QUANTITY;
         }
 
     }
 
+    public void checkQuantityStringValidity() throws WrongAddQuantityException, MaxIntNumberException {
+        if (splitQuantity.length < 2 || splitQuantity[1].isBlank()) {
+            throw new WrongAddQuantityException();
+        }
+
+        String quantityString = splitQuantity[1].trim();
+        if (quantityString.length() >= 4 && !quantityString.equals("1000")) {
+            //Checks if the input itself is longer than a 4 digit number, and if it's not, checks if it's any
+            //other 4 digit number than 1000, as 1000 is the maximum number of copies.
+            if (quantityString.matches("^[0-9]+$")) {
+                //Check if the input string contains only numbers
+                throw new MaxIntNumberException();
+            } else {
+                //Contains other symbols such as letters or special characters
+                throw new NumberFormatException();
+            }
+        }
+    }
 
     public void runAddCommand() throws MaxIntNumberException {
         String bookTitle = splitQuantity[0].trim();
@@ -118,6 +138,7 @@ public class AddCommand extends Command {
         } else {    //if the current book already exists in the library
             int newNumberInInventory = inputBook.getNumberInInventory() + quantityToAdd;
             int newNumberTotal = inputBook.getNumberTotal() + quantityToAdd;
+
             if (quantityToAdd > 1000 || newNumberInInventory > 1000 || newNumberTotal > 1000) {
                 throw new MaxIntNumberException();
             }
