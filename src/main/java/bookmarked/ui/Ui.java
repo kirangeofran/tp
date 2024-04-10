@@ -96,7 +96,8 @@ public class Ui {
     }
 
     public static void printWrongAddQuantityFormat() {
-        System.out.println("Please ensure that you input a number after '/quantity'.");
+        System.out.println("Please ensure that you input the proper arguments: \n" +
+                "a whole number after '/quantity'.");
     }
 
     public static void printBlankAddQuantity() {
@@ -106,6 +107,10 @@ public class Ui {
     public static void printMaxNumberMessage() {
         System.out.println("You can only hold up to 1000 copies of a book in total.\n" +
                 "Please add fewer copies instead.");
+    }
+
+    public static void printNegativeAddQuantityMessage() {
+        System.out.println("You must add at least 1 copy of a book. Please input a number greater than 0.");
     }
 
     public static void exitProgramme() {
