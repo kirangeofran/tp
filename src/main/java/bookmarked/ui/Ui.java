@@ -99,6 +99,10 @@ public class Ui {
         System.out.println("Skipping a line due to invalid book index");
     }
 
+    public static void printBookNotBorrowedInBookStorage() {
+        System.out.println("Book not borrowed in library, updating user to follow library data");
+    }
+
     public static void exitProgramme() {
         System.out.println("Bye!");
     }
