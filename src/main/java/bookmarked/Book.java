@@ -15,6 +15,9 @@ public class Book {
     protected LocalDate borrowDate;
     protected LocalDate returnDate;
     protected String user;
+    protected int numberInStock;
+    protected int numberBorrowed;
+    protected int numberTotal;
 
 
 
@@ -90,6 +93,32 @@ public class Book {
     public String getBorrowedStatus() {
         return (isBorrowed ? ", borrowed" : "available"); // mark done task with X
     }
+
+    public void setNumberInStock(int newNumber) {
+        this.numberInStock = newNumber;
+    }
+
+    public int getNumberInStock() {
+        return this.numberInStock;
+    }
+
+    public void setNumberBorrowed(int newNumber) {
+        this.numberBorrowed = newNumber;
+    }
+
+    public int getNumberBorrowed() {
+        return this.numberBorrowed;
+    }
+
+    public void setNumberTotal(int newNumber) {
+        this.numberTotal = newNumber;
+    }
+
+    public int getNumberTotal() {
+        return this.numberTotal;
+    }
+
+
 
     @Override
     public String toString() {
