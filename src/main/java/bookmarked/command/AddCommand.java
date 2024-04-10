@@ -1,10 +1,10 @@
 package bookmarked.command;
 
 import bookmarked.Book;
-import bookmarked.exceptions.NegativeAddQuantityException;
+import bookmarked.exceptions.NegativeQuantityException;
 import bookmarked.exceptions.MaxIntNumberException;
 import bookmarked.exceptions.EmptyArgumentsException;
-import bookmarked.exceptions.WrongAddQuantityException;
+import bookmarked.exceptions.WrongQuantityException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
 
@@ -69,20 +69,20 @@ public class AddCommand extends Command {
         try {
             quantityToAdd = setQuantityToAdd();
             runAddCommand();
-        } catch (WrongAddQuantityException e) {
+        } catch (WrongQuantityException e) {
             Ui.printBlankAddQuantity();
         } catch (NumberFormatException e) {
             Ui.printWrongAddQuantityFormat();
         } catch (MaxIntNumberException e) {
             Ui.printMaxNumberMessage();
-        } catch (NegativeAddQuantityException e) {
+        } catch (NegativeQuantityException e) {
             Ui.printNegativeAddQuantityMessage();
         }
     }
 
 
-    public int setQuantityToAdd() throws WrongAddQuantityException, NumberFormatException,
-            MaxIntNumberException, NegativeAddQuantityException {
+    public int setQuantityToAdd() throws WrongQuantityException, NumberFormatException,
+            MaxIntNumberException, NegativeQuantityException {
         //if there is no /quantity argument
         if (newItem.contains(" /quantity")) {
             hasQuantityArgument = true;
@@ -92,7 +92,7 @@ public class AddCommand extends Command {
             checkQuantityStringValidity();
             int quantityToAdd = Integer.parseInt(splitQuantity[1].trim());
             if (quantityToAdd <= 0) {
-                throw new NegativeAddQuantityException();
+                throw new NegativeQuantityException();
             }
             return quantityToAdd;
         } else {
@@ -101,9 +101,9 @@ public class AddCommand extends Command {
 
     }
 
-    public void checkQuantityStringValidity() throws WrongAddQuantityException, MaxIntNumberException {
+    public void checkQuantityStringValidity() throws WrongQuantityException, MaxIntNumberException {
         if (splitQuantity.length < 2 || splitQuantity[1].isBlank()) {
-            throw new WrongAddQuantityException();
+            throw new WrongQuantityException();
         }
 
         String quantityString = splitQuantity[1].trim();
