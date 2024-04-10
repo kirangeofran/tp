@@ -42,11 +42,12 @@ public class AddCommand extends Command {
     public void handleCommand() {
         assert newItem != null : "Item should not be null";
         String[] newSplitBook = this.newItem.split("add");
+        assert newSplitBook.length >= 1 : "There should be an argument to the command";
+
         this.splitQuantity = newSplitBook[1].split(" /quantity");
 
         try {
-            processAddCommand(newSplitBook);
-            assert newSplitBook.length >= 1 : "There should be an argument to the command";
+            processAddCommand();
             assert !this.listOfBooks.isEmpty() : "The current list of books should not be empty";
             BookStorage.writeBookToTxt(this.bookDataFile, listOfBooks);
         } catch (EmptyArgumentsException e) {
@@ -57,11 +58,9 @@ public class AddCommand extends Command {
     /**
      * processAddCommand adds book to the list if not empty
      *
-     * @param newSplitBook the command split by the word 'add' giving the command and description in different arrays
      * @throws EmptyArgumentsException throws if there is no description
      */
-    public void processAddCommand(String[] newSplitBook)
-            throws EmptyArgumentsException {
+    public void processAddCommand() throws EmptyArgumentsException {
         // checks if splitQuantity contains only the word "add" or if there are only white spaces after it
         if (this.splitQuantity.length < 1 || this.splitQuantity[0].isBlank()) {
             throw new EmptyArgumentsException();
