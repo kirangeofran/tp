@@ -94,6 +94,7 @@ public class UserStorage {
             serializedString.append(" | ");
             serializedString.append(booksIndex);
         }
+        serializedString.append("\n");
 
         return serializedString.toString();
     }
