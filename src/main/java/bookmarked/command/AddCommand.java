@@ -42,12 +42,10 @@ public class AddCommand extends Command {
     public void handleCommand() {
         assert newItem != null : "Item should not be null";
         String[] newSplitBook = this.newItem.split("add");
-        assert newSplitBook.length >= 1 : "There should be an argument to the command";
-
-        this.splitQuantity = newSplitBook[1].split(" /quantity");
 
         try {
-            processAddCommand();
+            processAddCommand(newSplitBook);
+            //assert newSplitBook.length >= 1 : "There should be an argument to the command";
             assert !this.listOfBooks.isEmpty() : "The current list of books should not be empty";
             BookStorage.writeBookToTxt(this.bookDataFile, listOfBooks);
         } catch (EmptyArgumentsException e) {
@@ -60,9 +58,14 @@ public class AddCommand extends Command {
      *
      * @throws EmptyArgumentsException throws if there is no description
      */
-    public void processAddCommand() throws EmptyArgumentsException {
+    public void processAddCommand(String[] newSplitBook) throws EmptyArgumentsException {
         // checks if splitQuantity contains only the word "add" or if there are only white spaces after it
-        if (this.splitQuantity.length < 1 || this.splitQuantity[0].isBlank()) {
+        if (newSplitBook.length < 1) {
+            throw new EmptyArgumentsException();
+        }
+
+        this.splitQuantity = newSplitBook[1].split(" /quantity");
+        if (this.splitQuantity[0].isBlank()) {
             throw new EmptyArgumentsException();
         }
 
@@ -72,7 +75,7 @@ public class AddCommand extends Command {
         } catch (WrongQuantityException e) {
             Ui.printBlankAddQuantity();
         } catch (NumberFormatException e) {
-            Ui.printWrongAddQuantityFormat();
+            Ui.printWrongQuantityFormat();
         } catch (MaxIntNumberException e) {
             Ui.printMaxNumberMessage();
         } catch (NegativeQuantityException e) {
@@ -93,6 +96,8 @@ public class AddCommand extends Command {
             int quantityToAdd = Integer.parseInt(splitQuantity[1].trim());
             if (quantityToAdd <= 0) {
                 throw new NegativeQuantityException();
+            } else if (quantityToAdd > 1000) {
+                throw new MaxIntNumberException();
             }
             return quantityToAdd;
         } else {
@@ -135,7 +140,7 @@ public class AddCommand extends Command {
             int newNumberInInventory = inputBook.getNumberInInventory() + quantityToAdd;
             int newNumberTotal = inputBook.getNumberTotal() + quantityToAdd;
 
-            if (quantityToAdd > 1000 || newNumberInInventory > 1000 || newNumberTotal > 1000) {
+            if (newNumberInInventory > 1000 || newNumberTotal > 1000) {
                 throw new MaxIntNumberException();
             }
 
