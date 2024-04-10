@@ -1,2 +1,4 @@
-package bookmarked.exceptions;public class WrongFormatQuantityException {
+package bookmarked.exceptions;
+
+public class WrongFormatQuantityException extends Exception {
 }
