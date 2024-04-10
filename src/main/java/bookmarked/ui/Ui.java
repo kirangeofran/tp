@@ -1,10 +1,10 @@
 package bookmarked.ui;
 
 public class Ui {
-    static final String LINE_BREAK = "_______________________________________\n"
-            + "_______________________________________";
+    static final String LINE_BREAK = "_____________________________________________\n"
+            + "_____________________________________________";
 
-    static final String SMALLER_LINE_BREAK = "_______________________________________\n";
+    static final String SMALLER_LINE_BREAK = "_____________________________________________\n";
 
 
     public static void greetings() {
@@ -101,6 +101,11 @@ public class Ui {
 
     public static void printBlankAddQuantity() {
         System.out.println("Please input how many books you want to add after '/quantity'.");
+    }
+
+    public static void printMaxNumberMessage() {
+        System.out.println("You can only hold up to 1000 copies of a book in total.\n" +
+                "Please add fewer copies instead.");
     }
 
     public static void exitProgramme() {
