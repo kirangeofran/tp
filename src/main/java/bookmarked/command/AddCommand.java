@@ -2,6 +2,7 @@ package bookmarked.command;
 
 import bookmarked.Book;
 import bookmarked.exceptions.BookMarkedException;
+import bookmarked.exceptions.MaxIntNumberException;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.WrongAddQuantityException;
 import bookmarked.storage.BookStorage;
@@ -22,16 +23,18 @@ public class AddCommand extends Command {
 
     /**
      * AddCommand handles the addition of books when add command is called
-     * @param newItem the item to be added into the list
-     * @param listOfBooks the current list of books in the library
-     * @param splitItem user input split int an array through whitespaces
+     *
+     * @param newItem      the item to be added into the list
+     * @param listOfBooks  the current list of books in the library
+     * @param splitItem    user input split int an array through whitespaces
      * @param bookDataFile to store the books
      */
-    public AddCommand(String newItem, ArrayList<Book> listOfBooks, String[] splitItem, File bookDataFile){
+    public AddCommand(String newItem, ArrayList<Book> listOfBooks, String[] splitItem, File bookDataFile) {
         this.newItem = newItem;
         this.listOfBooks = listOfBooks;
         this.bookDataFile = bookDataFile;
         this.splitItem = splitItem;
+        this.hasQuantityArgument = false;
     }
 
     /**
@@ -56,6 +59,7 @@ public class AddCommand extends Command {
 
     /**
      * processAddCommand adds book to the list if not empty
+     *
      * @param newSplitBook the command split by the word 'add' giving the command and description in different arrays
      * @throws EmptyArgumentsException throws if there is no description
      */
@@ -67,38 +71,40 @@ public class AddCommand extends Command {
         }
 
         try {
-            setQuantityToAdd();
-            runAddCommand();
-        } catch (BookMarkedException e) {
-            quantityToAdd = DEFAULT_QUANTITY;
-            hasQuantityArgument = false;
+            quantityToAdd = setQuantityToAdd();
             runAddCommand();
         } catch (WrongAddQuantityException e) {
             Ui.printBlankAddQuantity();
         } catch (NumberFormatException e) {
             Ui.printWrongAddQuantityFormat();
+        } catch (MaxIntNumberException e) {
+            Ui.printMaxNumberMessage();
         }
-
     }
 
 
-    public void setQuantityToAdd() throws BookMarkedException, WrongAddQuantityException, NumberFormatException {
+    public int setQuantityToAdd() throws WrongAddQuantityException, NumberFormatException, MaxIntNumberException {
         //if there is no /quantity argument
         if (newItem.contains(" /quantity")) {
             hasQuantityArgument = true;
         }
 
-        if (!hasQuantityArgument) {
-            throw new BookMarkedException();
-        } else if (splitQuantity.length < 2 || splitQuantity[1].isBlank()) {  //guaranteed that hasQuantityArgument is true
-            throw new WrongAddQuantityException();
+        if (hasQuantityArgument) {
+            if (splitQuantity.length < 2 || splitQuantity[1].isBlank()) {
+                throw new WrongAddQuantityException();
+            } else if (splitQuantity[1].trim().length() >= 4 && !splitQuantity[1].trim().equals("1000")) {
+                throw new MaxIntNumberException();
+            } else {
+                return Integer.parseInt(splitQuantity[1].trim());
+            }
+        } else {
+            return DEFAULT_QUANTITY;
         }
 
-        quantityToAdd = Integer.parseInt(splitQuantity[1].trim());
     }
 
 
-    public void runAddCommand() {
+    public void runAddCommand() throws MaxIntNumberException {
         String bookTitle = splitQuantity[0].trim();
         Book inputBook = getExistingBook(bookTitle);
 
@@ -110,10 +116,14 @@ public class AddCommand extends Command {
             bookName.setNumberTotal(quantityToAdd);
             System.out.println("Added " + bookName.getName() + "!");
         } else {    //if the current book already exists in the library
-            int currentNumberInInventory = inputBook.getNumberInInventory();
-            int currentNumberTotal = inputBook.getNumberTotal();
-            inputBook.setNumberInInventory(currentNumberInInventory + quantityToAdd);
-            inputBook.setNumberTotal(currentNumberTotal + quantityToAdd);
+            int newNumberInInventory = inputBook.getNumberInInventory() + quantityToAdd;
+            int newNumberTotal = inputBook.getNumberTotal() + quantityToAdd;
+            if (quantityToAdd > 1000 || newNumberInInventory > 1000 || newNumberTotal > 1000) {
+                throw new MaxIntNumberException();
+            }
+
+            inputBook.setNumberInInventory(newNumberInInventory);
+            inputBook.setNumberTotal(newNumberTotal);
             System.out.println("Added " + quantityToAdd + " copies of " + inputBook.getName() + "!");
         }
     }
