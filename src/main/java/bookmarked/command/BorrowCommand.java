@@ -140,7 +140,6 @@ public class BorrowCommand extends Command {
             String currentBookName = listOfBooks.get(i).getName();
             if (currentBookName.equals(bookName)) {
                 this.bookIndex = i;
-                System.out.println(this.bookIndex);
             }
         }
     }
