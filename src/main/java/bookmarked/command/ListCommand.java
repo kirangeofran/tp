@@ -1,10 +1,11 @@
 package bookmarked.command;
 import bookmarked.User;
 import bookmarked.Book;
-//import bookmarked.command.ListUserCommand;
+
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.EmptyListException;
 import bookmarked.ui.Ui;
+import bookmarked.command.ListUserCommand;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class ListCommand extends Command {
     }
 
 
-    public ListCommand(ArrayList<Book> listOfBooks, String newItem) {
+    public ListCommand(ArrayList<Book> listOfBooks, String newItem, ArrayList<User> listOfUsers) {
         this.listOfBooks = listOfBooks;
         this.inputCommand = newItem;
         this.numberOfBooks = listOfBooks.size();
@@ -69,6 +70,10 @@ public class ListCommand extends Command {
             break;
         case ("default"):
             runListBlankCommand();
+            break;
+        case ("user"):
+            ListUserCommand listUserCommand = new ListUserCommand(listOfUsers);
+            listUserCommand.handleCommand();
             break;
         default:
             Ui.printEmptyArgumentsMessage(); //prints an error message for incorrect or empty arguments
