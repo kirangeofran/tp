@@ -1,7 +1,6 @@
 package bookmarked.command;
 
 import bookmarked.User;
-import bookmarked.exceptions.EmptyListException;
 import bookmarked.exceptions.EmptyUserListException;
 import bookmarked.ui.Ui;
 

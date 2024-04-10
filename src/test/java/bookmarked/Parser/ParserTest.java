@@ -1,4 +1,4 @@
-package bookmarked.parser;
+package bookmarked.Parser;
 
 import bookmarked.Book;
 import bookmarked.command.Command;
@@ -8,6 +8,7 @@ import bookmarked.storage.UserStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import bookmarked.User;
+import bookmarked.parser.Parser;
 
 import java.io.File;
 import java.util.ArrayList;
