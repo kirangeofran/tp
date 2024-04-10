@@ -41,11 +41,11 @@ public class Ui {
         System.out.println("   list /sortby alphabetical");
         System.out.println("8. To list all the borrowed books by return date");
         System.out.println("   list /sortby returndate");
-        System.out.println("9. To edit the details of the existing book");
+        System.out.println("9. To list all the users and their borrowed books");
+        System.out.println("   list /sortby user");
+        System.out.println("10. To edit the details of the existing book");
         System.out.println("   edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION");
         System.out.println("   example: edit 1 /title book");
-        System.out.println("10.To list the users with their borrowed books");
-        System.out.println("   listuser");
         System.out.println("11.To find a specific user and their borrowed books:");
         System.out.println("   finduser USERNAME");
 
@@ -93,6 +93,9 @@ public class Ui {
 
     public static void printWrongInputFormat() {
         System.out.println("Please input command in the correct format");
+    }
+    public static void printEmptyUserListMessage() {
+        System.out.println("The user list is empty, please add a user through the borrow function first");
     }
 
     public static void exitProgramme() {
