@@ -26,7 +26,7 @@ public class Ui {
         System.out.println("These are the current available features and the format that you need");
         System.out.println("to follow to use it in using this software:");
         System.out.println("1. To add books");
-        System.out.println("   add NAME_OF_BOOK");
+        System.out.println("   add NAME_OF_BOOK (optional)/quantity NUMBER_OF_COPIES");
         System.out.println("2. To delete current existing book");
         System.out.println("   delete NUMBER_ACCORDING_TO_LIST");
         System.out.println("3. To mark book as borrowed");
@@ -68,11 +68,11 @@ public class Ui {
     }
 
     public static void printBookNotFoundExceptionMessage() {
-        System.out.println("Book not found");
+        System.out.println("Book not found.");
     }
 
     public static void printBookNotBorrowedExceptionMessage() {
-        System.out.println("Book not borrowed");
+        System.out.println("Book not borrowed.");
     }
 
     public static void printNotNumberMessage() {
@@ -80,11 +80,11 @@ public class Ui {
     }
 
     public static void printIncorrectInputFormat() {
-        System.out.println("Please enter in the format as mentioned in help");
+        System.out.println("Please enter in the format as mentioned in help.");
     }
 
     public static void printNoEditChangeException() {
-        System.out.println("Please specify what to edit using '/'");
+        System.out.println("Please specify what to edit using '/'.");
     }
 
     public static void printEditedBookConfirmation(int bookNumberToEdit) {
@@ -92,7 +92,15 @@ public class Ui {
     }
 
     public static void printWrongInputFormat() {
-        System.out.println("Please input command in the correct format");
+        System.out.println("Please input command in the correct format.");
+    }
+
+    public static void printWrongAddQuantityFormat() {
+        System.out.println("Please ensure that you input a number after '/quantity'.");
+    }
+
+    public static void printBlankAddQuantity() {
+        System.out.println("Please input how many books you want to add after '/quantity'.");
     }
 
     public static void exitProgramme() {
