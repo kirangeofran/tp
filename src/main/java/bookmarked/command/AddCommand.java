@@ -16,7 +16,6 @@ public class AddCommand extends Command {
     private String newItem;
     private ArrayList<Book> listOfBooks;
     private String[] splitQuantity;
-    private String[] splitItem;
     private File bookDataFile;
     private int quantityToAdd;
     private boolean hasQuantityArgument;
@@ -26,14 +25,12 @@ public class AddCommand extends Command {
      *
      * @param newItem      the item to be added into the list
      * @param listOfBooks  the current list of books in the library
-     * @param splitItem    user input split int an array through whitespaces
      * @param bookDataFile to store the books
      */
-    public AddCommand(String newItem, ArrayList<Book> listOfBooks, String[] splitItem, File bookDataFile) {
+    public AddCommand(String newItem, ArrayList<Book> listOfBooks, File bookDataFile) {
         this.newItem = newItem;
         this.listOfBooks = listOfBooks;
         this.bookDataFile = bookDataFile;
-        this.splitItem = splitItem;
         this.hasQuantityArgument = false;
     }
 
