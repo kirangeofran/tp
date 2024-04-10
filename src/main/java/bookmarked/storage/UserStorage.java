@@ -2,6 +2,7 @@ package bookmarked.storage;
 
 import bookmarked.Book;
 import bookmarked.User;
+import bookmarked.exceptions.BookNotBorrowedException;
 import bookmarked.ui.Ui;
 
 import java.io.BufferedReader;
@@ -113,11 +114,14 @@ public class UserStorage {
                 int bookIndex = Integer.parseInt(userAttributes[i].strip());
 
                 checkValidBookIndex(listOfBooks, bookIndex);
+                checkBorrowedInBookStorage(listOfBooks, bookIndex);
 
                 currentUser.borrowedBook(bookIndex);
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 Ui.printInvalidTxtLine();
                 return;
+            } catch (BookNotBorrowedException e) {
+                Ui.printBookNotBorrowedInBookStorage();
             }
         }
 
@@ -127,6 +131,14 @@ public class UserStorage {
     private static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
         if (bookIndex <= 0 || bookIndex > listOfBooks.size()) {
             throw new IndexOutOfBoundsException();
+        }
+    }
+
+    private static void checkBorrowedInBookStorage(ArrayList<Book> listOfBooks, int bookIndex)
+            throws BookNotBorrowedException {
+        Book currentBook = listOfBooks.get(bookIndex);
+        if (!currentBook.getIsBorrowed()) {
+            throw new BookNotBorrowedException();
         }
     }
 }
