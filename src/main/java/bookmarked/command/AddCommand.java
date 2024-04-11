@@ -45,6 +45,10 @@ public class AddCommand extends Command {
     public void handleCommand() {
         assert newItem != null : "Item should not be null";
         String[] newSplitBook = this.newItem.split("add");
+        if (newSplitBook.length < 1) {
+            Ui.printEmptyArgumentsMessage();
+            return;
+        }
 
         try {
             processAddCommand(newSplitBook);

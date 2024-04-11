@@ -14,10 +14,6 @@ import bookmarked.ui.Ui;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Handles the "return" command from the user.
@@ -34,7 +30,6 @@ public class ReturnCommand extends Command {
     private String bookName = null;
     private String newItem;
     private String[] splitUser;
-    private boolean isInputIndex;
     private User currentUser;
     private int bookIndex = -1; // Index starting from 0
     private ArrayList<Book> listOfBooks;
@@ -59,7 +54,6 @@ public class ReturnCommand extends Command {
                          ArrayList<User> listOfUsers, File userDataFile) {
         assert listOfBooks != null : "list of books should not be empty";
         assert newItem != null : "commandParts should not be null";
-        // assert commandParts.length > 1 : "commandParts should contain at least the command and the book name";
 
         this.newItem = newItem;
         this.listOfBooks = listOfBooks;
@@ -119,7 +113,11 @@ public class ReturnCommand extends Command {
 
     public void setArguments() throws InvalidStringException, UserNotFoundException,
             BookNotFoundException, EmptyArgumentsException, IndexOutOfListBounds {
-        String[] splitParts = this.newItem.split("return"); // Split into two parts at most.
+        String[] splitParts = this.newItem.split("return");
+        if (splitParts.length < 1) {
+            throw new InvalidStringException();
+        }
+
         this.splitUser = splitParts[1].split(" /by ");
 
         if (this.splitUser.length < 2 || this.splitUser[1].isBlank()) {
@@ -130,18 +128,19 @@ public class ReturnCommand extends Command {
             throw new EmptyArgumentsException();
         }
 
+        boolean isInputIndex;
         try {
             this.bookIndex = checkBookIndexValidity();
             this.bookName = listOfBooks.get(this.bookIndex).getName();
-            this.isInputIndex = true;
+            isInputIndex = true;
         } catch (NumberFormatException e) {
             this.bookName = (splitUser[0].trim());
-            this.isInputIndex = false;
+            isInputIndex = false;
         } catch (IndexOutOfListBounds e) {
             throw new IndexOutOfListBounds();
         }
 
-        if (!this.isInputIndex) {
+        if (!isInputIndex) {
             try {
                 updateBookIndex(listOfBooks);
             } catch (BookNotFoundException e) {
