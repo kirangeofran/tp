@@ -39,26 +39,36 @@ Format: `/help`
 ### Adding a book to inventory: `add`
 Adds a new book to the library's inventory.
 
-Format: `add NAME_OF_BOOK`
+Format: `add NAME_OF_BOOK (optional)/quantity NUMBER_OF_COPIES`
 
-* The `add` cannot be in capital letters.
+* If the /quantity argument is not inputted, the default number of copies is 1
+* A maximum of 1000 copies of the books can be stored in the library.
+* To add more copies of a book that already exists, simply type in the name of the book 
+you wish to add, and type in the command per normal.
 
 Example of usage:
 
 `add The Book Thief`
 
-`add The Hunger Games`
+`add The Hunger Games /quantity 50`
 
 ### Deleting books in the library: `delete`
 Removes a book from the library's inventory based on its index in the list.
 
-Format: `delete INDEX`
+Format: `delete INDEX (optional)/quantity NUMBER_OF_COPIES`
 
 * 'Index' is the position number of the book in the list as shown by the `list` command.
+* A maximum of 1000 copies can be stored, and thus deleted from the library's inventory.
+* Delete does not affect the books currently being borrowed by users, only those currently
+   available in the library's inventory.
+* To completely remove a book from the library, please ensure that all books are returned
+  to the library before deleting all copies in the inventory.
 
 Example of usage:
 
 `delete 1`
+
+`delete 3 /quantity 100`
 
 ### Viewing books in the library: `list`
 Provides a list of books in the library.
@@ -70,7 +80,7 @@ Format: `list /sortby ARGUMENT`
 There are four ways of sorting the list:
 1. **Default**
 
-   Format: `list`
+   Format: `list /sortby default`
 
 
 2. **Alphabetical order**
