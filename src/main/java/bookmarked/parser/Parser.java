@@ -91,7 +91,7 @@ public class Parser {
             break;
         case "extend":
             // Ensure 'extend' is followed by the name of the book to extend
-            userCommand = new ExtendCommand(splitItem, listOfBooks, bookDataFile);
+            userCommand = new ExtendCommand(newItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
             break;
         default:
             throw new BookMarkedException();
