@@ -88,13 +88,13 @@ public class DeleteCommand extends Command {
             quantityToDelete = setQuantityToDelete();
             runDeleteCommand();
         } catch (WrongQuantityException e) {
-              Ui.printBlankDeleteQuantity();
+            Ui.printBlankDeleteQuantity();
         } catch (NumberFormatException e) {
-               Ui.printWrongQuantityFormat();
+            Ui.printWrongQuantityFormat();
         } catch (MaxIntNumberException e) {
-               Ui.printMaxDeleteNumberMessage();
+            Ui.printMaxDeleteNumberMessage();
         } catch (NegativeQuantityException e) {
-               Ui.printNegativeDeleteQuantityMessage();
+            Ui.printNegativeDeleteQuantityMessage();
         } catch (TooLargeQuantityException e) {
             Ui.printDeleteFewerBooksMessage();
         } catch (IndexOutOfListBounds e) {
@@ -188,5 +188,4 @@ public class DeleteCommand extends Command {
         }
         return index;
     }
-
 }
