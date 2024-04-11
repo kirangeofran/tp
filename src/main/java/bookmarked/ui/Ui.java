@@ -151,6 +151,11 @@ public class Ui {
                 + numberTotal + " copies in total.");
     }
 
+    public static void printInvalidTitleMessage() {
+        System.out.println("Please make sure the book title adheres to the format:\n" +
+                "not blank, does not contain only numbers, and does not contain the character '|'");
+    }
+
     public static void exitProgramme() {
         System.out.println("Bye!");
     }
