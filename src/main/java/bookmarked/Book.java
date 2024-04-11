@@ -32,12 +32,14 @@ public class Book {
     }
 
     public boolean isAvailable() {
-        return !this.isBorrowed;
+        return this.numberInInventory > 0;
     }
 
     public void borrowBook(LocalDate borrowDate, Period borrowPeriod) {
         if (isAvailable()) {
             this.isBorrowed = true;
+            this.numberInInventory--;
+            this.numberBorrowed++;
             this.borrowDate = borrowDate;
             this.returnDate = borrowDate.plus(borrowPeriod);
         }

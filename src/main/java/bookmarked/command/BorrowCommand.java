@@ -13,6 +13,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,9 +58,11 @@ public class BorrowCommand extends Command {
     public BorrowCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
                          ArrayList<User> listOfUsers, String newItem, File userDataFile)
             throws EmptyArgumentsException, WrongInputFormatException {
+
         assert commandParts != null : "commandParts should not be null";
         assert commandParts.length > 1 : "commandParts should contain at least two elements";
-        assert newItem != null: "command should not be null";
+        assert newItem != null : "command should not be null";
+
         String itemUserName = newItem.substring(7);
         String[] splitParts = itemUserName.split("/by");
         assert splitParts.length > 1 : "please enter both the borrowed book and userName";
@@ -93,12 +96,13 @@ public class BorrowCommand extends Command {
 
     /**
      * checks whether there is a user input
+     *
      * @param commandParts the command split into n arrays based on how many spaces it contains
      * @return true if one of the arrays contain by, false otherwise
      */
     public boolean containsUser(String[] commandParts) {
-        for (int i = 0; i < commandParts.length; i++) {
-            if (commandParts[i].equalsIgnoreCase("/by")) {
+        for (String commandPart : commandParts) {
+            if (commandPart.equalsIgnoreCase("/by")) {
                 return true;
             }
         }
@@ -125,6 +129,7 @@ public class BorrowCommand extends Command {
             // Update bookIndex
             updateBookIndex();
         }
+
         try {
             runBorrowCommand(foundBooks);
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
@@ -167,8 +172,7 @@ public class BorrowCommand extends Command {
                 System.out.println("Borrowed " + bookToBorrow.getName() + " by " + userName + "!");
                 System.out.println("Please return by " + bookToBorrow.getFormattedReturnDate() + ".");
             } else {
-                System.out.println("Book is currently unavailable. Expected return date is " +
-                        bookToBorrow.getFormattedReturnDate() + ".");
+                System.out.println("There are currently no available copies of the book in the inventory.");
             }
         } else {
             System.out.println("Book not found: " + bookName);
@@ -180,7 +184,8 @@ public class BorrowCommand extends Command {
      * Checks whether the user has already borrowed books and hence is already in the user list
      * If user is in user list, add new book to user's current list
      * If user is a new user, create the new user and add the new book into user list
-     * @param book the book borrowed
+     *
+     * @param book     the book borrowed
      * @param userName the name of the user
      */
     private void updateListOfUsers(Book book, String userName) {
@@ -200,5 +205,11 @@ public class BorrowCommand extends Command {
         listOfUsers.add(newUser);
         UserStorage.writeUserToTxt(userDataFile, listOfUsers);
     }
+
+    private void userAvailability() {
+
+    }
+
+
 }
 
