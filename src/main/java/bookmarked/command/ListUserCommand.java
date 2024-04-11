@@ -49,6 +49,7 @@ public class ListUserCommand extends Command {
             if (user.getUserBooks().isEmpty()) {
                 System.out.println("None");
             } else {
+                System.out.println();
                 Ui.printElse(user);
             }
             System.out.println();

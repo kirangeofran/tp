@@ -271,11 +271,13 @@ How ?Upon execution, the ExtendCommand performs the following actions:
 ## Product scope
 ### Target user profile
 
-{Describe the target user profile}
+Our target user is librarians. 
 
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+Bookmarked is an application for librarians to easily keep up to date with available books, their status and
+intended return date. Other than books, librarians can also check on borrowers' return status, whether they 
+have overdue books and could potentially send reminders to them if they have due dates soon
 
 ## User Stories
 

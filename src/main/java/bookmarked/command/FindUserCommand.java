@@ -45,7 +45,7 @@ public class FindUserCommand extends Command {
             if (user.getName().contains(userName)) {
                 userFound = true;
                 findUser(user);
-                break;
+                System.out.println();
             }
         }
         if (!userFound) {
@@ -59,6 +59,7 @@ public class FindUserCommand extends Command {
         if (user.getUserBooks().isEmpty()) {
             System.out.println("None");
         } else {
+            System.out.println();
             Ui.printElse(user);
         }
     }

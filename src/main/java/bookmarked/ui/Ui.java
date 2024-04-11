@@ -162,9 +162,14 @@ public class Ui {
     }
     public static void printElse(User user) {
         for (int i = 0; i < user.getUserBooks().size(); i++) {
+            System.out.print(i+1 + ". ");
             System.out.print(user.getUserBooks().get(i).getName());
+            System.out.print(", Borrowed on: ");
+            System.out.print(user.getUserBooks().get(i).getBorrowDate());
+            System.out.print(", Return by: ");
+            System.out.print(user.getUserBooks().get(i).getReturnDate());
             if (i < user.getUserBooks().size() - 1) {
-                System.out.print(", ");
+                System.out.println("");
             }
         }
         System.out.println();
