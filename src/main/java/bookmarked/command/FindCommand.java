@@ -1,6 +1,7 @@
 package bookmarked.command;
 
 import bookmarked.Book;
+import bookmarked.User;
 import bookmarked.exceptions.EmptyListException;
 import bookmarked.ui.Ui;
 
@@ -9,11 +10,14 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 public class FindCommand extends Command {
-    public static final int FIND_KEYWORD_START_INDEX = 5;
+    public static final int FIND_KEYWORD_START_INDEX = 14;
     private static Logger logger = Logger.getLogger("Find Command Logger");
     private static int numberOfBookFound = 0;
     private String newItem;
     private ArrayList<Book> listOfBooks;
+    private String [] splitCommand;
+    private ArrayList<User> listOfUsers;
+    private String userName;
 
     /**
      * finds an item in the list
@@ -21,8 +25,9 @@ public class FindCommand extends Command {
      * @param listOfBooks the current list of books
      */
 
-    public FindCommand(String newItem, ArrayList<Book> listOfBooks) {
+    public FindCommand(String newItem, ArrayList<Book> listOfBooks, ArrayList<User> listOfUsers) {
         this.newItem = newItem;
+        this.listOfUsers = listOfUsers;
         this.listOfBooks = listOfBooks;
     }
 
@@ -32,18 +37,30 @@ public class FindCommand extends Command {
 
     @Override
     public void handleCommand() {
-        assert listOfBooks != null : "list of books should not be empty";
-        String keyword;
-        logger.log(Level.INFO, "going to start processing find command");
-        keyword = getKeyword();
-        if (keyword == null) {
-            return;
-        }
+        this.splitCommand = newItem.split("/by");
+        String splitCommandCommand = splitCommand[1].trim();
+        String[] findItem = splitCommandCommand.split(" ");
 
-        try {
-            processFind(keyword);
-        } catch (EmptyListException e) {
-            Ui.printEmptyListMessage();
+        switch (findItem[0].trim()) {
+            case ("book"):
+                assert listOfBooks != null : "list of books should not be empty";
+                String keyword;
+                logger.log(Level.INFO, "going to start processing find command");
+                keyword = getKeyword();
+                if (keyword == null) {
+                    return;
+                }
+                try {
+                    processFind(keyword);
+                } catch (EmptyListException e) {
+                    Ui.printEmptyListMessage();
+                }
+                break;
+            case ("user"):
+                String[] userName = splitCommandCommand.split("user");
+                FindUserCommand findUserCommand = new FindUserCommand(listOfUsers, userName[1].trim());
+                findUserCommand.handleCommand();
+                break;
         }
     }
 
@@ -77,6 +94,7 @@ public class FindCommand extends Command {
 
     private void processFind(String keyword) throws EmptyListException {
         numberOfBookFound = 0;
+
 
         if (this.listOfBooks.isEmpty()) {
             throw new EmptyListException();

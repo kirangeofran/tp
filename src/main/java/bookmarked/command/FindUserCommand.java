@@ -1,7 +1,7 @@
 package bookmarked.command;
 
 import bookmarked.User;
-import bookmarked.exceptions.EmptyListException;
+import bookmarked.exceptions.EmptyUserListException;
 import bookmarked.ui.Ui;
 
 import java.util.ArrayList;
@@ -23,8 +23,8 @@ public class FindUserCommand extends Command {
     public void handleCommand() {
         try {
             printUsers();
-        } catch (EmptyListException e) {
-            Ui.printEmptyListMessage();
+        } catch (EmptyUserListException e) {
+            Ui.printEmptyUserListMessage();
         }
     }
 
@@ -33,13 +33,13 @@ public class FindUserCommand extends Command {
      * iterates through the list of users to find user printed
      * iterates through each users list of books to print user followed by their books borrowed
      *
-     * @throws EmptyListException if the list of users is empty
+     * @throws EmptyUserListException if the list of users is empty
      */
 
-    private void printUsers() throws EmptyListException {
+    private void printUsers() throws EmptyUserListException {
         boolean userFound = false;
         if (listOfUsers.isEmpty()) {
-            throw new EmptyListException();
+            throw new EmptyUserListException();
         }
         for (User user : listOfUsers) {
             if (user.getName().equalsIgnoreCase(userName)) {
