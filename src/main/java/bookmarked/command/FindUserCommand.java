@@ -42,7 +42,7 @@ public class FindUserCommand extends Command {
             throw new EmptyUserListException();
         }
         for (User user : listOfUsers) {
-            if (user.getName().equalsIgnoreCase(userName)) {
+            if (user.getName().contains(userName)) {
                 userFound = true;
                 findUser(user);
                 break;

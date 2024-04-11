@@ -161,8 +161,7 @@ The "list command" component interfaces with several others:
 ##### Implementation Details
 How? The "ListCommand" upon execution will:
 - Split user input with the regex "/sortby" to determine the various arguments the user has for the list function
-- If the user input is simply "list", the toString() function of each book in the ArrayList is called, printing out the books
-- If with argument, parses the argument to figure which it is, then creates a new ArrayList<Book> to copy
+- Parses the argument to figure which it is, then creates a new ArrayList<Book> to copy
     the original ArrayList and sort the new ArrayList according to the necessary argument. The toString()
     function of each book in the newly sorted ArrayList is then called.
 - If there are no books in the original ArrayList, an exception is thrown and the user is informed of it.

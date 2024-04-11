@@ -96,7 +96,7 @@ There are four ways of sorting the list:
 
 4. **By user**
    
-    Format: `listuser`
+    Format: `list /sortbyuser`
 * Listing all users along with their borrowed books
 
 
@@ -114,7 +114,7 @@ Example of usage:
 Allows a user to borrow a book from the library's inventory if it is available. 
 The book will be marked as borrowed, and a due date will be set for its return.
 
-Format: `borrow BOOK_NAME by USER_NAME`
+Format: `borrow BOOK_NAME /by USER_NAME`
 
 * Books are borrowed for a default period of two weeks from the date of borrowing.
 * Users do not need to be pre-added. They can be added directly when using the borrow command. 
@@ -122,7 +122,7 @@ Format: `borrow BOOK_NAME by USER_NAME`
 
 Example of usage:
 
-`borrow The Book Thief by Tom`
+`borrow The Book Thief /by Tom`
 
 ### Extending borrowed books in the library: `extend`
 Allows a user to extend the borrowing period of a book they have already borrowed. 
@@ -147,17 +147,28 @@ Example of usage:
 
 `return The Book Thief`
 
-### Finding books in the library: `find`
+### Finding books or users in the library: `find`
 Enables users to search for books in the library's inventory that match a given keyword.
+Enables users to search for those who borrowed books
 
-Format: `find KEYWORD`
+To search for books:
+Format: `find /by book KEYWORD`
 
 * 'KEYWORD' is the word or phrase you want to search for in the titles of the books in the library.
 * The command lists all books that contain the keyword in their title.
 
 Example of usage:
 
-`find Thief`
+`find /by book Thief`
+
+To search for users:
+Format: `find /by user USERNAME`
+
+* 'USERNAME' is the name of the user you want to find.
+* The command lists all users that contain the username in their name.
+
+Example of usage:
+`find /by user Tom`
 
 ### Exiting application: `bye`
 Safely closes the BookMarked application.
