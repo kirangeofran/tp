@@ -75,7 +75,7 @@ public class Parser {
                     newItem, userDataFile);
             break;
         case ("return"):
-            userCommand = new ReturnCommand(splitItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
+            userCommand = new ReturnCommand(newItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
             break;
         case ("find"):
             userCommand = new FindCommand(newItem, listOfBooks);

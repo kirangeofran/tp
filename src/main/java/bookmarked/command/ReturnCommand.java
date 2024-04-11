@@ -3,6 +3,11 @@ package bookmarked.command;
 import bookmarked.Book;
 import bookmarked.User;
 import bookmarked.exceptions.EmptyListException;
+import bookmarked.exceptions.InvalidStringException;
+import bookmarked.exceptions.UserNotFoundException;
+import bookmarked.exceptions.BookNotFoundException;
+import bookmarked.exceptions.EmptyArgumentsException;
+import bookmarked.exceptions.IndexOutOfListBounds;
 import bookmarked.storage.BookStorage;
 import bookmarked.storage.UserStorage;
 import bookmarked.ui.Ui;
@@ -10,7 +15,7 @@ import bookmarked.ui.Ui;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Arrays ;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,12 +31,17 @@ import java.util.stream.Collectors;
  * This approach simplifies the user interaction with the system, making the book returning process more intuitive.
  */
 public class ReturnCommand extends Command {
-    private String bookName = null ;
+    private String bookName = null;
+    private String newItem;
+    private String[] splitUser;
+    private boolean isInputIndex;
+    private User currentUser;
     private int bookIndex = -1; // Index starting from 0
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
     private File bookDataFile;
     private File userDataFile;
+
 
     /**
      * Constructs a ReturnCommand object with the specified parameters.
@@ -40,44 +50,31 @@ public class ReturnCommand extends Command {
      * as the book name. This allows users to return books by specifying either their index in the list
      * or their name.
      *
-     * @param commandParts An array of strings, where the first element is the command,
-     *                     the second element is either the index or the first part of the book name,
+     * @param newItem      The user input
      *                     and any subsequent elements are the remaining parts of the book name if applicable.
      * @param listOfBooks  The list of books from which a book will be returned.
      * @param bookDataFile The data file where books are stored.
      */
-    public ReturnCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
+    public ReturnCommand(String newItem, ArrayList<Book> listOfBooks, File bookDataFile,
                          ArrayList<User> listOfUsers, File userDataFile) {
         assert listOfBooks != null : "list of books should not be empty";
-        assert commandParts != null : "commandParts should not be null";
-        assert commandParts.length > 1 : "commandParts should contain at least the command and the book name";
-        String commandInput = Arrays.stream(commandParts)
-                .map(String::trim)
-                .filter(part -> !part.isEmpty())
-                .collect(Collectors.joining(" "));
+        assert newItem != null : "commandParts should not be null";
+        // assert commandParts.length > 1 : "commandParts should contain at least the command and the book name";
 
-        // Now, attempt to parse the book index from the processed command input.
-        String[] splitParts = commandInput.split("\\s+", 2); // Split into two parts at most.
-
-        // The book index or name is expected to be after the command 'return'
-        String bookIdentifier = splitParts.length > 1 ? splitParts[1] : "";
-
-        try {
-            this.bookIndex = Integer.parseInt(bookIdentifier) - 1; // Use the processed identifier to parse the index
-        } catch (NumberFormatException e) {
-            this.bookName = bookIdentifier; // If not a number, treat as a book name
-
-            // Update bookIndex
-            updateBookIndex(listOfBooks);
-        }
-
+        this.newItem = newItem;
         this.listOfBooks = listOfBooks;
         this.listOfUsers = listOfUsers;
         this.bookDataFile = bookDataFile;
         this.userDataFile = userDataFile;
+        this.bookName = null;
     }
 
-    private void updateBookIndex(ArrayList<Book> listOfBooks) {
+
+    private void updateBookIndex(ArrayList<Book> listOfBooks) throws BookNotFoundException {
+        if (!doesBookExists()) {
+            throw new BookNotFoundException();
+        }
+
         for (int i = 0; i < listOfBooks.size(); i += 1) {
             String currentBookName = listOfBooks.get(i).getName();
             if (currentBookName.equals(bookName)) {
@@ -85,6 +82,7 @@ public class ReturnCommand extends Command {
             }
         }
     }
+
 
     /**
      * Executes the "return" command by searching for the specified book in the list of books,
@@ -94,23 +92,70 @@ public class ReturnCommand extends Command {
      */
     @Override
     public void handleCommand() {
-        // Filter the list for books that match the name
-        List<Book> foundBooks ;
-        if (bookIndex >= 0 && bookIndex < listOfBooks.size()) {
-            foundBooks = List.of(listOfBooks.get(bookIndex));
-        } else {
-            foundBooks = listOfBooks.stream()
-                    .filter(book -> book.getName().equalsIgnoreCase(bookName))
-                    .collect(Collectors.toList());
+        try {
+            setArguments();
+        } catch (InvalidStringException | EmptyArgumentsException e) {
+            Ui.printEmptyArgumentsMessage();
+            return;
+        } catch (UserNotFoundException e) {
+            Ui.printNotExistingUserMessage();
+            return;
+        } catch (BookNotFoundException e) {
+            Ui.printBookNotFoundExceptionMessage();
+            return;
+        } catch (IndexOutOfListBounds e) {
+            Ui.printOutOfBoundsMessage();
+            return;
         }
 
         try {
-            runReturnCommand(foundBooks);
+            runReturnCommand();
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
         } catch (EmptyListException e) {
             Ui.printEmptyListMessage();
         }
     }
+
+
+    public void setArguments() throws InvalidStringException, UserNotFoundException,
+            BookNotFoundException, EmptyArgumentsException, IndexOutOfListBounds {
+        String[] splitParts = this.newItem.split("return"); // Split into two parts at most.
+        this.splitUser = splitParts[1].split(" /by ");
+
+        if (this.splitUser.length < 2 || this.splitUser[1].isBlank()) {
+            throw new InvalidStringException();
+        }
+
+        if (this.splitUser[0].isBlank()) {
+            throw new EmptyArgumentsException();
+        }
+
+        try {
+            this.bookIndex = checkBookIndexValidity();
+            this.bookName = listOfBooks.get(this.bookIndex).getName();
+            this.isInputIndex = true;
+        } catch (NumberFormatException e) {
+            this.bookName = (splitUser[0].trim());
+            this.isInputIndex = false;
+        } catch (IndexOutOfListBounds e) {
+            throw new IndexOutOfListBounds();
+        }
+
+        if (!this.isInputIndex) {
+            try {
+                updateBookIndex(listOfBooks);
+            } catch (BookNotFoundException e) {
+                throw new BookNotFoundException();
+            }
+        }
+
+        try {
+            this.currentUser = checkUserNameValidity();
+        } catch (UserNotFoundException e) {
+            throw new UserNotFoundException();
+        }
+    }
+
 
     /**
      * Marks the books found in the list as returned. This method handles the case where multiple
@@ -118,41 +163,62 @@ public class ReturnCommand extends Command {
      * of the book in the system and notifies the user of the action taken. If no books match
      * the provided identifier (name or index), it informs the user that the book was not found.
      *
-     * @param foundBooks The list of books that match the specified identifier for return.
      * @throws EmptyListException If the overall list of books is empty, indicating a system error.
      */
-    public void runReturnCommand(List<Book> foundBooks) throws EmptyListException {
+    public void runReturnCommand() throws EmptyListException {
         if (this.listOfBooks.isEmpty()) {
             throw new EmptyListException();
         }
 
-        if (foundBooks.isEmpty()) {
-            System.out.println("Book not found: " + bookName);
-            return;
+        Book returningBook = this.listOfBooks.get(this.bookIndex);
+        if (hasUserBorrowedBook()) {
+            returningBook.setReturned();
+            this.currentUser.unborrowBook(this.bookIndex + 1);
+            UserStorage.writeUserToTxt(userDataFile, listOfUsers);
+            System.out.println("Returned " + returningBook.getName() + "!");
+        } else {
+            Ui.printBookNotBorrowedByUserMessage(this.currentUser.getName());
         }
-
-        for (Book currentBook : foundBooks) {
-            if (currentBook.getIsBorrowed()) {
-                currentBook.setReturned();
-
-                System.out.println("Returned " + currentBook.getName() + "!");
-            } else {
-                System.out.println("Book is not borrowed: " + currentBook.getName());
-            }
-        }
-
-        Iterator<User> iterator = listOfUsers.iterator();
-        while (iterator.hasNext()) {
-            User currentUser = iterator.next();
-            currentUser.setListOfBooks(this.listOfBooks);
-            currentUser.unborrowBook(this.bookIndex + 1);
-
-            if (currentUser.getUserBooksIndex().isEmpty()) {
-                iterator.remove();
-            }
-        }
-        UserStorage.writeUserToTxt(userDataFile, listOfUsers);
     }
+
+
+    public int checkBookIndexValidity() throws IndexOutOfListBounds {
+        int bookIndex = Integer.parseInt(splitUser[0].trim());
+        if (bookIndex < 0 || bookIndex > this.listOfBooks.size()) {
+            throw new IndexOutOfListBounds();
+        }
+        return bookIndex - 1;
+    }
+
+
+    public User checkUserNameValidity() throws UserNotFoundException {
+        String userString = this.splitUser[1].trim();
+        for (User user : listOfUsers) {
+            if (user.getName().matches(userString)) {
+                return user;
+            }
+        }
+        throw new UserNotFoundException();
+    }
+
+
+    public boolean doesBookExists() {
+        for (Book book : listOfBooks) {
+            if (book.getName().matches(bookName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public boolean hasUserBorrowedBook() {
+        for (Book book : this.currentUser.getUserBooks()) {
+            if (book.getName().matches(this.bookName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
-
-
