@@ -40,7 +40,6 @@ public class DeleteCommand extends Command {
     @Override
     public void handleCommand() {
         String[] newSplitBook = this.newItem.split("delete");
-        //assert newSplitBook.length >= 1 : "There should be an argument to the command";
 
         try {
             processDeleteCommand(newSplitBook);
@@ -106,7 +105,7 @@ public class DeleteCommand extends Command {
 
     public int setQuantityToDelete() throws WrongQuantityException, NumberFormatException,
             MaxIntNumberException, NegativeQuantityException {
-        //if there is no /quantity argument
+        // if there is no /quantity argument
         if (newItem.contains(" /quantity")) {
             hasQuantityArgument = true;
         }
@@ -134,14 +133,14 @@ public class DeleteCommand extends Command {
 
         String quantityString = splitQuantity[1].trim();
         if (quantityString.length() >= 4 && !quantityString.equals("1000")) {
-            //Checks if the input itself is longer than a 4 digit number, and if it's not, checks if it's any
-            //other 4 digit number than 1000. 1000 is the maximum number of copies, so the deletion number can't
-            //be larger than that.
+            // Checks if the input itself is longer than a 4 digit number, and if it's not, checks if it's any
+            // other 4 digit number than 1000. 1000 is the maximum number of copies, so the deletion number can't
+            // be larger than that.
             if (quantityString.matches("^[0-9]+$")) {
-                //Check if the input string contains only numbers
+                // Check if the input string contains only numbers
                 throw new MaxIntNumberException();
             } else {
-                //Contains other symbols such as letters or special characters
+                // Contains other symbols such as letters or special characters
                 throw new NumberFormatException();
             }
         }

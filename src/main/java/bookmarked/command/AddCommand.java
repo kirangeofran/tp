@@ -45,7 +45,6 @@ public class AddCommand extends Command {
 
         try {
             processAddCommand(newSplitBook);
-            //assert newSplitBook.length >= 1 : "There should be an argument to the command";
             assert !this.listOfBooks.isEmpty() : "The current list of books should not be empty";
             BookStorage.writeBookToTxt(this.bookDataFile, listOfBooks);
         } catch (EmptyArgumentsException e) {
@@ -86,7 +85,7 @@ public class AddCommand extends Command {
 
     public int setQuantityToAdd() throws WrongQuantityException, NumberFormatException,
             MaxIntNumberException, NegativeQuantityException {
-        //if there is no /quantity argument
+        // if there is no /quantity argument
         if (newItem.contains(" /quantity")) {
             hasQuantityArgument = true;
         }
@@ -113,13 +112,13 @@ public class AddCommand extends Command {
 
         String quantityString = splitQuantity[1].trim();
         if (quantityString.length() >= 4 && !quantityString.equals("1000")) {
-            //Checks if the input itself is longer than a 4 digit number, and if it's not, checks if it's any
-            //other 4 digit number than 1000, as 1000 is the maximum number of copies.
+            // Checks if the input itself is longer than a 4 digit number, and if it's not, checks if it's any
+            // other 4 digit number than 1000, as 1000 is the maximum number of copies.
             if (quantityString.matches("^[0-9]+$")) {
                 //Check if the input string contains only numbers
                 throw new MaxIntNumberException();
             } else {
-                //Contains other symbols such as letters or special characters
+                // Contains other symbols such as letters or special characters
                 throw new NumberFormatException();
             }
         }
@@ -129,14 +128,14 @@ public class AddCommand extends Command {
         String bookTitle = splitQuantity[0].trim();
         Book inputBook = getExistingBook(bookTitle);
 
-        //if the current book is a new book
+        // if the current book is a new book
         if (inputBook == null) {
             Book bookName = new Book(bookTitle);
             this.listOfBooks.add(bookName);
             bookName.setNumberInInventory(quantityToAdd);
             bookName.setNumberTotal(quantityToAdd);
             System.out.println("Added " + bookName.getName() + "!");
-        } else {    //if the current book already exists in the library
+        } else {    // if the current book already exists in the library
             int newNumberInInventory = inputBook.getNumberInInventory() + quantityToAdd;
             int newNumberTotal = inputBook.getNumberTotal() + quantityToAdd;
 

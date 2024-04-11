@@ -61,7 +61,7 @@ Format: `delete INDEX (optional)/quantity NUMBER_OF_COPIES`
 * A maximum of 1000 copies can be stored, and thus deleted from the library's inventory.
 * Delete does not affect the books currently being borrowed by users, only those currently
    available in the library's inventory.
-* To completely remove a title from the library, please ensure that all books are returned
+* To completely remove a book from the library, please ensure that all books are returned
   to the library before deleting all copies in the inventory.
 
 Example of usage:
