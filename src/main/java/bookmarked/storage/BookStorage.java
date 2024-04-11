@@ -11,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.time.format.DateTimeParseException;
+
 
 /**
  * This class provides storage functionalities for Book objects.
@@ -112,28 +114,35 @@ public class BookStorage {
 
         String title = bookAttributes[0];
         boolean isBorrowed = Boolean.parseBoolean(bookAttributes[1]);
-        LocalDate borrowDate = parseDate(bookAttributes[2]);
-        LocalDate returnDate = parseDate(bookAttributes[3]);
+        LocalDate borrowDate;
+        LocalDate returnDate;
+
+        try {
+            borrowDate = LocalDate.parse(bookAttributes[2]);
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid borrow date format for book: " + title + ", setting to today's date.");
+            borrowDate = LocalDate.now();
+        }
+
+        try {
+            returnDate = LocalDate.parse(bookAttributes[3]);
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid return date format for book: " + title + ", setting to two weeks from today.");
+            returnDate = LocalDate.now().plusWeeks(2);
+        }
+
+        // Ensure return date is after borrow date
+        if (returnDate.isBefore(borrowDate)) {
+            System.out.println("Return date before borrow date for book: " + title +
+                    ". Automatically adjusting return date to two weeks after borrow date.");
+            returnDate = borrowDate.plusWeeks(2);
+        }
 
         Book book = new Book(title);
         if (isBorrowed) {
             book.setBorrowed();
             book.setBorrowDate(borrowDate);
             book.setReturnDate(returnDate);
-
-            try {
-                // Check if the return date is before the borrow date
-                if (returnDate != null && borrowDate != null && returnDate.isBefore(borrowDate)) {
-                    throw new IllegalArgumentException("Return date cannot be before borrow date for book: " + title);
-                }
-                book.setReturnDate(returnDate);
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage() +
-                        ". Automatically setting return date to two weeks after the borrow date.");
-                // Automatically set the return date to two weeks after the borrow date
-                returnDate = borrowDate.plusWeeks(2);
-                book.setReturnDate(returnDate);
-            }
         }
         return book;
     }
