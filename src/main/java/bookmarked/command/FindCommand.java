@@ -42,38 +42,55 @@ public class FindCommand extends Command {
         String[] findItem = splitCommandCommand.split(" ");
         switch (findItem[0].trim()) {
             case ("book"):
-                assert listOfBooks != null : "list of books should not be empty";
-                String keyword;
-                logger.log(Level.INFO, "going to start processing find command");
-                keyword = getKeyword();
-                if (keyword == null) {
-                    return;
-                }
-                try {
-                    processFind(keyword);
-                } catch (EmptyListException e) {
-                    Ui.printEmptyListMessage();
-                }
+                bookCommand();
                 break;
             case ("user"):
-                String[] userName = splitCommandCommand.split("user");
-                if (userName.length >1) {
-                    FindUserCommand findUserCommand = new FindUserCommand(listOfUsers, userName[1].trim());
-                    findUserCommand.handleCommand();
-                } else {
-                    Ui.incorrectFindArgument();
-                }
+                userCommand(splitCommandCommand);
                 break;
             default:
                 Ui.printEmptyArgumentsMessage();
         }
     }
 
+    /**
+     * userCommand handles the case where find/ by user is called
+     * splits command by user to extract user name, then calls findusercommand to find matching user
+     * @param splitCommandCommand the command after "/by"
+     */
+    public void userCommand(String splitCommandCommand) {
+        String[] userName = splitCommandCommand.split("user");
+        if (userName.length >1) {
+            FindUserCommand findUserCommand = new FindUserCommand(listOfUsers, userName[1].trim());
+            findUserCommand.handleCommand();
+        } else {
+            Ui.incorrectFindArgument();
+        }
+    }
 
     /**
-     * ensures the book to be found is not an empty description
-     * @return book to be found
+     *bookCommand handles the case where find /by book is called
+     *
      */
+    public void bookCommand () {
+        assert listOfBooks != null : "list of books should not be empty";
+        String keyword;
+        logger.log(Level.INFO, "going to start processing find command");
+        keyword = getKeyword();
+        if (keyword == null) {
+            return;
+        }
+        try {
+            processFind(keyword);
+        } catch (EmptyListException e) {
+            Ui.printEmptyListMessage();
+        }
+    }
+
+
+        /**
+         * ensures the book to be found is not an empty description
+         * @return book to be found
+         */
 
     private String getKeyword() {
         String keyword;

@@ -197,14 +197,18 @@ the keyword and show the book in the form of list. If no books are found with th
 show a message for no result.
 
 ##### Implementation Details
-How? The "FindCommand", if find /by book is called, upon execution will:
+How? The "FindCommand", when called, will:
+- Identify the command as find /by book or find /by user
+If find /by book is called, upon execution will:
 - Check if keyword argument is empty, and process exception when empty keyword is given by user.
 - If with keyword argument, but no book available in the array list, `EmptyListException` is thrown and handled.
 - Books are filtered based on the given keyword.
 - All the filtered books are output to user in a list.
 if find /by user is called, will:
 - Split command accordingly to extract username.
-- Check if
+- Check if username is empty, and process exception if empty user name
+- Passes command into FindUserCommand class to extract user name and iterate the list of users for users containing
+username
 
 ![FindCommandDiagram.png](images%2FFindCommandDiagram.png)
 
