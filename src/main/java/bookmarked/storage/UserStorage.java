@@ -2,6 +2,7 @@ package bookmarked.storage;
 
 import bookmarked.Book;
 import bookmarked.User;
+import bookmarked.ui.Ui;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -39,11 +40,11 @@ public class UserStorage {
      * @param userDataFile The file from which to read Book data.
      * @return A list of books read from the file.
      */
-    public static ArrayList<User> readFileStorage(File userDataFile) {
+    public static ArrayList<User> readFileStorage(File userDataFile, ArrayList<Book> listOfBooks) {
         ArrayList<User> listOfUser = new ArrayList<>();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(userDataFile))) {
             fileReader.lines().forEach(line ->
-                    processLine(line, listOfUser));
+                    processLine(line, listOfUser, listOfBooks));
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
         } catch (IOException e) {
@@ -86,11 +87,11 @@ public class UserStorage {
         StringBuilder serializedString = new StringBuilder();
         serializedString.append(user.getName());
 
-        ArrayList<Book> userBooks = user.getUserBooks();
+        ArrayList<Integer> userBooksIndex = user.getUserBooksIndex();
 
-        for (Book currentBook : userBooks) {
+        for (Integer booksIndex : userBooksIndex) {
             serializedString.append(" | ");
-            serializedString.append(currentBook.getName());
+            serializedString.append(booksIndex);
         }
 
         return serializedString.toString();
@@ -103,14 +104,29 @@ public class UserStorage {
      * @param line A string representing a line of text from the storage file.
      * @param listOfUsers The list to which users who borrowed books are kept tracked.
      */
-    private static void processLine(String line, ArrayList<User> listOfUsers) {
+    private static void processLine(String line, ArrayList<User> listOfUsers, ArrayList<Book> listOfBooks) {
         String[] userAttributes = line.split(" \\| ");
-        User currentUser = new User(userAttributes[0]);
+        User currentUser = new User(userAttributes[0], listOfBooks);
 
         for (int i = 1; i < userAttributes.length; i += 1) {
-            currentUser.borrowedBook(new Book(userAttributes[i]));
+            try {
+                int bookIndex = Integer.parseInt(userAttributes[i].strip());
+
+                checkValidBookIndex(listOfBooks, bookIndex);
+
+                currentUser.borrowedBook(bookIndex);
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                Ui.printInvalidTxtLine();
+                return;
+            }
         }
 
         listOfUsers.add(currentUser);
+    }
+
+    private static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
+        if (bookIndex <= 0 || bookIndex > listOfBooks.size()) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 }

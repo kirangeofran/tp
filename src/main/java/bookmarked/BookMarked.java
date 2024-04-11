@@ -21,9 +21,12 @@ public class BookMarked {
 
         File bookDataFile = BookStorage.createFile(BOOK_FILE_PATH);
         listOfBooks = BookStorage.readFileStorage(bookDataFile);
+        BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
 
         File userDataFile = UserStorage.createFile(USER_FILE_PATH);
-        listOfUsers = UserStorage.readFileStorage(userDataFile);
+
+        listOfUsers = UserStorage.readFileStorage(userDataFile, listOfBooks);
+        UserStorage.writeUserToTxt(userDataFile, listOfUsers);
 
         Scanner in = new Scanner(System.in);
         String newItem = in.nextLine();
