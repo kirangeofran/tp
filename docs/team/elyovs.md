@@ -25,3 +25,17 @@ through the supported command features available.
   - Edit Command
   - Delete Command
 
+### Contributions to the UG
+
+### Contributions to the DG
+
+### Contributions to team-based tasks
+- Set up the Github team org and repo
+- Set up issues tracker
+- Managed issues under issues tracker
+- Managed label, milestones, issue of PRs
+- Reminded the team to do all the deliverables within the deadline
+- Ensure testing are done and updated using JUnit testing
+
+
+### Review/mentoring contributions
