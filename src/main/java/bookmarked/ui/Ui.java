@@ -95,6 +95,10 @@ public class Ui {
         System.out.println("Please input command in the correct format.");
     }
 
+    public static void printInvalidTxtLine() {
+        System.out.println("Skipping a line due to invalid book index");
+    }
+
     public static void printWrongQuantityFormat() {
         System.out.println("Please ensure that you input the proper arguments: \n" +
                 "a whole number after '/quantity'.");
@@ -142,7 +146,6 @@ public class Ui {
         System.out.println("There are now " + numberInventory + " copies in the library's inventory, and "
                 + numberTotal + " copies in total.");
     }
-
 
     public static void exitProgramme() {
         System.out.println("Bye!");

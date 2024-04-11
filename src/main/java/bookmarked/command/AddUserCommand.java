@@ -43,7 +43,8 @@ public class AddUserCommand extends Command {
         if (newSplitUser.length < 1 || newSplitUser[1].isBlank()) {
             throw new EmptyArgumentsException();
         }
-        User userName = new User(newSplitUser[1].trim());
+
+        User userName = new User(newSplitUser[1].trim(), listOfBooks);
         this.listOfUsers.add(userName);
         System.out.println("Added User " + userName + "!");
     }

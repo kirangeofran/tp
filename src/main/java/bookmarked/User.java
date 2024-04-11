@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 public class User {
     private String description;
-    private ArrayList<Book> userBooks;
+    private ArrayList<Book> listOfBooks;
+    private ArrayList<Integer> userBooksIndex;
 
-    public User(String description) {
+    public User(String description, ArrayList<Book> listOfBooks) {
         this.description = description;
-        this.userBooks = new ArrayList<>();
-
+        this.userBooksIndex = new ArrayList<>();
+        this.listOfBooks = listOfBooks;
     }
 
     public String getName() {
@@ -17,14 +18,30 @@ public class User {
     }
 
     public ArrayList<Book> getUserBooks() {
-        return this.userBooks;
+        ArrayList<Book> userBooks = new ArrayList<>();
+        for (int i = 0; i < userBooksIndex.size(); i += 1) {
+            int currentBookIndex = userBooksIndex.get(i);
+            userBooks.add(listOfBooks.get(currentBookIndex - 1));
+        }
+
+        return userBooks;
     }
-    public void borrowedBook (Book book) {
-        this.userBooks.add(book);
+
+    public ArrayList<Integer> getUserBooksIndex() {
+        return this.userBooksIndex;
     }
-    public void unborrowBook (Book book) {
-        this.userBooks.remove(book);
+
+    public void borrowedBook(Integer bookIndex) {
+        this.userBooksIndex.add(bookIndex);
     }
+    public void unborrowBook(Integer bookIndex) {
+        this.userBooksIndex.remove(bookIndex);
+    }
+
+    public void setListOfBooks(ArrayList<Book> listOfBooks) {
+        this.listOfBooks = listOfBooks;
+    }
+
     @Override
     public String toString() {
         return (this.description + getUserBooks());

@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  */
 public class ReturnCommand extends Command {
     private String bookName = null ;
-    private int bookIndex = -1 ;
+    private int bookIndex = -1; // Index starting from 0
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
     private File bookDataFile;
@@ -66,12 +66,24 @@ public class ReturnCommand extends Command {
             this.bookIndex = Integer.parseInt(bookIdentifier) - 1; // Use the processed identifier to parse the index
         } catch (NumberFormatException e) {
             this.bookName = bookIdentifier; // If not a number, treat as a book name
+
+            // Update bookIndex
+            updateBookIndex(listOfBooks);
         }
 
         this.listOfBooks = listOfBooks;
         this.listOfUsers = listOfUsers;
         this.bookDataFile = bookDataFile;
         this.userDataFile = userDataFile;
+    }
+
+    private void updateBookIndex(ArrayList<Book> listOfBooks) {
+        for (int i = 0; i < listOfBooks.size(); i += 1) {
+            String currentBookName = listOfBooks.get(i).getName();
+            if (currentBookName.equals(bookName)) {
+                this.bookIndex = i;
+            }
+        }
     }
 
     /**
@@ -91,7 +103,6 @@ public class ReturnCommand extends Command {
                     .filter(book -> book.getName().equalsIgnoreCase(bookName))
                     .collect(Collectors.toList());
         }
-        //assert !foundBooks.isEmpty() : "Book should exist to return";
 
         try {
             runReturnCommand(foundBooks);
@@ -100,7 +111,6 @@ public class ReturnCommand extends Command {
             Ui.printEmptyListMessage();
         }
     }
-
 
     /**
      * Marks the books found in the list as returned. This method handles the case where multiple
@@ -121,10 +131,7 @@ public class ReturnCommand extends Command {
             return;
         }
 
-        Book returnedBook = null;
         for (Book currentBook : foundBooks) {
-            returnedBook = currentBook;
-
             if (currentBook.getIsBorrowed()) {
                 currentBook.setReturned();
 
@@ -137,9 +144,10 @@ public class ReturnCommand extends Command {
         Iterator<User> iterator = listOfUsers.iterator();
         while (iterator.hasNext()) {
             User currentUser = iterator.next();
-            currentUser.unborrowBook(returnedBook);
+            currentUser.setListOfBooks(this.listOfBooks);
+            currentUser.unborrowBook(this.bookIndex + 1);
 
-            if (currentUser.getUserBooks().isEmpty()) {
+            if (currentUser.getUserBooksIndex().isEmpty()) {
                 iterator.remove();
             }
         }
