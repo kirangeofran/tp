@@ -166,11 +166,13 @@ public class BorrowCommand extends Command {
 
         if (!foundBooks.isEmpty()) {
             Book bookToBorrow = foundBooks.get(0);
-            if (bookToBorrow.isAvailable()) {
+            if (bookToBorrow.isAvailable() && !isBookBorrowed(userName, bookToBorrow)) {
                 bookToBorrow.borrowBook(LocalDate.now(), DEFAULT_BORROW_PERIOD);
                 updateListOfUsers(userName);
                 System.out.println("Borrowed " + bookToBorrow.getName() + " by " + userName + "!");
                 System.out.println("Please return by " + bookToBorrow.getFormattedReturnDate() + ".");
+            } else if (isBookBorrowed(userName, bookToBorrow)) {
+                System.out.println(userName + " has already borrowed this book. Please return before borrowing it again.");
             } else {
                 System.out.println("There are currently no available copies of the book in the inventory.");
             }
@@ -178,6 +180,7 @@ public class BorrowCommand extends Command {
             System.out.println("Book not found: " + bookName);
         }
     }
+
 
     /**
      * updates the list of users by adding the new user and its borrowed books to the user's list
@@ -234,4 +237,3 @@ public class BorrowCommand extends Command {
         return false;
     }
 }
-
