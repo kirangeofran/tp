@@ -65,7 +65,7 @@ public class Parser {
             userCommand = new ListCommand(listOfBooks, newItem, listOfUsers);
             break;
         case ("add"):
-            userCommand = new AddCommand(newItem, listOfBooks, splitItem, bookDataFile);
+            userCommand = new AddCommand(newItem, listOfBooks, bookDataFile);
             break;
         case ("delete"):
             userCommand = new DeleteCommand(splitItem, listOfBooks, bookDataFile);
