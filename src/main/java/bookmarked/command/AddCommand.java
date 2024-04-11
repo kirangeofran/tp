@@ -5,6 +5,7 @@ import bookmarked.exceptions.NegativeQuantityException;
 import bookmarked.exceptions.MaxIntNumberException;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.WrongQuantityException;
+import bookmarked.exceptions.InvalidStringException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
 
@@ -81,6 +82,8 @@ public class AddCommand extends Command {
             Ui.printMaxNumberMessage();
         } catch (NegativeQuantityException e) {
             Ui.printNegativeAddQuantityMessage();
+        } catch (InvalidStringException e) {
+            Ui.printInvalidTitleMessage();
         }
     }
 
@@ -126,9 +129,15 @@ public class AddCommand extends Command {
         }
     }
 
-    public void runAddCommand() throws MaxIntNumberException {
+    public void runAddCommand() throws MaxIntNumberException, InvalidStringException {
         String bookTitle = splitQuantity[0].trim();
         Book inputBook = getExistingBook(bookTitle);
+
+        try {
+            checkTitleValidity(bookTitle);
+        } catch (InvalidStringException e) {
+            throw new InvalidStringException();
+        }
 
         // if the current book is a new book
         if (inputBook == null) {
@@ -148,6 +157,13 @@ public class AddCommand extends Command {
             inputBook.setNumberInInventory(newNumberInInventory);
             inputBook.setNumberTotal(newNumberTotal);
             System.out.println("Added " + quantityToAdd + " copies of " + inputBook.getName() + "!");
+        }
+    }
+
+
+    public void checkTitleValidity(String bookName) throws InvalidStringException {
+        if (bookName.matches("^[0-9]+$") || bookName.contains("|")) {
+            throw new InvalidStringException();
         }
     }
 
