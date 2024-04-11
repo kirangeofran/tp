@@ -28,7 +28,7 @@ import java.util.Scanner;
 public class Parser {
     public static void runCommand(String newItem, Scanner in, ArrayList<Book> listOfBooks,
                                   File bookDataFile, ArrayList<User> listOfUsers, File userDataFile) {
-        Command userCommand = new ListCommand(listOfBooks, newItem);
+        Command userCommand = new ListCommand(listOfBooks, newItem, listOfUsers);
 
         while (!newItem.equalsIgnoreCase("bye")) {
             String[] splitItem = newItem.split(" ");
@@ -62,13 +62,13 @@ public class Parser {
             userCommand = new HelpCommand();
             break;
         case ("list"):
-            userCommand = new ListCommand(listOfBooks, newItem);
+            userCommand = new ListCommand(listOfBooks, newItem, listOfUsers);
             break;
         case ("add"):
-            userCommand = new AddCommand(newItem, listOfBooks, splitItem, bookDataFile);
+            userCommand = new AddCommand(newItem, listOfBooks, bookDataFile);
             break;
         case ("delete"):
-            userCommand = new DeleteCommand(splitItem, listOfBooks, bookDataFile);
+            userCommand = new DeleteCommand(newItem, listOfBooks, bookDataFile);
             break;
         case ("borrow"):
             userCommand = new BorrowCommand(splitItem, listOfBooks, bookDataFile, listOfUsers,
