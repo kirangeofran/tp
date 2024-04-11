@@ -47,7 +47,9 @@ public class Ui {
         System.out.println("   edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION");
         System.out.println("   example: edit 1 /title book");
         System.out.println("11.To find a specific user and their borrowed books:");
-        System.out.println("   finduser USERNAME");
+        System.out.println("   find /by user USER_NAME");
+        System.out.println("12.To find a book in the inventory");
+        System.out.println("   find /by book BOOK_NAME");
 
     }
 

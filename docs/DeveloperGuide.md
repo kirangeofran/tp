@@ -191,16 +191,20 @@ How? The "ListUserCommand" upon execution will:
 
 #### Find Command
 ##### Overview
-The "find command" is a feature that allows user to search a book in the library based on the given keyword.
-find command will find any books that contains the keyword and show the user in the form of list. If no
-books are found with the given keyword, the application will show a message for no result.
+The "find command" is a feature that allows user to search a book or user in the library based on the given keyword.
+find command will find any books (if the book function is called) or user (if the user function is called) that contains 
+the keyword and show the book in the form of list. If no books are found with the given keyword, the application will 
+show a message for no result.
 
 ##### Implementation Details
-How? The "FindCommand" upon execution will:
+How? The "FindCommand", if find /by book is called, upon execution will:
 - Check if keyword argument is empty, and process exception when empty keyword is given by user.
 - If with keyword argument, but no book available in the array list, `EmptyListException` is thrown and handled.
 - Books are filtered based on the given keyword.
 - All the filtered books are output to user in a list.
+if find /by user is called, will:
+- Split command accordingly to extract username.
+- Check if
 
 ![FindCommandDiagram.png](images%2FFindCommandDiagram.png)
 

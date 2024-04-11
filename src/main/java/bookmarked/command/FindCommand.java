@@ -40,7 +40,6 @@ public class FindCommand extends Command {
         this.splitCommand = newItem.split("/by");
         String splitCommandCommand = splitCommand[1].trim();
         String[] findItem = splitCommandCommand.split(" ");
-
         switch (findItem[0].trim()) {
             case ("book"):
                 assert listOfBooks != null : "list of books should not be empty";
@@ -58,11 +57,16 @@ public class FindCommand extends Command {
                 break;
             case ("user"):
                 String[] userName = splitCommandCommand.split("user");
-                FindUserCommand findUserCommand = new FindUserCommand(listOfUsers, userName[1].trim());
-                findUserCommand.handleCommand();
+                if (userName.length >1) {
+                    FindUserCommand findUserCommand = new FindUserCommand(listOfUsers, userName[1].trim());
+                    findUserCommand.handleCommand();
+                } else {
+                    System.out.println("user name cannot be empty");
+                }
                 break;
         }
     }
+
 
     /**
      * ensures the book to be found is not an empty description
