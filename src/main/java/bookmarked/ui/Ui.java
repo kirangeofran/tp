@@ -134,6 +134,13 @@ public class Ui {
         System.out.println("Please delete fewer copies instead.");
     }
 
+    public static void printDeleteStatement(int quantity, String bookTitle, int numberInventory, int numberTotal) {
+        System.out.println("Deleted " + quantity + " copies of " + bookTitle + "!");
+        System.out.println("There are now " + numberInventory + " copies in the library's inventory, and "
+                + numberTotal + " copies in total.");
+    }
+
+
     public static void exitProgramme() {
         System.out.println("Bye!");
     }

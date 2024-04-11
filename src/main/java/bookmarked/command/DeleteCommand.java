@@ -172,9 +172,7 @@ public class DeleteCommand extends Command {
         }
         inputBook.setNumberInInventory(newNumberInInventory);
         inputBook.setNumberTotal(newNumberTotal);
-        System.out.println("Deleted " + quantityToDelete + " copies of " + inputBook.getName() + "!");
-        System.out.println("There are now " + newNumberInInventory + " copies in the library's inventory, and "
-                + newNumberTotal + " copies in total.");
+        Ui.printDeleteStatement(quantityToDelete, inputBook.getName(), newNumberInInventory, newNumberTotal);
 
         if (newNumberTotal <= 0) {
             System.out.println(inputBook.getName() + " has been deleted from the library's list!");
