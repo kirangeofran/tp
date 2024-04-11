@@ -1,5 +1,7 @@
 package bookmarked.ui;
 
+import bookmarked.User;
+
 public class Ui {
     static final String LINE_BREAK = "_____________________________________________\n"
             + "_____________________________________________";
@@ -152,6 +154,22 @@ public class Ui {
         System.out.println("There are now " + numberInventory + " copies in the library's inventory, and "
                 + numberTotal + " copies in total.");
     }
+    public static void incorrectFindArgument() {
+        System.out.println("please key in a username");
+    }
+    public static void invalidUser() {
+        System.out.println("user not found");
+    }
+    public static void printElse(User user) {
+        for (int i = 0; i < user.getUserBooks().size(); i++) {
+            System.out.print(user.getUserBooks().get(i).getName());
+            if (i < user.getUserBooks().size() - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println();
+    }
+
 
     public static void exitProgramme() {
         System.out.println("Bye!");

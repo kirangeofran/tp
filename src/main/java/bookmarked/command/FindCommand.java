@@ -61,9 +61,11 @@ public class FindCommand extends Command {
                     FindUserCommand findUserCommand = new FindUserCommand(listOfUsers, userName[1].trim());
                     findUserCommand.handleCommand();
                 } else {
-                    System.out.println("user name cannot be empty");
+                    Ui.incorrectFindArgument();
                 }
                 break;
+            default:
+                Ui.printEmptyArgumentsMessage();
         }
     }
 

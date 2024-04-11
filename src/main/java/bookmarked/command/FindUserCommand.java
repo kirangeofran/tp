@@ -49,21 +49,18 @@ public class FindUserCommand extends Command {
             }
         }
         if (!userFound) {
-            System.out.println("non valid user");
+            Ui.invalidUser();
         }
     }
 
     private void findUser(User user) {
         System.out.println("User: " + user.getName());
         System.out.print("Borrowed Books: ");
-        for (int i = 0; i < user.getUserBooks().size(); i++) {
-            System.out.print(user.getUserBooks().get(i).getName());
-            if (i < user.getUserBooks().size() - 1) {
-                System.out.print(", ");
-            }
+        if (user.getUserBooks().isEmpty()) {
+            System.out.println("None");
+        } else {
+            Ui.printElse(user);
         }
-        System.out.println();
     }
 }
-
 
