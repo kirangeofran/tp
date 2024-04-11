@@ -77,12 +77,10 @@ public class DeleteCommand extends Command {
             throw new EmptyArgumentsException();
         }
 
-        this.splitQuantity = newSplitBook[1].split(" /quantity");
+        this.splitQuantity = newSplitBook[1].split(" /quantity ");
         if (this.splitQuantity[0].isBlank()) {
             throw new EmptyArgumentsException();
         }
-
-        this.splitQuantity = newSplitBook[1].split(" /quantity");
 
         try {
             quantityToDelete = setQuantityToDelete();
