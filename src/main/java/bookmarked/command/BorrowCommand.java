@@ -166,11 +166,13 @@ public class BorrowCommand extends Command {
 
         if (!foundBooks.isEmpty()) {
             Book bookToBorrow = foundBooks.get(0);
-            if (bookToBorrow.isAvailable()) {
+            if (bookToBorrow.isAvailable() && !isBookBorrowed(userName, bookToBorrow)) {
                 bookToBorrow.borrowBook(LocalDate.now(), DEFAULT_BORROW_PERIOD);
-                updateListOfUsers(bookToBorrow, userName);
+                updateListOfUsers(userName);
                 System.out.println("Borrowed " + bookToBorrow.getName() + " by " + userName + "!");
                 System.out.println("Please return by " + bookToBorrow.getFormattedReturnDate() + ".");
+            } else if (isBookBorrowed(userName, bookToBorrow)) {
+                System.out.println(userName + " has already borrowed this book. Please return before borrowing it again.");
             } else {
                 System.out.println("There are currently no available copies of the book in the inventory.");
             }
@@ -179,16 +181,16 @@ public class BorrowCommand extends Command {
         }
     }
 
+
     /**
      * updates the list of users by adding the new user and its borrowed books to the user's list
      * Checks whether the user has already borrowed books and hence is already in the user list
      * If user is in user list, add new book to user's current list
      * If user is a new user, create the new user and add the new book into user list
      *
-     * @param book     the book borrowed
      * @param userName the name of the user
      */
-    private void updateListOfUsers(Book book, String userName) {
+    private void updateListOfUsers(String userName) {
         for (User user : listOfUsers) {
             if (user.getName().equalsIgnoreCase(userName)) {
                 user.setListOfBooks(this.listOfBooks);
@@ -206,10 +208,32 @@ public class BorrowCommand extends Command {
         UserStorage.writeUserToTxt(userDataFile, listOfUsers);
     }
 
-    private void userAvailability() {
+    private Boolean isBookBorrowed(String userBorrowing, Book bookToBorrow) {
+        for (int i = 0; i < listOfUsers.size(); i += 1) {
+            User currentUser = listOfUsers.get(i);
+            if (isBookBorrowedByCorrectUser(userBorrowing, bookToBorrow, currentUser)) {
+                return true;
+            }
+        }
 
+        return false;
     }
 
+    private static boolean isBookBorrowedByCorrectUser(String userBorrowing, Book bookToBorrow, User currentUser) {
+        if (currentUser.getName().equals(userBorrowing)) {
+            ArrayList<Book> currentUserBooks =  currentUser.getUserBooks();
+            return isBookInUserBooks(bookToBorrow, currentUserBooks);
+        }
+        return false;
+    }
 
+    private static boolean isBookInUserBooks(Book bookToBorrow, ArrayList<Book> currentUserBooks) {
+        for (int j = 0; j < currentUserBooks.size(); j += 1) {
+            Book currentBook = currentUserBooks.get(j);
+            if (currentBook.equals(bookToBorrow)) {
+                return true;    // user has the book
+            }
+        }
+        return false;
+    }
 }
-
