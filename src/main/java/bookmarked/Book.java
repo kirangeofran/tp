@@ -20,8 +20,6 @@ public class Book {
     protected int numberTotal;
 
 
-
-
     public Book(String description) {
         this.description = description;
         this.isBorrowed = false;

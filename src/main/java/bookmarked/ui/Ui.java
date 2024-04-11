@@ -95,7 +95,7 @@ public class Ui {
         System.out.println("Please input command in the correct format.");
     }
 
-    public static void printWrongAddQuantityFormat() {
+    public static void printWrongQuantityFormat() {
         System.out.println("Please ensure that you input the proper arguments: \n" +
                 "a whole number after '/quantity'.");
     }
@@ -104,17 +104,45 @@ public class Ui {
         System.out.println("Please input how many books you want to add after '/quantity'.");
     }
 
+    public static void printNegativeAddQuantityMessage() {
+        System.out.println("You must add at least 1 copy of a book. Please input a number greater than 0.");
+    }
+
+    public static void printMaxDeleteNumberMessage() {
+        System.out.println("You can only hold and delete up to 1000 copies of a book in total.\n" +
+                "Please delete fewer copies instead.");
+    }
+
+    public static void printNegativeDeleteQuantityMessage() {
+        System.out.println("You must delete at least 1 copy of a book. Please input a number greater than 0.");
+    }
+
+    public static void printBlankDeleteQuantity() {
+        System.out.println("Please input how many books you want to delete after '/quantity'.");
+    }
+
     public static void printMaxNumberMessage() {
         System.out.println("You can only hold up to 1000 copies of a book in total.\n" +
                 "Please add fewer copies instead.");
     }
-
-    public static void printNegativeAddQuantityMessage() {
-        System.out.println("You must add at least 1 copy of a book. Please input a number greater than 0.");
+    public static void printDeletingTooManyBooksMessage(int numberInInventory, int quantityToDelete, String bookTitle) {
+        System.out.println("You tried to delete " + quantityToDelete + " copies of " + bookTitle + ".\n"
+                + "However, there are currently only " + numberInInventory + " copies in the inventory.");
     }
     public static void printEmptyUserListMessage() {
         System.out.println("The user list is empty, please add a user through the borrow function first");
     }
+
+    public static void printDeleteFewerBooksMessage() {
+        System.out.println("Please delete fewer copies instead.");
+    }
+
+    public static void printDeleteStatement(int quantity, String bookTitle, int numberInventory, int numberTotal) {
+        System.out.println("Deleted " + quantity + " copies of " + bookTitle + "!");
+        System.out.println("There are now " + numberInventory + " copies in the library's inventory, and "
+                + numberTotal + " copies in total.");
+    }
+
 
     public static void exitProgramme() {
         System.out.println("Bye!");
