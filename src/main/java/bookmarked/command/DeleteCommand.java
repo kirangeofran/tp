@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 public class DeleteCommand extends Command {
     private static final int DEFAULT_QUANTITY = 1;
+    private static final int MAX_QUANTITY = 1000;
+    private static final String MAX_QUANTITY_STRING = "1000";
     private String newItem;
     private ArrayList<Book> listOfBooks;
     private File bookDataFile;
@@ -115,7 +117,7 @@ public class DeleteCommand extends Command {
             int quantityToDelete = Integer.parseInt(splitQuantity[1].trim());
             if (quantityToDelete <= 0) {
                 throw new NegativeQuantityException();
-            } else if (quantityToDelete > 1000) {
+            } else if (quantityToDelete > MAX_QUANTITY) {
                 throw new MaxIntNumberException();
             }
             return quantityToDelete;
@@ -132,7 +134,7 @@ public class DeleteCommand extends Command {
         }
 
         String quantityString = splitQuantity[1].trim();
-        if (quantityString.length() >= 4 && !quantityString.equals("1000")) {
+        if (quantityString.length() >= 4 && !quantityString.equals(MAX_QUANTITY_STRING)) {
             // Checks if the input itself is longer than a 4 digit number, and if it's not, checks if it's any
             // other 4 digit number than 1000. 1000 is the maximum number of copies, so the deletion number can't
             // be larger than that.
