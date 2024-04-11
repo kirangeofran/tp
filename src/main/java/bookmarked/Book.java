@@ -15,8 +15,9 @@ public class Book {
     protected LocalDate borrowDate;
     protected LocalDate returnDate;
     protected String user;
-
-
+    protected int numberInInventory;
+    protected int numberBorrowed;
+    protected int numberTotal;
 
 
     public Book(String description) {
@@ -91,17 +92,45 @@ public class Book {
         return (isBorrowed ? ", borrowed" : "available"); // mark done task with X
     }
 
+    public void setNumberInInventory(int newNumber) {
+        this.numberInInventory = newNumber;
+    }
+
+    public int getNumberInInventory() {
+        return this.numberInInventory;
+    }
+
+    public void setNumberBorrowed(int newNumber) {
+        this.numberBorrowed = newNumber;
+    }
+
+    public int getNumberBorrowed() {
+        return this.numberBorrowed;
+    }
+
+    public void setNumberTotal(int newNumber) {
+        this.numberTotal = newNumber;
+    }
+
+    public int getNumberTotal() {
+        return this.numberTotal;
+    }
+
+
+
     @Override
     public String toString() {
+        String formattedNumberInventoryBorrowed = "Number of books in inventory: " + this.numberInInventory
+                + ". Number of books borrowed: " + this.numberBorrowed;
         if (isBorrowed) {
             String formattedBorrowDate =
                     (borrowDate != null) ? borrowDate.format(DATE_FORMATTER) : "Not set";
             String formattedReturnDate = getFormattedReturnDate();
             return String.format(
-                    "%s, borrowed on: %s, due on: %s", this.description, formattedBorrowDate,
-                    formattedReturnDate);
+                    "%s. %s. Borrowed on: %s, due on: %s", this.description, formattedNumberInventoryBorrowed,
+                    formattedBorrowDate, formattedReturnDate);
         } else {
-            return this.description + " available";
+            return this.description + ". " + formattedNumberInventoryBorrowed + ".";
         }
     }
 
