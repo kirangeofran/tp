@@ -1,18 +1,26 @@
 package bookmarked.command;
 
 import bookmarked.Book;
-import bookmarked.exceptions.*;
+import bookmarked.exceptions.BookNotFoundException;
+import bookmarked.exceptions.EmptyArgumentsException;
+import bookmarked.exceptions.EmptyListException;
+import bookmarked.exceptions.IndexOutOfListBounds;
+import bookmarked.exceptions.InvalidStringException;
+import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.user.User;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
 import bookmarked.storage.UserStorage;
 
+import bookmarked.arguments.InputValidity;
+import bookmarked.arguments.SetBookIndexName;
+import bookmarked.arguments.SetUserName;
+
 import java.io.File;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 /**
  * Handles the "borrow" command from the user, allowing for borrowing a book specified either by its name
@@ -28,7 +36,11 @@ import java.util.stream.Collectors;
 public class BorrowCommand extends Command {
 
     private static final Period DEFAULT_BORROW_PERIOD = Period.ofWeeks(2);
+    private final String COMMAND_STRING = "borrow";
+    private final String ARGUMENT_STRING = " /by ";
     private String bookName;
+    private String[] splitUser;
+    private User currentUser;
     private int bookIndex = -1;
     private String userName;
     private String newItem;
@@ -37,47 +49,13 @@ public class BorrowCommand extends Command {
     private File bookDataFile;
     private File userDataFile;
 
-    public BorrowCommand( ArrayList<Book> listOfBooks, File bookDataFile,
+    public BorrowCommand(ArrayList<Book> listOfBooks, File bookDataFile,
                          ArrayList<User> listOfUsers, String newItem, File userDataFile) {
         this.newItem = newItem;
         this.listOfBooks = listOfBooks;
         this.listOfUsers = listOfUsers;
         this.bookDataFile = bookDataFile;
         this.userDataFile = userDataFile;
-    }
-
-    private void setArguments()
-            throws EmptyArgumentsException, WrongInputFormatException, InvalidStringException {
-
-        if (newItem == null) {
-            throw new EmptyArgumentsException();
-        }
-
-        // Assuming the newItem string starts right after the command keyword with the book name/index.
-        String[] itemUserName = this.newItem.split("borrow");
-        if (itemUserName.length < 1) {
-            throw new InvalidStringException();
-        }
-
-        String[] splitParts = itemUserName[1].split(" /by ");
-        if (splitParts.length < 2 || splitParts[1].trim().isEmpty()) {
-            throw new EmptyArgumentsException();
-        }
-
-        try {
-            this.bookIndex = Integer.parseInt(splitParts[0].trim()) - 1;
-        } catch (NumberFormatException e) {
-            this.bookName = splitParts[0].trim();  // Assume non-numeric is a book name.
-        }
-
-        if (isMoreThanOneBy(splitParts)) {
-            throw new WrongInputFormatException();
-        }
-
-        this.userName = splitParts[1].trim();
-        if (this.userName.isEmpty()) {
-            throw new EmptyArgumentsException();
-        }
     }
 
 
@@ -87,92 +65,70 @@ public class BorrowCommand extends Command {
             setArguments();
         } catch (EmptyArgumentsException | InvalidStringException e) {
             Ui.printEmptyArgumentsMessage();
-        } catch (WrongInputFormatException e) {
-            Ui.printWrongInputFormat();
-        }
-
-
-        List<Book> foundBooks;
-        if (bookIndex >= 0 && bookIndex < listOfBooks.size()) {
-            foundBooks = new ArrayList<>();
-            foundBooks.add(listOfBooks.get(bookIndex));
-        } else {
-            foundBooks = listOfBooks.stream()
-                    .filter(book -> book.getName().equalsIgnoreCase(bookName))
-                    .collect(Collectors.toList());
+            return;
+        } catch (BookNotFoundException e) {
+            Ui.printBookNotFoundExceptionMessage();
+            return;
+        } catch (IndexOutOfListBounds e) {
+            Ui.printOutOfBoundsMessage();
+            return;
         }
 
         try {
-            runBorrowCommand(foundBooks);
+            runBorrowCommand();
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
         } catch (EmptyListException e) {
             Ui.printEmptyListMessage();
-        }  catch (WrongInputFormatException e) {
+        } catch (WrongInputFormatException e) {
             Ui.printWrongInputFormat();
         }
     }
 
 
-    private static boolean isMoreThanOneBy(String[] splitParts) {
-        return splitParts.length > 2;
-    }
-
-
-    /**
-     * checks whether there is a user input
-     *
-     * @param commandParts the command split into n arrays based on how many spaces it contains
-     * @return true if one of the arrays contain by, false otherwise
-     */
-    public boolean containsUser(String[] commandParts) {
-        for (String commandPart : commandParts) {
-            if (commandPart.equalsIgnoreCase("/by")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-
-    private void updateBookIndex() {
-        for (int i = 0; i < listOfBooks.size(); i += 1) {
-            String currentBookName = listOfBooks.get(i).getName();
-            if (currentBookName.equals(bookName)) {
-                this.bookIndex = i;
-            }
+    private void setArguments() throws EmptyArgumentsException, InvalidStringException,
+            BookNotFoundException, IndexOutOfListBounds {
+        try {
+            inputValidity();
+            setBookArguments();
+            setUserArgument();
+        } catch (InvalidStringException e) {
+            throw new InvalidStringException();
+        } catch (EmptyArgumentsException e) {
+            throw new EmptyArgumentsException();
+        } catch (BookNotFoundException e) {
+            throw new BookNotFoundException();
+        } catch (IndexOutOfListBounds e) {
+            throw new IndexOutOfListBounds();
         }
     }
+
+
 
     /**
      * Attempts to mark a book as borrowed based on its availability. If the book is available,
      * it is marked as borrowed, and a due date is set. If the book is currently borrowed, the user is
      * informed of the expected return date. This method updates the user's list of borrowed books accordingly.
      *
-     * @param foundBooks The list of books that match the specified identifier for borrowing.
      * @throws EmptyListException        If the overall list of books is empty.
      * @throws WrongInputFormatException If the input format is incorrect.
      */
-    public void runBorrowCommand(List<Book> foundBooks)
+    public void runBorrowCommand()
             throws EmptyListException, WrongInputFormatException {
         if (this.listOfBooks.isEmpty()) {
             throw new EmptyListException();
         }
 
-        if (!foundBooks.isEmpty()) {
-            Book bookToBorrow = foundBooks.get(0);
-            if (bookToBorrow.isAvailable() && !isBookBorrowed(userName, bookToBorrow)) {
-                bookToBorrow.borrowBook(LocalDate.now(), DEFAULT_BORROW_PERIOD);
-                updateListOfUsers(userName, LocalDate.now());
-                System.out.println("Borrowed " + bookToBorrow.getName() + " by " + userName + "!");
-                System.out.println("Please return by " + bookToBorrow.getFormattedReturnDate() + ".");
-            } else if (isBookBorrowed(userName, bookToBorrow)) {
-                System.out.println(userName + " has already borrowed this book. Please return before borrowing it again.");
-            } else {
-                System.out.println("There are currently no available copies of the book in the inventory.");
-            }
+        Book bookToBorrow = this.listOfBooks.get(this.bookIndex);
+        if (bookToBorrow.isAvailable() && !isBookBorrowed(this.userName, bookToBorrow)) {
+            bookToBorrow.borrowBook(LocalDate.now(), DEFAULT_BORROW_PERIOD);
+            updateListOfUsers(LocalDate.now());
+
+            System.out.println("Borrowed " + this.bookName + " by " + userName + "!");
+            System.out.println("Please return by " + bookToBorrow.getFormattedReturnDate() + ".");
+        } else if (isBookBorrowed(userName, bookToBorrow)) {
+            Ui.printUserAlreadyBorrowedBookMessage(userName);
         } else {
-            System.out.println("Book not found: " + bookName);
+            Ui.printNoAvailableCopiesInInventoryMessage();
         }
     }
 
@@ -180,34 +136,52 @@ public class BorrowCommand extends Command {
     /**
      * updates the list of users by adding the new user and its borrowed books to the user's list
      * Checks whether the user has already borrowed books and hence is already in the user list
-     * If user is in user list, add new book to user's current list
-     * If user is a new user, create the new user and add the new book into user list
      *
-     * @param userName the name of the user
      */
-    private void updateListOfUsers(String userName, LocalDate borrowDate) {
+    private void updateListOfUsers(LocalDate borrowDate) {
         LocalDate returnDueDate = borrowDate.plus(DEFAULT_BORROW_PERIOD);
-        for (User user : listOfUsers) {
-            if (user.getName().equalsIgnoreCase(userName)) {
-                user.setListOfBooks(this.listOfBooks);
-                user.borrowBook(this.bookIndex + 1, borrowDate, returnDueDate);
-
-                UserStorage.writeUserToTxt(userDataFile, listOfUsers);
-                return;
-            }
-        }
-
-        // If user not found, create a new user and add the borrowed book
-        User newUser = new User(userName, listOfBooks);
-        newUser.borrowBook(bookIndex + 1, borrowDate, returnDueDate);
-        listOfUsers.add(newUser);
-        UserStorage.writeUserToTxt(userDataFile, listOfUsers);
+        this.currentUser.borrowBook(this.bookIndex, borrowDate, returnDueDate);
+        UserStorage.writeUserToTxt(this.userDataFile, this.listOfUsers);
     }
+
+
+    public void inputValidity() throws InvalidStringException, EmptyArgumentsException {
+        try {
+            InputValidity inputValidity = new InputValidity(COMMAND_STRING, this.newItem, ARGUMENT_STRING);
+            inputValidity.checkInputValidity();
+            this.splitUser = inputValidity.getSplitArgument();
+        } catch (InvalidStringException e) {
+            throw new InvalidStringException();
+        } catch (EmptyArgumentsException e) {
+            throw new EmptyArgumentsException();
+        }
+    }
+
+
+    public void setBookArguments() throws BookNotFoundException, IndexOutOfListBounds {
+        try {
+            SetBookIndexName setBookIndexName = new SetBookIndexName(splitUser[0].trim(), listOfBooks);
+            setBookIndexName.setArguments();
+            this.bookIndex = setBookIndexName.getBookIndex();
+            this.bookName = setBookIndexName.getBookName();
+        } catch (BookNotFoundException e) {
+            throw new BookNotFoundException();
+        } catch (IndexOutOfListBounds e) {
+            throw new IndexOutOfListBounds();
+        }
+    }
+
+
+    public void setUserArgument() {
+        SetUserName setUserName = new SetUserName(this.splitUser[1].trim(), listOfUsers);
+        this.currentUser = setUserName.checkBorrowUserNameValidity(listOfBooks, userDataFile);
+        this.userName = this.currentUser.getName();
+    }
+
 
     private Boolean isBookBorrowed(String userBorrowing, Book bookToBorrow) {
         for (int i = 0; i < listOfUsers.size(); i += 1) {
-            User currentUser = listOfUsers.get(i);
-            if (isBookBorrowedByCorrectUser(userBorrowing, bookToBorrow, currentUser)) {
+            if (isBookBorrowedByCorrectUser(userBorrowing, bookToBorrow, this.currentUser)) {
                 return true;
             }
         }
@@ -215,21 +189,23 @@ public class BorrowCommand extends Command {
         return false;
     }
 
+
     private static boolean isBookBorrowedByCorrectUser(String userBorrowing, Book bookToBorrow, User currentUser) {
         if (currentUser.getName().equals(userBorrowing)) {
-            ArrayList<Book> currentUserBooks =  currentUser.getUserBooks();
+            ArrayList<Book> currentUserBooks = currentUser.getUserBooks();
             return isBookInUserBooks(bookToBorrow, currentUserBooks);
         }
         return false;
     }
 
+
     private static boolean isBookInUserBooks(Book bookToBorrow, ArrayList<Book> currentUserBooks) {
-        for (int j = 0; j < currentUserBooks.size(); j += 1) {
-            Book currentBook = currentUserBooks.get(j);
+        for (Book currentBook : currentUserBooks) {
             if (currentBook.equals(bookToBorrow)) {
                 return true;    // user has the book
             }
         }
         return false;
     }
+
 }
