@@ -37,7 +37,7 @@ public class UserBook {
     public Integer getUserBookIndex() {
         return this.userBookIndex;
     }
-    
+
     public String getUserBookTitle() {
         return this.userBookTitle;
     }
