@@ -158,10 +158,15 @@ public class DeleteCommand extends Command {
         Book inputBook = listOfBooks.get(listNumberIndex);
 
         int currentNumberInInventory = inputBook.getNumberInInventory();
+        int currentNumberTotal = inputBook.getNumberTotal();
         int newNumberInInventory = currentNumberInInventory - quantityToDelete;
         int newNumberTotal = inputBook.getNumberTotal() - quantityToDelete;
 
-        if (quantityToDelete > currentNumberInInventory) {
+        if (currentNumberTotal == 0 || currentNumberInInventory == 0) {
+            Ui.printDeleteNoCopiesErrorException(inputBook.getName());
+            listOfBooks.remove(listNumberIndex);
+            return;
+        } else if (quantityToDelete > currentNumberInInventory) {
             Ui.printDeletingTooManyBooksMessage(currentNumberInInventory, quantityToDelete, inputBook.getName());
             throw new TooLargeQuantityException();
         }
