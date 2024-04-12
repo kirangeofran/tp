@@ -189,7 +189,6 @@ public class ReturnCommand extends Command {
         return bookIndex - 1;
     }
 
-
     public User checkUserNameValidity() throws UserNotFoundException {
         String userString = this.splitUser[1].trim();
         for (User user : listOfUsers) {
