@@ -161,8 +161,7 @@ The "list command" component interfaces with several others:
 ##### Implementation Details
 How? The "ListCommand" upon execution will:
 - Split user input with the regex "/sortby" to determine the various arguments the user has for the list function
-- If the user input is simply "list", the toString() function of each book in the ArrayList is called, printing out the books
-- If with argument, parses the argument to figure which it is, then creates a new ArrayList<Book> to copy
+- Parses the argument to figure which it is, then creates a new ArrayList<Book> to copy
     the original ArrayList and sort the new ArrayList according to the necessary argument. The toString()
     function of each book in the newly sorted ArrayList is then called.
 - If there are no books in the original ArrayList, an exception is thrown and the user is informed of it.
@@ -192,16 +191,24 @@ How? The "ListUserCommand" upon execution will:
 
 #### Find Command
 ##### Overview
-The "find command" is a feature that allows user to search a book in the library based on the given keyword.
-find command will find any books that contains the keyword and show the user in the form of list. If no
-books are found with the given keyword, the application will show a message for no result.
+The "find command" is a feature that allows user to search a book or user in the library based on the given keyword.
+find command will find any books (if the book function is called) or user (if the user function is called) that contains 
+the keyword and show the book in the form of list. If no books are found with the given keyword, the application will 
+show a message for no result.
 
 ##### Implementation Details
-How? The "FindCommand" upon execution will:
+How? The "FindCommand", when called, will:
+- Identify the command as find /by book or find /by user
+If find /by book is called, upon execution will:
 - Check if keyword argument is empty, and process exception when empty keyword is given by user.
 - If with keyword argument, but no book available in the array list, `EmptyListException` is thrown and handled.
 - Books are filtered based on the given keyword.
 - All the filtered books are output to user in a list.
+if find /by user is called, will:
+- Split command accordingly to extract username.
+- Check if username is empty, and process exception if empty user name
+- Passes command into FindUserCommand class to extract user name and iterate the list of users for users containing
+username
 
 ![FindCommandDiagram.png](images%2FFindCommandDiagram.png)
 
@@ -264,11 +271,13 @@ How ?Upon execution, the ExtendCommand performs the following actions:
 ## Product scope
 ### Target user profile
 
-{Describe the target user profile}
+Our target user is librarians. 
 
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+Bookmarked is an application for librarians to easily keep up to date with available books, their status and
+intended return date. Other than books, librarians can also check on borrowers' return status, whether they 
+have overdue books and could potentially send reminders to them if they have due dates soon
 
 ## User Stories
 

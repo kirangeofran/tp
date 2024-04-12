@@ -75,10 +75,10 @@ public class Parser {
                     newItem, userDataFile);
             break;
         case ("return"):
-            userCommand = new ReturnCommand(splitItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
+            userCommand = new ReturnCommand(newItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
             break;
         case ("find"):
-            userCommand = new FindCommand(newItem, listOfBooks);
+            userCommand = new FindCommand(newItem, listOfBooks, listOfUsers);
             break;
         case("listuser"):
             userCommand = new ListUserCommand(listOfUsers);
@@ -91,7 +91,7 @@ public class Parser {
             break;
         case "extend":
             // Ensure 'extend' is followed by the name of the book to extend
-            userCommand = new ExtendCommand(splitItem, listOfBooks, bookDataFile);
+            userCommand = new ExtendCommand(newItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
             break;
         default:
             throw new BookMarkedException();

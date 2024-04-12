@@ -45,6 +45,10 @@ public class AddCommand extends Command {
     public void handleCommand() {
         assert newItem != null : "Item should not be null";
         String[] newSplitBook = this.newItem.split("add");
+        if (newSplitBook.length < 1) {
+            Ui.printEmptyArgumentsMessage();
+            return;
+        }
 
         try {
             processAddCommand(newSplitBook);
@@ -66,7 +70,7 @@ public class AddCommand extends Command {
             throw new EmptyArgumentsException();
         }
 
-        this.splitQuantity = newSplitBook[1].split(" /quantity");
+        this.splitQuantity = newSplitBook[1].split(" /quantity ");
         if (this.splitQuantity[0].isBlank()) {
             throw new EmptyArgumentsException();
         }

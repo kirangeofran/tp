@@ -1,7 +1,7 @@
 package bookmarked.command;
 
 import bookmarked.user.User;
-import bookmarked.exceptions.EmptyListException;
+import bookmarked.exceptions.EmptyUserListException;
 import bookmarked.ui.Ui;
 
 import java.util.ArrayList;
@@ -23,8 +23,8 @@ public class FindUserCommand extends Command {
     public void handleCommand() {
         try {
             printUsers();
-        } catch (EmptyListException e) {
-            Ui.printEmptyListMessage();
+        } catch (EmptyUserListException e) {
+            Ui.printEmptyUserListMessage();
         }
     }
 
@@ -33,37 +33,35 @@ public class FindUserCommand extends Command {
      * iterates through the list of users to find user printed
      * iterates through each users list of books to print user followed by their books borrowed
      *
-     * @throws EmptyListException if the list of users is empty
+     * @throws EmptyUserListException if the list of users is empty
      */
 
-    private void printUsers() throws EmptyListException {
+    private void printUsers() throws EmptyUserListException {
         boolean userFound = false;
         if (listOfUsers.isEmpty()) {
-            throw new EmptyListException();
+            throw new EmptyUserListException();
         }
         for (User user : listOfUsers) {
-            if (user.getName().equalsIgnoreCase(userName)) {
+            if (user.getName().contains(userName)) {
                 userFound = true;
                 findUser(user);
-                break;
+                System.out.println();
             }
         }
         if (!userFound) {
-            System.out.println("non valid user");
+            Ui.invalidUser();
         }
     }
 
     private void findUser(User user) {
         System.out.println("User: " + user.getName());
         System.out.print("Borrowed Books: ");
-        for (int i = 0; i < user.getUserBooks().size(); i++) {
-            System.out.print(user.getUserBooks().get(i).getName());
-            if (i < user.getUserBooks().size() - 1) {
-                System.out.print(", ");
-            }
+        if (user.getUserBooks().isEmpty()) {
+            System.out.println("None");
+        } else {
+            System.out.println();
+            Ui.printElse(user);
         }
-        System.out.println();
     }
 }
-
 

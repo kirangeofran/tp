@@ -1,14 +1,7 @@
 package bookmarked.command;
 
 import bookmarked.Book;
-import bookmarked.exceptions.EmptyArgumentsException;
-import bookmarked.exceptions.EmptyListException;
-import bookmarked.exceptions.IndexOutOfListBounds;
-import bookmarked.exceptions.WrongFormatQuantityException;
-import bookmarked.exceptions.NegativeQuantityException;
-import bookmarked.exceptions.MaxIntNumberException;
-import bookmarked.exceptions.TooLargeQuantityException;
-import bookmarked.exceptions.WrongQuantityException;
+import bookmarked.exceptions.*;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
 
@@ -42,6 +35,10 @@ public class DeleteCommand extends Command {
     @Override
     public void handleCommand() {
         String[] newSplitBook = this.newItem.split("delete");
+        if (newSplitBook.length < 1) {
+            Ui.printEmptyArgumentsMessage();
+            return;
+        }
 
         try {
             processDeleteCommand(newSplitBook);
@@ -77,12 +74,10 @@ public class DeleteCommand extends Command {
             throw new EmptyArgumentsException();
         }
 
-        this.splitQuantity = newSplitBook[1].split(" /quantity");
+        this.splitQuantity = newSplitBook[1].split(" /quantity ");
         if (this.splitQuantity[0].isBlank()) {
             throw new EmptyArgumentsException();
         }
-
-        this.splitQuantity = newSplitBook[1].split(" /quantity");
 
         try {
             quantityToDelete = setQuantityToDelete();

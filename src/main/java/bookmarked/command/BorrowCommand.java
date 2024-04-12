@@ -63,7 +63,7 @@ public class BorrowCommand extends Command {
         assert newItem != null : "command should not be null";
 
         String itemUserName = newItem.substring(7);
-        String[] splitParts = itemUserName.split("/by");
+        String[] splitParts = itemUserName.split(" /by ");
         assert splitParts.length > 1 : "please enter both the borrowed book and userName";
 
         if (!containsUser(commandParts)) {
