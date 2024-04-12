@@ -134,7 +134,9 @@ public class ReturnCommand extends Command {
         for (Book currentBook : foundBooks) {
             if (currentBook.getIsBorrowed()) {
                 currentBook.setReturned();
-
+                if (Book.isOverdue(currentBook.getReturnDate())) {
+                    Ui.bookIsOverdue();
+                }
                 System.out.println("Returned " + currentBook.getName() + "!");
             } else {
                 System.out.println("Book is not borrowed: " + currentBook.getName());

@@ -172,6 +172,9 @@ public class Ui {
     public static void printOverdue() {
         System.out.print(", OVERDUE");
     }
+    public static void bookIsOverdue() {
+        System.out.println("This book is returned past its return date. Remember to keep track of due dates");
+    }
 
 
     public static void printInvalidTitleMessage() {
