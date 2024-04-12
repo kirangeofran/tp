@@ -31,62 +31,86 @@ public class BorrowCommand extends Command {
 
     private static final Period DEFAULT_BORROW_PERIOD = Period.ofWeeks(2);
     private String bookName;
-
-    private int bookIndex = -1; // Index starting from 0
+    private int bookIndex = -1;
     private String userName;
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
     private File bookDataFile;
     private File userDataFile;
 
-    /**
-     * Constructs a BorrowCommand object with specified parameters, allowing the user to specify
-     * the book to be borrowed either by name or by index. The constructor parses the input to determine
-     * whether the user has provided a numeric index or a book name.
-     *
-     * @param commandParts An array of strings, where the first element is the command,
-     *                     the second element is either the index or the first part of the book name,
-     *                     and any subsequent elements are the remaining parts of the book name if applicable.
-     * @param listOfBooks  The list of books available for borrowing.
-     * @param bookDataFile The file where book data is stored.
-     * @param listOfUsers  The list of users in the system.
-     * @param newItem      A string representing the new item to be added, including the book name/index and the user.
-     * @throws EmptyArgumentsException   If the required arguments are not provided.
-     * @throws WrongInputFormatException If the input format does not match the expected format.
-     */
     public BorrowCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
                          ArrayList<User> listOfUsers, String newItem, File userDataFile)
             throws EmptyArgumentsException, WrongInputFormatException {
+        setArguments(commandParts, listOfBooks, bookDataFile, listOfUsers, newItem, userDataFile);
+    }
 
-        assert commandParts != null : "commandParts should not be null";
-        assert commandParts.length > 1 : "commandParts should contain at least two elements";
-        assert newItem != null : "command should not be null";
-
-        String itemUserName = newItem.substring(7);
-        String[] splitParts = itemUserName.split(" /by ");
-        assert splitParts.length > 1 : "please enter both the borrowed book and userName";
+    private void setArguments(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
+                              ArrayList<User> listOfUsers, String newItem, File userDataFile)
+            throws EmptyArgumentsException, WrongInputFormatException {
+        if (commandParts == null || commandParts.length <= 1) {
+            throw new EmptyArgumentsException();
+        }
+        if (newItem == null) {
+            throw new EmptyArgumentsException();
+        }
 
         if (!containsUser(commandParts)) {
             throw new EmptyArgumentsException();
+        }
+
+        // Assuming the newItem string starts right after the command keyword with the book name/index.
+        String itemUserName = newItem.substring(newItem.indexOf(' ') + 1);
+        String[] splitParts = itemUserName.split(" /by ");
+        if (splitParts.length < 2 || splitParts[1].trim().isEmpty()) {
+            throw new EmptyArgumentsException();
+        }
+
+        try {
+            this.bookIndex = Integer.parseInt(splitParts[0].trim()) - 1;
+        } catch (NumberFormatException e) {
+            this.bookName = splitParts[0].trim();  // Assume non-numeric is a book name.
         }
 
         if (isMoreThanOneBy(splitParts)) {
             throw new WrongInputFormatException();
         }
 
-        try {
-            this.bookIndex = Integer.parseInt(splitParts[0].trim()) - 1;
-        } catch (NumberFormatException e) {
-            this.bookName = splitParts[0].trim();
+        this.userName = splitParts[1].trim();
+        if (this.userName.isEmpty()) {
+            throw new EmptyArgumentsException();
         }
 
-        this.userName = splitParts[1].trim();
-        assert listOfBooks != null : "listOfBooks should not be null";
         this.listOfBooks = listOfBooks;
         this.listOfUsers = listOfUsers;
         this.bookDataFile = bookDataFile;
         this.userDataFile = userDataFile;
     }
+
+
+    @Override
+    public void handleCommand() {
+        List<Book> foundBooks;
+        if (bookIndex >= 0 && bookIndex < listOfBooks.size()) {
+            foundBooks = new ArrayList<>();
+            foundBooks.add(listOfBooks.get(bookIndex));
+        } else {
+            foundBooks = listOfBooks.stream()
+                    .filter(book -> book.getName().equalsIgnoreCase(bookName))
+                    .collect(Collectors.toList());
+        }
+
+        try {
+            runBorrowCommand(foundBooks);
+            BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
+        } catch (EmptyListException e) {
+            Ui.printEmptyListMessage();
+        }  catch (WrongInputFormatException e) {
+            Ui.printWrongInputFormat();
+        }
+    }
+
+    // Additional helper methods like runBorrowCommand, updateBookIndex, and others remain as previously defined...
+
 
     private static boolean isMoreThanOneBy(String[] splitParts) {
         return splitParts.length > 2;
@@ -108,36 +132,7 @@ public class BorrowCommand extends Command {
         return false;
     }
 
-    /**
-     * Executes the "borrow" command by searching for the specified book in the list of books,
-     * either by its index or by its name, and attempts to mark the book as borrowed if it is available.
-     * Updates the book data file with the changes. If the specified book is not available or not found,
-     * it prints an appropriate message to the user.
-     */
-    @Override
-    public void handleCommand() {
-        // Find the book with the matching name
-        List<Book> foundBooks = new ArrayList<>();
-        if (bookIndex >= 0 && bookIndex < listOfBooks.size()) {
-            foundBooks.add(listOfBooks.get(this.bookIndex));
-        } else {
-            foundBooks = listOfBooks.stream()
-                    .filter(book -> book.getName().equalsIgnoreCase(bookName))
-                    .collect(Collectors.toList());
 
-            // Update bookIndex
-            updateBookIndex();
-        }
-
-        try {
-            runBorrowCommand(foundBooks);
-            BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
-        } catch (EmptyListException e) {
-            Ui.printEmptyListMessage();
-        } catch (WrongInputFormatException e) {
-            Ui.printWrongInputFormat();
-        }
-    }
 
     private void updateBookIndex() {
         for (int i = 0; i < listOfBooks.size(); i += 1) {
