@@ -45,6 +45,7 @@ public class Parser {
             Ui.setLineBreak();
             newItem = in.nextLine();
         }
+        Ui.setSmallerLineBreak();
         userCommand = new ExitCommand();
         userCommand.handleCommand();
     }
