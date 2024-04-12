@@ -4,6 +4,7 @@ import bookmarked.Book;
 import bookmarked.user.User;
 import bookmarked.exceptions.BookNotBorrowedException;
 import bookmarked.ui.Ui;
+import bookmarked.userBook.UserBook;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class UserStorage {
@@ -45,7 +48,7 @@ public class UserStorage {
         ArrayList<User> listOfUser = new ArrayList<>();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(userDataFile))) {
             fileReader.lines().forEach(line ->
-                    processLine(line, listOfUser, listOfBooks));
+                    processReadLine(line, listOfUser, listOfBooks));
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
         } catch (IOException e) {
@@ -106,18 +109,25 @@ public class UserStorage {
      * @param line A string representing a line of text from the storage file.
      * @param listOfUsers The list to which users who borrowed books are kept tracked.
      */
-    private static void processLine(String line, ArrayList<User> listOfUsers, ArrayList<Book> listOfBooks) {
+    private static void processReadLine(String line, ArrayList<User> listOfUsers, ArrayList<Book> listOfBooks) {
         String[] userAttributes = line.split(" \\| ");
         User currentUser = new User(userAttributes[0], listOfBooks);
 
-        for (int i = 1; i < userAttributes.length; i += 1) {
+        for (int i = 1; i < userAttributes.length; i += 3) {
             try {
                 int bookIndex = Integer.parseInt(userAttributes[i].strip());
 
                 checkValidBookIndex(listOfBooks, bookIndex);
                 checkBorrowedInBookStorage(listOfBooks, bookIndex);
 
-                currentUser.borrowedBook(bookIndex);
+                String borrowDateInString = userAttributes[i + 1].strip();
+                String returnDueDateInString = userAttributes[i + 2].strip();
+
+                LocalDate borrowDate = getBorrowDate(borrowDateInString, listOfBooks.get(bookIndex));
+                LocalDate returnDueDate = getReturnDueDate(returnDueDateInString, listOfBooks.get(bookIndex),
+                        borrowDate);
+
+                currentUser.borrowBook(bookIndex, borrowDate, returnDueDate);
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 Ui.printInvalidTxtLine();
                 return;
@@ -127,6 +137,40 @@ public class UserStorage {
         }
 
         listOfUsers.add(currentUser);
+    }
+
+    private static LocalDate getBorrowDate(String borrowDateInString, Book bookToInput) {
+        LocalDate borrowDate;
+
+        try {
+            borrowDate = LocalDate.parse(borrowDateInString);
+        } catch (DateTimeParseException e) {
+            String bookTitle = bookToInput.getName();
+            Ui.printInvalidBorrowDate(bookTitle);
+            borrowDate = LocalDate.now();
+        }
+
+        return borrowDate;
+    }
+
+    private static LocalDate getReturnDueDate(String borrowDateInString, Book bookToInput, LocalDate borrowDate) {
+        LocalDate returnDueDate;
+        String bookTitle = bookToInput.getName();
+
+        try {
+            returnDueDate = LocalDate.parse(borrowDateInString);
+        } catch (DateTimeParseException e) {
+            Ui.printInvalidReturnDueDate(bookTitle);
+            returnDueDate = LocalDate.now().plusWeeks(2);
+        }
+
+        // Ensure borrow date is before return due date
+        if (borrowDate.isAfter(returnDueDate) || borrowDate.isEqual(returnDueDate)) {
+            returnDueDate = borrowDate.plusWeeks(2);
+            Ui.printInvalidReturnBeforeBorrowDate(bookTitle);
+        }
+
+        return returnDueDate;
     }
 
     private static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
