@@ -156,6 +156,19 @@ public class Ui {
                 "not blank, does not contain only numbers, and does not contain the character '|'");
     }
 
+    public static void printInvalidBorrowDate(String bookTitle) {
+        System.out.println("Invalid borrow date format for book: " + bookTitle + ", setting to today's date.");
+    }
+
+    public static void printInvalidReturnDueDate(String bookTitle) {
+        System.out.println("Invalid return date format for book: " + bookTitle + ", setting to two weeks from today.");
+    }
+
+    public static void printInvalidReturnBeforeBorrowDate(String bookTitle) {
+        System.out.println("Return date before borrow date for book: " + bookTitle +
+                ". Automatically adjusting return date to two weeks after borrow date.");
+    }
+
     public static void exitProgramme() {
         System.out.println("Bye!");
     }
