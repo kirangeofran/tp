@@ -1,7 +1,7 @@
 package bookmarked.storage;
 
 import bookmarked.Book;
-import bookmarked.User;
+import bookmarked.user.User;
 import bookmarked.exceptions.BookNotBorrowedException;
 import bookmarked.ui.Ui;
 

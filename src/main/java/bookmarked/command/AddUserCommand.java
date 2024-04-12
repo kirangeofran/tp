@@ -1,7 +1,7 @@
 package bookmarked.command;
 
 import bookmarked.Book;
-import bookmarked.User;
+import bookmarked.user.User;
 import bookmarked.exceptions.EmptyArgumentsException;
 
 import bookmarked.ui.Ui;

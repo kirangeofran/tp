@@ -1,7 +1,7 @@
 package bookmarked.parser;
 
 import bookmarked.Book;
-import bookmarked.User;
+import bookmarked.user.User;
 import bookmarked.command.AddCommand;
 import bookmarked.command.BorrowCommand;
 import bookmarked.command.EditCommand;

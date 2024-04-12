@@ -4,6 +4,7 @@ import bookmarked.parser.Parser;
 import bookmarked.storage.UserStorage;
 import bookmarked.ui.Ui;
 import bookmarked.storage.BookStorage;
+import bookmarked.user.User;
 
 import java.io.File;
 import java.util.Scanner;

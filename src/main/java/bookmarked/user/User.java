@@ -1,4 +1,6 @@
-package bookmarked;
+package bookmarked.user;
+
+import bookmarked.Book;
 
 import java.util.ArrayList;
 
