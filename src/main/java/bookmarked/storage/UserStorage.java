@@ -91,11 +91,15 @@ public class UserStorage {
         StringBuilder serializedString = new StringBuilder();
         serializedString.append(user.getName());
 
-        ArrayList<Integer> userBooksIndex = user.getUserBooksIndex();
+        ArrayList<UserBook> listOfUserBooks = user.getListOfUserBooks();
 
-        for (Integer booksIndex : userBooksIndex) {
+        for (UserBook userBooks : listOfUserBooks) {
             serializedString.append(" | ");
-            serializedString.append(booksIndex);
+            serializedString.append(userBooks.getUserBookIndex());
+            serializedString.append(" | ");
+            serializedString.append(userBooks.getBorrowDate());
+            serializedString.append(" | ");
+            serializedString.append(userBooks.getReturnDate());
         }
         serializedString.append("\n");
 
