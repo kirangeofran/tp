@@ -1,5 +1,5 @@
 package bookmarked.command;
-import bookmarked.User;
+import bookmarked.user.User;
 import bookmarked.Book;
 
 import bookmarked.exceptions.EmptyArgumentsException;
