@@ -1,5 +1,7 @@
 package bookmarked.ui;
 
+import bookmarked.User;
+
 public class Ui {
     static final String LINE_BREAK = "_____________________________________________\n"
             + "_____________________________________________";
@@ -47,7 +49,9 @@ public class Ui {
         System.out.println("   edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION");
         System.out.println("   example: edit 1 /title book");
         System.out.println("11.To find a specific user and their borrowed books:");
-        System.out.println("   finduser USERNAME");
+        System.out.println("   find /by user USER_NAME");
+        System.out.println("12.To find a book in the inventory");
+        System.out.println("   find /by book BOOK_NAME");
 
     }
 
@@ -150,6 +154,27 @@ public class Ui {
         System.out.println("There are now " + numberInventory + " copies in the library's inventory, and "
                 + numberTotal + " copies in total.");
     }
+    public static void incorrectFindArgument() {
+        System.out.println("please key in a username");
+    }
+    public static void invalidUser() {
+        System.out.println("user not found");
+    }
+    public static void printElse(User user) {
+        for (int i = 0; i < user.getUserBooks().size(); i++) {
+            System.out.print(i+1 + ". ");
+            System.out.print(user.getUserBooks().get(i).getName());
+            System.out.print(", Borrowed on: ");
+            System.out.print(user.getUserBooks().get(i).getBorrowDate());
+            System.out.print(", Return by: ");
+            System.out.print(user.getUserBooks().get(i).getReturnDate());
+            if (i < user.getUserBooks().size() - 1) {
+                System.out.println("");
+            }
+        }
+        System.out.println();
+    }
+
 
     public static void printInvalidTitleMessage() {
         System.out.println("Please make sure the book title adheres to the format:\n" +
