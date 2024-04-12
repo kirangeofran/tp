@@ -167,7 +167,7 @@ public class BorrowCommand extends Command {
             Book bookToBorrow = foundBooks.get(0);
             if (bookToBorrow.isAvailable() && !isBookBorrowed(userName, bookToBorrow)) {
                 bookToBorrow.borrowBook(LocalDate.now(), DEFAULT_BORROW_PERIOD);
-                updateListOfUsers(userName);
+                updateListOfUsers(userName, LocalDate.now());
                 System.out.println("Borrowed " + bookToBorrow.getName() + " by " + userName + "!");
                 System.out.println("Please return by " + bookToBorrow.getFormattedReturnDate() + ".");
             } else if (isBookBorrowed(userName, bookToBorrow)) {
@@ -189,11 +189,12 @@ public class BorrowCommand extends Command {
      *
      * @param userName the name of the user
      */
-    private void updateListOfUsers(String userName) {
+    private void updateListOfUsers(String userName, LocalDate borrowDate) {
+        LocalDate returnDueDate = borrowDate.plus(DEFAULT_BORROW_PERIOD);
         for (User user : listOfUsers) {
             if (user.getName().equalsIgnoreCase(userName)) {
                 user.setListOfBooks(this.listOfBooks);
-                user.borrowedBook(this.bookIndex + 1);
+                user.borrowBook(this.bookIndex + 1, borrowDate, returnDueDate);
 
                 UserStorage.writeUserToTxt(userDataFile, listOfUsers);
                 return;
@@ -202,7 +203,7 @@ public class BorrowCommand extends Command {
 
         // If user not found, create a new user and add the borrowed book
         User newUser = new User(userName, listOfBooks);
-        newUser.borrowedBook(bookIndex + 1);
+        newUser.borrowBook(bookIndex + 1, borrowDate, returnDueDate);
         listOfUsers.add(newUser);
         UserStorage.writeUserToTxt(userDataFile, listOfUsers);
     }
