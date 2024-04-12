@@ -1,10 +1,8 @@
 package bookmarked.command;
 
 import bookmarked.Book;
+import bookmarked.exceptions.*;
 import bookmarked.user.User;
-import bookmarked.exceptions.EmptyArgumentsException;
-import bookmarked.exceptions.EmptyListException;
-import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
 import bookmarked.storage.UserStorage;
@@ -33,34 +31,35 @@ public class BorrowCommand extends Command {
     private String bookName;
     private int bookIndex = -1;
     private String userName;
+    private String newItem;
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
     private File bookDataFile;
     private File userDataFile;
 
-    public BorrowCommand(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
-                         ArrayList<User> listOfUsers, String newItem, File userDataFile)
-            throws EmptyArgumentsException, WrongInputFormatException {
-        setArguments(commandParts, listOfBooks, bookDataFile, listOfUsers, newItem, userDataFile);
+    public BorrowCommand( ArrayList<Book> listOfBooks, File bookDataFile,
+                         ArrayList<User> listOfUsers, String newItem, File userDataFile) {
+        this.newItem = newItem;
+        this.listOfBooks = listOfBooks;
+        this.listOfUsers = listOfUsers;
+        this.bookDataFile = bookDataFile;
+        this.userDataFile = userDataFile;
     }
 
-    private void setArguments(String[] commandParts, ArrayList<Book> listOfBooks, File bookDataFile,
-                              ArrayList<User> listOfUsers, String newItem, File userDataFile)
-            throws EmptyArgumentsException, WrongInputFormatException {
-        if (commandParts == null || commandParts.length <= 1) {
-            throw new EmptyArgumentsException();
-        }
+    private void setArguments()
+            throws EmptyArgumentsException, WrongInputFormatException, InvalidStringException {
+
         if (newItem == null) {
             throw new EmptyArgumentsException();
         }
 
-        if (!containsUser(commandParts)) {
-            throw new EmptyArgumentsException();
+        // Assuming the newItem string starts right after the command keyword with the book name/index.
+        String[] itemUserName = this.newItem.split("borrow");
+        if (itemUserName.length < 1) {
+            throw new InvalidStringException();
         }
 
-        // Assuming the newItem string starts right after the command keyword with the book name/index.
-        String itemUserName = newItem.substring(newItem.indexOf(' ') + 1);
-        String[] splitParts = itemUserName.split(" /by ");
+        String[] splitParts = itemUserName[1].split(" /by ");
         if (splitParts.length < 2 || splitParts[1].trim().isEmpty()) {
             throw new EmptyArgumentsException();
         }
@@ -79,16 +78,20 @@ public class BorrowCommand extends Command {
         if (this.userName.isEmpty()) {
             throw new EmptyArgumentsException();
         }
-
-        this.listOfBooks = listOfBooks;
-        this.listOfUsers = listOfUsers;
-        this.bookDataFile = bookDataFile;
-        this.userDataFile = userDataFile;
     }
 
 
     @Override
     public void handleCommand() {
+        try {
+            setArguments();
+        } catch (EmptyArgumentsException | InvalidStringException e) {
+            Ui.printEmptyArgumentsMessage();
+        } catch (WrongInputFormatException e) {
+            Ui.printWrongInputFormat();
+        }
+
+
         List<Book> foundBooks;
         if (bookIndex >= 0 && bookIndex < listOfBooks.size()) {
             foundBooks = new ArrayList<>();
