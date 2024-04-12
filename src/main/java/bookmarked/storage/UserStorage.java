@@ -99,7 +99,7 @@ public class UserStorage {
             serializedString.append(" | ");
             serializedString.append(userBooks.getBorrowDate());
             serializedString.append(" | ");
-            serializedString.append(userBooks.getReturnDate());
+            serializedString.append(userBooks.getReturnDueDate());
         }
         serializedString.append("\n");
 
