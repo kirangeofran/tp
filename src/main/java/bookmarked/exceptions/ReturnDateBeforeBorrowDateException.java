@@ -1,2 +1,4 @@
-package bookmarked.exceptions;public class ReturnDateBeforeBorrowDateException {
+package bookmarked.exceptions;
+
+public class ReturnDateBeforeBorrowDateException extends Exception {
 }
