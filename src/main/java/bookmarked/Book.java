@@ -51,7 +51,6 @@ public class Book {
         }
     }
 
-
     public LocalDate getBorrowDate() {
         return this.borrowDate;
     }
@@ -120,8 +119,6 @@ public class Book {
         return this.numberTotal;
     }
 
-
-
     @Override
     public String toString() {
         String formattedNumberInventoryBorrowed = "Number of books in inventory: " + this.numberInInventory
@@ -130,6 +127,7 @@ public class Book {
             String formattedBorrowDate =
                     (borrowDate != null) ? borrowDate.format(DATE_FORMATTER) : "Not set";
             String formattedReturnDate = getFormattedReturnDate();
+
             return String.format(
                     "%s. %s. Borrowed on: %s, due on: %s", this.description, formattedNumberInventoryBorrowed,
                     formattedBorrowDate, formattedReturnDate);

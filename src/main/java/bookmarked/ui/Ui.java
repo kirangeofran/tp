@@ -1,6 +1,6 @@
 package bookmarked.ui;
 
-import bookmarked.User;
+import bookmarked.user.User;
 
 public class Ui {
     static final String LINE_BREAK = "_____________________________________________\n"
@@ -181,6 +181,19 @@ public class Ui {
                 "Not blank, does not contain only numbers, and does not contain the character '|'.");
     }
 
+    public static void printInvalidBorrowDate(String bookTitle) {
+        System.out.println("Invalid borrow date format for book: " + bookTitle + ", setting to today's date.");
+    }
+
+    public static void printInvalidReturnDueDate(String bookTitle) {
+        System.out.println("Invalid return date format for book: " + bookTitle + ", setting to two weeks from today.");
+    }
+
+    public static void printInvalidReturnBeforeBorrowDate(String bookTitle) {
+        System.out.println("Return date before borrow date for book: " + bookTitle +
+                ". Automatically adjusting return date to two weeks after borrow date.");
+    }
+
     public static void printNotExistingUserMessage() {
         System.out.println("No such user exists. Please input the name of an existing user instead.");
     }
@@ -188,7 +201,6 @@ public class Ui {
     public static void printBookNotBorrowedByUserMessage(String userName) {
         System.out.println(userName + " has not borrowed this book. Nothing to return.");
     }
-
 
     public static void exitProgramme() {
         System.out.println("Bye!");
