@@ -3,10 +3,7 @@ package bookmarked;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Objects;
-
-import static bookmarked.BookMarked.listOfUsers;
 
 public class Book {
 
@@ -53,7 +50,6 @@ public class Book {
             this.returnDate = this.returnDate.plusDays(EXTENSION_DAYS);
         }
     }
-
 
     public LocalDate getBorrowDate() {
         return this.borrowDate;
@@ -120,30 +116,6 @@ public class Book {
     public int getNumberTotal() {
         return this.numberTotal;
     }
-
-//    public String toStringWithUserDetails(ArrayList<User> listOfUsers) {
-//        String formattedNumberInventoryBorrowed = "Number of books in inventory: " + this.numberInInventory
-//                + ". Number of books borrowed: " + this.numberBorrowed;
-//        if (isBorrowed) {
-//            String formattedBorrowDate =
-//                    (borrowDate != null) ? borrowDate.format(DATE_FORMATTER) : "Not set";
-//            String formattedReturnDate = getFormattedReturnDate();
-//
-//            for (int i = 0; i < listOfUsers.size(); i += 1) {
-//                User currentUser = listOfUsers.get(i);
-//                ArrayList<Book> userBorrowedBooks = currentUser.getUserBooks();
-//                if (userBorrowedBooks.contains(new Book(this.description))) {
-//
-//                }
-//            }
-//
-//            return String.format(
-//                    "%s. %s. Borrowed on: %s, due on: %s", this.description, formattedNumberInventoryBorrowed,
-//                    formattedBorrowDate, formattedReturnDate);
-//        } else {
-//            return this.description + ". " + formattedNumberInventoryBorrowed + ".";
-//        }
-//    }
 
     @Override
     public String toString() {
