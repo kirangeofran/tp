@@ -22,7 +22,6 @@ public class BookMarked {
 
         File bookDataFile = BookStorage.createFile(BOOK_FILE_PATH);
         listOfBooks = BookStorage.readFileStorage(bookDataFile);
-        BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
 
         File userDataFile = UserStorage.createFile(USER_FILE_PATH);
 
