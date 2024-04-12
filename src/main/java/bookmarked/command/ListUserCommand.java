@@ -1,13 +1,15 @@
 package bookmarked.command;
 
 import bookmarked.User;
+import bookmarked.Book;
 import bookmarked.exceptions.EmptyUserListException;
 import bookmarked.ui.Ui;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class ListUserCommand extends Command {
-    private ArrayList<User> listOfUsers;
+    private static ArrayList<User> listOfUsers;
 
     public ListUserCommand(ArrayList<User> listOfUsers) {
         this.listOfUsers = listOfUsers;
@@ -34,15 +36,16 @@ public class ListUserCommand extends Command {
      * @throws EmptyUserListException if the list of users is empty
      */
 
-    private void printUsersAndBooks() throws EmptyUserListException {
+    public void printUsersAndBooks() throws EmptyUserListException {
         if (listOfUsers.isEmpty()) {
             throw new EmptyUserListException();
         }
         System.out.println("List of Users and Borrowed Books:");
+        System.out.println();
         userAndBooks();
     }
 
-    private void userAndBooks() {
+    private static void userAndBooks() {
         for (User user : listOfUsers) {
             System.out.println("User: " + user.getName());
             System.out.print("Borrowed Books: ");
@@ -50,9 +53,19 @@ public class ListUserCommand extends Command {
                 System.out.println("None");
             } else {
                 System.out.println();
-                Ui.printElse(user);
+                printUserBooks(user);
+            }
+        }
+    }
+
+    public static void printUserBooks(User user) {
+        for (int i = 0; i < user.getUserBooks().size(); i++) {
+            Ui.printElse(user, i);
+            if (Book.isOverdue(user.getUserBooks().get(i).getReturnDate())) {
+                Ui.printOverdue();
             }
             System.out.println();
         }
+        System.out.println();
     }
 }

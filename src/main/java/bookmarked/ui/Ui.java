@@ -1,6 +1,7 @@
 package bookmarked.ui;
 
 import bookmarked.User;
+import bookmarked.Book;
 
 public class Ui {
     static final String LINE_BREAK = "_____________________________________________\n"
@@ -160,19 +161,16 @@ public class Ui {
     public static void invalidUser() {
         System.out.println("user not found");
     }
-    public static void printElse(User user) {
-        for (int i = 0; i < user.getUserBooks().size(); i++) {
-            System.out.print(i+1 + ". ");
-            System.out.print(user.getUserBooks().get(i).getName());
-            System.out.print(", Borrowed on: ");
-            System.out.print(user.getUserBooks().get(i).getBorrowDate());
-            System.out.print(", Return by: ");
-            System.out.print(user.getUserBooks().get(i).getReturnDate());
-            if (i < user.getUserBooks().size() - 1) {
-                System.out.println("");
-            }
-        }
-        System.out.println();
+    public static void printElse(User user, int i) {
+        System.out.print(i + 1 + ". ");
+        System.out.print(user.getUserBooks().get(i).getName());
+        System.out.print(", Borrowed on: ");
+        System.out.print(user.getUserBooks().get(i).getBorrowDate());
+        System.out.print(", Return by: ");
+        System.out.print(user.getUserBooks().get(i).getReturnDate());
+    }
+    public static void printOverdue() {
+        System.out.print(", OVERDUE");
     }
 
 

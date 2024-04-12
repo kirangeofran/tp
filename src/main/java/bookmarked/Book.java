@@ -9,7 +9,7 @@ public class Book {
 
     private static final int EXTENSION_DAYS = 7;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private static final LocalDate DEFAULT_RETURNED_DATE = LocalDate.of(1900,1,1);
+    private static final LocalDate DEFAULT_RETURNED_DATE = LocalDate.of(1900, 1, 1);
     protected String description;
     protected boolean isBorrowed;
     protected LocalDate borrowDate;
@@ -119,7 +119,6 @@ public class Book {
     }
 
 
-
     @Override
     public String toString() {
         String formattedNumberInventoryBorrowed = "Number of books in inventory: " + this.numberInInventory
@@ -140,6 +139,15 @@ public class Book {
     public boolean equals(Object obj) {
         Book otherBook = (Book) obj;
         return Objects.equals(this.description, otherBook.getName());
+    }
+
+    public static boolean isOverdue(LocalDate returnDate) {
+        LocalDate dateToday = LocalDate.now();
+        int compareDate = dateToday.compareTo(returnDate);
+        if (compareDate > 0) {
+            return true;
+        }
+        return false;
     }
 
 }
