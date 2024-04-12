@@ -109,8 +109,6 @@ public class BorrowCommand extends Command {
         }
     }
 
-    // Additional helper methods like runBorrowCommand, updateBookIndex, and others remain as previously defined...
-
 
     private static boolean isMoreThanOneBy(String[] splitParts) {
         return splitParts.length > 2;
