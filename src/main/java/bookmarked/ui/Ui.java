@@ -1,9 +1,6 @@
 package bookmarked.ui;
 import bookmarked.user.User;
 
-import bookmarked.User;
-import bookmarked.Book;
-
 
 public class Ui {
     static final String LINE_BREAK = "_____________________________________________\n"

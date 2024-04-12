@@ -28,7 +28,7 @@ public class User {
         ArrayList<Book> userBooks = new ArrayList<>();
         for (int i = 0; i < userBooksIndex.size(); i += 1) {
             int currentBookIndex = userBooksIndex.get(i);
-            userBooks.add(listOfBooks.get(currentBookIndex - 1));
+            userBooks.add(listOfBooks.get(currentBookIndex));
         }
 
         return userBooks;
