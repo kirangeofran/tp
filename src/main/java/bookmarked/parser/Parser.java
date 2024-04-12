@@ -1,7 +1,7 @@
 package bookmarked.parser;
 
 import bookmarked.Book;
-import bookmarked.User;
+import bookmarked.user.User;
 import bookmarked.command.AddCommand;
 import bookmarked.command.BorrowCommand;
 import bookmarked.command.EditCommand;
@@ -75,7 +75,7 @@ public class Parser {
                     newItem, userDataFile);
             break;
         case ("return"):
-            userCommand = new ReturnCommand(splitItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
+            userCommand = new ReturnCommand(newItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
             break;
         case ("find"):
             userCommand = new FindCommand(newItem, listOfBooks, listOfUsers);
@@ -85,7 +85,7 @@ public class Parser {
             break;
         case "extend":
             // Ensure 'extend' is followed by the name of the book to extend
-            userCommand = new ExtendCommand(splitItem, listOfBooks, bookDataFile);
+            userCommand = new ExtendCommand(newItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
             break;
         default:
             throw new BookMarkedException();

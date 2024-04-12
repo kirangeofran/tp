@@ -7,7 +7,7 @@ import bookmarked.storage.BookStorage;
 import bookmarked.storage.UserStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import bookmarked.User;
+import bookmarked.user.User;
 import bookmarked.parser.Parser;
 
 import java.io.File;

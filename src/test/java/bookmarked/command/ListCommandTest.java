@@ -3,7 +3,7 @@ package bookmarked.command;
 import bookmarked.exceptions.EmptyArgumentsException;
 import org.junit.jupiter.api.Test;
 import bookmarked.Book;
-import bookmarked.User;
+import bookmarked.user.User;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import bookmarked.exceptions.EmptyListException;
