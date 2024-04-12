@@ -1,9 +1,12 @@
 package bookmarked.arguments;
 
+import bookmarked.storage.UserStorage;
 import bookmarked.user.User;
+import bookmarked.Book;
 import bookmarked.exceptions.UserNotFoundException;
 
-import java.lang.reflect.Array;
+
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -18,13 +21,28 @@ public class SetUserName {
     }
 
     public User checkUserNameValidity() throws UserNotFoundException {
-        String userString = userName;
         for (User user : listOfUsers) {
-            if (user.getName().matches(userString)) {
+            if (user.getName().matches(this.userName)) {
                 return user;
             }
         }
         throw new UserNotFoundException();
     }
+
+    public User checkBorrowUserNameValidity(ArrayList<Book> listOfBooks, File userDataFile) {
+        for (User user : listOfUsers) {
+            if (user.getName().matches(this.userName)) {
+                return user;
+            }
+        }
+
+        // If user not found, create a new user and add the borrowed book
+        User newUser = new User(userName, listOfBooks);
+        listOfUsers.add(newUser);
+        UserStorage.writeUserToTxt(userDataFile, listOfUsers);
+        return newUser;
+    }
+
+
 
 }
