@@ -80,6 +80,8 @@ public class Book {
         this.isBorrowed = false;
         this.borrowDate = null;
         this.returnDate = DEFAULT_RETURNED_DATE;
+        this.numberInInventory++;
+        this.numberBorrowed--;
     }
 
     public void setName(String bookName) {

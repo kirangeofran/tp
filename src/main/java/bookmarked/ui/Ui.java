@@ -72,7 +72,7 @@ public class Ui {
     }
 
     public static void printBookNotFoundExceptionMessage() {
-        System.out.println("Book not found.");
+        System.out.println("The book does not exist; try adding it to the library first.");
     }
 
     public static void printBookNotBorrowedExceptionMessage() {
@@ -178,8 +178,17 @@ public class Ui {
 
     public static void printInvalidTitleMessage() {
         System.out.println("Please make sure the book title adheres to the format:\n" +
-                "not blank, does not contain only numbers, and does not contain the character '|'");
+                "Not blank, does not contain only numbers, and does not contain the character '|'.");
     }
+
+    public static void printNotExistingUserMessage() {
+        System.out.println("No such user exists. Please input the name of an existing user instead.");
+    }
+
+    public static void printBookNotBorrowedByUserMessage(String userName) {
+        System.out.println(userName + " has not borrowed this book. Nothing to return.");
+    }
+
 
     public static void exitProgramme() {
         System.out.println("Bye!");
