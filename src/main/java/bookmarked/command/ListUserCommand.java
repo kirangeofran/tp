@@ -47,6 +47,7 @@ public class ListUserCommand extends Command {
     }
 
     private static void userAndBooks() {
+        int userCount = 0;
         for (User user : listOfUsers) {
             System.out.println("User: " + user.getName());
             System.out.print("Borrowed Books: ");
@@ -54,12 +55,13 @@ public class ListUserCommand extends Command {
                 System.out.println("None");
             } else {
                 System.out.println();
-                printUserBooks(user);
+                printUserBooks(user, userCount);
             }
+            userCount++;
         }
     }
 
-    public static void printUserBooks(User user) {
+    public static void printUserBooks(User user, int UserCount) {
         for (int i = 0; i < user.getUserBooks().size(); i++) {
             Ui.printElse(user, i);
             if (Book.isOverdue(user.getUserBooks().get(i).getReturnDate())) {
@@ -67,6 +69,8 @@ public class ListUserCommand extends Command {
             }
             System.out.println();
         }
-        System.out.println();
+        if (UserCount < listOfUsers.size() - 1) {
+            System.out.println();
+        }
     }
 }

@@ -59,7 +59,7 @@ public class FindUserCommand extends Command {
         if (user.getUserBooks().isEmpty()) {
             System.out.println("None");
         } else {
-            ListUserCommand.printUserBooks(user);
+            ListUserCommand.printUserBooks(user,1 );
 
         }
     }
