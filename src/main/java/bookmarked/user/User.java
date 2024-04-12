@@ -45,7 +45,8 @@ public class User {
 
     public void borrowBook(Integer bookIndex, LocalDate borrowDate, LocalDate returnDueDate) {
         this.userBooksIndex.add(bookIndex);
-        UserBook bookToBorrow = new UserBook(bookIndex, borrowDate, returnDueDate);
+        String bookTitleToBorrow = listOfBooks.get(bookIndex).getName();
+        UserBook bookToBorrow = new UserBook(bookIndex, bookTitleToBorrow, borrowDate, returnDueDate);
         this.listOfUserBooks.add(bookToBorrow);
     }
 
@@ -59,6 +60,15 @@ public class User {
             }
         }
         this.listOfUserBooks.remove(bookToReturn);
+    }
+
+    public void editBook(Integer bookIndex, String newBookTitle) {
+        for (int i = 0; i < this.listOfUserBooks.size(); i += 1) {
+            UserBook currentBook = this.listOfUserBooks.get(i);
+            if (Objects.equals(currentBook.getUserBookIndex(), bookIndex)) {
+                currentBook.setUserBookTitle(newBookTitle);
+            }
+        }
     }
 
     public void extendDueDate(Integer bookIndex) {

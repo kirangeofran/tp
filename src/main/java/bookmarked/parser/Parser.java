@@ -87,7 +87,7 @@ public class Parser {
             userCommand = new FindUserCommand(listOfUsers, splitItem[1]);
             break;
         case ("edit"):
-            userCommand = new EditCommand(newItem, listOfBooks, bookDataFile);
+            userCommand = new EditCommand(newItem, listOfBooks, bookDataFile, listOfUsers);
             break;
         case "extend":
             // Ensure 'extend' is followed by the name of the book to extend
