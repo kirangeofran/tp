@@ -136,14 +136,10 @@ public class UserStorage {
                 int bookIndex = Integer.parseInt(userAttributes[i].strip());
 
                 checkValidBookIndex(listOfBooks, bookIndex);
-                checkBorrowedInBookStorage(listOfBooks, bookIndex);
 
                 setBookBorrowDetails(listOfBooks, userAttributes, i, bookIndex, currentUser);
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 Ui.printInvalidTxtLine();
-                return;
-            } catch (BookNotBorrowedException e) {
-                Ui.printBookNotBorrowedInBookStorage();
                 return;
             }
         }
@@ -208,14 +204,6 @@ public class UserStorage {
     private static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
         if (bookIndex <= 0 || bookIndex > listOfBooks.size()) {
             throw new IndexOutOfBoundsException();
-        }
-    }
-
-    private static void checkBorrowedInBookStorage(ArrayList<Book> listOfBooks, int bookIndex)
-            throws BookNotBorrowedException {
-        Book currentBook = listOfBooks.get(bookIndex);
-        if (!currentBook.getIsBorrowed()) {
-            throw new BookNotBorrowedException();
         }
     }
 }
