@@ -172,17 +172,7 @@ public class EditCommand extends Command {
     private void updateUserBooks(String oldTitle, String newTitle) {
         for (User currentUser : this.listOfUsers) {
             ArrayList<UserBook> currentUserBooksList = currentUser.getListOfUserBooks();
-            updateAllUserBookTitle(oldTitle, newTitle, currentUserBooksList);
-        }
-    }
-
-    private static void updateAllUserBookTitle(String oldTitle, String newTitle,
-                                               ArrayList<UserBook> currentUserBooksList) {
-        for (UserBook currentUserBook : currentUserBooksList) {
-            String currentUserBookTitle = currentUserBook.getUserBookTitle();
-            if (currentUserBookTitle.equals(oldTitle)) {
-                currentUserBook.setUserBookTitle(newTitle);
-            }
+            currentUser.editBook(oldTitle, newTitle, currentUserBooksList);
         }
     }
 }

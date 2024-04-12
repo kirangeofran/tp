@@ -62,11 +62,11 @@ public class User {
         this.listOfUserBooks.remove(bookToReturn);
     }
 
-    public void editBook(Integer bookIndex, String newBookTitle) {
-        for (int i = 0; i < this.listOfUserBooks.size(); i += 1) {
-            UserBook currentBook = this.listOfUserBooks.get(i);
-            if (Objects.equals(currentBook.getUserBookIndex(), bookIndex)) {
-                currentBook.setUserBookTitle(newBookTitle);
+    public void editBook(String oldTitle, String newTitle, ArrayList<UserBook> currentUserBooksList) {
+        for (UserBook currentUserBook : currentUserBooksList) {
+            String currentUserBookTitle = currentUserBook.getUserBookTitle();
+            if (currentUserBookTitle.equals(oldTitle)) {
+                currentUserBook.setUserBookTitle(newTitle);
             }
         }
     }
