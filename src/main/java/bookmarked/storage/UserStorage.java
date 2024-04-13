@@ -122,7 +122,7 @@ public class UserStorage {
         int userAttributesLength = userAttributes.length - 1;
 
         // if incomplete data
-        if (userAttributesLength % 4 != 0) {
+        if (userAttributesLength == 0 || userAttributesLength % 4 != 0) {
             Ui.printInvalidUserTxtLine();
             return;
         }
