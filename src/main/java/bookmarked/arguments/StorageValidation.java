@@ -4,9 +4,37 @@ import bookmarked.Book;
 import bookmarked.user.User;
 import bookmarked.ui.Ui;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class StorageValidation {
+    public static boolean isValidLine(ArrayList<User> listOfUsers, User currentUser, String[] userAttributes) {
+        // check valid user
+        if (listOfUsers.contains(currentUser) || isValidDate(userAttributes[0])) {
+            Ui.printInvalidUserMessage();
+            return true;
+        }
+
+        int userAttributesLength = userAttributes.length - 1;
+
+        // if incomplete data
+        if (userAttributesLength == 0 || userAttributesLength % 4 != 0) {
+            Ui.printInvalidUserTxtLine();
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean isValidDate(String dateInString) {
+        try {
+            LocalDate date = LocalDate.parse(dateInString);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
     public static void validateUsersAndBooksLists(ArrayList<User> listOfUsers, ArrayList<Book> listOfBooks) {
         for (int i = 0; i < listOfBooks.size(); i += 1) {
             Book currentBook = listOfBooks.get(i);

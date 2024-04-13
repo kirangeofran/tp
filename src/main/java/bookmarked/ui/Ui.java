@@ -225,8 +225,11 @@ public class Ui {
     }
 
     public static void printModifyBookQuantityMessage(String bookName) {
-        System.out.println("Modifying book quantity of " + bookName + " to sync with total books borrowed by user.\n");
-        System.out.println(LINE_BREAK + "\n");
+        System.out.println("Modifying book quantity of " + bookName + " to sync with total books borrowed by user.");
+    }
+
+    public static void printInvalidUserMessage() {
+        System.out.println("Skipping a line due to invalid or duplicate user");
     }
 
     public static void exitProgramme() {
