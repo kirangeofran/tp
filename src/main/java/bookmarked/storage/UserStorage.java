@@ -178,7 +178,7 @@ public class UserStorage {
         LocalDate borrowDate;
 
         try {
-            borrowDate = LocalDate.parse(borrowDateInString);
+            borrowDate = LocalDate.parse(borrowDateInString.strip());
         } catch (DateTimeParseException e) {
             String bookTitle = bookToInput.getName();
             Ui.printInvalidBorrowDate(bookTitle);
