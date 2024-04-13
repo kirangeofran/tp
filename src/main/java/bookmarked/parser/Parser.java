@@ -80,12 +80,6 @@ public class Parser {
         case ("find"):
             userCommand = new FindCommand(newItem, listOfBooks, listOfUsers);
             break;
-        case("listuser"):
-            userCommand = new ListUserCommand(listOfUsers);
-            break;
-        case("finduser"):
-            userCommand = new FindUserCommand(listOfUsers, splitItem[1]);
-            break;
         case ("edit"):
             userCommand = new EditCommand(newItem, listOfBooks, bookDataFile, listOfUsers);
             break;
