@@ -28,6 +28,7 @@ public class BookMarked {
         UserStorage.writeUserToTxt(userDataFile, listOfUsers);
 
         StorageValidation.validateUsersAndBooksLists(listOfUsers, listOfBooks);
+        BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
 
         Scanner in = new Scanner(System.in);
         String newItem = in.nextLine();
