@@ -202,6 +202,10 @@ public class Ui {
         System.out.println(userName + " has not borrowed this book. Nothing to return.");
     }
 
+    public static void printInvalidUserTxtLine() {
+        System.out.println("Skipping a line due to invalid line in user.txt");
+    }
+
     public static void exitProgramme() {
         System.out.println("Bye!");
     }
