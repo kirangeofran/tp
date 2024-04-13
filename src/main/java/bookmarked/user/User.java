@@ -30,9 +30,16 @@ public class User {
 
         for (int i = 0; i < this.userBooksIndex.size(); i += 1) {
             int currentBookIndex = this.userBooksIndex.get(i);
-            userBooks.add(this.listOfBooks.get(currentBookIndex));  // check this -1
-        }
+            UserBook currentUserBook = this.listOfUserBooks.get(i);
+            Book bookToAddToList = this.listOfBooks.get(currentBookIndex);
 
+            LocalDate borrowDate = currentUserBook.getBorrowDate();
+            LocalDate returnDueDate = currentUserBook.getReturnDueDate();
+            bookToAddToList.setBorrowDate(borrowDate);
+            bookToAddToList.setReturnDate(returnDueDate);
+
+            userBooks.add(bookToAddToList);
+        }
         return userBooks;
     }
 
