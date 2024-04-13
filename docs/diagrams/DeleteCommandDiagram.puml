@@ -18,34 +18,63 @@ participant ":Book" as book BOOK_COLOR
 activate delCmd
 
 delCmd -> delCmd : processDeleteCommand()
-activate delCmd DELETE_COLOR
+activate delCmd #FFBBBB
 delCmd --> delCmd
 deactivate delCmd
 
-delCmd -> bStorage : writeBookToTxt(bookDataFile, listOfBooks)
-activate bStorage STORAGE_COLOR
-bStorage --> delCmd
-deactivate bStorage
+alt if arguments are valid
+    delCmd -> delCmd : setQuantityToDelete()
+    activate delCmd #FFBBBB
+    delCmd --> delCmd
+    deactivate delCmd
 
-delCmd -> delCmd : runDeleteCommand()
-activate delCmd DELETE_COLOR
-delCmd --> delCmd
-deactivate delCmd
+    delCmd -> book : get(listNumberIndex)
+    activate book #ADD8E6
+    book --> delCmd
+    deactivate book
 
-delCmd -> book : setNumberInInventory(newNumberInInventory)
-activate book BOOK_COLOR
-book --> delCmd
-deactivate book
+    delCmd -> delCmd : runDeleteCommand()
+    activate delCmd #FFBBBB
+    delCmd --> delCmd
+    deactivate delCmd
 
-delCmd -> book : setNumberTotal(newNumberTotal)
-activate book BOOK_COLOR
-book --> delCmd
-deactivate book
+    delCmd -> book : setNumberInInventory(newNumberInInventory)
+    activate book #ADD8E6
+    book --> delCmd
+    deactivate book
 
-delCmd -> Ui : printDeleteStatement(quantityToDelete, bookName, newNumberInInventory, newNumberTotal)
-activate Ui UI_COLOR
-Ui --> delCmd
-deactivate Ui
+    delCmd -> book : setNumberTotal(newNumberTotal)
+    activate book #ADD8E6
+    book --> delCmd
+    deactivate book
+
+    delCmd -> Ui : printDeleteStatement(quantityToDelete, inputBook.getName(), newNumberInInventory, newNumberTotal)
+    activate Ui #Yellow
+    Ui --> delCmd
+    deactivate Ui
+
+    alt if all copies are deleted
+        delCmd -> book : remove(listNumberIndex)
+        activate book #ADD8E6
+        book --> delCmd
+        deactivate book
+
+        delCmd -> Ui : printBookDeleted(inputBook.getName())
+        activate Ui #Yellow
+        Ui --> delCmd
+        deactivate Ui
+    end
+
+    delCmd -> bStorage : writeBookToTxt(bookDataFile, listOfBooks)
+    activate bStorage #DarkSalmon
+    bStorage --> delCmd
+    deactivate bStorage
+else if user not found or input out of bounds or any other exception
+    delCmd -> Ui : printErrorMessage()
+    activate Ui #Yellow
+    Ui --> delCmd
+    deactivate Ui
+end
 
 [<-- delCmd
 deactivate delCmd

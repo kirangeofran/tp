@@ -8,12 +8,14 @@
 
 hide footbox
 
+' Define participants with colors
 participant ":UI" as Ui UI_COLOR
 participant ":ReturnCommand" as retCmd RETURN_COLOR
 participant ":UserStorage" as uStorage USERSTORAGE_COLOR
 participant ":Book" as book BOOK_COLOR
 participant ":User" as user USER_COLOR
 
+' Sequence of interactions
 [-> retCmd : handleCommand()
 activate retCmd
 
@@ -28,7 +30,7 @@ alt if arguments are valid
     book --> retCmd
     deactivate book
 
-    retCmd -> user : unborrowBook(bookIndex + 1)
+    retCmd -> user : unborrowBook(bookIndex)
     activate user #ADD8E6
     user --> retCmd
     deactivate user

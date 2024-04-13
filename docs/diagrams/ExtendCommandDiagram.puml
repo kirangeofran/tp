@@ -8,12 +8,14 @@
 
 hide footbox
 
+' Define participants with colors
 participant ":UI" as Ui UI_COLOR
 participant ":ExtendCommand" as extCmd EXTEND_COLOR
 participant ":UserStorage" as uStorage USERSTORAGE_COLOR
 participant ":Book" as book BOOK_COLOR
 participant ":User" as user USER_COLOR
 
+' Sequence of interactions
 [-> extCmd : handleCommand()
 activate extCmd
 
@@ -38,7 +40,7 @@ alt if arguments are valid
     uStorage --> extCmd
     deactivate uStorage
 
-    extCmd -> Ui : printExtensionSuccess(bookName)
+    extCmd -> Ui : printExtensionSuccessMessage(bookName)
     activate Ui #Yellow
     Ui --> extCmd
     deactivate Ui

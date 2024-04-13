@@ -17,43 +17,55 @@ participant ":User" as user USER_COLOR
 [-> borCmd : handleCommand()
 activate borCmd
 
-borCmd -> borCmd : processBorrowCommand()
+borCmd -> borCmd : setArguments()
 activate borCmd #FFBBBB
 borCmd --> borCmd
 deactivate borCmd
 
-borCmd -> book : isAvailable()
-activate book #ADD8E6
-book --> borCmd
-deactivate book
-
-alt if book is available and not already borrowed
-    borCmd -> book : borrowBook(LocalDate.now(), DEFAULT_BORROW_PERIOD)
+alt if book is found and arguments are valid
+    borCmd -> book : isAvailable()
     activate book #ADD8E6
     book --> borCmd
     deactivate book
 
-    borCmd -> uStorage : writeUserToTxt(userDataFile, listOfUsers)
-    activate uStorage #DarkSalmon
-    uStorage --> borCmd
-    deactivate uStorage
+    alt if book is available and not already borrowed
+        borCmd -> book : borrowBook(LocalDate.now(), DEFAULT_BORROW_PERIOD)
+        activate book #ADD8E6
+        book --> borCmd
+        deactivate book
 
-    borCmd -> Ui : printBorrowedMessage(bookName, userName)
+        borCmd -> user : borrowBook(bookIndex, LocalDate.now(), returnDueDate)
+        activate user #ADD8E6
+        user --> borCmd
+        deactivate user
+
+        borCmd -> uStorage : writeUserToTxt(userDataFile, listOfUsers)
+        activate uStorage #DarkSalmon
+        uStorage --> borCmd
+        deactivate uStorage
+
+        borCmd -> Ui : printBorrowedMessage(bookName, userName)
+        activate Ui #Yellow
+        Ui --> borCmd
+        deactivate Ui
+    else if book is already borrowed
+        borCmd -> Ui : printUserAlreadyBorrowedBookMessage(userName)
+        activate Ui #Yellow
+        Ui --> borCmd
+        deactivate Ui
+    else if no copies available
+        borCmd -> Ui : printNoAvailableCopiesInInventoryMessage()
+        activate Ui #Yellow
+        Ui --> borCmd
+        deactivate Ui
+    end
+else if book not found
+    borCmd -> Ui : printBookNotFoundExceptionMessage()
     activate Ui #Yellow
     Ui --> borCmd
     deactivate Ui
-else if book is already borrowed
-    borCmd -> Ui : printAlreadyBorrowedMessage(userName)
-    activate Ui #Yellow
-    Ui --> borCmd
-    deactivate Ui
-else if no copies available
-    borCmd -> Ui : printNoCopiesMessage()
-    activate Ui #Yellow
-    Ui --> borCmd
-    deactivate Ui
-else book not found
-    borCmd -> Ui : printBookNotFoundMessage(bookName)
+else if index out of bounds
+    borCmd -> Ui : printOutOfBoundsMessage()
     activate Ui #Yellow
     Ui --> borCmd
     deactivate Ui
