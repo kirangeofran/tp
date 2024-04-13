@@ -130,8 +130,6 @@ public class BorrowCommand extends Command {
         return false;
     }
 
-
-
     private void updateBookIndex() {
         for (int i = 0; i < listOfBooks.size(); i += 1) {
             String currentBookName = listOfBooks.get(i).getName();

@@ -119,16 +119,16 @@ public class UserStorage {
         String[] userAttributes = line.split(" \\| ");
         User currentUser = new User(userAttributes[0], listOfBooks);
 
-        int userAttributesLengthExcludeUserName = userAttributes.length - 1;
+        int userAttributesLength = userAttributes.length - 1;
 
         // if incomplete data
-        if (userAttributesLengthExcludeUserName % 4 != 0) {
+        if (userAttributesLength % 4 != 0) {
             Ui.printInvalidUserTxtLine();
             return;
         }
 
         // check if first attributes actually user and not date
-        if (!isValidDate(userAttributes[0])) {
+        if (isValidDate(userAttributes[0])) {
             Ui.printInvalidUserTxtLine();
             return;
         }
@@ -153,7 +153,8 @@ public class UserStorage {
         listOfUsers.add(currentUser);
     }
 
-    private static void setBookBorrowDetails(ArrayList<Book> listOfBooks, String[] userAttributes, int i, int bookIndex, User currentUser) {
+    private static void setBookBorrowDetails(ArrayList<Book> listOfBooks, String[] userAttributes, int i,
+                                             int bookIndex, User currentUser) {
         String borrowDateInString = userAttributes[i + 2].strip();
         String returnDueDateInString = userAttributes[i + 3].strip();
 
@@ -215,7 +216,8 @@ public class UserStorage {
     }
 
     private static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
-        if (bookIndex <= 0 || bookIndex > listOfBooks.size()) {
+        if (bookIndex < 0 || bookIndex > listOfBooks.size()) {
+            System.out.println(bookIndex);
             throw new IndexOutOfBoundsException();
         }
     }
