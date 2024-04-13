@@ -4,15 +4,26 @@ import bookmarked.Book;
 
 import java.util.ArrayList;
 
+import bookmarked.user.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FindCommandTest {
+    private ArrayList<Book> listOfBooks;
+    private ArrayList<User> listOfUsers;
+    Command userCommand;
+    String userInput;
+
+    @BeforeEach
+    public void init() {
+        listOfBooks = new ArrayList<>();
+        listOfUsers = new ArrayList<>();
+    }
     @Test
     public void handleCommand_emptyArrayList_exceptionThrown() {
-        ArrayList<Book> listOfBooks = new ArrayList<Book>();
-        String userInput = "find ok";
-        Command userCommand = new FindCommand(userInput, listOfBooks);
+        userInput = "find ok";
+        userCommand = new FindCommand(userInput, listOfBooks, listOfUsers);
 
         try {
             userCommand.handleCommand();
@@ -23,9 +34,8 @@ public class FindCommandTest {
 
     @Test
     public void handleCommand_emptyKeyword_exceptionThrown() {
-        ArrayList<Book> listOfBooks = new ArrayList<>();
-        String userInput = "";
-        Command userCommand = new FindCommand(userInput, listOfBooks);
+        userInput = "";
+        userCommand = new FindCommand(userInput, listOfBooks, listOfUsers);
 
         try {
             userCommand.handleCommand();
@@ -38,8 +48,8 @@ public class FindCommandTest {
     @Test
     public void handleCommand_keywordNoMatch_numberOfBookFoundZero() {
         ArrayList<Book> listOfBook = new ArrayList<>();
-        String userInput = "find nomatch";
-        FindCommand userCommand = new FindCommand(userInput, listOfBook);
+        userInput = "find nomatch";
+        FindCommand userCommand = new FindCommand(userInput, listOfBook, listOfUsers);
         userCommand.handleCommand();
 
         int numberOfBookFound = userCommand.getNumberOfBookFound();
@@ -49,19 +59,18 @@ public class FindCommandTest {
 
     @Test
     public void handleCommand_keywordMatch_numberOfBookFoundMoreThanZero() {
-        ArrayList<Book> listOfBooks = new ArrayList<>();
         String userInput1 = "find book";
         String userInput2 = "find orld";
         listOfBooks.add(new Book("book1"));
         listOfBooks.add(new Book("book2"));
         listOfBooks.add(new Book ("hello world"));
 
-        FindCommand userCommand1 = new FindCommand(userInput1, listOfBooks);
+        FindCommand userCommand1 = new FindCommand(userInput1, listOfBooks, listOfUsers);
         userCommand1.handleCommand();
         int numberOfBookFound = userCommand1.getNumberOfBookFound();
         assertEquals(2, numberOfBookFound);
 
-        FindCommand userCommand2 = new FindCommand(userInput2, listOfBooks);
+        FindCommand userCommand2 = new FindCommand(userInput2, listOfBooks, listOfUsers);
         userCommand2.handleCommand();
         numberOfBookFound = userCommand2.getNumberOfBookFound();
         assertEquals(1, numberOfBookFound);
