@@ -12,7 +12,7 @@ traditional GUI-based applications.
 ## Table of Contents
 - Quick Start
 - Features
-  - Viewing help : `/help`
+  - Viewing help : `help`
   - Adding a book : `add`
   - Deleting a book : `delete`
   - Viewing books : `list`
@@ -27,8 +27,31 @@ traditional GUI-based applications.
 
 ## Quick Start
 
-1. Ensure that you have Java 11 or above installed.
-1. Down the latest version of `Duke` from [here](http://link.to/duke).
+1. Ensure that you have installed Java `11` on your computer.
+2. Download the latest version of `BookMarked.jar` from [here](https://github.com/AY2324S2-CS2113-W13-4/tp/releases).
+3. Copy the file to your desired folder for use as a _home folder_.
+4. Open a command terminal, `cd` into the folder you put the jar file in, 
+   and run the command `java -jar BookMarked.jar`. A command line display 
+   similar to the one shown below will appear:
+    ```
+    _______________________________________________________________________________
+    _______________________________________________________________________________
+    
+    Welcome to BookMarked, a one-stop app for all your librarian needs!
+    To get started, you can type 'help' to see a list of commands!
+    
+    _______________________________________________________________________________
+    _______________________________________________________________________________
+    ```
+5. Type some commands in the terminal and press Enter to execute it. 
+
+    Here are some commands you can try:
+    - `add book`
+    - `list /sortby default`
+    - `borrow book /by human`
+    - `bye`
+   
+6. You can refer to the features below for the details of each command.
 
 ## Features
 ### Viewing all possible features: `/help`
