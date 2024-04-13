@@ -17,7 +17,9 @@ public class ListUserCommand extends Command {
     }
 
     /**
-     * handles the command listuser
+     * handles the command list /sortby user
+     * splits the command to extract username and iterates the list of
+     * users to find any user whose name contain the keyword name
      */
 
     @Override
@@ -43,10 +45,16 @@ public class ListUserCommand extends Command {
         }
         System.out.println("List of Users and Borrowed Books:");
         System.out.println();
-        userAndBooks();
+        printUserAndBooks();
     }
 
-    private static void userAndBooks() {
+    /**
+     * prints users and their list of books
+     * Iterates through the list of users to find all users. Within each user, iterates
+     * through the list of books of each user and prints it
+     */
+
+    private static void printUserAndBooks() {
         int userCount = 0;
         for (User user : listOfUsers) {
             System.out.println("User: " + user.getName());
@@ -55,22 +63,11 @@ public class ListUserCommand extends Command {
                 System.out.println("None");
             } else {
                 System.out.println();
-                printUserBooks(user, userCount);
+                PrintUserBooksCommand.printUserBooks(user, userCount, listOfUsers);
             }
             userCount++;
         }
     }
-
-    public static void printUserBooks(User user, int UserCount) {
-        for (int i = 0; i < user.getUserBooks().size(); i++) {
-            Ui.printElse(user, i);
-            if (Book.isOverdue(user.getUserBooks().get(i).getReturnDate())) {
-                Ui.printOverdue();
-            }
-            System.out.println();
-        }
-        if (UserCount < listOfUsers.size() - 1) {
-            System.out.println();
-        }
-    }
 }
+
+
