@@ -44,7 +44,8 @@ public class ExtendCommandTest {
 
         currentUser.borrowBook(0, LocalDate.now(), LocalDate.now().plusWeeks(2));
         String commandString = "extend Borrowed Book /by Alice";
-        ExtendCommand command = new ExtendCommand(commandString, listOfBooks, bookDataFile, listOfUsers, userDataFile);
+        ExtendCommand command = new ExtendCommand(commandString,
+                listOfBooks, bookDataFile, listOfUsers, userDataFile);
         command.handleCommand();
 
         System.setOut(originalOut);
@@ -74,7 +75,8 @@ public class ExtendCommandTest {
     public void extendCommand_bookNotFound_throwsBookNotFoundException() {
         assertThrows(BookNotFoundException.class, () -> {
             String commandString = "extend Nonexistent Book /by Alice";
-            ExtendCommand command = new ExtendCommand(commandString, listOfBooks, bookDataFile, listOfUsers, userDataFile);
+            ExtendCommand command = new ExtendCommand(commandString,
+                    listOfBooks, bookDataFile, listOfUsers, userDataFile);
             command.handleCommand();
         });
     }
@@ -83,7 +85,8 @@ public class ExtendCommandTest {
     public void extendCommand_noArgumentsProvided_throwsInvalidStringException() {
         assertThrows(InvalidStringException.class, () -> {
             String commandString = "extend";
-            ExtendCommand command = new ExtendCommand(commandString, listOfBooks, bookDataFile, listOfUsers, userDataFile);
+            ExtendCommand command = new ExtendCommand(commandString,
+                    listOfBooks, bookDataFile, listOfUsers, userDataFile);
             command.handleCommand();
         });
     }
