@@ -1,0 +1,67 @@
+@startuml
+' Define colors using preprocessor directives
+!define UI_COLOR #FFF2CC
+!define RETURN_COLOR #D9EAD3
+!define USERSTORAGE_COLOR #C9DAF8
+!define BOOK_COLOR #EA9999
+!define USER_COLOR #D9EAD3
+
+hide footbox
+
+' Define participants with colors
+participant ":UI" as Ui UI_COLOR
+participant ":ReturnCommand" as retCmd RETURN_COLOR
+participant ":UserStorage" as uStorage USERSTORAGE_COLOR
+participant ":Book" as book BOOK_COLOR
+participant ":User" as user USER_COLOR
+
+' Sequence of interactions
+[-> retCmd : handleCommand()
+activate retCmd
+
+retCmd -> retCmd : setArguments()
+activate retCmd #FFBBBB
+retCmd --> retCmd
+deactivate retCmd
+
+alt if arguments are valid
+    retCmd -> book : setReturned()
+    activate book #ADD8E6
+    book --> retCmd
+    deactivate book
+
+    retCmd -> user : unborrowBook(bookIndex)
+    activate user #ADD8E6
+    user --> retCmd
+    deactivate user
+
+    retCmd -> uStorage : writeUserToTxt(userDataFile, listOfUsers)
+    activate uStorage #DarkSalmon
+    uStorage --> retCmd
+    deactivate uStorage
+
+    retCmd -> Ui : printReturnSuccess(bookName)
+    activate Ui #Yellow
+    Ui --> retCmd
+    deactivate Ui
+else if user not found
+    retCmd -> Ui : printNotExistingUserMessage()
+    activate Ui #Yellow
+    Ui --> retCmd
+    deactivate Ui
+else if book not found
+    retCmd -> Ui : printBookNotFoundExceptionMessage()
+    activate Ui #Yellow
+    Ui --> retCmd
+    deactivate Ui
+else if book not borrowed
+    retCmd -> Ui : printBookNotBorrowedByUserMessage(currentUser.getName())
+    activate Ui #Yellow
+    Ui --> retCmd
+    deactivate Ui
+end
+
+[<-- retCmd
+deactivate retCmd
+
+@enduml

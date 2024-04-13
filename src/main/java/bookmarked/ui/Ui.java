@@ -220,6 +220,11 @@ public class Ui {
         System.out.println("Skipping a line due to invalid line in user.txt");
     }
 
+    public static void printExtensionSuccessMessage(String bookName) {
+        System.out.println("The borrowing period for '" + bookName + "' has been successfully extended by one week.");
+    }
+
+
     public static void exitProgramme() {
         System.out.println("Thank you for using BookMarked! See you soon!");
         System.out.println(" \n" +

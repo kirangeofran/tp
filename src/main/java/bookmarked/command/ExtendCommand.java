@@ -92,7 +92,7 @@ public class ExtendCommand extends Command {
             extendingBook.extendDueDate();
             extendBookInUserDate();
             UserStorage.writeUserToTxt(userDataFile, listOfUsers);
-            System.out.println("Due date for '" + this.bookName + "' has been extended by a week.");
+            Ui.printExtensionSuccessMessage(this.bookName);
         } else {
             Ui.printBookNotBorrowedByUserMessage(this.currentUser.getName());
         }
