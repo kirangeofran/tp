@@ -20,6 +20,15 @@ public class ListCommand extends Command {
         DEFAULT, ALPHABETICAL, RETURNDATE, UNBORROWED
     }
 
+    /**
+     * List command lists the entire list of users and their borrowed books or books
+     * list books based on return date, alphabetical or the order books were added
+     * depending on command
+     * @param listOfBooks List of books that were added
+     * @param newItem The command by user
+     * @param listOfUsers List of users who have borrowed books from the library
+     */
+
 
     public ListCommand(ArrayList<Book> listOfBooks, String newItem, ArrayList<User> listOfUsers) {
         this.listOfBooks = listOfBooks;
@@ -49,6 +58,7 @@ public class ListCommand extends Command {
     /**
      * Parses the user input command for list arguments.
      * Calls on the respective methods as needed.
+     * Runs class ListUserCommand if command to sort by user
      *
      * @throws EmptyListException If the methods throw an EmptyListException
      * @throws EmptyArgumentsException If there are no arguments after "/sortby".
