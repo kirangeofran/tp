@@ -84,6 +84,9 @@ public class BorrowCommand extends Command {
         }
     }
 
+    private static boolean isMoreThanOneBy(String[] splitParts) {
+        return splitParts.length > 2;
+    }
 
     private void setArguments() throws EmptyArgumentsException, InvalidStringException,
             BookNotFoundException, IndexOutOfListBounds {
@@ -99,6 +102,7 @@ public class BorrowCommand extends Command {
             throw new BookNotFoundException();
         } catch (IndexOutOfListBounds e) {
             throw new IndexOutOfListBounds();
+
         }
     }
 
