@@ -95,7 +95,11 @@ public class BookStorage {
             System.out.println("Skipping malformatted line: " + line);
             return;
         }
+
         Book book = createBookFromAttributes(bookAttributes);
+        if (book == null) {
+            return;
+        }
         books.add(book);
     }
 
@@ -107,43 +111,38 @@ public class BookStorage {
      */
 
     private static Book createBookFromAttributes(String[] bookAttributes) {
-        if (bookAttributes.length < 4){
-            System.out.println("Skipping malformatted line due to insufficient attributes.");
+        String title = bookAttributes[0];
+        int bookNumberTotal;
+        int bookNumberBorrowed;
+        int bookNumberInInventory;
+
+        try {
+            bookNumberTotal = Integer.parseInt(bookAttributes[1]);
+            bookNumberBorrowed = Integer.parseInt(bookAttributes[2]);
+            bookNumberInInventory = Integer.parseInt(bookAttributes[3]);
+
+            // check if bookNumberBorrowed + bookNumberInInventory = bookNumberTotal
+            if (bookNumberBorrowed + bookNumberInInventory < bookNumberTotal) {
+                bookNumberInInventory = bookNumberTotal - bookNumberBorrowed;
+            } else if (bookNumberBorrowed + bookNumberInInventory > bookNumberTotal) {
+                bookNumberTotal = bookNumberBorrowed + bookNumberInInventory;
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Skipping malformatted line due to invalid quantity");
             return null;
         }
 
-        String title = bookAttributes[0];
-        boolean isBorrowed = Boolean.parseBoolean(bookAttributes[1]);
-        LocalDate borrowDate;
-        LocalDate returnDate;
+        Book book = setBookDetails(title, bookNumberTotal, bookNumberBorrowed, bookNumberInInventory);
 
-        try {
-            borrowDate = LocalDate.parse(bookAttributes[2]);
-        } catch (DateTimeParseException e) {
-            System.out.println("Invalid borrow date format for book: " + title + ", setting to today's date.");
-            borrowDate = LocalDate.now();
-        }
+        return book;
+    }
 
-        try {
-            returnDate = LocalDate.parse(bookAttributes[3]);
-        } catch (DateTimeParseException e) {
-            System.out.println("Invalid return date format for book: " + title + ", setting to two weeks from today.");
-            returnDate = LocalDate.now().plusWeeks(2);
-        }
-
-        // Ensure return date is after borrow date
-        if (returnDate.isBefore(borrowDate)) {
-            System.out.println("Return date before borrow date for book: " + title +
-                    ". Automatically adjusting return date to two weeks after borrow date.");
-            returnDate = borrowDate.plusWeeks(2);
-        }
-
+    private static Book setBookDetails(String title, int bookNumberTotal, int bookNumberBorrowed, int bookNumberInInventory) {
         Book book = new Book(title);
-        if (isBorrowed) {
-            book.setBorrowed();
-            book.setBorrowDate(borrowDate);
-            book.setReturnDate(returnDate);
-        }
+        book.setNumberTotal(bookNumberTotal);
+        book.setNumberBorrowed(bookNumberBorrowed);
+        book.setNumberInInventory(bookNumberInInventory);
         return book;
     }
 
@@ -155,12 +154,12 @@ public class BookStorage {
      */
     private static String serializeBook(Book book) {
         String bookTitle = book.getName();
-        String bookBorrowStatus = book.getIsBorrowed() ? "True" : "False";
-        String borrowDate = (book.getBorrowDate() != null) ? book.getBorrowDate().toString() : "null";
-        String returnDate = (book.getReturnDate() != null) ? book.getReturnDate().toString() : "null";
-        String formattedString =
-                String.format("%s | %s | %s | %s%n", bookTitle, bookBorrowStatus, borrowDate, returnDate);
-        return formattedString; // Return the formatted string
+        int bookNumberTotal = book.getNumberTotal();
+        int bookNumberBorrowed = book.getNumberBorrowed();
+        int bookNumberInInventory = book.getNumberInInventory();
+
+        return String.format("%s | %d | %d | %d%n", bookTitle, bookNumberTotal,
+                bookNumberBorrowed, bookNumberInInventory);
     }
 
     /**

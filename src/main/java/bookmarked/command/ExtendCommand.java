@@ -90,6 +90,7 @@ public class ExtendCommand extends Command {
         Book extendingBook = this.listOfBooks.get(this.bookIndex);
         if (hasUserBorrowedBook()) {
             extendingBook.extendDueDate();
+            extendBookInUserDate();
             UserStorage.writeUserToTxt(userDataFile, listOfUsers);
             System.out.println("Due date for '" + this.bookName + "' has been extended by a week.");
         } else {
@@ -97,7 +98,14 @@ public class ExtendCommand extends Command {
         }
     }
 
-
+    private void extendBookInUserDate() {
+        for (int i = 0; i < listOfUsers.size(); i += 1) {
+            User currentUserInList = listOfUsers.get(i);
+            if (currentUserInList.equals(this.currentUser)) {
+                currentUserInList.extendDueDate(this.bookIndex);
+            }
+        }
+    }
 
     private void updateBookIndex(ArrayList<Book> listOfBooks) throws BookNotFoundException {
         if (!doesBookExists()) {

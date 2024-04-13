@@ -175,7 +175,6 @@ public class ReturnCommand extends Command {
             throw new BookNotFoundException();
         } catch (IndexOutOfListBounds e) {
             throw new IndexOutOfListBounds();
-        }
     }
 
 

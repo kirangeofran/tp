@@ -7,6 +7,8 @@ import bookmarked.exceptions.NoEditChangeException;
 import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
+import bookmarked.user.User;
+import bookmarked.userBook.UserBook;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class EditCommand extends Command {
     private static final int BOOK_TO_EDIT_START_INDEX = 5;
     private static final int TITLE_START_INDEX = 7;
     private ArrayList<Book> listOfBooks;
+    private ArrayList<User> listOfUsers;
     private File bookDataFile;
     private String userInput;
     private int bookNumberToEdit;
@@ -31,11 +34,12 @@ public class EditCommand extends Command {
      * @param listOfBooks array list that stores all the books and its details in the library.
      * @param bookDataFile file for storing all the books and details.
      */
-    public EditCommand(String userInput, ArrayList<Book> listOfBooks, File bookDataFile) {
+    public EditCommand(String userInput, ArrayList<Book> listOfBooks, File bookDataFile, ArrayList<User> listOfUsers) {
         // Current book details
         this.listOfBooks = listOfBooks;
         this.bookDataFile = bookDataFile;
         this.userInput = userInput;
+        this.listOfUsers = listOfUsers;
     }
 
     /**
@@ -125,9 +129,8 @@ public class EditCommand extends Command {
 
     public void handleEditTitle(Book bookToEdit, int bookNumberToEdit)
             throws WrongInputFormatException, EmptyArgumentsException {
-        String bookName;
         String oldName = bookToEdit.getName();
-
+        String newBookName;
         boolean isEditTitle = false;
         String[] splitInput = userInput.split(" ");
         isEditTitle = isEditTitle(splitInput, isEditTitle);
@@ -138,18 +141,19 @@ public class EditCommand extends Command {
 
             // if "/" is not found after the "/title"
             if (nextSlash == -1) {
-                bookName = userInput.substring(titleIndex + TITLE_START_INDEX);
+                newBookName = userInput.substring(titleIndex + TITLE_START_INDEX);
             } else {
-                bookName = userInput.substring(titleIndex + TITLE_START_INDEX, nextSlash);
+                newBookName = userInput.substring(titleIndex + TITLE_START_INDEX, nextSlash);
             }
 
-            if (bookName.isBlank()) {
+            if (newBookName.isBlank()) {
                 throw new EmptyArgumentsException();
             }
 
-            bookToEdit.setName(bookName);
+            updateUserBooks(bookToEdit.getName(), newBookName);
+            bookToEdit.setName(newBookName);
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
-            Ui.printEditedBookConfirmation(bookName, oldName);
+            Ui.printEditedBookConfirmation(newBookName, oldName);
             numberOfEdits += 1;
         } else {
             throw new WrongInputFormatException();
@@ -164,5 +168,12 @@ public class EditCommand extends Command {
             }
         }
         return isEditTitle;
+    }
+
+    private void updateUserBooks(String oldTitle, String newTitle) {
+        for (User currentUser : this.listOfUsers) {
+            ArrayList<UserBook> currentUserBooksList = currentUser.getListOfUserBooks();
+            currentUser.editBook(oldTitle, newTitle, currentUserBooksList);
+        }
     }
 }

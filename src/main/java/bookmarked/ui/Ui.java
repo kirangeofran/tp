@@ -207,12 +207,16 @@ public class Ui {
         System.out.println(userName + " has not borrowed this book. Nothing to return.");
     }
 
+
     public static void printNoAvailableCopiesInInventoryMessage() {
         System.out.println("There are currently no available copies of the book in the inventory.");
     }
 
     public static void printUserAlreadyBorrowedBookMessage(String userName) {
         System.out.println(userName + " has already borrowed this book. Please return before borrowing it again.");
+      
+    public static void printInvalidUserTxtLine() {
+        System.out.println("Skipping a line due to invalid line in user.txt");
     }
 
     public static void exitProgramme() {
