@@ -50,10 +50,12 @@ public class FindUserCommand extends Command {
         if (listOfUsers.isEmpty()) {
             throw new EmptyUserListException();
         }
+        int userCount = 0;
         for (User user : listOfUsers) {
             if (user.getName().contains(userName)) {
                 userFound = true;
-                findUser(user);
+                userCount ++;
+                findUser(user, userCount);
             }
         }
         if (!userFound) {
@@ -66,14 +68,13 @@ public class FindUserCommand extends Command {
      * @param user the wanted user
      */
 
-    private void findUser(User user) {
+    private void findUser(User user, int userCount) {
         System.out.println("User: " + user.getName());
         System.out.println("Borrowed Books: ");
         if (user.getUserBooks().isEmpty()) {
             System.out.println("None");
         } else {
-            PrintUserBooksCommand.printUserBooks(user,1, listOfUsers);
-
+            PrintUserBooksCommand.printUserBooks(user, userCount, listOfUsers);
         }
     }
 }
