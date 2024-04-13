@@ -4,15 +4,20 @@ import java.time.LocalDate;
 
 public class UserBook {
     private Integer userBookIndex;
-    protected LocalDate borrowDate;
-    protected LocalDate returnDueDate;
+    private String userBookTitle;
+    private LocalDate borrowDate;
+    private LocalDate returnDueDate;
 
-    public UserBook(Integer userBookIndex, LocalDate borrowDate, LocalDate returnDueDate) {
+    public UserBook(Integer userBookIndex, String userBookTitle, LocalDate borrowDate, LocalDate returnDueDate) {
         this.userBookIndex = userBookIndex;
+        this.userBookTitle = userBookTitle;
         this.borrowDate = borrowDate;
         this.returnDueDate = returnDueDate;
     }
 
+    public void setUserBookTitle(String userBookTitle) {
+        this.userBookTitle = userBookTitle;
+    }
     public void setReturnDueDate(LocalDate returnDate) {
         this.returnDueDate = returnDate;
     }
@@ -22,14 +27,18 @@ public class UserBook {
     }
 
     public LocalDate getBorrowDate() {
-        return borrowDate;
+        return this.borrowDate;
     }
 
     public LocalDate getReturnDueDate() {
-        return returnDueDate;
+        return this.returnDueDate;
     }
 
     public Integer getUserBookIndex() {
-        return userBookIndex;
+        return this.userBookIndex;
+    }
+
+    public String getUserBookTitle() {
+        return this.userBookTitle;
     }
 }
