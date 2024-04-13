@@ -20,6 +20,7 @@ import bookmarked.arguments.SetUserName;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Handles the "return" command from the user.
@@ -141,6 +142,7 @@ public class ReturnCommand extends Command {
         if (hasUserBorrowedBook()) {
             returningBook.setReturned();
             this.currentUser.unborrowBook(this.bookIndex);
+            removeCurrentUserIfNoBookBorrowed();
             UserStorage.writeUserToTxt(userDataFile, listOfUsers);
             if (Book.isOverdue(returningBook.getReturnDate())) {
                 Ui.bookIsOverdue();
@@ -148,6 +150,17 @@ public class ReturnCommand extends Command {
             System.out.println("Returned " + returningBook.getName() + "!");
         } else {
             Ui.printBookNotBorrowedByUserMessage(this.currentUser.getName());
+        }
+    }
+
+    public void removeCurrentUserIfNoBookBorrowed() {
+        Iterator<User> iterator = listOfUsers.iterator();
+        while (iterator.hasNext()) {
+            User user = iterator.next();
+
+            if (user.equals(this.currentUser) && user.getUserBooks().isEmpty()) {
+                iterator.remove();
+            }
         }
     }
 
@@ -175,6 +188,7 @@ public class ReturnCommand extends Command {
             throw new BookNotFoundException();
         } catch (IndexOutOfListBounds e) {
             throw new IndexOutOfListBounds();
+        }
     }
 
 
