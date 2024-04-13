@@ -11,6 +11,13 @@ public class FindUserCommand extends Command {
     private ArrayList<User> listOfUsers;
     private String userName;
 
+    /**
+     * find user command handles the case where find /by user is called
+     * splits the array to extract the wanted user
+     * @param listOfUsers the list of users who have borrowed books
+     * @param userName the name of the user we are searching for
+     */
+
     public FindUserCommand(ArrayList<User> listOfUsers, String userName) {
         this.listOfUsers = listOfUsers;
         this.userName = userName;
@@ -18,6 +25,7 @@ public class FindUserCommand extends Command {
 
     /**
      * handles the command finduser
+     * catches emptyuserlist if there are no users currently
      */
 
     @Override
@@ -52,6 +60,11 @@ public class FindUserCommand extends Command {
             Ui.invalidUser();
         }
     }
+
+    /**
+     * Iterates through the list of users to find the matching user
+     * @param user the wanted user
+     */
 
     private void findUser(User user) {
         System.out.println("User: " + user.getName());

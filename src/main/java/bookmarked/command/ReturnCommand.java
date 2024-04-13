@@ -17,6 +17,7 @@ import bookmarked.ui.Ui;
 import bookmarked.arguments.InputValidity;
 import bookmarked.arguments.SetBookIndexName;
 import bookmarked.arguments.SetUserName;
+import bookmarked.userBook.UserBook;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -140,8 +141,8 @@ public class ReturnCommand extends Command {
         }
 
         Book returningBook = this.listOfBooks.get(this.bookIndex);
+        LocalDate returnDate = findReturnDate(returningBook);
         if (hasUserBorrowedBook()) {
-            LocalDate returnDate = this.currentUser.getUserBooks().get(this.bookIndex).getReturnDate();
             if (Book.isOverdue(returnDate)) {
                 Ui.bookIsOverdue();
             }
@@ -154,6 +155,28 @@ public class ReturnCommand extends Command {
             Ui.printBookNotBorrowedByUserMessage(this.currentUser.getName());
         }
     }
+
+    /**
+     * finds the return date of the intended book
+     * iterates through the user book list to find book matching the returning book
+     * @param returningBook the book being returned
+     * @return returnDate the return date of the book
+     */
+    public LocalDate findReturnDate(Book returningBook) {
+        ArrayList<UserBook> ListOfUserBooks = this.currentUser.getListOfUserBooks();
+        for (UserBook books : ListOfUserBooks) {
+            if (books.getUserBookTitle().equalsIgnoreCase(returningBook.getName())) {
+                LocalDate returnDate = books.getReturnDueDate();
+                return returnDate;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * removes a user from the user list if they have no more books borrowed. Checks
+     * after returning book, if there are no borrowed books in their userbook list
+     */
 
     public void removeCurrentUserIfNoBookBorrowed() {
         Iterator<User> iterator = listOfUsers.iterator();
