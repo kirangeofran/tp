@@ -3,6 +3,9 @@
 !include style.puml
 participant ":AddCommand" as AddCommand STORAGE_COLOR
 participant "bookName:Book" as Book BOOK_COLOR
+participant ":UI" as UI UI_COLOR
+
+
 [-> AddCommand: processAddCommand(newSplitBook:String[], listOfBooks:ArrayList<Book>
 activate AddCommand
 create Book

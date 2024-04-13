@@ -144,6 +144,8 @@ public class ReturnCommand extends Command {
             this.currentUser.unborrowBook(this.bookIndex);
             removeCurrentUserIfNoBookBorrowed();
             UserStorage.writeUserToTxt(userDataFile, listOfUsers);
+            System.out.println(returningBook.getReturnDate());
+            System.out.println(Book.isOverdue(returningBook.getReturnDate()));
             if (Book.isOverdue(returningBook.getReturnDate())) {
                 Ui.bookIsOverdue();
             }
