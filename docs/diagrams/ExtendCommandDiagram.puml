@@ -1,0 +1,67 @@
+@startuml
+' Define colors using preprocessor directives
+!define UI_COLOR #FFF2CC
+!define EXTEND_COLOR #D9EAD3
+!define USERSTORAGE_COLOR #C9DAF8
+!define BOOK_COLOR #EA9999
+!define USER_COLOR #D9EAD3
+
+hide footbox
+
+' Define participants with colors
+participant ":UI" as Ui UI_COLOR
+participant ":ExtendCommand" as extCmd EXTEND_COLOR
+participant ":UserStorage" as uStorage USERSTORAGE_COLOR
+participant ":Book" as book BOOK_COLOR
+participant ":User" as user USER_COLOR
+
+' Sequence of interactions
+[-> extCmd : handleCommand()
+activate extCmd
+
+extCmd -> extCmd : setArguments()
+activate extCmd #FFBBBB
+extCmd --> extCmd
+deactivate extCmd
+
+alt if arguments are valid
+    extCmd -> book : extendDueDate()
+    activate book #ADD8E6
+    book --> extCmd
+    deactivate book
+
+    extCmd -> user : extendDueDate(bookIndex)
+    activate user #ADD8E6
+    user --> extCmd
+    deactivate user
+
+    extCmd -> uStorage : writeUserToTxt(userDataFile, listOfUsers)
+    activate uStorage #DarkSalmon
+    uStorage --> extCmd
+    deactivate uStorage
+
+    extCmd -> Ui : printExtensionSuccessMessage(bookName)
+    activate Ui #Yellow
+    Ui --> extCmd
+    deactivate Ui
+else if user not found
+    extCmd -> Ui : printNotExistingUserMessage()
+    activate Ui #Yellow
+    Ui --> extCmd
+    deactivate Ui
+else if book not found
+    extCmd -> Ui : printBookNotFoundExceptionMessage()
+    activate Ui #Yellow
+    Ui --> extCmd
+    deactivate Ui
+else if book not borrowed
+    extCmd -> Ui : printBookNotBorrowedByUserMessage(currentUser.getName())
+    activate Ui #Yellow
+    Ui --> extCmd
+    deactivate Ui
+end
+
+[<-- extCmd
+deactivate extCmd
+
+@enduml

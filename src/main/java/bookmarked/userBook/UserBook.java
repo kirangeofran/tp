@@ -1,6 +1,7 @@
 package bookmarked.userBook;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class UserBook {
     private Integer userBookIndex;
@@ -40,5 +41,15 @@ public class UserBook {
 
     public String getUserBookTitle() {
         return this.userBookTitle;
+    }
+
+    @Override
+    public String toString() {
+        ArrayList<String> userBookDetails = new ArrayList<>();
+        userBookDetails.add(String.valueOf(this.userBookIndex));
+        userBookDetails.add(this.userBookTitle);
+        userBookDetails.add(String.valueOf(borrowDate));
+        userBookDetails.add(String.valueOf(returnDueDate));
+        return String.valueOf(userBookDetails);
     }
 }

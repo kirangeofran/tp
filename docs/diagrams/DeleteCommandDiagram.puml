@@ -1,0 +1,82 @@
+@startuml
+' Define colors using preprocessor directives
+!define UI_COLOR #FFF2CC
+!define DELETE_COLOR #D9EAD3
+!define STORAGE_COLOR #C9DAF8
+!define BOOK_COLOR #EA9999
+
+hide footbox
+
+' Define participants with colors
+participant ":UI" as Ui UI_COLOR
+participant ":DeleteCommand" as delCmd DELETE_COLOR
+participant ":BookStorage" as bStorage STORAGE_COLOR
+participant ":Book" as book BOOK_COLOR
+
+' Sequence of interactions
+[-> delCmd : handleCommand()
+activate delCmd
+
+delCmd -> delCmd : processDeleteCommand()
+activate delCmd #FFBBBB
+delCmd --> delCmd
+deactivate delCmd
+
+alt if arguments are valid
+    delCmd -> delCmd : setQuantityToDelete()
+    activate delCmd #FFBBBB
+    delCmd --> delCmd
+    deactivate delCmd
+
+    delCmd -> book : get(listNumberIndex)
+    activate book #ADD8E6
+    book --> delCmd
+    deactivate book
+
+    delCmd -> delCmd : runDeleteCommand()
+    activate delCmd #FFBBBB
+    delCmd --> delCmd
+    deactivate delCmd
+
+    delCmd -> book : setNumberInInventory(newNumberInInventory)
+    activate book #ADD8E6
+    book --> delCmd
+    deactivate book
+
+    delCmd -> book : setNumberTotal(newNumberTotal)
+    activate book #ADD8E6
+    book --> delCmd
+    deactivate book
+
+    delCmd -> Ui : printDeleteStatement(quantityToDelete, inputBook.getName(), newNumberInInventory, newNumberTotal)
+    activate Ui #Yellow
+    Ui --> delCmd
+    deactivate Ui
+
+    alt if all copies are deleted
+        delCmd -> book : remove(listNumberIndex)
+        activate book #ADD8E6
+        book --> delCmd
+        deactivate book
+
+        delCmd -> Ui : printBookDeleted(inputBook.getName())
+        activate Ui #Yellow
+        Ui --> delCmd
+        deactivate Ui
+    end
+
+    delCmd -> bStorage : writeBookToTxt(bookDataFile, listOfBooks)
+    activate bStorage #DarkSalmon
+    bStorage --> delCmd
+    deactivate bStorage
+else if user not found or input out of bounds or any other exception
+    delCmd -> Ui : printErrorMessage()
+    activate Ui #Yellow
+    Ui --> delCmd
+    deactivate Ui
+end
+
+[<-- delCmd
+deactivate delCmd
+
+@enduml
