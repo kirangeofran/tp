@@ -224,6 +224,10 @@ public class Ui {
         System.out.println("The borrowing period for '" + bookName + "' has been successfully extended by one week.");
     }
 
+    public static void printModifyBookQuantityMessage(String bookName) {
+        System.out.println("Modifying book quantity of " + bookName + " to sync with total books borrowed by user.\n");
+        System.out.println(LINE_BREAK + "\n");
+    }
 
     public static void exitProgramme() {
         System.out.println("Thank you for using BookMarked! See you soon!");
