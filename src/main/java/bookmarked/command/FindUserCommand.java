@@ -5,6 +5,7 @@ import bookmarked.exceptions.EmptyUserListException;
 import bookmarked.ui.Ui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FindUserCommand extends Command {
     private ArrayList<User> listOfUsers;
@@ -45,7 +46,6 @@ public class FindUserCommand extends Command {
             if (user.getName().contains(userName)) {
                 userFound = true;
                 findUser(user);
-                System.out.println();
             }
         }
         if (!userFound) {
@@ -55,12 +55,12 @@ public class FindUserCommand extends Command {
 
     private void findUser(User user) {
         System.out.println("User: " + user.getName());
-        System.out.print("Borrowed Books: ");
+        System.out.println("Borrowed Books: ");
         if (user.getUserBooks().isEmpty()) {
             System.out.println("None");
         } else {
-            System.out.println();
-            Ui.printElse(user);
+            ListUserCommand.printUserBooks(user,1 );
+
         }
     }
 }
