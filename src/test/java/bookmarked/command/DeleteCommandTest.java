@@ -36,10 +36,10 @@ public class DeleteCommandTest {
         userInput = "delete";
         splitInput = userInput.split(" ");
 
-        userCommand = new DeleteCommand(splitInput, listOfBooks, bookDataFile);
+        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
 
         assertThrows(EmptyArgumentsException.class, () -> {
-            userCommand.processDeleteCommand(listOfBooks);
+            userCommand.processDeleteCommand(splitInput);
         });
     }
 
@@ -48,15 +48,15 @@ public class DeleteCommandTest {
         userInput = "delete          ";
         splitInput = userInput.split(" ");
 
-        userCommand = new DeleteCommand(splitInput, listOfBooks, bookDataFile);
+        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
         assertThrows(EmptyArgumentsException.class, () -> {
-            userCommand.processDeleteCommand(listOfBooks);
+            userCommand.processDeleteCommand(splitInput);
         });
 
         userInput = "delete ";
-        userCommand = new DeleteCommand(splitInput, listOfBooks, bookDataFile);
+        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
         assertThrows(EmptyArgumentsException.class, () -> {
-            userCommand.processDeleteCommand(listOfBooks);
+            userCommand.processDeleteCommand(splitInput);
         });
     }
 
@@ -65,33 +65,33 @@ public class DeleteCommandTest {
         userInput = "delete a";
         splitInput = userInput.split(" ");
 
-        userCommand = new DeleteCommand(splitInput, listOfBooks, bookDataFile);
+        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
         assertThrows(NumberFormatException.class, () -> {
-            userCommand.processDeleteCommand(listOfBooks);
+            userCommand.processDeleteCommand(splitInput);
         });
 
         userInput = "delete 1.5";
         splitInput = userInput.split(" ");
 
-        userCommand = new DeleteCommand(splitInput, listOfBooks, bookDataFile);
+        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
         assertThrows(NumberFormatException.class, () -> {
-            userCommand.processDeleteCommand(listOfBooks);
+            userCommand.processDeleteCommand(splitInput);
         });
 
         userInput = "delete book 1";
         splitInput = userInput.split(" ");
 
-        userCommand = new DeleteCommand(splitInput, listOfBooks, bookDataFile);
+        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
         assertThrows(NumberFormatException.class, () -> {
-            userCommand.processDeleteCommand(listOfBooks);
+            userCommand.processDeleteCommand(splitInput);
         });
 
         userInput = "delete #*!";
         splitInput = userInput.split(" ");
 
-        userCommand = new DeleteCommand(splitInput, listOfBooks, bookDataFile);
+        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
         assertThrows(NumberFormatException.class, () -> {
-            userCommand.processDeleteCommand(listOfBooks);
+            userCommand.processDeleteCommand(splitInput);
         });
     }
 
@@ -100,25 +100,25 @@ public class DeleteCommandTest {
         userInput = "delete 100";
         splitInput = userInput.split(" ");
 
-        userCommand = new DeleteCommand(splitInput, listOfBooks, bookDataFile);
+        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
         assertThrows(IndexOutOfListBounds.class, () -> {
-            userCommand.processDeleteCommand(listOfBooks);
+            userCommand.processDeleteCommand(splitInput);
         });
 
         userInput = "delete 0";
         splitInput = userInput.split(" ");
 
-        userCommand = new DeleteCommand(splitInput, listOfBooks, bookDataFile);
+        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
         assertThrows(IndexOutOfListBounds.class, () -> {
-            userCommand.processDeleteCommand(listOfBooks);
+            userCommand.processDeleteCommand(splitInput);
         });
 
         userInput = "delete -1";
         splitInput = userInput.split(" ");
 
-        userCommand = new DeleteCommand(splitInput, listOfBooks, bookDataFile);
+        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
         assertThrows(IndexOutOfListBounds.class, () -> {
-            userCommand.processDeleteCommand(listOfBooks);
+            userCommand.processDeleteCommand(splitInput);
         });
     }
 
@@ -129,9 +129,9 @@ public class DeleteCommandTest {
 
         listOfBooks = new ArrayList<>();
 
-        userCommand = new DeleteCommand(splitInput, listOfBooks, bookDataFile);
+        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
         assertThrows(EmptyListException.class, () -> {
-            userCommand.processDeleteCommand(listOfBooks);
+            userCommand.processDeleteCommand(splitInput);
         });
     }
 
@@ -141,7 +141,7 @@ public class DeleteCommandTest {
         splitInput = userInput.split(" ");
 
         int numberOfBooksBefore = listOfBooks.size();
-        userCommand = new DeleteCommand(splitInput, listOfBooks, bookDataFile);
+        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
         userCommand.handleCommand();
         int numberOfBooksAfter = listOfBooks.size();
 
