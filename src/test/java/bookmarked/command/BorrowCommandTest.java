@@ -1,127 +1,82 @@
-/*
 package bookmarked.command;
 
 import bookmarked.Book;
-import bookmarked.User;
+import bookmarked.exceptions.BookNotFoundException;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.EmptyListException;
+import bookmarked.exceptions.IndexOutOfListBounds;
 import bookmarked.exceptions.WrongInputFormatException;
+import bookmarked.storage.BookStorage;
+import bookmarked.ui.Ui;
+import bookmarked.user.User;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BorrowCommandTest {
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
-    private File bookDataFile;
-    private Book testBook;
-    private Book borrowedBook;
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
+    private File dummyBookDataFile;
+    private File dummyUserDataFile;
 
     @BeforeEach
-    public void setUp() {
-        newItem = "borrow book by tom";
+    public void setup() {
         listOfBooks = new ArrayList<>();
         listOfUsers = new ArrayList<>();
-        bookDataFile = new File("testBooks.txt");
+        dummyBookDataFile = new File("dummyBookData.txt"); // Assume these files are set up for testing purposes
+        dummyUserDataFile = new File("dummyUserData.txt");
+    }
 
-        testBook = new Book("Test Book");
-        borrowedBook = new Book("Borrowed Book");
-        listOfBooks.add(testBook);
-        listOfBooks.add(borrowedBook);
-        borrowedBook.borrowBook(LocalDate.now(), Period.ofWeeks(2));
+    @Test
+    public void borrowCommand_emptyBookList_throwsEmptyListException() {
+        BorrowCommand borrowCommand = new BorrowCommand(listOfBooks, dummyBookDataFile, listOfUsers, "borrow 1 /by Alice", dummyUserDataFile);
+        assertThrows(EmptyListException.class, borrowCommand::handleCommand);
+    }
 
-        User user = new User("Test User");
-        listOfUsers.add(user);
+    @Test
+    public void borrowCommand_emptyArguments_throwsEmptyArgumentsException() {
+        listOfBooks.add(new Book("Java Basics"));
+        BorrowCommand borrowCommand = new BorrowCommand(listOfBooks, dummyBookDataFile, listOfUsers, "borrow /by", dummyUserDataFile);
+        assertThrows(EmptyArgumentsException.class, borrowCommand::handleCommand);
+    }
 
+    @Test
+    public void borrowCommand_bookNotFound_throwsBookNotFoundException() {
+        listOfBooks.add(new Book("Java Basics"));
+        BorrowCommand borrowCommand = new BorrowCommand(listOfBooks, dummyBookDataFile, listOfUsers, "borrow NonExistingBook /by Alice", dummyUserDataFile);
+        assertThrows(BookNotFoundException.class, borrowCommand::handleCommand);
+    }
+
+    @Test
+    public void borrowCommand_bookAlreadyBorrowed_printsAlreadyBorrowedMessage() {
+        // Arrange
+        Book book = new Book("Java Basics");
+        book.borrowBook(LocalDate.now(), Period.ofWeeks(2)); // Simulate borrowing the book
+        listOfBooks.add(book);
+        User alice = new User("Alice", listOfBooks);
+        listOfUsers.add(alice);
+
+        // Prepare to capture print output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
+
+        // Act
+        String commandString = "borrow Java Basics /by Alice";
+        BorrowCommand borrowCommand = new BorrowCommand(listOfBooks, dummyBookDataFile, listOfUsers, commandString, dummyUserDataFile);
+        borrowCommand.handleCommand();
+
+        // Assert
+        String expectedOutput = "has already borrowed this book"; // The expected substring in the output
+        assertTrue(outContent.toString().contains(expectedOutput));
+
+        // Clean up
+        System.setOut(System.out);
     }
 
-    @AfterEach
-    public void restoreStreams() {
-        System.setOut(originalOut);
-    }
-
-    @Test
-
-    public void borrowCommand_availableBookByName_bookIsBorrowed() {
-        String[] commandParts = {"borrow", "Test Book /by Test User"};
-        String newItem = "borrow Test Book /by Test User";
-        try {
-            BorrowCommand command = new BorrowCommand(commandParts, listOfBooks, bookDataFile, listOfUsers, newItem);
-            command.handleCommand();
-            Assertions.assertFalse(testBook.isAvailable());
-            Assertions.assertTrue(outContent.toString().contains("Borrowed Test Book by Test User!"));
-        } catch (EmptyArgumentsException | WrongInputFormatException e) {
-            Assertions.fail("No exception should be thrown for valid input");
-        }
-    }
-
-    @Test
-    public void borrowCommand_availableBookByIndex_bookIsBorrowed() {
-        String[] commandParts = {"borrow", "1 /by Test User"};
-        String newItem = "borrow 1 /by Test User";
-        try {
-            BorrowCommand command = new BorrowCommand(commandParts, listOfBooks, bookDataFile, listOfUsers, newItem);
-            command.handleCommand();
-            Assertions.assertFalse(testBook.isAvailable());
-            Assertions.assertTrue(outContent.toString().contains("Borrowed Test Book by Test User!"));
-        } catch (EmptyArgumentsException | WrongInputFormatException e) {
-            Assertions.fail("No exception should be thrown for valid input");
-        }
-    }
-
-    @Test
-    public void borrowCommand_borrowedBookByName_borrowingFails() {
-        String[] commandParts = {"borrow", "Borrowed Book /by Test User"};
-        String newItem = "borrow Borrowed Book /by Test User";
-        try {
-            BorrowCommand command = new BorrowCommand(commandParts, listOfBooks, bookDataFile, listOfUsers, newItem);
-            command.handleCommand();
-            Assertions.assertTrue(borrowedBook.getIsBorrowed());
-            Assertions.assertTrue(outContent.toString().contains("Book is currently unavailable."));
-        } catch (EmptyArgumentsException | WrongInputFormatException e) {
-            Assertions.fail("No exception should be thrown for valid input");
-        }
-    }
-
-    @Test
-    public void borrowCommand_nonexistentBook_bookNotFoundMessageDisplayed() {
-        String[] commandParts = {"borrow", "Nonexistent Book /by Test User"};
-        String newItem = "borrow Nonexistent Book /by Test User";
-        try {
-            BorrowCommand command = new BorrowCommand(commandParts, listOfBooks, bookDataFile, listOfUsers, newItem);
-            command.handleCommand();
-            Assertions.assertTrue(outContent.toString().contains("Book not found: Nonexistent Book"));
-        } catch (EmptyArgumentsException | WrongInputFormatException e) {
-            Assertions.fail("No exception should be thrown for valid input");
-        }
-    }
-
-    @Test
-    public void borrowCommand_emptyList_displaysEmptyListMessage() {
-        String[] commandParts = {"borrow", "Some Book /by Test User"};
-        String newItem = "borrow Some Book /by Test User";
-        listOfBooks.clear();
-        try {
-            BorrowCommand command = new BorrowCommand(commandParts, listOfBooks, bookDataFile, listOfUsers, newItem);
-            command.handleCommand();
-            Assertions.assertTrue(outContent.toString().contains("The list of books is empty."));
-        } catch (EmptyArgumentsException | WrongInputFormatException e) {
-            Assertions.fail("No exception should be thrown for valid input");
-        }
-    }
 }
-*/
-
-
-
-
