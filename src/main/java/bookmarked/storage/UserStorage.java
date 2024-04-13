@@ -117,6 +117,20 @@ public class UserStorage {
         String[] userAttributes = line.split(" \\| ");
         User currentUser = new User(userAttributes[0], listOfBooks);
 
+        int userAttributesLengthExcludeUserName = userAttributes.length - 1;
+
+        // if incomplete data
+        if (userAttributesLengthExcludeUserName % 3 != 0) {
+            Ui.printInvalidUserTxtLine();
+            return;
+        }
+
+        // check if first attributes actually user and not date
+        if (!isValidDate(userAttributes[0])) {
+            Ui.printInvalidUserTxtLine();
+            return;
+        }
+
         for (int i = 1; i < userAttributes.length; i += 3) {
             try {
                 int bookIndex = Integer.parseInt(userAttributes[i].strip());
@@ -124,23 +138,37 @@ public class UserStorage {
                 checkValidBookIndex(listOfBooks, bookIndex);
                 checkBorrowedInBookStorage(listOfBooks, bookIndex);
 
-                String borrowDateInString = userAttributes[i + 1].strip();
-                String returnDueDateInString = userAttributes[i + 2].strip();
-
-                LocalDate borrowDate = getBorrowDate(borrowDateInString, listOfBooks.get(bookIndex));
-                LocalDate returnDueDate = getReturnDueDate(returnDueDateInString, listOfBooks.get(bookIndex),
-                        borrowDate);
-
-                currentUser.borrowBook(bookIndex, borrowDate, returnDueDate);
+                setBookBorrowDetails(listOfBooks, userAttributes, i, bookIndex, currentUser);
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 Ui.printInvalidTxtLine();
                 return;
             } catch (BookNotBorrowedException e) {
                 Ui.printBookNotBorrowedInBookStorage();
+                return;
             }
         }
 
         listOfUsers.add(currentUser);
+    }
+
+    private static void setBookBorrowDetails(ArrayList<Book> listOfBooks, String[] userAttributes, int i, int bookIndex, User currentUser) {
+        String borrowDateInString = userAttributes[i + 1].strip();
+        String returnDueDateInString = userAttributes[i + 2].strip();
+
+        LocalDate borrowDate = getBorrowDate(borrowDateInString, listOfBooks.get(bookIndex));
+        LocalDate returnDueDate = getReturnDueDate(returnDueDateInString, listOfBooks.get(bookIndex),
+                borrowDate);
+
+        currentUser.borrowBook(bookIndex, borrowDate, returnDueDate);
+    }
+
+    private static boolean isValidDate(String dateInString) {
+        try {
+            LocalDate date = LocalDate.parse(dateInString);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 
     private static LocalDate getBorrowDate(String borrowDateInString, Book bookToInput) {
