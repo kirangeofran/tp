@@ -3,6 +3,7 @@ package bookmarked.command;
 import bookmarked.Book;
 import bookmarked.user.User;
 import bookmarked.exceptions.EmptyListException;
+import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.ui.Ui;
 
 import java.util.ArrayList;
@@ -15,13 +16,14 @@ public class FindCommand extends Command {
     private static int numberOfBookFound = 0;
     private String newItem;
     private ArrayList<Book> listOfBooks;
-    private String [] splitCommand;
+    private String[] splitCommand;
     private ArrayList<User> listOfUsers;
     private String userName;
 
     /**
      * finds an item in the list
-     * @param newItem the command
+     *
+     * @param newItem     the command
      * @param listOfBooks the current list of books
      */
 
@@ -37,7 +39,17 @@ public class FindCommand extends Command {
 
     @Override
     public void handleCommand() {
-        this.splitCommand = newItem.split("/by");
+        try {
+            parseCommand();
+        } catch (EmptyListException e) {
+            Ui.printEmptyListMessage();
+        } catch (EmptyArgumentsException | IndexOutOfBoundsException e) {
+            Ui.printEmptyArgumentsMessage();
+        }
+    }
+
+    public void parseCommand() throws EmptyListException, EmptyArgumentsException {
+        this.splitCommand = newItem.split(" /by");
         String splitCommandCommand = splitCommand[1].trim();
         String[] findItem = splitCommandCommand.split(" ");
         switch (findItem[0].trim()) {

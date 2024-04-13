@@ -165,7 +165,7 @@ public class Ui {
     public static void invalidUser() {
         System.out.println("user not found");
     }
-    public static void printElse(User user, int i) {
+    public static void printCommand(User user, int i) {
         System.out.print(i + 1 + ". ");
         System.out.print(user.getUserBooks().get(i).getName());
         System.out.print(", Borrowed on: ");

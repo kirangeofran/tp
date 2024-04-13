@@ -19,6 +19,7 @@ import bookmarked.arguments.SetBookIndexName;
 import bookmarked.arguments.SetUserName;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -140,15 +141,14 @@ public class ReturnCommand extends Command {
 
         Book returningBook = this.listOfBooks.get(this.bookIndex);
         if (hasUserBorrowedBook()) {
+            LocalDate returnDate = this.currentUser.getUserBooks().get(this.bookIndex).getReturnDate();
+            if (Book.isOverdue(returnDate)) {
+                Ui.bookIsOverdue();
+            }
             returningBook.setReturned();
             this.currentUser.unborrowBook(this.bookIndex);
             removeCurrentUserIfNoBookBorrowed();
             UserStorage.writeUserToTxt(userDataFile, listOfUsers);
-            System.out.println(returningBook.getReturnDate());
-            System.out.println(Book.isOverdue(returningBook.getReturnDate()));
-            if (Book.isOverdue(returningBook.getReturnDate())) {
-                Ui.bookIsOverdue();
-            }
             System.out.println("Returned " + returningBook.getName() + "!");
         } else {
             Ui.printBookNotBorrowedByUserMessage(this.currentUser.getName());
