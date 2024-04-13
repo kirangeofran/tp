@@ -129,6 +129,7 @@ public class EditCommand extends Command {
 
     public void handleEditTitle(Book bookToEdit, int bookNumberToEdit)
             throws WrongInputFormatException, EmptyArgumentsException {
+        String oldName = bookToEdit.getName();
         String newBookName;
         boolean isEditTitle = false;
         String[] splitInput = userInput.split(" ");
@@ -152,7 +153,7 @@ public class EditCommand extends Command {
             updateUserBooks(bookToEdit.getName(), newBookName);
             bookToEdit.setName(newBookName);
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
-            Ui.printEditedBookConfirmation(bookNumberToEdit);
+            Ui.printEditedBookConfirmation(newBookName, oldName);
             numberOfEdits += 1;
         } else {
             throw new WrongInputFormatException();
