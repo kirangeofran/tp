@@ -3,10 +3,10 @@ import bookmarked.user.User;
 
 
 public class Ui {
-    static final String LINE_BREAK = "_____________________________________________\n"
-            + "_____________________________________________";
+    static final String LINE_BREAK = "_______________________________________________________________________________\n"
+            + "_______________________________________________________________________________";
 
-    static final String SMALLER_LINE_BREAK = "_____________________________________________\n";
+    static final String SMALLER_LINE_BREAK = "_______________________________________________________________________________\n";
 
 
     public static void greetings() {
@@ -91,8 +91,13 @@ public class Ui {
         System.out.println("Please specify what to edit using '/'.");
     }
 
-    public static void printEditedBookConfirmation(int bookNumberToEdit) {
-        System.out.println("Edited Book: " + bookNumberToEdit);
+    public static void printEditedBookConfirmation(String bookName, String oldName) {
+        System.out.println("Edited the title of the book: " + oldName + " into " + bookName + "!");
+    }
+
+    public static void printDeleteNoCopiesErrorException(String bookName) {
+        System.out.println("Automatically deleting " + bookName +
+                " due to an error in the inventory.");
     }
 
     public static void printWrongInputFormat() {
@@ -202,11 +207,37 @@ public class Ui {
         System.out.println(userName + " has not borrowed this book. Nothing to return.");
     }
 
+
+    public static void printNoAvailableCopiesInInventoryMessage() {
+        System.out.println("There are currently no available copies of the book in the inventory.");
+    }
+
+    public static void printUserAlreadyBorrowedBookMessage(String userName) {
+        System.out.println(userName + " has already borrowed this book. Please return before borrowing it again.");
+      
     public static void printInvalidUserTxtLine() {
         System.out.println("Skipping a line due to invalid line in user.txt");
     }
 
     public static void exitProgramme() {
-        System.out.println("Bye!");
+        System.out.println("Thank you for using BookMarked! See you soon!");
+        System.out.println(" \n" +
+                " _________ ______ ______ _________                           ____               \n" +
+                " | |______|______|______|______| |                          /   /                \n" +
+                " | |______ ______ ______ ______| |                         /   /                 \n" +
+                " | |______|______|______|______| |                        /   /                  \n" +
+                " | |                           | |                       /   /                   \n" +
+                " | |____   ____   ____  _  ____  __          _____  _  ________ _____  \n" +
+                " | |  _ \\ / __ \\ / __ \\| |/ /  \\/  |   /\\   |  __ \\| |/ /  ____|  __ \\ \n" +
+                " | | |_) | |  | | |  | | ' /| \\  / |  /  \\  | |__) | ' /| |__  | |  | |\n" +
+                " | |  _ <| |  | | |  | |  < | |\\/| | / /\\ \\ |  _  /|  < |  __| | |  | |\n" +
+                " | | |_) | |__| | |__| | . \\| |  | |/ ____ \\| | \\ \\| . \\| |____| |__| |\n" +
+                " | |____/ \\____/ \\____/|_|\\_\\_|  |_/_/    \\_\\_|  \\_\\_|\\_\\______|_____/ \n" +
+                " | |                           | |       ____     /   /                         \n" +
+                " | |                           | |       \\   \\   /   /                        \n" +
+                " | |______ ______ ______ ______| |        \\   \\_/   /                         \n" +
+                " | |______|______|______|______|_|         \\_______/                          \n" +
+                "                                              ");
+
     }
 }
