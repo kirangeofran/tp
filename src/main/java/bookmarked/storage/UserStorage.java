@@ -1,6 +1,7 @@
 package bookmarked.storage;
 
 import bookmarked.Book;
+import bookmarked.arguments.StorageValidation;
 import bookmarked.exceptions.DifferentUserBookStorageException;
 import bookmarked.user.User;
 import bookmarked.ui.Ui;
@@ -119,17 +120,7 @@ public class UserStorage {
         String[] userAttributes = line.split(" \\| ");
         User currentUser = new User(userAttributes[0], listOfBooks);
 
-        int userAttributesLength = userAttributes.length - 1;
-
-        // if incomplete data
-        if (userAttributesLength == 0 || userAttributesLength % 4 != 0) {
-            Ui.printInvalidUserTxtLine();
-            return;
-        }
-
-        // check if first attributes actually user and not date
-        if (isValidDate(userAttributes[0])) {
-            Ui.printInvalidUserTxtLine();
+        if (StorageValidation.isValidLine(listOfUsers, currentUser, userAttributes)) {
             return;
         }
 
@@ -137,8 +128,8 @@ public class UserStorage {
             try {
                 int bookIndex = Integer.parseInt(userAttributes[i].strip());
 
-                checkValidBookIndex(listOfBooks, bookIndex);
-                checkValidBookInBookStorage(listOfBooks, bookIndex, userAttributes[i + 1]);
+                StorageValidation.checkValidBookIndex(listOfBooks, bookIndex);
+                StorageValidation.checkValidBookInBookStorage(listOfBooks, bookIndex, userAttributes[i + 1]);
 
                 setBookBorrowDetails(listOfBooks, userAttributes, i, bookIndex, currentUser);
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
@@ -163,15 +154,6 @@ public class UserStorage {
                 borrowDate);
 
         currentUser.borrowBook(bookIndex, borrowDate, returnDueDate);
-    }
-
-    private static boolean isValidDate(String dateInString) {
-        try {
-            LocalDate date = LocalDate.parse(dateInString);
-            return true;
-        } catch (DateTimeParseException e) {
-            return false;
-        }
     }
 
     private static LocalDate getBorrowDate(String borrowDateInString, Book bookToInput) {
@@ -206,19 +188,5 @@ public class UserStorage {
         }
 
         return returnDueDate;
-    }
-
-    private static void checkValidBookInBookStorage(ArrayList<Book> listOfBooks, int bookIndex, String bookTitle)
-            throws DifferentUserBookStorageException {
-        if (!listOfBooks.get(bookIndex).getName().equals(bookTitle)) {
-            throw new DifferentUserBookStorageException();
-        }
-    }
-
-    private static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
-        if (bookIndex < 0 || bookIndex > listOfBooks.size()) {
-            System.out.println(bookIndex);
-            throw new IndexOutOfBoundsException();
-        }
     }
 }
