@@ -1,0 +1,65 @@
+@startuml
+' Define colors using preprocessor directives
+!define UI_COLOR #FFF2CC
+!define BORROW_COLOR #D9EAD3
+!define USERSTORAGE_COLOR #C9DAF8
+!define BOOK_COLOR #EA9999
+!define USER_COLOR #D9EAD3
+
+hide footbox
+
+participant ":UI" as Ui UI_COLOR
+participant ":BorrowCommand" as borCmd BORROW_COLOR
+participant ":UserStorage" as uStorage USERSTORAGE_COLOR
+participant ":Book" as book BOOK_COLOR
+participant ":User" as user USER_COLOR
+
+[-> borCmd : handleCommand()
+activate borCmd
+
+borCmd -> borCmd : processBorrowCommand()
+activate borCmd #FFBBBB
+borCmd --> borCmd
+deactivate borCmd
+
+borCmd -> book : isAvailable()
+activate book #ADD8E6
+book --> borCmd
+deactivate book
+
+alt if book is available and not already borrowed
+    borCmd -> book : borrowBook(LocalDate.now(), DEFAULT_BORROW_PERIOD)
+    activate book #ADD8E6
+    book --> borCmd
+    deactivate book
+
+    borCmd -> uStorage : writeUserToTxt(userDataFile, listOfUsers)
+    activate uStorage #DarkSalmon
+    uStorage --> borCmd
+    deactivate uStorage
+
+    borCmd -> Ui : printBorrowedMessage(bookName, userName)
+    activate Ui #Yellow
+    Ui --> borCmd
+    deactivate Ui
+else if book is already borrowed
+    borCmd -> Ui : printAlreadyBorrowedMessage(userName)
+    activate Ui #Yellow
+    Ui --> borCmd
+    deactivate Ui
+else if no copies available
+    borCmd -> Ui : printNoCopiesMessage()
+    activate Ui #Yellow
+    Ui --> borCmd
+    deactivate Ui
+else book not found
+    borCmd -> Ui : printBookNotFoundMessage(bookName)
+    activate Ui #Yellow
+    Ui --> borCmd
+    deactivate Ui
+end
+
+[<-- borCmd
+deactivate borCmd
+
+@enduml
