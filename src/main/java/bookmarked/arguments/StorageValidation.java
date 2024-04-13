@@ -1,6 +1,7 @@
 package bookmarked.arguments;
 
 import bookmarked.Book;
+import bookmarked.exceptions.DifferentUserBookStorageException;
 import bookmarked.user.User;
 import bookmarked.ui.Ui;
 
@@ -68,6 +69,20 @@ public class StorageValidation {
             currentBook.setNumberBorrowed(numberOfBooksBorrowedByIndex);
             currentBook.setNumberInInventory(oldNumberInInventory + differenceInBorrowed);
             Ui.printModifyBookQuantityMessage(currentBook.getName());
+        }
+    }
+
+    public static void checkValidBookInBookStorage(ArrayList<Book> listOfBooks, int bookIndex, String bookTitle)
+            throws DifferentUserBookStorageException {
+        if (!listOfBooks.get(bookIndex).getName().equals(bookTitle)) {
+            throw new DifferentUserBookStorageException();
+        }
+    }
+
+    public static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
+        if (bookIndex < 0 || bookIndex > listOfBooks.size()) {
+            System.out.println(bookIndex);
+            throw new IndexOutOfBoundsException();
         }
     }
 }

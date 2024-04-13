@@ -128,8 +128,8 @@ public class UserStorage {
             try {
                 int bookIndex = Integer.parseInt(userAttributes[i].strip());
 
-                checkValidBookIndex(listOfBooks, bookIndex);
-                checkValidBookInBookStorage(listOfBooks, bookIndex, userAttributes[i + 1]);
+                StorageValidation.checkValidBookIndex(listOfBooks, bookIndex);
+                StorageValidation.checkValidBookInBookStorage(listOfBooks, bookIndex, userAttributes[i + 1]);
 
                 setBookBorrowDetails(listOfBooks, userAttributes, i, bookIndex, currentUser);
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
@@ -188,19 +188,5 @@ public class UserStorage {
         }
 
         return returnDueDate;
-    }
-
-    private static void checkValidBookInBookStorage(ArrayList<Book> listOfBooks, int bookIndex, String bookTitle)
-            throws DifferentUserBookStorageException {
-        if (!listOfBooks.get(bookIndex).getName().equals(bookTitle)) {
-            throw new DifferentUserBookStorageException();
-        }
-    }
-
-    private static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
-        if (bookIndex < 0 || bookIndex > listOfBooks.size()) {
-            System.out.println(bookIndex);
-            throw new IndexOutOfBoundsException();
-        }
     }
 }
