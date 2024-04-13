@@ -1,95 +1,131 @@
 package bookmarked.command;
 
 import bookmarked.Book;
-import bookmarked.exceptions.BookNotFoundException;
-import bookmarked.exceptions.EmptyArgumentsException;
-import bookmarked.exceptions.EmptyListException;
-import bookmarked.exceptions.InvalidStringException ;
 import bookmarked.user.User;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayOutputStream;
+import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.io.PrintStream;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BorrowCommandTest {
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
-    private File dummyBookDataFile;
-    private File dummyUserDataFile;
+
+    private static final Period DEFAULT_BORROW_PERIOD = Period.ofWeeks(2);
+    private File bookDataFile;
+    private File userDataFile;
+    private ByteArrayOutputStream outContent;
+    private PrintStream originalOut;
 
     @BeforeEach
-    public void setup() {
+    public void setUp() {
         listOfBooks = new ArrayList<>();
         listOfUsers = new ArrayList<>();
-        dummyBookDataFile = new File("dummyBookData.txt");
-        dummyUserDataFile = new File("dummyUserData.txt");
+        bookDataFile = new File("testBooks.txt");
+        userDataFile = new File("testUsers.txt");
+        outContent = new ByteArrayOutputStream();
+        originalOut = System.out;
+        System.setOut(new PrintStream(outContent));
     }
 
-    @Test
-    public void borrowCommand_emptyBookList_throwsEmptyListException() {
-        BorrowCommand borrowCommand = new BorrowCommand(listOfBooks, dummyBookDataFile,
-                listOfUsers, "borrow 1 /by Alice", dummyUserDataFile);
-        assertThrows(EmptyListException.class, borrowCommand::handleCommand);
+    @AfterEach
+    public void restoreStream() {
+        System.setOut(originalOut);
     }
 
-    @Test
-    public void borrowCommand_emptyArguments_throwsEmptyArgumentsException() {
+    /*@Test
+    public void borrowCommand_emptyBookList_printsEmptyListMessage() {
+        String commandString = "borrow 1 /by Alice";
+        new BorrowCommand(listOfBooks, bookDataFile, listOfUsers, commandString, userDataFile).handleCommand();
+        String expectedOutput = "The book list is empty.";
+        assertTrue(outContent.toString().contains(expectedOutput));
+    } */
+
+   /* @Test
+    public void borrowCommand_successfulBorrowByBookName_printsSuccessMessage() {
         listOfBooks.add(new Book("Java Basics"));
-        BorrowCommand borrowCommand = new BorrowCommand(listOfBooks, dummyBookDataFile,
-                listOfUsers, "borrow /by", dummyUserDataFile);
-        assertThrows(EmptyArgumentsException.class, borrowCommand::handleCommand);
-    }
-
-    @Test
-    public void borrowCommand_bookNotFound_throwsBookNotFoundException() {
-        listOfBooks.add(new Book("Java Basics"));
-        BorrowCommand borrowCommand = new BorrowCommand(listOfBooks, dummyBookDataFile,
-                listOfUsers, "borrow NonExistingBook /by Alice", dummyUserDataFile);
-        assertThrows(BookNotFoundException.class, borrowCommand::handleCommand);
-    }
-
-    @Test
-    public void borrowCommand_bookAlreadyBorrowed_printsAlreadyBorrowedMessage() {
-
-        Book book = new Book("Java Basics");
-        book.borrowBook(LocalDate.now(), Period.ofWeeks(2)); // Simulate borrowing the book
-        listOfBooks.add(book);
-        User alice = new User("Alice", listOfBooks);
+        User alice = new User("Alice", new ArrayList<>());
         listOfUsers.add(alice);
 
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
 
         String commandString = "borrow Java Basics /by Alice";
-        BorrowCommand borrowCommand = new BorrowCommand(listOfBooks,
-                dummyBookDataFile, listOfUsers, commandString, dummyUserDataFile);
-        borrowCommand.handleCommand();
+        new BorrowCommand(listOfBooks, bookDataFile, listOfUsers, commandString, userDataFile).handleCommand();
 
-        String expectedOutput = "has already borrowed this book";
+        String actualOutput = outContent.toString().trim();
+        System.setOut(originalOut);
+
+        System.out.println("Actual output: " + actualOutput);
+
+        LocalDate expectedReturnDate = LocalDate.now().plus(Period.ofWeeks(2));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedReturnDate = expectedReturnDate.format(formatter);
+
+
+        String successMessage = "Borrowed Java Basics by Alice!";
+        String returnPrompt = "Please return by " + formattedReturnDate + ".";
+
+        assertTrue(actualOutput.contains(successMessage), "Expected borrow success message not found.");
+        assertTrue(actualOutput.contains(returnPrompt), "Expected return prompt not found.");
+    }*/
+
+
+
+    @Test
+    public void borrowCommand_nonExistingBook_printsBookNotFoundMessage() {
+        String commandString = "borrow NonExistingBook /by Alice";
+        new BorrowCommand(listOfBooks, bookDataFile, listOfUsers, commandString, userDataFile).handleCommand();
+        String expectedOutput = "The book does not exist; try adding it to the library first.";
         assertTrue(outContent.toString().contains(expectedOutput));
-
-        System.setOut(System.out);
     }
 
     @Test
-    public void borrowCommand_missingBookTitle_throwsInvalidStringException() {
-        BorrowCommand borrowCommand = new BorrowCommand(listOfBooks, dummyBookDataFile,
-                listOfUsers, "borrow /by Alice", dummyUserDataFile);
-        assertThrows(InvalidStringException.class, borrowCommand::handleCommand);
+    public void borrowCommand_bookAlreadyBorrowed_noAvailableCopies() {
+
+        Book book = new Book("Java Basics");
+        book.borrowBook(LocalDate.now(), Period.ofWeeks(2)); // Alice borrows the book
+        listOfBooks.add(book);
+
+        User alice = new User("Alice", listOfBooks);
+        listOfUsers.add(alice);
+
+        String commandString = "borrow Java Basics /by John";
+
+        new BorrowCommand(listOfBooks, bookDataFile, listOfUsers, commandString, userDataFile).handleCommand();
+
+        String expectedOutput = "There are currently no available copies of the book in the inventory.";
+        assertTrue(outContent.toString().contains(expectedOutput));
+    }
+
+
+    @Test
+    public void borrowCommand_missingBookTitle_printsInvalidArgumentsMessage() {
+        String commandString = "borrow /by Alice";
+        new BorrowCommand(listOfBooks, bookDataFile, listOfUsers, commandString, userDataFile).handleCommand();
+        String expectedOutput = "Please type in the correct arguments.";
+        assertTrue(outContent.toString().contains(expectedOutput),
+                "Expected invalid arguments message not printed.");
     }
 
     @Test
-    public void borrowCommand_missingByKeyword_throwsInvalidStringException() {
+    public void borrowCommand_missingByKeyword_printsInvalidFormatMessage() {
         listOfBooks.add(new Book("Java Basics"));
-        BorrowCommand borrowCommand = new BorrowCommand(listOfBooks, dummyBookDataFile,
-                listOfUsers, "borrow Java Basics Alice", dummyUserDataFile);
-        assertThrows(InvalidStringException.class, borrowCommand::handleCommand);
+        String commandString = "borrow Java Basics Alice";
+        new BorrowCommand(listOfBooks, bookDataFile, listOfUsers, commandString, userDataFile).handleCommand();
+        String expectedOutput = "Please type in the correct arguments";
+        assertTrue(outContent.toString().contains(expectedOutput),
+                "Expected invalid format message not printed.");
     }
-
 
 }

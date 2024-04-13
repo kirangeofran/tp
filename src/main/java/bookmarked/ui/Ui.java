@@ -204,7 +204,7 @@ public class Ui {
     }
 
     public static void printBookNotBorrowedByUserMessage(String userName) {
-        System.out.println(userName + " has not borrowed this book. Nothing to return.");
+        System.out.println(userName + " has not borrowed this book. Nothing to extend.");
     }
 
 
