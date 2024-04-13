@@ -1,8 +1,8 @@
 package bookmarked.storage;
 
 import bookmarked.Book;
+import bookmarked.exceptions.DifferentUserBookStorageException;
 import bookmarked.user.User;
-import bookmarked.exceptions.BookNotBorrowedException;
 import bookmarked.ui.Ui;
 import bookmarked.userBook.UserBook;
 
@@ -97,6 +97,8 @@ public class UserStorage {
             serializedString.append(" | ");
             serializedString.append(userBooks.getUserBookIndex());
             serializedString.append(" | ");
+            serializedString.append(userBooks.getUserBookTitle());
+            serializedString.append(" | ");
             serializedString.append(userBooks.getBorrowDate());
             serializedString.append(" | ");
             serializedString.append(userBooks.getReturnDueDate());
@@ -120,7 +122,7 @@ public class UserStorage {
         int userAttributesLengthExcludeUserName = userAttributes.length - 1;
 
         // if incomplete data
-        if (userAttributesLengthExcludeUserName % 3 != 0) {
+        if (userAttributesLengthExcludeUserName % 4 != 0) {
             Ui.printInvalidUserTxtLine();
             return;
         }
@@ -131,19 +133,19 @@ public class UserStorage {
             return;
         }
 
-        for (int i = 1; i < userAttributes.length; i += 3) {
+        for (int i = 1; i < userAttributes.length; i += 4) {
             try {
                 int bookIndex = Integer.parseInt(userAttributes[i].strip());
 
                 checkValidBookIndex(listOfBooks, bookIndex);
-                checkBorrowedInBookStorage(listOfBooks, bookIndex);
+                checkValidBookInBookStorage(listOfBooks, bookIndex, userAttributes[i + 1]);
 
                 setBookBorrowDetails(listOfBooks, userAttributes, i, bookIndex, currentUser);
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 Ui.printInvalidTxtLine();
                 return;
-            } catch (BookNotBorrowedException e) {
-                Ui.printBookNotBorrowedInBookStorage();
+            } catch (DifferentUserBookStorageException e) {
+                Ui.printInvalidUserTxtLine();
                 return;
             }
         }
@@ -152,8 +154,8 @@ public class UserStorage {
     }
 
     private static void setBookBorrowDetails(ArrayList<Book> listOfBooks, String[] userAttributes, int i, int bookIndex, User currentUser) {
-        String borrowDateInString = userAttributes[i + 1].strip();
-        String returnDueDateInString = userAttributes[i + 2].strip();
+        String borrowDateInString = userAttributes[i + 2].strip();
+        String returnDueDateInString = userAttributes[i + 3].strip();
 
         LocalDate borrowDate = getBorrowDate(borrowDateInString, listOfBooks.get(bookIndex));
         LocalDate returnDueDate = getReturnDueDate(returnDueDateInString, listOfBooks.get(bookIndex),
@@ -205,17 +207,16 @@ public class UserStorage {
         return returnDueDate;
     }
 
-    private static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
-        if (bookIndex <= 0 || bookIndex > listOfBooks.size()) {
-            throw new IndexOutOfBoundsException();
+    private static void checkValidBookInBookStorage(ArrayList<Book> listOfBooks, int bookIndex, String bookTitle)
+            throws DifferentUserBookStorageException {
+        if (!listOfBooks.get(bookIndex).getName().equals(bookTitle)) {
+            throw new DifferentUserBookStorageException();
         }
     }
 
-    private static void checkBorrowedInBookStorage(ArrayList<Book> listOfBooks, int bookIndex)
-            throws BookNotBorrowedException {
-        Book currentBook = listOfBooks.get(bookIndex);
-        if (!currentBook.getIsBorrowed()) {
-            throw new BookNotBorrowedException();
+    private static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
+        if (bookIndex <= 0 || bookIndex > listOfBooks.size()) {
+            throw new IndexOutOfBoundsException();
         }
     }
 }
