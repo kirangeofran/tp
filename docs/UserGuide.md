@@ -95,8 +95,7 @@ There are four ways of sorting the list:
   that are currently being borrowed.
 
 4. **By user**
-   
-    Format: `list /sortbyuser`
+    Format: `list /sortby user`
 * Listing all users along with their borrowed books
 
 
@@ -139,13 +138,13 @@ Example of usage:
 ### Returning borrowed books in the library: `return`
 Allows a user to return a book they have borrowed from the library's inventory, marking it as not borrowed.
 
-Format: `return BOOK_NAME`
+Format: `return BOOK_NAME /by USER`
 
 * The command updates the book's status to available, making it ready for borrowing again.
 
 Example of usage:
 
-`return The Book Thief`
+`return The Book Thief /by Tom`
 
 ### Finding books or users in the library: `find`
 Enables users to search for books in the library's inventory that match a given keyword.
@@ -196,6 +195,6 @@ Example of usage:
 * Add a book `add NAME_OF_BOOK`
 * List books `list /sortby ARGUMENT`
 * Edit books `edit /ARGUMENT_TO_EDIT ARGUMENT`
-* Find books `find ARGUMENT`
+* Find books `find /by TYPE KEYWORD`
 * Exit programme `bye`
 * Delete books `delete ARGUMENT`
