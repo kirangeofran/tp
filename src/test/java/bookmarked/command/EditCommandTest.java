@@ -1,6 +1,7 @@
 package bookmarked.command;
 
 import bookmarked.Book;
+import bookmarked.user.User;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.storage.BookStorage;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,12 +20,14 @@ public class EditCommandTest {
     private String userInput;
     private EditCommand userCommand;
     private ArrayList<Book> listOfBooks;
+    private ArrayList<User> listOfUsers;
     private File bookDataFile;
     private String bookToEditArgument;
 
     @BeforeEach
     public void init() {
         listOfBooks = new ArrayList<>();
+        listOfUsers = new ArrayList<>();
         bookDataFile = BookStorage.createFile(TEST_FILE_PATH);
         listOfBooks.add(new Book("book 1"));
         listOfBooks.add(new Book("book 2"));
@@ -35,7 +38,7 @@ public class EditCommandTest {
     @Test
     public void handleEditTitle_spaceBookName_emptyArgumentException() {
         userInput = "edit 1 /title ";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
         bookToEdit = listOfBooks.get(bookNumberToEdit - 1);
 
         assertThrows(EmptyArgumentsException.class, () -> {
@@ -43,7 +46,7 @@ public class EditCommandTest {
         });
 
         userInput = "edit 1 /title             ";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
         assertThrows(EmptyArgumentsException.class, () -> {
             userCommand.handleEditTitle(bookToEdit, bookNumberToEdit);
         });
@@ -52,7 +55,7 @@ public class EditCommandTest {
     @Test
     public void handleEditTitle_emptyBookName_stringIndexOutOfBoundsException() {
         userInput = "edit 1 /title";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
         bookToEdit = listOfBooks.get(bookNumberToEdit - 1);
 
         assertThrows(StringIndexOutOfBoundsException.class, () -> {
@@ -63,28 +66,28 @@ public class EditCommandTest {
     @Test
     public void getBookNumberToEdit_nonIntegerBookNumber_numberFormatExceptionCaught() {
         userInput = "edit x /title book";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
 
         assertThrows(NumberFormatException.class, () -> {
             userCommand.getBookNumberToEdit("x");
         });
 
         userInput = "edit #*? /title book";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
 
         assertThrows(NumberFormatException.class, () -> {
             userCommand.getBookNumberToEdit("#*?");
         });
 
         userInput = "edit 1.5 /title book";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
 
         assertThrows(NumberFormatException.class, () -> {
             userCommand.getBookNumberToEdit("1.5");
         });
 
         userInput = "edit   /title book";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
 
         assertThrows(NumberFormatException.class, () -> {
             userCommand.getBookNumberToEdit("  ");
@@ -95,7 +98,7 @@ public class EditCommandTest {
     public void getBookToEdit_invalidIntegerBookNumber_indexOutOfBoundsExceptionCaught() {
         userInput = "edit 10 /title book";
         bookNumberToEdit = 10;
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
         boolean isInputIndex = true;
 
         bookToEditArgument = "10";
@@ -105,7 +108,7 @@ public class EditCommandTest {
 
         userInput = "edit 0 /title book";
         bookNumberToEdit = 0;
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
 
         bookToEditArgument = "0";
         assertThrows(IndexOutOfBoundsException.class, () -> {
@@ -114,7 +117,7 @@ public class EditCommandTest {
 
         userInput = "edit -5 /title book";
         bookNumberToEdit = -5;
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
 
         bookToEditArgument = "-5";
         assertThrows(IndexOutOfBoundsException.class, () -> {
@@ -129,7 +132,7 @@ public class EditCommandTest {
         Book book2 = listOfBooks.get(1);
         Book book3 = listOfBooks.get(2);
 
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
         userCommand.handleCommand();
         Book bookAfterEdit = listOfBooks.get(bookNumberToEdit - 1);
         Book book2AfterEdit = listOfBooks.get(1);

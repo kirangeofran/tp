@@ -1,5 +1,6 @@
 package bookmarked;
 
+import bookmarked.user.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -64,16 +65,19 @@ public class BookTest {
     public void extendDueDate_bookExtended_returnsExtendedDate() {
         // Initialize the list of books with a test book already borrowed
         ArrayList<Book> listOfBooks = new ArrayList<>();
+        ArrayList<User> listOfUsers = new ArrayList<>();
         Book testBook = new Book("Test Book");
         testBook.borrowBook(LocalDate.now().minusDays(10), Period.ofDays(14));
         listOfBooks.add(testBook);
 
         // Create a temporary file to act as the book data file
-        File tempFile = tempDir.resolve("tempBookData.txt").toFile();
+        File bookDateFile = tempDir.resolve("testBooks.txt").toFile();
+        File userDataFile = tempDir.resolve("testUsers.txt").toFile();
 
         // Split the input as the Parser would do and pass it to the ExtendCommand
+        String commandString = "extend Borrowed Book /by Alice";
         String[] commandParts = {"extend", "Test Book"};
-        ExtendCommand command = new ExtendCommand(commandParts, listOfBooks, tempFile);
+        ExtendCommand command = new ExtendCommand(commandString, listOfBooks, bookDateFile, listOfUsers, userDataFile);
         command.handleCommand();
 
         // Calculate the expected due date after extension

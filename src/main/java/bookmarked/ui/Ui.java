@@ -224,6 +224,13 @@ public class Ui {
         System.out.println("The borrowing period for '" + bookName + "' has been successfully extended by one week.");
     }
 
+    public static void printModifyBookQuantityMessage(String bookName) {
+        System.out.println("Modifying book quantity of " + bookName + " to sync with total books borrowed by user.");
+    }
+
+    public static void printInvalidUserMessage() {
+        System.out.println("Skipping a line due to invalid or duplicate user");
+    }
 
     public static void exitProgramme() {
         System.out.println("Thank you for using BookMarked! See you soon!");
