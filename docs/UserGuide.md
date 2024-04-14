@@ -10,6 +10,8 @@ BookMarked enables you to perform inventory management tasks more swiftly than
 traditional GUI-based applications.
 
 ## Table of Contents
+Command Summary
+
 * Quick Start
 * Features
   * Viewing help : `help`
@@ -59,6 +61,7 @@ Lists out all available commands and their format.
 
 Format: `help`
 
+
 * `help` must all be lower case.
 * there **must not** be any leading character or space before the command.
 * command may include extra spaces after the command `help` 
@@ -73,13 +76,19 @@ Adds a new book to the library's inventory.
 Format: `add NAME_OF_BOOK (optional)/quantity NUMBER_OF_COPIES`
 
 * If the /quantity argument is not inputted, the default number of copies is 1
-* A maximum of 1000 copies of the books can be stored in the library.
-* To add more copies of a book that already exists, simply type in the name of the book 
-you wish to add, and type in the command per normal.
+* A maximum of 1000 copies of the books can be registered in total in the library.
+* To add more copies of a book that already exists, simply type in the name of the book
+  you wish to add, and type in the command per normal.
+* The book titles are case sensitive.
+* For book titles, you cannot input books containing special characters (sspecifically, / # $ @ | ? !) or titles that are only
+  numbers (eg. 7, 193, etc).
 
 Example of usage:
 
 `add The Book Thief`
+
+* To add more copies of The Book Thief after it has already been added:
+  `add The Book Thief` again.
 
 `add The Hunger Games /quantity 50`
 
@@ -295,6 +304,7 @@ Example of usage:
 
 ## Command Summary
 
+
 | Action                                   | Command Format                                  | Example                   |
 |------------------------------------------|-------------------------------------------------|---------------------------|
 | view all commands and its usage          | help                                            | help                      |
@@ -312,3 +322,4 @@ Example of usage:
 | list users who borrowed books            | list /sortby user                               | list /sortby user         |
 | find a book                              | find /by book FIND_KEYWORD                      | find /by book abc         |
 | find a user                              | find /by user FIND_KEYWORD                      | find /by user human       |
+
