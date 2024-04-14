@@ -16,7 +16,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * The {@code ExtendCommand} class handles the extension of the borrowing period for a book.
+ * Handles the extension of the borrowing period for books in a library. This command
+ * allows users to request additional time for books they have currently borrowed.
  */
 public class ExtendCommand extends Command {
     private String bookName = null;
@@ -31,10 +32,13 @@ public class ExtendCommand extends Command {
 
 
     /**
-     * Constructs an {ExtendCommand} with the specified command parts, list of books, and file.
+     * Constructs an ExtendCommand with the specified user input, book and user lists, and data storage files.
      *
-     * @param listOfBooks  the current list of books
-     * @param bookDataFile the file where the list of books is stored
+     * @param newItem      The user input containing the command details.
+     * @param listOfBooks  The list of books from which a book will be extended.
+     * @param bookDataFile The file where book data is stored.
+     * @param listOfUsers  The list of users who may have borrowed books.
+     * @param userDataFile The file where user data is stored.
      */
     public ExtendCommand(String newItem, ArrayList<Book> listOfBooks, File bookDataFile,
                          ArrayList<User> listOfUsers, File userDataFile) {
@@ -48,8 +52,7 @@ public class ExtendCommand extends Command {
 
 
     /**
-     * Executes the extend command by trying to extend the due date of a borrowed book.
-     * It catches specific exceptions and delegates error messages to the {@code Ui} class.
+     * Processes the extend command by validating user input and extending the due date of a borrowed book.
      */
     @Override
     public void handleCommand() {
@@ -79,8 +82,10 @@ public class ExtendCommand extends Command {
 
 
     /**
-     * Runs the logic to extend the due date of a borrowed book. If the book is not found
-     * or is not currently borrowed, it throws corresponding exceptions.
+     * Runs the extension logic by checking if the book is currently borrowed by the user
+     * and then extending the due date. Notifies the user of the outcome.
+     *
+     * @throws EmptyListException If no books are available in the library to extend.
      */
     private void runExtendCommand() throws EmptyListException {
         if (this.listOfBooks.isEmpty()) {
@@ -120,7 +125,16 @@ public class ExtendCommand extends Command {
         }
     }
 
-
+    /**
+     * Processes arguments from the input string and sets internal variables for the book
+     * index and user. Throws appropriate exceptions if inputs are invalid or not found.
+     *
+     * @throws InvalidStringException    If the command format is incorrect.
+     * @throws EmptyArgumentsException   If critical arguments are missing.
+     * @throws UserNotFoundException     If the user specified cannot be found.
+     * @throws BookNotFoundException     If the book specified cannot be found.
+     * @throws IndexOutOfListBounds      If the specified index is out of the list bounds.
+     */
     public void setArguments() throws InvalidStringException, UserNotFoundException,
             BookNotFoundException, EmptyArgumentsException, IndexOutOfListBounds {
 
@@ -166,7 +180,12 @@ public class ExtendCommand extends Command {
         }
     }
 
-
+    /**
+     * Checks if the specified book index is valid within the current list of books.
+     *
+     * @return The validated book index adjusted for zero-based indexing.
+     * @throws IndexOutOfListBounds If the index is outside the allowable range.
+     */
     public int checkBookIndexValidity() throws IndexOutOfListBounds {
         int bookIndex = Integer.parseInt(splitUser[0].trim());
         if (bookIndex < 0 || bookIndex > this.listOfBooks.size()) {
@@ -175,7 +194,12 @@ public class ExtendCommand extends Command {
         return bookIndex - 1;
     }
 
-
+    /**
+     * Confirms if the specified user name matches an existing user in the system.
+     *
+     * @return The User object if found.
+     * @throws UserNotFoundException If the user cannot be found.
+     */
     public User checkUserNameValidity() throws UserNotFoundException {
         String userString = this.splitUser[1].trim();
         for (User user : listOfUsers) {
@@ -186,7 +210,11 @@ public class ExtendCommand extends Command {
         throw new UserNotFoundException();
     }
 
-
+    /**
+     * Determines if the book in question exists in the list of books.
+     *
+     * @return true if the book exists, otherwise false.
+     */
     public boolean doesBookExists() {
         for (Book book : listOfBooks) {
             if (book.getName().matches(bookName)) {
@@ -196,7 +224,11 @@ public class ExtendCommand extends Command {
         return false;
     }
 
-
+    /**
+     * Checks if the current user has indeed borrowed the specified book.
+     *
+     * @return true if the book is currently borrowed by the user, otherwise false.
+     */
     public boolean hasUserBorrowedBook() {
         for (Book book : this.currentUser.getUserBooks()) {
             if (book.getName().matches(this.bookName)) {
