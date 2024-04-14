@@ -20,10 +20,12 @@ public class AddCommand extends Command {
     private static final int DEFAULT_QUANTITY = 1;
     private static final int MAX_QUANTITY = 1000;
     private static final String MAX_QUANTITY_STRING = "1000";
-    private String newItem;
+    private static final String COMMAND_STRING = "add";
+    private static final String ARGUMENT_STRING = " /quantity ";
+    private final String newItem;
+    private final File bookDataFile;
     private ArrayList<Book> listOfBooks;
     private String[] splitQuantity;
-    private File bookDataFile;
     private int quantityToAdd;
     private boolean hasQuantityArgument;
 
@@ -49,7 +51,7 @@ public class AddCommand extends Command {
     @Override
     public void handleCommand() {
         assert newItem != null : "Item should not be null";
-        String[] newSplitBook = this.newItem.split("add");
+        String[] newSplitBook = this.newItem.split(COMMAND_STRING);
         if (newSplitBook.length < 1) {
             Ui.printEmptyArgumentsMessage();
             return;
@@ -75,7 +77,7 @@ public class AddCommand extends Command {
             throw new EmptyArgumentsException();
         }
 
-        this.splitQuantity = newSplitBook[1].split(" /quantity ");
+        this.splitQuantity = newSplitBook[1].split(ARGUMENT_STRING);
         if (this.splitQuantity[0].isBlank()) {
             throw new EmptyArgumentsException();
         }

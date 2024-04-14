@@ -23,9 +23,11 @@ public class DeleteCommand extends Command {
     private static final int DEFAULT_QUANTITY = 1;
     private static final int MAX_QUANTITY = 1000;
     private static final String MAX_QUANTITY_STRING = "1000";
-    private String newItem;
+    private static final String COMMAND_STRING = "delete";
+    private static final String ARGUMENT_STRING = " /quantity ";
+    private final String newItem;
+    private final File bookDataFile;
     private ArrayList<Book> listOfBooks;
-    private File bookDataFile;
     private String[] splitQuantity;
     private int quantityToDelete;
     private boolean hasQuantityArgument;
@@ -50,7 +52,7 @@ public class DeleteCommand extends Command {
      */
     @Override
     public void handleCommand() {
-        String[] newSplitBook = this.newItem.split("delete");
+        String[] newSplitBook = this.newItem.split(COMMAND_STRING);
         if (newSplitBook.length < 1) {
             Ui.printEmptyArgumentsMessage();
             return;
@@ -91,7 +93,7 @@ public class DeleteCommand extends Command {
             throw new EmptyArgumentsException();
         }
 
-        this.splitQuantity = newSplitBook[1].split(" /quantity ");
+        this.splitQuantity = newSplitBook[1].split(ARGUMENT_STRING);
         if (this.splitQuantity[0].isBlank()) {
             throw new EmptyArgumentsException();
         }
