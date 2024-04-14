@@ -14,6 +14,7 @@
 !define BUFFERED_WRITER_COLOR #tomato
 !define FILE_WRITER_COLOR #palevioletred
 !define STORAGE_COLOR #purple
+!define STORAGE_VALIDATION_COLOR #motivation
 
 !define HELP_COLOR #green
 !define FIND_COLOR #mediumturquoise

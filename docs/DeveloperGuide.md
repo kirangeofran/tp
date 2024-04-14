@@ -29,8 +29,8 @@ BookMarked application is using txt file as its main storage for all the data.
 All data related to books are stored in `book.txt`.
 
 ##### Implementation Details
-At the start of running the application, `readFileStorage` is called to get the data saved 
-from the previous runs of the application.
+At the start of running the application, `readFileStorage` in `bookStorage` and `userStorage`
+are called to get the data saved from the previous runs of the application.
 
 ![ReadFileStorageDiagram.png](images%2FReadFileStorageDiagram.png)
 

@@ -5,6 +5,7 @@ hide footbox
 participant ":BookStorage" as BookStorage STORAGE_COLOR
 participant "fileReader:BufferedReader" as BufferedReader BUFFERED_READER_COLOR
 participant ":FileReader" as FileReader FILE_READER_COLOR
+participant ":StorageValidation" as StorageValidation STORAGE_VALIDATION_COLOR
 
 [-> BookStorage : readFileStorage(bookDataFile:File)
 activate BookStorage
@@ -19,6 +20,7 @@ activate FileReader
 
 FileReader --> BufferedReader
 deactivate FileReader
+destroy FileReader
 
 BufferedReader --> BookStorage
 
@@ -26,8 +28,8 @@ BookStorage -> BufferedReader : fileReader.readLine()
 
 BufferedReader --> BookStorage : return currentTextLine:String
 
-loop#physical #technology currentTextLine != null
-BookStorage -> BookStorage : addToArrayList(currentTextLine, bookCount, ListOfBooks)
+loop#physical #technology line != null
+BookStorage -> BookStorage : add(book)
 Activate BookStorage
 
 BookStorage --> BookStorage
