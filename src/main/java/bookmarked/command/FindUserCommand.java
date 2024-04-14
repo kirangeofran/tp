@@ -45,7 +45,7 @@ public class FindUserCommand extends Command {
      * @throws EmptyUserListException if the list of users is empty
      */
 
-    private void printUsers() throws EmptyUserListException {
+    void printUsers() throws EmptyUserListException {
         boolean userFound = false;
         if (listOfUsers.isEmpty()) {
             throw new EmptyUserListException();

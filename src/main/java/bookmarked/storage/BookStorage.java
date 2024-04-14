@@ -29,9 +29,6 @@ public class BookStorage {
         File bookDataFile = new File(bookDataPath);
         try {
             boolean fileCreated = bookDataFile.createNewFile();
-            if (fileCreated) {
-                System.out.println("New file created: " + bookDataFile.getName());
-            }
         } catch (IOException e) {
             System.out.println("Sorry, something's wrong, file is not created");
         }
