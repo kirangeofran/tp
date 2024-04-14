@@ -7,12 +7,9 @@ import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.ui.Ui;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 
 public class FindCommand extends Command {
     public static final int FIND_KEYWORD_START_INDEX = 14;
-    private static Logger logger = Logger.getLogger("Find Command Logger");
     private static int numberOfBookFound = 0;
     private String newItem;
     private ArrayList<Book> listOfBooks;
@@ -64,7 +61,7 @@ public class FindCommand extends Command {
      */
 
     public void parseCommand() throws EmptyListException, EmptyArgumentsException {
-        this.splitCommand = newItem.split(" /by");
+        this.splitCommand = newItem.split(" /by ");
         String splitCommandCommand = splitCommand[1].trim();
         String[] findItem = splitCommandCommand.split(" ");
         switch (findItem[0].trim()) {
@@ -101,7 +98,7 @@ public class FindCommand extends Command {
     public void bookCommand() {
         assert listOfBooks != null : "list of books should not be empty";
         String keyword;
-        logger.log(Level.INFO, "going to start processing find command");
+
         keyword = getKeyword();
         if (keyword == null) {
             return;
@@ -128,7 +125,6 @@ public class FindCommand extends Command {
                 throw new StringIndexOutOfBoundsException();
             }
         } catch (StringIndexOutOfBoundsException e) {
-            logger.log(Level.WARNING, "processing error for empty keyword");
             System.out.println("Find keyword cannot be empty!");
             return null;
         }
@@ -152,7 +148,6 @@ public class FindCommand extends Command {
             throw new EmptyListException();
         }
 
-        logger.log(Level.INFO, "processing find books based on keyword");
         assert keyword != null : "keyword should not be empty";
 
         ArrayList<Book> bookFound = new ArrayList<>();
@@ -162,18 +157,15 @@ public class FindCommand extends Command {
 
         numberOfBookFound = bookFound.size();
         if (numberOfBookFound == 0) {
-            logger.log(Level.INFO, "giving no matching book found warning");
             System.out.println("Sorry, no book with matching keyword: " + keyword);
             return;
         }
 
-        logger.log(Level.INFO, "processing print of matching book lists");
         System.out.println("Here's the list of matching books in your library:");
         for (int i = 0; i < numberOfBookFound; i += 1) {
             String currentBookTitle = bookFound.get(i).getName();
             System.out.println(" " + (i + 1) + ". " + currentBookTitle);
         }
-        logger.log(Level.INFO, "end processing");
     }
 
     /**

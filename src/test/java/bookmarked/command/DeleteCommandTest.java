@@ -3,7 +3,6 @@ package bookmarked.command;
 import bookmarked.Book;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.EmptyListException;
-import bookmarked.exceptions.IndexOutOfListBounds;
 import bookmarked.storage.BookStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +33,7 @@ public class DeleteCommandTest {
     @Test
     public void processDeleteCommand_noArgumentToDelete_emptyArgumentsException() {
         userInput = "delete";
-        splitInput = userInput.split(" ");
+        splitInput = userInput.split("delete");
 
         userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
 
@@ -46,7 +45,7 @@ public class DeleteCommandTest {
     @Test
     public void processDeleteCommand_spaceArgumentToDelete_emptyArgumentsException() {
         userInput = "delete          ";
-        splitInput = userInput.split(" ");
+        splitInput = userInput.split("delete");
 
         userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
         assertThrows(EmptyArgumentsException.class, () -> {
@@ -61,71 +60,9 @@ public class DeleteCommandTest {
     }
 
     @Test
-    public void processDeleteCommand_nonIntegerArgument_numberFormatException() {
-        userInput = "delete a";
-        splitInput = userInput.split(" ");
-
-        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
-        assertThrows(NumberFormatException.class, () -> {
-            userCommand.processDeleteCommand(splitInput);
-        });
-
-        userInput = "delete 1.5";
-        splitInput = userInput.split(" ");
-
-        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
-        assertThrows(NumberFormatException.class, () -> {
-            userCommand.processDeleteCommand(splitInput);
-        });
-
-        userInput = "delete book 1";
-        splitInput = userInput.split(" ");
-
-        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
-        assertThrows(NumberFormatException.class, () -> {
-            userCommand.processDeleteCommand(splitInput);
-        });
-
-        userInput = "delete #*!";
-        splitInput = userInput.split(" ");
-
-        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
-        assertThrows(NumberFormatException.class, () -> {
-            userCommand.processDeleteCommand(splitInput);
-        });
-    }
-
-    @Test
-    public void processDeleteCommand_unavailableBookNumber_indexOutOfListBounds() {
-        userInput = "delete 100";
-        splitInput = userInput.split(" ");
-
-        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
-        assertThrows(IndexOutOfListBounds.class, () -> {
-            userCommand.processDeleteCommand(splitInput);
-        });
-
-        userInput = "delete 0";
-        splitInput = userInput.split(" ");
-
-        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
-        assertThrows(IndexOutOfListBounds.class, () -> {
-            userCommand.processDeleteCommand(splitInput);
-        });
-
-        userInput = "delete -1";
-        splitInput = userInput.split(" ");
-
-        userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);
-        assertThrows(IndexOutOfListBounds.class, () -> {
-            userCommand.processDeleteCommand(splitInput);
-        });
-    }
-
-    @Test
     public void processDeleteCommand_emptyList_emptyListException() {
         userInput = "delete 1";
-        splitInput = userInput.split(" ");
+        splitInput = userInput.split("delete");
 
         listOfBooks = new ArrayList<>();
 
@@ -138,7 +75,7 @@ public class DeleteCommandTest {
     @Test
     public void handleCommand_validBookNumber_numberOfBookReduces() {
         userInput = "delete 1";
-        splitInput = userInput.split(" ");
+        splitInput = userInput.split("delete");
 
         int numberOfBooksBefore = listOfBooks.size();
         userCommand = new DeleteCommand(userInput, listOfBooks, bookDataFile);

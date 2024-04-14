@@ -2,9 +2,6 @@ package bookmarked.command;
 
 import bookmarked.Book;
 import bookmarked.user.User;
-import bookmarked.storage.BookStorage;
-import bookmarked.storage.UserStorage;
-import bookmarked.ui.Ui;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
@@ -13,7 +10,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.File;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -30,8 +26,8 @@ public class ReturnCommandTest {
     public void setUp() {
         listOfBooks = new ArrayList<>();
         listOfUsers = new ArrayList<>();
-        dummyBookDataFile = new File("./testBookData.txt");
-        dummyUserDataFile = new File("./testUserData.txt");
+        dummyBookDataFile = new File("./testBook.txt");
+        dummyUserDataFile = new File("./testUser.txt");
         System.setOut(new PrintStream(outContent));
     }
 
