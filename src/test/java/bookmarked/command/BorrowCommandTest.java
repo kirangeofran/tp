@@ -42,13 +42,13 @@ public class BorrowCommandTest {
         System.setOut(originalOut);
     }
 
-    /*@Test
+    @Test
     public void borrowCommand_emptyBookList_printsEmptyListMessage() {
         String commandString = "borrow 1 /by Alice";
         new BorrowCommand(listOfBooks, bookDataFile, listOfUsers, commandString, userDataFile).handleCommand();
-        String expectedOutput = "The book list is empty.";
+        String expectedOutput = "The list is empty, try adding a book first.";
         assertTrue(outContent.toString().contains(expectedOutput));
-    } */
+    }
 
    /* @Test
     public void borrowCommand_successfulBorrowByBookName_printsSuccessMessage() {

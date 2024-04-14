@@ -81,15 +81,15 @@ public class ReturnCommandTest {
 
 
 
-   /* @Test
+    @Test
     public void returnCommand_emptyBookList_printsEmptyListMessage() {
         ReturnCommand returnCommand = new ReturnCommand("return Java Basics /by Alice",
                 listOfBooks, dummyBookDataFile, listOfUsers, dummyUserDataFile);
         returnCommand.handleCommand();
 
-        String expectedMessage = "The book list is empty.";
+        String expectedMessage = "The list is empty, try adding a book first.";
         assertTrue(outContent.toString().trim().contains(expectedMessage), "Expected empty list message not found.");
-    }*/
+    }
 
     @Test
     public void returnCommand_emptyArguments_printsEmptyArgumentsMessage() {
