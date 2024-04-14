@@ -34,8 +34,8 @@ public class DeleteCommand extends Command {
     /**
      * Constructs a DeleteCommand with the necessary context for performing deletion.
      *
-     * @param newItem The command string indicating the item and possibly the quantity to delete.
-     * @param listOfBooks A list of books from which the book will be deleted.
+     * @param newItem      The command string indicating the item and possibly the quantity to delete.
+     * @param listOfBooks  A list of books from which the book will be deleted.
      * @param bookDataFile The file where the book data is stored and will be updated after deletion.
      */
     public DeleteCommand(String newItem, ArrayList<Book> listOfBooks, File bookDataFile) {
@@ -58,7 +58,7 @@ public class DeleteCommand extends Command {
 
         try {
             processDeleteCommand(newSplitBook);
-           // assert !this.listOfBooks.isEmpty() : "The current list of books should not be empty";
+            // assert !this.listOfBooks.isEmpty() : "The current list of books should not be empty";
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
         } catch (EmptyListException e) {
             Ui.printEmptyListMessage();
@@ -75,9 +75,9 @@ public class DeleteCommand extends Command {
      * Processes the delete command based on the parsed arguments.
      *
      * @param newSplitBook The split parts of the command input.
-     * @throws EmptyListException If the book list is empty.
+     * @throws EmptyListException      If the book list is empty.
      * @throws EmptyArgumentsException If there are no valid arguments following the delete command.
-     * @throws IndexOutOfListBounds If the specified index is out of bounds.
+     * @throws IndexOutOfListBounds    If the specified index is out of bounds.
      */
 
     public void processDeleteCommand(String[] newSplitBook)
@@ -120,9 +120,9 @@ public class DeleteCommand extends Command {
      * Determines the quantity of books to delete based on the input arguments.
      *
      * @return The quantity of books to be deleted.
-     * @throws WrongQuantityException If the specified quantity is incorrect.
-     * @throws NumberFormatException If the quantity is not a valid number.
-     * @throws MaxIntNumberException If the quantity exceeds the maximum limit.
+     * @throws WrongQuantityException    If the specified quantity is incorrect.
+     * @throws NumberFormatException     If the quantity is not a valid number.
+     * @throws MaxIntNumberException     If the quantity exceeds the maximum limit.
      * @throws NegativeQuantityException If the quantity is negative.
      */
     public int setQuantityToDelete() throws WrongQuantityException, NumberFormatException,
@@ -151,7 +151,7 @@ public class DeleteCommand extends Command {
      * Validates the format of the quantity string to ensure it is a valid number within the allowed range.
      *
      * @throws WrongQuantityException If the quantity string is incorrectly formatted.
-     * @throws MaxIntNumberException If the quantity exceeds the maximum allowed value.
+     * @throws MaxIntNumberException  If the quantity exceeds the maximum allowed value.
      */
     public void checkQuantityStringValidity() throws WrongQuantityException, MaxIntNumberException {
         if (splitQuantity.length < 2 || splitQuantity[1].isBlank()) {
@@ -176,9 +176,9 @@ public class DeleteCommand extends Command {
     /**
      * Executes the deletion of a specified number of books from the inventory.
      *
-     * @throws MaxIntNumberException If attempting to delete more books than are available.
-     * @throws TooLargeQuantityException If the quantity to delete is larger than the current inventory.
-     * @throws IndexOutOfListBounds If the specified index is not within the bounds of the book list.
+     * @throws MaxIntNumberException        If attempting to delete more books than are available.
+     * @throws TooLargeQuantityException    If the quantity to delete is larger than the current inventory.
+     * @throws IndexOutOfListBounds         If the specified index is not within the bounds of the book list.
      * @throws WrongFormatQuantityException If the index is not formatted correctly.
      */
     public void runDeleteCommand() throws MaxIntNumberException, TooLargeQuantityException,
