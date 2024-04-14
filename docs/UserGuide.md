@@ -12,7 +12,7 @@ traditional GUI-based applications.
 ## Table of Contents
 - Quick Start
 - Features
-  - Viewing help : `/help`
+  - Viewing help : `help`
   - Adding a book : `add`
   - Deleting a book : `delete`
   - Viewing books : `list`
@@ -34,7 +34,7 @@ traditional GUI-based applications.
 ### Viewing all possible features: `/help`
 Lists out all available commands and their format.
 
-Format: `/help`
+Format: `help`
 
 ### Adding a book to inventory: `add`
 Adds a new book to the library's inventory.
@@ -42,13 +42,16 @@ Adds a new book to the library's inventory.
 Format: `add NAME_OF_BOOK (optional)/quantity NUMBER_OF_COPIES`
 
 * If the /quantity argument is not inputted, the default number of copies is 1
-* A maximum of 1000 copies of the books can be stored in the library.
-* To add more copies of a book that already exists, simply type in the name of the book 
-you wish to add, and type in the command per normal.
+* A maximum of 1000 copies of the books can be registed in total in the library.
+* To add more copies of a book that already exists, simply type in the name of the book
+  you wish to add, and type in the command per normal.
 
 Example of usage:
 
 `add The Book Thief`
+
+* To add more copies of The Book Thief after it has already been added:
+  `add The Book Thief` again.
 
 `add The Hunger Games /quantity 50`
 
@@ -192,8 +195,8 @@ Example of usage:
 
 ## Command Summary
 
-* View all commands `/help`
-* Add a book `add NAME_OF_BOOK`
+* View all commands `help`
+* Add a book `add NAME_OF_BOOK (optional)/quantity NUMBER_OF_COPIES`
 * List books `list /sortby ARGUMENT`
 * Edit books `edit /ARGUMENT_TO_EDIT ARGUMENT`
 * Find books `find ARGUMENT`
