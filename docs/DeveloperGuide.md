@@ -67,11 +67,21 @@ BookMarked application. It also includes all the command format that user can fo
 
 ##### Component-Level
 "Help command" interfaces with another component:
-1. UI component : To relay messages back to the user.
+1. UI component: To relay messages on command instructions back to the user.
+2. Command component: Represents the list of different commands to be called by the user.
+
+##### Class-Level
+The help command interfaces with various classes:
+1. Help command class: Call UI class to print the standard message of list of commands
+that can be called
 
 ##### Implementation
-Whenever the user input in `/help`, "help command" is called and command handled by calling method in UI
-to show to user the messages.
+How? Upon the user calling `help`, "help command" is called 
+
+- Help command handled by calling method in UI to show to user the messages
+- Prints a list of 15 commands that can be called by the user
+- Instructions on what parameters to be typed are clearly stated
+- Examples on how to use the commands are shown
 
 ![HelpCommandDiagram.png](images%2FHelpCommandDiagram.png)
 

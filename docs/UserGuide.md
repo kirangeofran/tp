@@ -269,7 +269,8 @@ Note:
 
 * The due dates of books can only be extended, if they are already borrowed.
 * The system will output a message confirming the successful extension of the borrowing period, 
-  along with the new due date. 
+  along with the new due date.
+
 
 Examples of usage:
 

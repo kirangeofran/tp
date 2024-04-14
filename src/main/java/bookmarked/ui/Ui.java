@@ -42,12 +42,12 @@ public class Ui {
         System.out.println("   borrow BOOK_TITLE /by USER_NAME");
         System.out.println();
         System.out.println("5. To extend the due date of a borrowed book by a week by book index");
-        System.out.println("   extend INDEX");
+        System.out.println("   extend INDEX /by USER_NAME");
         System.out.println();
         System.out.println("6. To extend the due date of a borrowed book by a week by book title");
-        System.out.println("   extend BOOK_TITLE");
+        System.out.println("   extend BOOK_TITLE /by USER_NAME");
         System.out.println();
-        System.out.println("7. To unmark book as returnedby book index");
+        System.out.println("7. To unmark book as returned by book index");
         System.out.println("   return INDEX /by USER_NAME");
         System.out.println();
         System.out.println("8. To unmark book as returned by book title");
