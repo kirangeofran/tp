@@ -160,7 +160,7 @@ Note :
 
 * Users do not need to be pre-added. They can be added directly when using the borrow command. 
 * If the specified book is not available for borrowing, or if there are no available copies left in the inventory,
-* an appropriate message will be displayed.
+  an appropriate message will be displayed.
 
 Examples of usage:
 
@@ -187,7 +187,7 @@ Note:
 
 * The due dates of books can only be extended, if they are already borrowed.
 * The system will output a message confirming the successful extension of the borrowing period, 
-* along with the new due date. 
+  along with the new due date. 
 
 Examples of usage:
 
@@ -206,7 +206,7 @@ To return by book title : `return BOOK_NAME /by USER_NAME`
 
 To return by book index : `return INDEX /by USER_NAME`
 
-* The INDEX of the book can be seen using the list function.
+* The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
 * The command is case-sensitive, so `return`and the user name must be typed exactly.
 
 Note : 
