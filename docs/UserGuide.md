@@ -168,6 +168,7 @@ Allows a user to extend the borrowing period of a book they have already borrowe
 The extension is for a predefined period of 7 days.
 
 Format: 
+
 To extend by book title : `extend BOOK_NAME /by USER_NAME`
 
 To extend by book index : `extend INDEX /by USER_NAME`
@@ -187,6 +188,7 @@ Extend by book index : `extend 0 /by Tom`
 Allows a user to return a book they have borrowed from the library's inventory, marking it as not borrowed.
 
 Format: 
+
 To return by book title : `return BOOK_NAME /by USER_NAME`
 
 To return by book index : `return INDEX /by USER_NAME`
