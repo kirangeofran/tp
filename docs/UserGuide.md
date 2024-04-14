@@ -111,32 +111,74 @@ Example of usage:
 `delete 3 /quantity 100`
 
 ### Viewing books in the library: `list`
-Provides a list of books in the library.
+* Provides a list of books or users in the library.
 
 Format: `list /sortby ARGUMENT`
-
-
 
 There are four ways of sorting the list:
 1. **Default**
 
    Format: `list /sortby default`
 
+* Lists the list of books by the order which the first copy
+of the book was added in regardless of their borrowed status or return date
+* Outputs each book followed by the number of copies of each book in the inventory 
+which is the number of books not borrowed, followed by the number of copies of each
+book that has been borrowed (BOOK_NAME. NUMBER_OF_BOOKS_IN_INVENTORY. NUMBER_OF_BOOKS_BORROWED)
+* When a new book is added, if a book of the same title has not already been added, the
+new book adds itself into the bottom of he book list
+* If the new book being added already has a book of the same title which was added, the
+number of books corresponding to the book title updates itself and adds a copy
+* E.g if booka was first added into the inventory, followed by book b,
+the list of books will be as follows:
+* 1. booka. Number of books in inventory: 1. Number of books borrowed: 0.
+* 2. bookb. Number of books in inventory: 1. Number of books borrowed: 0.
+
+* This command is case sensitive. `list`, `sortby` and `default` have to be keyed exactly
 
 2. **Alphabetical order**
 
    Format: `list /sortby alphabetical`
 
+* Lists the list of books in the library in alphabetical order
+* Format is similar to the above mentioned: BOOK_NAME. NUMBER_OF_BOOKS_IN_INVENTORY. NUMBER_OF_BOOKS_BORROWED 
+* 'Spaces' (" ") preceded any alphabet
+* E.g book c precedes booka
+* E.g if the list contains : booka, bookb, book c, when sortby alphabetical is called,
+the list is as follows:
+* 1. book c. Number of books in inventory: 1. Number of books borrowed: 0.
+* 2. booka. Number of books in inventory: 1. Number of books borrowed: 0.
+* 3. bookb. Number of books in inventory: 1. Number of books borrowed: 0.
+3. 
+* This command is case sensitive. `list`, `sortby` and `alphabetical` have to be keyed exactly
 
-3. **By return date**
 
-   Format: `list /sortby returndate`
-* Sorting list by return date will only list books
-  that are currently being borrowed.
+3. **By user**
 
-4. **By user**
     Format: `list /sortby user`
+
 * Listing all users along with their borrowed books
+* When a user borrows a book, the user is added to the user list
+* Similar to list /sortby default, the users are listed according to their order
+of being added to the user list. This is regardless of their borrow or return date
+* The list of users only contain current users : meaning the list of users
+are only those that currently have books borrowed.
+* When a user returns all his books, he is deleted from the user list
+hence will not be reflected
+* Under each user, the list of books currently borrowed by the user is shown
+* The list of borrowed books of each user is sorted by the order of the book being
+added to the user's book list. I.e if the user borrows 2 books, booka and bookb
+but borrows booka first, book a will be item 1 on the list
+* The output is as follows:
+* User: tom
+* Borrowed Books:
+* 1. book c, Borrowed on: 2024-04-14, Return by: 2024-05-05
+* 2. book a, Borrowed on: 2024-04-15, Return by: 2024-04-29
+* User: mary
+* Borrowed Books:
+* 1. book d, Borrowed on: 2024-04-14, Return by: 2024-04-28
+
+* This command is case sensitive. `list`, `sortby` and `user` have to be keyed exactly
 
 
 ### Editing books in the library: `edit`
@@ -251,8 +293,9 @@ To return by book index : `return INDEX /by USER_NAME`
 
 Note : 
 
-* Only books that have been borrowed can be returned.
+* Only books that have been borrowed by the user can be returned.
 * The system will output a message confirming the successful return of the book.
+* If the book being returned is overdue, system outputs a message to alert users of the overdue.
 
 
 Examples of usage:

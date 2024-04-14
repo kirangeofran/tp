@@ -11,7 +11,8 @@ public class PrintUserBooksCommand {
     /**
      * Prints the list of books of each user
      * Prints an extra line if it is the final user in the list
-     *
+     * Used by both lisuser and find user class
+     * hence creating a separate class to avoid duplicate
      * @param user      the user that i currently represents
      * @param userCount the number of users
      */

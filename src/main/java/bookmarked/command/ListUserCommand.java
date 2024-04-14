@@ -17,6 +17,8 @@ public class ListUserCommand extends Command {
      * handles the command list /sortby user
      * splits the command to extract username and iterates the list of
      * users to find any user whose name contain the keyword name
+     * Calls function print users and books to iterate through list of
+     * books of each user to print each user followed by their books
      */
 
     @Override
