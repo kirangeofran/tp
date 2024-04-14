@@ -180,11 +180,11 @@ public class AddCommand extends Command {
             this.listOfBooks.add(bookName);
             bookName.setNumberInInventory(quantityToAdd);
             bookName.setNumberTotal(quantityToAdd);
-            System.out.println("Added " + bookName.getName() + "!");
+            System.out.println("Added " + bookName.getName() + " with " + quantityToAdd + " copies!");
         } else {    // if the current book already exists in the library
+
             int newNumberInInventory = inputBook.getNumberInInventory() + quantityToAdd;
             int newNumberTotal = inputBook.getNumberTotal() + quantityToAdd;
-
             if (newNumberInInventory > MAX_QUANTITY || newNumberTotal > MAX_QUANTITY) {
                 throw new MaxIntNumberException();
             }
