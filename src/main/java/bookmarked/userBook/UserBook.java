@@ -1,4 +1,4 @@
-package bookmarked.userBook;
+package bookmarked.userbook;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

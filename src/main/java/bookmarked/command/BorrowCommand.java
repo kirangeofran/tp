@@ -36,8 +36,8 @@ import java.util.ArrayList;
 public class BorrowCommand extends Command {
 
     private static final Period DEFAULT_BORROW_PERIOD = Period.ofWeeks(2);
-    private final String COMMAND_STRING = "borrow";
-    private final String ARGUMENT_STRING = " /by ";
+    private static final String COMMAND_STRING = "borrow";
+    private static final String ARGUMENT_STRING = " /by ";
     private String bookName;
     private String[] splitUser;
     private User currentUser;

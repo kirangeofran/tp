@@ -11,8 +11,6 @@ import bookmarked.command.HelpCommand;
 import bookmarked.command.DeleteCommand;
 import bookmarked.command.ExitCommand;
 import bookmarked.command.FindCommand;
-import bookmarked.command.FindUserCommand;
-import bookmarked.command.ListUserCommand;
 import bookmarked.command.ListCommand;
 import bookmarked.command.ReturnCommand;
 import bookmarked.exceptions.EmptyArgumentsException;
@@ -82,10 +80,9 @@ public class Parser {
             userCommand = new FindCommand(newItem, listOfBooks, listOfUsers);
             break;
         case ("edit"):
-            userCommand = new EditCommand(newItem, listOfBooks, bookDataFile, listOfUsers);
+            userCommand = new EditCommand(newItem, listOfBooks, bookDataFile, userDataFile, listOfUsers);
             break;
         case "extend":
-            // Ensure 'extend' is followed by the name of the book to extend
             userCommand = new ExtendCommand(newItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
             break;
         default:

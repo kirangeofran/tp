@@ -6,7 +6,8 @@ public class Ui {
     static final String LINE_BREAK = "_______________________________________________________________________________\n"
             + "_______________________________________________________________________________";
 
-    static final String SMALLER_LINE_BREAK = "_______________________________________________________________________________\n";
+    static final String SMALLER_LINE_BREAK =
+            "_______________________________________________________________________________\n";
 
 
     public static void greetings() {
@@ -230,6 +231,26 @@ public class Ui {
 
     public static void printInvalidUserMessage() {
         System.out.println("Skipping a line due to invalid or duplicate user");
+    }
+
+    public static void printInvalidBookMessage() {
+        System.out.println("Skipping a line due to invalid or duplicate book");
+    }
+
+    public static void printFileNotFoundError() {
+        System.out.println("File not found!");
+    }
+
+    public static void printFileInterruptedError() {
+        System.out.println("Access to file is interrupted");
+    }
+
+    public static void printDuplicateTitleMessage() {
+        System.out.println("Unable to edit book title due to same title as other existing book title");
+    }
+
+    public static void printEditSameBookExceptionMessage() {
+        System.out.println("Unable to edit book title due to same title as the current book title");
     }
 
     public static void exitProgramme() {

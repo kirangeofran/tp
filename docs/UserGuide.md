@@ -10,6 +10,8 @@ BookMarked enables you to perform inventory management tasks more swiftly than
 traditional GUI-based applications.
 
 ## Table of Contents
+Command Summary
+
 * Quick Start
 * Features
   * Viewing help : `help`
@@ -59,6 +61,7 @@ Lists out all available commands and their format.
 
 Format: `help`
 
+
 * `help` must all be lower case.
 * there **must not** be any leading character or space before the command.
 * command may include extra spaces after the command `help` 
@@ -73,13 +76,19 @@ Adds a new book to the library's inventory.
 Format: `add NAME_OF_BOOK (optional)/quantity NUMBER_OF_COPIES`
 
 * If the /quantity argument is not inputted, the default number of copies is 1
-* A maximum of 1000 copies of the books can be stored in the library.
-* To add more copies of a book that already exists, simply type in the name of the book 
-you wish to add, and type in the command per normal.
+* A maximum of 1000 copies of the books can be registered in total in the library.
+* To add more copies of a book that already exists, simply type in the name of the book
+  you wish to add, and type in the command per normal.
+* The book titles are case sensitive.
+* For book titles, you cannot input books containing special characters (sspecifically, / # $ @ | ? !) or titles that are only
+  numbers (eg. 7, 193, etc).
 
 Example of usage:
 
 `add The Book Thief`
+
+* To add more copies of The Book Thief after it has already been added:
+  `add The Book Thief` again.
 
 `add The Hunger Games /quantity 50`
 
@@ -134,27 +143,62 @@ There are four ways of sorting the list:
 Allows for the modification of the details of an existing book in the library. 
 This command currently supports editing the title of a book.
 
-Format: `edit BOOK_INDEX /title NEW_TITLE`
+Format:
+
+To edit by book index : `edit INDEX /title NEW_TITLE`
+
+* The `INDEX` of the book is based on the output shown in the default list function and 
+  should be the available `INDEX` in the library list.
+* The new title of the book is specified in `NEW_TITLE`, and can be in more than 1 word.
+* `edit` and `title` are case-sensitive, and **must not** be in capital letter.
+* The title of the book, `NEW_TITLE`, is also case-sensitive, and different in case may
+  refer to a different book.
+* There **must** be at least 1 space between the word `edit` and `INDEX` in the command.
+* Similarly, there **must** be at least 1 space between the `INDEX` and `/title`.
+* There **must** be at least 1 space between the `/title` and `NEW_TITLE`, should there be
+  more than 1 spaces, the space before the first character and the space after the last
+  character will be **ignored**.
+* The `/title` tag is compulsory to put.
+
+To edit by book title : `edit CURRENT_BOOK_TITLE /title NEW_TITLE`
+
+* The current book title is specified in `CURRENT_BOOK_TITLE` and **must** be **exactly** specified as
+  the actual current book title and is case-sensitive.
+* The new title of the book is case-sensitive, specified in `NEW_TITLE`, and can be in more 
+  than 1 word.
+* There **must** be at least 1 space between each of the arguments, such as `edit` and `CURRENT_BOOK_TITLE`.
+  If there is more than 1 space, the space before the first character and the space after the
+  last character of `CURRENT_BOOK_TITLE` and `NEW_TITLE` will be **ignored**.
+* The `/title` tag is compulsory to put.
 
 Example of usage:
-
-`edit 1 /title The Story Thief`
+* `edit 1 /title The Story Thief`
+* `edit new /title The New Beginning`
+  
+![img.png](images/code output/edit_example1.png)
+![edit_example2.png](images%2Fcode%20output%2Fedit_example2.png)
 
 ### Borrowing books in the library: `borrow`
 Allows a user to borrow a book from the library's inventory if it is available. 
 The book will be marked as borrowed, and a due date will be set for its return.
+The return date is set at a default of two weeks from the date of borrowing.
 
 Format: 
 
 To borrow by book title : `borrow BOOK_NAME /by USER_NAME`
 
+* The command is case-sensitive, so `borrow`, `BOOK_NAME` and `USER_NAME` must be typed exactly. 
+
 To borrow by book index : `borrow INDEX /by USER_NAME`
 
-* The INDEX of the book can be seen using the list function. 
-* Books are borrowed for a default period of two weeks from the date of borrowing.
+* The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
+* The command is case-sensitive, so `borrow ` and `USER_NAME` must be typed exactly.
+
+Note :
+
 * Users do not need to be pre-added. They can be added directly when using the borrow command. 
 * If the specified book is not available for borrowing, or if there are no available copies left in the inventory,
-* an appropriate message will be displayed.
+  an appropriate message will be displayed.
 
 Examples of usage:
 
@@ -170,18 +214,24 @@ Format:
 
 To extend by book title : `extend BOOK_NAME /by USER_NAME`
 
+* The command is case-sensitive, so `extend`, `BOOK_NAME` and `USER_NAME` must be typed exactly.
+
 To extend by book index : `extend INDEX /by USER_NAME`
 
-* The due dates of books can only be extended, if they are already borrowed. 
-* The INDEX of the book can be seen using the list function.
+* The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
+* The command is case-sensitive, so `extend` and `USER_NAME` must be typed exactly.
+
+Note:
+
+* The due dates of books can only be extended, if they are already borrowed.
 * The system will output a message confirming the successful extension of the borrowing period, 
-* along with the new due date. 
+  along with the new due date. 
 
 Examples of usage:
 
 Extend by book title : `extend The Book Thief /by Tom`
 
-Extend by book index : `extend 0 /by Tom`
+Extend by book index : `extend 1 /by Tom`
 
 ### Returning borrowed books in the library: `return`
 Allows a user to return a book they have borrowed from the library's inventory, marking it as not borrowed.
@@ -190,11 +240,18 @@ Format:
 
 To return by book title : `return BOOK_NAME /by USER_NAME`
 
+* The command is case-sensitive, so `return`, `BOOK_NAME` AND `USER_NAME` must be typed exactly.
+
 To return by book index : `return INDEX /by USER_NAME`
 
-* The command updates the book's status to available, making it ready for borrowing again.
-* Only books that have been borrowed can be returned. 
-* The INDEX of the book can be seen using the list function.
+* The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
+* The command is case-sensitive, so `return`and `USER_NAME` must be typed exactly.
+
+Note : 
+
+* Only books that have been borrowed can be returned.
+* The system will output a message confirming the successful return of the book.
+
 
 Examples of usage:
 
@@ -247,6 +304,7 @@ Example of usage:
 
 ## Command Summary
 
+
 | Action                                   | Command Format                                  | Example                   |
 |------------------------------------------|-------------------------------------------------|---------------------------|
 | view all commands and its usage          | help                                            | help                      |
@@ -264,3 +322,4 @@ Example of usage:
 | list users who borrowed books            | list /sortby user                               | list /sortby user         |
 | find a book                              | find /by book FIND_KEYWORD                      | find /by book abc         |
 | find a user                              | find /by user FIND_KEYWORD                      | find /by user human       |
+

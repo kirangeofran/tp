@@ -1,12 +1,9 @@
 package bookmarked.command;
 import bookmarked.user.User;
 
-import bookmarked.Book;
-
 import bookmarked.exceptions.EmptyUserListException;
 import bookmarked.ui.Ui;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class ListUserCommand extends Command {

@@ -1,6 +1,7 @@
 package bookmarked.command;
 
 import bookmarked.Book;
+import bookmarked.storage.UserStorage;
 import bookmarked.user.User;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.storage.BookStorage;
@@ -14,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class EditCommandTest {
-    private static final String TEST_FILE_PATH = "./test.txt";
+    private static final String BOOK_FILE_PATH = "./testBooks.txt";
+    private static final String USER_FILE_PATH = "./testUser.txt";
     private Book bookToEdit;
     private int bookNumberToEdit;
     private String userInput;
@@ -22,13 +24,15 @@ public class EditCommandTest {
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
     private File bookDataFile;
+    private File userDataFile;
     private String bookToEditArgument;
 
     @BeforeEach
     public void init() {
         listOfBooks = new ArrayList<>();
         listOfUsers = new ArrayList<>();
-        bookDataFile = BookStorage.createFile(TEST_FILE_PATH);
+        bookDataFile = BookStorage.createFile(BOOK_FILE_PATH);
+        userDataFile = UserStorage.createFile(USER_FILE_PATH);
         listOfBooks.add(new Book("book 1"));
         listOfBooks.add(new Book("book 2"));
         listOfBooks.add(new Book("book 3"));
@@ -38,56 +42,56 @@ public class EditCommandTest {
     @Test
     public void handleEditTitle_spaceBookName_emptyArgumentException() {
         userInput = "edit 1 /title ";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, userDataFile, listOfUsers);
         bookToEdit = listOfBooks.get(bookNumberToEdit - 1);
 
         assertThrows(EmptyArgumentsException.class, () -> {
-            userCommand.handleEditTitle(bookToEdit, bookNumberToEdit);
+            userCommand.handleEditTitle(bookToEdit);
         });
 
         userInput = "edit 1 /title             ";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, userDataFile, listOfUsers);
         assertThrows(EmptyArgumentsException.class, () -> {
-            userCommand.handleEditTitle(bookToEdit, bookNumberToEdit);
+            userCommand.handleEditTitle(bookToEdit);
         });
     }
 
     @Test
     public void handleEditTitle_emptyBookName_stringIndexOutOfBoundsException() {
         userInput = "edit 1 /title";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, userDataFile, listOfUsers);
         bookToEdit = listOfBooks.get(bookNumberToEdit - 1);
 
         assertThrows(StringIndexOutOfBoundsException.class, () -> {
-            userCommand.handleEditTitle(bookToEdit, bookNumberToEdit);
+            userCommand.handleEditTitle(bookToEdit);
         });
     }
 
     @Test
     public void getBookNumberToEdit_nonIntegerBookNumber_numberFormatExceptionCaught() {
         userInput = "edit x /title book";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, userDataFile, listOfUsers);
 
         assertThrows(NumberFormatException.class, () -> {
             userCommand.getBookNumberToEdit("x");
         });
 
         userInput = "edit #*? /title book";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, userDataFile, listOfUsers);
 
         assertThrows(NumberFormatException.class, () -> {
             userCommand.getBookNumberToEdit("#*?");
         });
 
         userInput = "edit 1.5 /title book";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, userDataFile, listOfUsers);
 
         assertThrows(NumberFormatException.class, () -> {
             userCommand.getBookNumberToEdit("1.5");
         });
 
         userInput = "edit   /title book";
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, userDataFile, listOfUsers);
 
         assertThrows(NumberFormatException.class, () -> {
             userCommand.getBookNumberToEdit("  ");
@@ -98,7 +102,7 @@ public class EditCommandTest {
     public void getBookToEdit_invalidIntegerBookNumber_indexOutOfBoundsExceptionCaught() {
         userInput = "edit 10 /title book";
         bookNumberToEdit = 10;
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, userDataFile, listOfUsers);
         boolean isInputIndex = true;
 
         bookToEditArgument = "10";
@@ -108,7 +112,7 @@ public class EditCommandTest {
 
         userInput = "edit 0 /title book";
         bookNumberToEdit = 0;
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, userDataFile, listOfUsers);
 
         bookToEditArgument = "0";
         assertThrows(IndexOutOfBoundsException.class, () -> {
@@ -117,7 +121,7 @@ public class EditCommandTest {
 
         userInput = "edit -5 /title book";
         bookNumberToEdit = -5;
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, userDataFile, listOfUsers);
 
         bookToEditArgument = "-5";
         assertThrows(IndexOutOfBoundsException.class, () -> {
@@ -132,7 +136,7 @@ public class EditCommandTest {
         Book book2 = listOfBooks.get(1);
         Book book3 = listOfBooks.get(2);
 
-        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, listOfUsers);
+        userCommand = new EditCommand(userInput, listOfBooks, bookDataFile, userDataFile,listOfUsers);
         userCommand.handleCommand();
         Book bookAfterEdit = listOfBooks.get(bookNumberToEdit - 1);
         Book book2AfterEdit = listOfBooks.get(1);

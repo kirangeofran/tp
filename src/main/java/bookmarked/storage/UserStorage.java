@@ -5,7 +5,7 @@ import bookmarked.arguments.StorageValidation;
 import bookmarked.exceptions.DifferentUserBookStorageException;
 import bookmarked.user.User;
 import bookmarked.ui.Ui;
-import bookmarked.userBook.UserBook;
+import bookmarked.userbook.UserBook;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -29,9 +29,6 @@ public class UserStorage {
         File bookDataFile = new File(userDataPath);
         try {
             boolean fileCreated = bookDataFile.createNewFile();
-            if (fileCreated) {
-                System.out.println("New file created: " + bookDataFile.getName());
-            }
         } catch (IOException e) {
             System.out.println("Sorry, something's wrong, file is not created");
         }

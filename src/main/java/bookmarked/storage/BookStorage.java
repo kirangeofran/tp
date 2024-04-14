@@ -1,6 +1,8 @@
 package bookmarked.storage;
 
 import bookmarked.Book;
+import bookmarked.exceptions.InvalidBookException;
+import bookmarked.ui.Ui;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,7 +13,6 @@ import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.time.format.DateTimeParseException;
 
 
 /**
@@ -29,9 +30,6 @@ public class BookStorage {
         File bookDataFile = new File(bookDataPath);
         try {
             boolean fileCreated = bookDataFile.createNewFile();
-            if (fileCreated) {
-                System.out.println("New file created: " + bookDataFile.getName());
-            }
         } catch (IOException e) {
             System.out.println("Sorry, something's wrong, file is not created");
         }
@@ -53,9 +51,9 @@ public class BookStorage {
             writeBookToTxt(bookDataFile, listOfBooks); // Add this line
 
         } catch (FileNotFoundException e) {
-            System.out.println("File not found!");
+            Ui.printFileNotFoundError();
         } catch (IOException e) {
-            System.out.println("Access to file is interrupted");
+            Ui.printFileInterruptedError();
         }
 
         return listOfBooks;
@@ -96,10 +94,22 @@ public class BookStorage {
             return;
         }
 
-        Book book = createBookFromAttributes(bookAttributes);
-        if (book == null) {
+        Book book;
+        try {
+            book = createBookFromAttributes(bookAttributes);
+            if (book == null) {
+                return;
+            }
+
+            if (books.contains(book)) {
+                Ui.printInvalidBookMessage();
+                return;
+            }
+        } catch (InvalidBookException e) {
+            Ui.printInvalidBookMessage();
             return;
         }
+
         books.add(book);
     }
 
@@ -110,18 +120,21 @@ public class BookStorage {
      * @return A Book object or null if the input is malformed.
      */
 
-    private static Book createBookFromAttributes(String[] bookAttributes) {
+    private static Book createBookFromAttributes(String[] bookAttributes) throws InvalidBookException {
         String title = bookAttributes[0];
         int bookNumberTotal;
         int bookNumberBorrowed;
         int bookNumberInInventory;
+
+        if (title.isBlank()) {
+            throw new InvalidBookException();
+        }
 
         try {
             bookNumberTotal = Integer.parseInt(bookAttributes[1]);
             bookNumberBorrowed = Integer.parseInt(bookAttributes[2]);
             bookNumberInInventory = Integer.parseInt(bookAttributes[3]);
 
-            // check if bookNumberBorrowed + bookNumberInInventory = bookNumberTotal
             if (bookNumberBorrowed + bookNumberInInventory < bookNumberTotal) {
                 bookNumberInInventory = bookNumberTotal - bookNumberBorrowed;
             } else if (bookNumberBorrowed + bookNumberInInventory > bookNumberTotal) {
@@ -138,7 +151,8 @@ public class BookStorage {
         return book;
     }
 
-    private static Book setBookDetails(String title, int bookNumberTotal, int bookNumberBorrowed, int bookNumberInInventory) {
+    private static Book setBookDetails(String title, int bookNumberTotal, int bookNumberBorrowed,
+                                       int bookNumberInInventory) {
         Book book = new Book(title);
         book.setNumberTotal(bookNumberTotal);
         book.setNumberBorrowed(bookNumberBorrowed);

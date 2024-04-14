@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.io.PrintStream;
 import java.time.LocalDate;
@@ -17,10 +16,9 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BorrowCommandTest {
+    private static final Period DEFAULT_BORROW_PERIOD = Period.ofWeeks(2);
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
-
-    private static final Period DEFAULT_BORROW_PERIOD = Period.ofWeeks(2);
     private File bookDataFile;
     private File userDataFile;
     private ByteArrayOutputStream outContent;
@@ -50,7 +48,7 @@ public class BorrowCommandTest {
         assertTrue(outContent.toString().contains(expectedOutput));
     }
 
-   /* @Test
+    /* @Test
     public void borrowCommand_successfulBorrowByBookName_printsSuccessMessage() {
         listOfBooks.add(new Book("Java Basics"));
         User alice = new User("Alice", new ArrayList<>());

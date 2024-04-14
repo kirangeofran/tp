@@ -17,7 +17,7 @@ import bookmarked.ui.Ui;
 import bookmarked.arguments.InputValidity;
 import bookmarked.arguments.SetBookIndexName;
 import bookmarked.arguments.SetUserName;
-import bookmarked.userBook.UserBook;
+import bookmarked.userbook.UserBook;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -36,10 +36,10 @@ import java.util.Iterator;
  * This approach simplifies the user interaction with the system, making the book returning process more intuitive.
  */
 public class ReturnCommand extends Command {
-    private final String COMMAND_STRING = "return";
-    private final String ARGUMENT_STRING = " /by ";
+    private static final String COMMAND_STRING = "return";
+    private static final String ARGUMENT_STRING = " /by ";
+    private final String newItem;
     private String bookName;
-    private String newItem;
     private String[] splitUser;
     private User currentUser;
     private int bookIndex = -1; // Index starting from 0
@@ -163,11 +163,10 @@ public class ReturnCommand extends Command {
      * @return returnDate the return date of the book
      */
     public LocalDate findReturnDate(Book returningBook) {
-        ArrayList<UserBook> ListOfUserBooks = this.currentUser.getListOfUserBooks();
-        for (UserBook books : ListOfUserBooks) {
+        ArrayList<UserBook> listOfUserBooks = this.currentUser.getListOfUserBooks();
+        for (UserBook books : listOfUserBooks) {
             if (books.getUserBookTitle().equalsIgnoreCase(returningBook.getName())) {
-                LocalDate returnDate = books.getReturnDueDate();
-                return returnDate;
+                return books.getReturnDueDate();
             }
         }
         return null;

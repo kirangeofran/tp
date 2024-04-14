@@ -49,12 +49,14 @@ public class StorageValidation {
             int numberOfBookBorrowedInBook = currentBook.getNumberBorrowed();
             int oldNumberInInventory = currentBook.getNumberInInventory();
 
-            syncBookQuantity(numberOfBooksBorrowedByIndex, numberOfBookBorrowedInBook, currentBook, oldNumberInInventory);
+            syncBookQuantity(numberOfBooksBorrowedByIndex, numberOfBookBorrowedInBook,
+                    currentBook, oldNumberInInventory);
 
         }
     }
 
-    private static void syncBookQuantity(int numberOfBooksBorrowedByIndex, int numberOfBookBorrowedInBook, Book currentBook, int oldNumberInInventory) {
+    private static void syncBookQuantity(int numberOfBooksBorrowedByIndex, int numberOfBookBorrowedInBook,
+                                         Book currentBook, int oldNumberInInventory) {
         if (numberOfBooksBorrowedByIndex > numberOfBookBorrowedInBook) {
             // change number of books borrowed and total books in book storage to follow user storage
             currentBook.setNumberBorrowed(numberOfBooksBorrowedByIndex);
@@ -81,7 +83,6 @@ public class StorageValidation {
 
     public static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
         if (bookIndex < 0 || bookIndex > listOfBooks.size()) {
-            System.out.println(bookIndex);
             throw new IndexOutOfBoundsException();
         }
     }
