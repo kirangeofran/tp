@@ -143,11 +143,40 @@ There are four ways of sorting the list:
 Allows for the modification of the details of an existing book in the library. 
 This command currently supports editing the title of a book.
 
-Format: `edit BOOK_INDEX /title NEW_TITLE`
+Format:
+
+To edit by book index : `edit INDEX /title NEW_TITLE`
+
+* The `INDEX` of the book is based on the output shown in the default list function and 
+  should be the available `INDEX` in the library list.
+* The new title of the book is specified in `NEW_TITLE`, and can be in more than 1 word.
+* `edit` and `title` are case-sensitive, and **must not** be in capital letter.
+* The title of the book, `NEW_TITLE`, is also case-sensitive, and different in case may
+  refer to a different book.
+* There **must** be at least 1 space between the word `edit` and `INDEX` in the command.
+* Similarly, there **must** be at least 1 space between the `INDEX` and `/title`.
+* There **must** be at least 1 space between the `/title` and `NEW_TITLE`, should there be
+  more than 1 spaces, the space before the first character and the space after the last
+  character will be **ignored**.
+* The `/title` tag is compulsory to put.
+
+To edit by book title : `edit CURRENT_BOOK_TITLE /title NEW_TITLE`
+
+* The current book title is specified in `CURRENT_BOOK_TITLE` and **must** be **exactly** specified as
+  the actual current book title and is case-sensitive.
+* The new title of the book is case-sensitive, specified in `NEW_TITLE`, and can be in more 
+  than 1 word.
+* There **must** be at least 1 space between each of the arguments, such as `edit` and `CURRENT_BOOK_TITLE`.
+  If there is more than 1 space, the space before the first character and the space after the
+  last character of `CURRENT_BOOK_TITLE` and `NEW_TITLE` will be **ignored**.
+* The `/title` tag is compulsory to put.
 
 Example of usage:
-
-`edit 1 /title The Story Thief`
+* `edit 1 /title The Story Thief`
+* `edit new /title The New Beginning`
+  
+![img.png](images/code output/edit_example1.png)
+![edit_example2.png](images%2Fcode%20output%2Fedit_example2.png)
 
 ### Borrowing books in the library: `borrow`
 Allows a user to borrow a book from the library's inventory if it is available. 

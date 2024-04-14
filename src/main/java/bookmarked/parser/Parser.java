@@ -82,7 +82,7 @@ public class Parser {
             userCommand = new FindCommand(newItem, listOfBooks, listOfUsers);
             break;
         case ("edit"):
-            userCommand = new EditCommand(newItem, listOfBooks, bookDataFile, listOfUsers);
+            userCommand = new EditCommand(newItem, listOfBooks, bookDataFile, userDataFile, listOfUsers);
             break;
         case "extend":
             // Ensure 'extend' is followed by the name of the book to extend
