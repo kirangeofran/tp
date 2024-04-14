@@ -81,7 +81,6 @@ public class StorageValidation {
 
     public static void checkValidBookIndex(ArrayList<Book> listOfBooks, int bookIndex) {
         if (bookIndex < 0 || bookIndex > listOfBooks.size()) {
-            System.out.println(bookIndex);
             throw new IndexOutOfBoundsException();
         }
     }
