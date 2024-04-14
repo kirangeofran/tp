@@ -12,6 +12,10 @@ import bookmarked.ui.Ui;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Represents a command to add books to the library system.
+ * This class is responsible for handling the 'add' command input by the user.
+ */
 public class AddCommand extends Command {
     private static final int DEFAULT_QUANTITY = 1;
     private static final int MAX_QUANTITY = 1000;
@@ -24,11 +28,11 @@ public class AddCommand extends Command {
     private boolean hasQuantityArgument;
 
     /**
-     * AddCommand handles the addition of books when add command is called
+     * Constructs an AddCommand object with the specified item, book list, and file storage.
      *
-     * @param newItem      the item to be added into the list
-     * @param listOfBooks  the current list of books in the library
-     * @param bookDataFile to store the books
+     * @param newItem     The title of the new item to be added.
+     * @param listOfBooks The current list of books maintained in the library.
+     * @param bookDataFile The file used for data storage of book information.
      */
     public AddCommand(String newItem, ArrayList<Book> listOfBooks, File bookDataFile) {
         this.newItem = newItem;
@@ -38,7 +42,8 @@ public class AddCommand extends Command {
     }
 
     /**
-     * handles the command by user. Adds item into list and catches for empty arguments
+     * Executes the add command, adding a new item to the book list.
+     * It parses the command for quantity and handles any possible exceptions related to the add operation.
      */
 
     @Override
@@ -60,9 +65,9 @@ public class AddCommand extends Command {
     }
 
     /**
-     * processAddCommand adds book to the list if not empty
+     * Processes the addition of a book to the library, based on the parsed command arguments.
      *
-     * @throws EmptyArgumentsException throws if there is no description
+     * @throws EmptyArgumentsException if the command arguments are empty or invalid.
      */
     public void processAddCommand(String[] newSplitBook) throws EmptyArgumentsException {
         // checks if splitQuantity contains only the word "add" or if there are only white spaces after it
@@ -91,7 +96,16 @@ public class AddCommand extends Command {
         }
     }
 
-
+    /**
+     * Determines the quantity of the book to be added.
+     * The quantity is parsed from the command arguments or set to a default value.
+     *
+     * @return The quantity to be added.
+     * @throws WrongQuantityException if the quantity argument is missing or invalid.
+     * @throws NumberFormatException if the quantity is not a valid number format.
+     * @throws MaxIntNumberException if the specified quantity exceeds the maximum allowed.
+     * @throws NegativeQuantityException if the specified quantity is negative.
+     */
     public int setQuantityToAdd() throws WrongQuantityException, NumberFormatException,
             MaxIntNumberException, NegativeQuantityException {
         // if there is no /quantity argument
@@ -114,6 +128,12 @@ public class AddCommand extends Command {
 
     }
 
+    /**
+     * Validates the format of the quantity string argument.
+     *
+     * @throws WrongQuantityException if the quantity string is invalid or missing.
+     * @throws MaxIntNumberException if the quantity exceeds the maximum limit.
+     */
     public void checkQuantityStringValidity() throws WrongQuantityException, MaxIntNumberException {
         if (splitQuantity.length < 2 || splitQuantity[1].isBlank()) {
             throw new WrongQuantityException();
@@ -133,6 +153,12 @@ public class AddCommand extends Command {
         }
     }
 
+    /**
+     * Executes the addition of books to the library, updating inventory numbers accordingly.
+     *
+     * @throws MaxIntNumberException if adding the specified quantity would exceed the library's limits.
+     * @throws InvalidStringException if the book title is invalid.
+     */
     public void runAddCommand() throws MaxIntNumberException, InvalidStringException {
         String bookTitle = splitQuantity[0].trim();
         Book inputBook = getExistingBook(bookTitle);
@@ -164,14 +190,24 @@ public class AddCommand extends Command {
         }
     }
 
-
+    /**
+     * Checks the validity of the book title string.
+     *
+     * @param bookName The title of the book to be checked.
+     * @throws InvalidStringException if the book title contains illegal characters or is numerical.
+     */
     public void checkTitleValidity(String bookName) throws InvalidStringException {
         if (bookName.matches("^[0-9]+$") || bookName.contains("|")) {
             throw new InvalidStringException();
         }
     }
 
-
+    /**
+     * Retrieves an existing book from the library's inventory based on the given title.
+     *
+     * @param title The title of the book to be retrieved.
+     * @return The Book object if found, or null if no matching book is found.
+     */
     public Book getExistingBook(String title) {
         for (Book currentBook : this.listOfBooks) {
             if (currentBook.getName().matches(title)) {
