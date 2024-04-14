@@ -17,17 +17,19 @@ create FileReader
 BufferedReader -> FileReader : new FileReader(bookDataFile:File)
 activate FileReader
 
-FileReader --> BufferedReader
+FileReader --> BufferedReader : return :FileReader
 deactivate FileReader
+destroy FileReader
 
-BufferedReader --> BookStorage
+BufferedReader --> BookStorage : return fileReader:BufferedReader
 
 BookStorage -> BufferedReader : fileReader.readLine()
 
 BufferedReader --> BookStorage : return currentTextLine:String
 
-loop#physical #technology currentTextLine != null
-BookStorage -> BookStorage : addToArrayList(currentTextLine, bookCount, ListOfBooks)
+loop#physical #technology line != null
+
+BookStorage -> BookStorage : add(book)
 Activate BookStorage
 
 BookStorage --> BookStorage
@@ -35,9 +37,14 @@ deactivate BookStorage
 
 BookStorage -> BufferedReader : fileReader.readLine()
 
-BufferedReader --> BookStorage : return currentTextLine:String
+BufferedReader --> BookStorage : return line:String
+deactivate BufferedReader
+destroy BufferedReader
+
 end
 
 [<-- BookStorage
 deactivate BookStorage
+destroy BookStorage
+
 @enduml

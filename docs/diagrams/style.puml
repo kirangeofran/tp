@@ -2,9 +2,11 @@
 !define COMMAND_COLOR #yellow
 !define PARSER_COLOR #lightblue
 !define STORAGE_COLOR #lightgreen
+!define USER_STORAGE_COLOR #gold
 !define MAIN_COLOR #honeydew
 !define BOOK_COLOR #orange
 !define LIST_COLOR #pink
+!define USER_CLASS_COLOR #lightsalmon
 !define ADD_COLOR #blue
 !define ADDCOMMAND_COLOR #yellow
 
@@ -15,8 +17,9 @@
 !define FILE_READER_COLOR #teal
 !define BUFFERED_WRITER_COLOR #tomato
 !define FILE_WRITER_COLOR #palevioletred
-!define STORAGE_COLOR #purple
+!define STORAGE_VALIDATION_COLOR #motivation
 
 !define HELP_COLOR #green
 !define FIND_COLOR #mediumturquoise
 !define FIND_LIST_COLOR #lightskyblue
+!define BORROW_COLOR #moccasin

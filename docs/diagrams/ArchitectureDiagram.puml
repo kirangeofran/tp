@@ -19,6 +19,7 @@ package " " <<rectangle>> {
     Class Storage STORAGE_COLOR
     Class Main MAIN_COLOR
     Class Book BOOK_COLOR
+    Class UserClass USER_CLASS_COLOR
 }
 
 Class "<$user>" as User USER_COLOR
@@ -32,6 +33,7 @@ Storage .[#green].> Main
 Parser -[#blue]-> Command
 Parser -[#blue]-> Storage
 Command -[#orange]-> Book
+Command -[#lightsalmon]-> UserClass
 Storage .[#green].> File
 User .[#black]> Ui
 
