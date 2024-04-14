@@ -5,7 +5,7 @@ import bookmarked.arguments.StorageValidation;
 import bookmarked.exceptions.DifferentUserBookStorageException;
 import bookmarked.user.User;
 import bookmarked.ui.Ui;
-import bookmarked.userBook.UserBook;
+import bookmarked.userbook.UserBook;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

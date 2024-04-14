@@ -8,7 +8,7 @@ import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
 import bookmarked.user.User;
-import bookmarked.userBook.UserBook;
+import bookmarked.userbook.UserBook;
 
 import java.io.File;
 import java.util.ArrayList;
