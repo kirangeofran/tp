@@ -146,8 +146,10 @@ Allows a user to borrow a book from the library's inventory if it is available.
 The book will be marked as borrowed, and a due date will be set for its return.
 
 Format: 
-- To borrow by book title : `borrow BOOK_NAME /by USER_NAME`
-- To borrow by book index : `borrow INDEX /by USER_NAME`
+
+To borrow by book title : `borrow BOOK_NAME /by USER_NAME`
+
+To borrow by book index : `borrow INDEX /by USER_NAME`
 
 * The INDEX of the book can be seen using the list function. 
 * Books are borrowed for a default period of two weeks from the date of borrowing.
@@ -157,16 +159,18 @@ Format:
 
 Examples of usage:
 
-- Borrow by book title : `borrow The Book Thief /by Tom`
-- Borrow by book index : `borrow 1 /by Tom`
+Borrow by book title : `borrow The Book Thief /by Tom`
+
+Borrow by book index : `borrow 1 /by Tom`
 
 ### Extending borrowed books in the library: `extend`
 Allows a user to extend the borrowing period of a book they have already borrowed. 
 The extension is for a predefined period of 7 days.
 
 Format: 
-- To extend by book title : `extend BOOK_NAME /by USER_NAME`
-- To extend by book index : `extend INDEX /by USER_NAME`
+To extend by book title : `extend BOOK_NAME /by USER_NAME`
+
+To extend by book index : `extend INDEX /by USER_NAME`
 
 * The due dates of books can only be extended, if they are already borrowed. 
 * The INDEX of the book can be seen using the list function.
@@ -175,15 +179,17 @@ Format:
 
 Examples of usage:
 
-- Extend by book title : `extend The Book Thief /by Tom`
-- Extend by book index : `extend 0 /by Tom`
+Extend by book title : `extend The Book Thief /by Tom`
+
+Extend by book index : `extend 0 /by Tom`
 
 ### Returning borrowed books in the library: `return`
 Allows a user to return a book they have borrowed from the library's inventory, marking it as not borrowed.
 
 Format: 
-- To return by book title : `return BOOK_NAME /by USER_NAME`
-- To return by book index : `return INDEX /by USER_NAME`
+To return by book title : `return BOOK_NAME /by USER_NAME`
+
+To return by book index : `return INDEX /by USER_NAME`
 
 * The command updates the book's status to available, making it ready for borrowing again.
 * Only books that have been borrowed can be returned. 
@@ -191,8 +197,9 @@ Format:
 
 Examples of usage:
 
-- Return by book title : `return The Book Thief /by Tome`
-- Return by book index : `return 1 /by Tom`
+Return by book title : `return The Book Thief /by Tom`
+
+Return by book index : `return 1 /by Tom`
 
 ### Finding books or users in the library: `find`
 Enables users to search for books in the library's inventory that match a given keyword.
