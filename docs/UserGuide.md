@@ -10,31 +10,62 @@ BookMarked enables you to perform inventory management tasks more swiftly than
 traditional GUI-based applications.
 
 ## Table of Contents
-- Quick Start
-- Features
-  - Viewing help : `/help`
-  - Adding a book : `add`
-  - Deleting a book : `delete`
-  - Viewing books : `list`
-  - Editing a book : `edit`
-  - borrowing book : `borrow`
-  - extending borrowed book : `extend`
-  - returning borrowed book : `return`
-  - finding books : `find`
-  - exiting application : `bye`
-- FAQ
-- Command Summary
+* Quick Start
+* Features
+  * Viewing help : `help`
+  * Adding a book : `add`
+  * Deleting a book : `delete`
+  * Viewing books : `list`
+  * Editing a book : `edit`
+  * borrowing book : `borrow`
+  * extending borrowed book : `extend`
+  * returning borrowed book : `return`
+  * finding books : `find`
+  * exiting application : `bye`
+* FAQ
+* Command Summary
 
 ## Quick Start
 
-1. Ensure that you have Java 11 or above installed.
-1. Down the latest version of `Duke` from [here](http://link.to/duke).
+1. Ensure that you have installed Java `11` on your computer.
+2. Download the latest version of `BookMarked.jar` from [here](https://github.com/AY2324S2-CS2113-W13-4/tp/releases).
+3. Copy the file to your desired folder for use as a _home folder_.
+4. Open a command terminal, `cd` into the folder you put the jar file in, 
+   and run the command `java -jar BookMarked.jar`. A command line display 
+   similar to the one shown below will appear:
+    ```
+    _______________________________________________________________________________
+    _______________________________________________________________________________
+    
+    Welcome to BookMarked, a one-stop app for all your librarian needs!
+    To get started, you can type 'help' to see a list of commands!
+    
+    _______________________________________________________________________________
+    _______________________________________________________________________________
+    ```
+5. Type some commands in the terminal and press Enter to execute it. 
+
+    Here are some commands you can try:
+    * `add book`
+    * `list /sortby default`
+    * `borrow book /by human`
+    * `bye`
+   
+6. You can refer to the features below for the details of each command.
 
 ## Features
-### Viewing all possible features: `/help`
+### Viewing all possible features: `help`
 Lists out all available commands and their format.
 
-Format: `/help`
+Format: `help`
+
+* `help` must all be lower case.
+* there **must not** be any leading character or space before the command.
+* command may include extra spaces after the command `help` 
+  but **must** not include any other character.
+
+Examples: 
+* `help`
 
 ### Adding a book to inventory: `add`
 Adds a new book to the library's inventory.
@@ -192,10 +223,20 @@ Example of usage:
 
 ## Command Summary
 
-* View all commands `/help`
-* Add a book `add NAME_OF_BOOK`
-* List books `list /sortby ARGUMENT`
-* Edit books `edit /ARGUMENT_TO_EDIT ARGUMENT`
-* Find books `find ARGUMENT`
-* Exit programme `bye`
-* Delete books `delete ARGUMENT`
+| Action                                   | Command Format                                  | Example                   |
+|------------------------------------------|-------------------------------------------------|---------------------------|
+| view all commands and its usage          | help                                            | help                      |
+| add 1 book                               | add BOOK_TITLE                                  | add abc                   |
+| add specific number of books             | add BOOK_TITLE /quantity NUMBER_OF_COPIES       | add abc /quantity 5       |
+| borrow a book                            | borrow BOOK_TITLE /by USER_NAME                 | borrow abc /by human      |
+| return a book                            | return BOOK_TITLE /by USER_NAME                 | return abc /by human      |
+| extend return due date by a week         | extend BOOK_TITLE                               | extend abc                |
+| edit book title by book number in list   | edit NUMBER_ACCORDING_TO_LIST /title BOOK_TITLE | edit 1 /title def         |
+| edit book title by current book title    | edit CURRENT_BOOK_TITLE /title NEW_BOOK_TITLE   | edit abc /title def       |
+| delete a book                            | delete BOOK_TITLE                               | delete abc                |
+| list all books                           | list /sortby default                            | list /sortby default      |
+| list all books alphabetically            | list /sortby alphabetical                       | list /sortby alphabetical |
+| list borrowed books based on return date | list /sortby returndate                         | list /sortby returndate   |
+| list users who borrowed books            | list /sortby user                               | list /sortby user         |
+| find a book                              | find /by book FIND_KEYWORD                      | find /by book abc         |
+| find a user                              | find /by user FIND_KEYWORD                      | find /by user human       |
