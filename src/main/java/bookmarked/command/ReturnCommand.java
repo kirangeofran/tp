@@ -17,7 +17,7 @@ import bookmarked.ui.Ui;
 import bookmarked.arguments.InputValidity;
 import bookmarked.arguments.SetBookIndexName;
 import bookmarked.arguments.SetUserName;
-import bookmarked.userBook.UserBook;
+import bookmarked.userbook.UserBook;
 
 import java.io.File;
 import java.time.LocalDate;
