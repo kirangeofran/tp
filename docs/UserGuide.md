@@ -287,7 +287,8 @@ Safely closes the BookMarked application.
 
 Format: `bye`
 
-* 
+* `bye` is not case-sensitive.
+* There must not be any characters including space before and after `bye`.  
 
 Example of usage:
 * `bye`
