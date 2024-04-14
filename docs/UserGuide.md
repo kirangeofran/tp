@@ -215,10 +215,20 @@ Example of usage:
 
 ## Command Summary
 
-* View all commands `/help`
-* Add a book `add NAME_OF_BOOK`
-* List books `list /sortby ARGUMENT`
-* Edit books `edit /ARGUMENT_TO_EDIT ARGUMENT`
-* Find books `find ARGUMENT`
-* Exit programme `bye`
-* Delete books `delete ARGUMENT`
+| Action                                   | Command Format                                  | Example                   |
+|------------------------------------------|-------------------------------------------------|---------------------------|
+| view all commands and its usage          | help                                            | help                      |
+| add 1 book                               | add BOOK_TITLE                                  | add abc                   |
+| add specific number of books             | add BOOK_TITLE /quantity NUMBER_OF_COPIES       | add abc /quantity 5       |
+| borrow a book                            | borrow BOOK_TITLE /by USER_NAME                 | borrow abc /by human      |
+| return a book                            | return BOOK_TITLE /by USER_NAME                 | return abc /by human      |
+| extend return due date by a week         | extend BOOK_TITLE                               | extend abc                |
+| edit book title by book number in list   | edit NUMBER_ACCORDING_TO_LIST /title BOOK_TITLE | edit 1 /title def         |
+| edit book title by current book title    | edit CURRENT_BOOK_TITLE /title NEW_BOOK_TITLE   | edit abc /title def       |
+| delete a book                            | delete BOOK_TITLE                               | delete abc                |
+| list all books                           | list /sortby default                            | list /sortby default      |
+| list all books alphabetically            | list /sortby alphabetical                       | list /sortby alphabetical |
+| list borrowed books based on return date | list /sortby returndate                         | list /sortby returndate   |
+| list users who borrowed books            | list /sortby user                               | list /sortby user         |
+| find a book                              | find /by book FIND_KEYWORD                      | find /by book abc         |
+| find a user                              | find /by user FIND_KEYWORD                      | find /by user human       |
