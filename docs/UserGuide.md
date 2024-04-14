@@ -305,21 +305,23 @@ Example of usage:
 ## Command Summary
 
 
-| Action                                   | Command Format                                  | Example                   |
-|------------------------------------------|-------------------------------------------------|---------------------------|
-| view all commands and its usage          | help                                            | help                      |
-| add 1 book                               | add BOOK_TITLE                                  | add abc                   |
-| add specific number of books             | add BOOK_TITLE /quantity NUMBER_OF_COPIES       | add abc /quantity 5       |
-| borrow a book                            | borrow BOOK_TITLE /by USER_NAME                 | borrow abc /by human      |
-| return a book                            | return BOOK_TITLE /by USER_NAME                 | return abc /by human      |
-| extend return due date by a week         | extend BOOK_TITLE                               | extend abc                |
-| edit book title by book number in list   | edit NUMBER_ACCORDING_TO_LIST /title BOOK_TITLE | edit 1 /title def         |
-| edit book title by current book title    | edit CURRENT_BOOK_TITLE /title NEW_BOOK_TITLE   | edit abc /title def       |
-| delete a book                            | delete BOOK_TITLE                               | delete abc                |
-| list all books                           | list /sortby default                            | list /sortby default      |
-| list all books alphabetically            | list /sortby alphabetical                       | list /sortby alphabetical |
-| list borrowed books based on return date | list /sortby returndate                         | list /sortby returndate   |
-| list users who borrowed books            | list /sortby user                               | list /sortby user         |
-| find a book                              | find /by book FIND_KEYWORD                      | find /by book abc         |
-| find a user                              | find /by user FIND_KEYWORD                      | find /by user human       |
+| Action                                | Command Format                                | Example                   |
+|---------------------------------------|-----------------------------------------------|---------------------------|
+| view all commands and its usage       | help                                          | help                      |
+| add 1 book                            | add BOOK_TITLE                                | add abc                   |
+| add specific number of books          | add BOOK_TITLE /quantity NUMBER_OF_COPIES     | add abc /quantity 5       |
+| borrow a book by book index in list   | borrow INDEX /by USER_NAME                    | borrow 1 /by human        |
+| borrow a book by book title           | borrow BOOK_TITLE /by USER_NAME               | borrow abc /by human      |
+| return a book by book index in list   | return INDEX /by USER_NAME                    | return 1 /by human        |
+| return a book by book title           | return BOOK_TITLE /by USER_NAME               | return abc /by human      |
+| extend return due date by book index  | extend INDEX                                  | extend 1                  |
+| extend return due date by book title  | extend BOOK_TITLE                             | extend abc                |
+| edit book title by book index in list | edit INDEX /title BOOK_TITLE                  | edit 1 /title def         |
+| edit book title by current book title | edit CURRENT_BOOK_TITLE /title NEW_BOOK_TITLE | edit abc /title def       |
+| delete a book                         | delete INDEX                                  | delete 1                  |
+| list all books                        | list /sortby default                          | list /sortby default      |
+| list all books alphabetically         | list /sortby alphabetical                     | list /sortby alphabetical |
+| list users who borrowed books         | list /sortby user                             | list /sortby user         |
+| find a book                           | find /by book FIND_KEYWORD                    | find /by book abc         |
+| find a user                           | find /by user FIND_KEYWORD                    | find /by user human       |
 
