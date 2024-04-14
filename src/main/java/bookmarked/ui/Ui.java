@@ -171,7 +171,7 @@ public class Ui {
         System.out.print(", Borrowed on: ");
         System.out.print(user.getUserBooks().get(i).getBorrowDate());
         System.out.print(", Return by: ");
-        System.out.print(user.getUserBooks().get(i).getReturnDate());
+        System.out.println(user.getUserBooks().get(i).getReturnDate());
     }
     public static void printOverdue() {
         System.out.print(", OVERDUE");
@@ -204,7 +204,7 @@ public class Ui {
     }
 
     public static void printBookNotBorrowedByUserMessage(String userName) {
-        System.out.println(userName + " has not borrowed this book. Nothing to return.");
+        System.out.println(userName + " has not borrowed this book. Nothing to extend.");
     }
 
 

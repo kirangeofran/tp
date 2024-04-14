@@ -11,6 +11,13 @@ public class FindUserCommand extends Command {
     private ArrayList<User> listOfUsers;
     private String userName;
 
+    /**
+     * find user command handles the case where find /by user is called
+     * splits the array to extract the wanted user
+     * @param listOfUsers the list of users who have borrowed books
+     * @param userName the name of the user we are searching for
+     */
+
     public FindUserCommand(ArrayList<User> listOfUsers, String userName) {
         this.listOfUsers = listOfUsers;
         this.userName = userName;
@@ -18,6 +25,7 @@ public class FindUserCommand extends Command {
 
     /**
      * handles the command finduser
+     * catches emptyuserlist if there are no users currently
      */
 
     @Override
@@ -42,10 +50,12 @@ public class FindUserCommand extends Command {
         if (listOfUsers.isEmpty()) {
             throw new EmptyUserListException();
         }
+        int userCount = 0;
         for (User user : listOfUsers) {
             if (user.getName().contains(userName)) {
                 userFound = true;
-                findUser(user);
+                userCount ++;
+                findUser(user, userCount);
             }
         }
         if (!userFound) {
@@ -53,14 +63,18 @@ public class FindUserCommand extends Command {
         }
     }
 
-    private void findUser(User user) {
+    /**
+     * Iterates through the list of users to find the matching user
+     * @param user the wanted user
+     */
+
+    private void findUser(User user, int userCount) {
         System.out.println("User: " + user.getName());
         System.out.println("Borrowed Books: ");
         if (user.getUserBooks().isEmpty()) {
             System.out.println("None");
         } else {
-            PrintUserBooksCommand.printUserBooks(user,1, listOfUsers);
-
+            PrintUserBooksCommand.printUserBooks(user, userCount, listOfUsers);
         }
     }
 }
