@@ -2,8 +2,6 @@ package bookmarked.command;
 
 import bookmarked.Book;
 import bookmarked.user.User;
-import bookmarked.storage.UserStorage;
-import bookmarked.ui.Ui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;

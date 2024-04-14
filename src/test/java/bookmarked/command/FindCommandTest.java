@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FindCommandTest {
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
-    Command userCommand;
-    String userInput;
+    private Command userCommand;
+    private String userInput;
 
     @BeforeEach
     public void init() {
@@ -22,7 +22,7 @@ public class FindCommandTest {
     }
     @Test
     public void handleCommand_emptyArrayList_exceptionThrown() {
-        userInput = "find ok";
+        userInput = "find /by book ok";
         userCommand = new FindCommand(userInput, listOfBooks, listOfUsers);
 
         try {
@@ -48,7 +48,7 @@ public class FindCommandTest {
     @Test
     public void handleCommand_keywordNoMatch_numberOfBookFoundZero() {
         ArrayList<Book> listOfBook = new ArrayList<>();
-        userInput = "find nomatch";
+        userInput = "find /by book nomatch";
         FindCommand userCommand = new FindCommand(userInput, listOfBook, listOfUsers);
         userCommand.handleCommand();
 
@@ -59,8 +59,8 @@ public class FindCommandTest {
 
     @Test
     public void handleCommand_keywordMatch_numberOfBookFoundMoreThanZero() {
-        String userInput1 = "find book";
-        String userInput2 = "find orld";
+        String userInput1 = "find /by book book";
+        String userInput2 = "find /by book orld";
         listOfBooks.add(new Book("book1"));
         listOfBooks.add(new Book("book2"));
         listOfBooks.add(new Book ("hello world"));
