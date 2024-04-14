@@ -10,20 +10,20 @@ BookMarked enables you to perform inventory management tasks more swiftly than
 traditional GUI-based applications.
 
 ## Table of Contents
-- Quick Start
-- Features
-  - Viewing help : `help`
-  - Adding a book : `add`
-  - Deleting a book : `delete`
-  - Viewing books : `list`
-  - Editing a book : `edit`
-  - borrowing book : `borrow`
-  - extending borrowed book : `extend`
-  - returning borrowed book : `return`
-  - finding books : `find`
-  - exiting application : `bye`
-- FAQ
-- Command Summary
+* Quick Start
+* Features
+  * Viewing help : `help`
+  * Adding a book : `add`
+  * Deleting a book : `delete`
+  * Viewing books : `list`
+  * Editing a book : `edit`
+  * borrowing book : `borrow`
+  * extending borrowed book : `extend`
+  * returning borrowed book : `return`
+  * finding books : `find`
+  * exiting application : `bye`
+* FAQ
+* Command Summary
 
 ## Quick Start
 
@@ -46,18 +46,26 @@ traditional GUI-based applications.
 5. Type some commands in the terminal and press Enter to execute it. 
 
     Here are some commands you can try:
-    - `add book`
-    - `list /sortby default`
-    - `borrow book /by human`
-    - `bye`
+    * `add book`
+    * `list /sortby default`
+    * `borrow book /by human`
+    * `bye`
    
 6. You can refer to the features below for the details of each command.
 
 ## Features
-### Viewing all possible features: `/help`
+### Viewing all possible features: `help`
 Lists out all available commands and their format.
 
-Format: `/help`
+Format: `help`
+
+* `help` must all be lower case.
+* there **must not** be any leading character or space before the command.
+* command may include extra spaces after the command `help` 
+  but **must** not include any other character.
+
+Examples: 
+* `help`
 
 ### Adding a book to inventory: `add`
 Adds a new book to the library's inventory.
