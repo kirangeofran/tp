@@ -5,7 +5,6 @@ import bookmarked.exceptions.EmptyUserListException;
 import bookmarked.ui.Ui;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FindUserCommand extends Command {
     private ArrayList<User> listOfUsers;
