@@ -192,7 +192,7 @@ public class Ui {
         System.out.print(", Borrowed on: ");
         System.out.print(user.getUserBooks().get(i).getBorrowDate());
         System.out.print(", Return by: ");
-        System.out.println(user.getUserBooks().get(i).getReturnDate());
+        System.out.print(user.getUserBooks().get(i).getReturnDate());
     }
     public static void printOverdue() {
         System.out.print(", OVERDUE");

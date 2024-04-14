@@ -6,6 +6,7 @@
 !define BOOK_COLOR #orange
 !define LIST_COLOR #pink
 !define ADD_COLOR #blue
+!define ADDCOMMAND_COLOR #yellow
 
 !define USER_COLOR #pink
 !define FILE_COLOR #limegreen

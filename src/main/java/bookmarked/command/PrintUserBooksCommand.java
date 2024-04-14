@@ -22,6 +22,7 @@ public class PrintUserBooksCommand {
             if (Book.isOverdue(user.getUserBooks().get(i).getReturnDate())) {
                 Ui.printOverdue();
             }
+            System.out.println();
         }
         if (userCount < listOfUsers.size() - 1) {
             System.out.println();

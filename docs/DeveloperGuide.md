@@ -66,7 +66,9 @@ to show to user the messages.
 #### AddCommand
 ##### Overview
 Bookmarked is an application that allows new books bought to be added to the inventory. The add
-book function allows new books to be added into the library's inventory
+book function allows new books that have just been bought to be added into the library's inventory.
+If more than one book with the same name is added, the book count of that particular book is updated
+
 ##### Component - Level
 The 'add' command interfaces with:
 1. Ui component : To relay messages back to the user
@@ -75,16 +77,30 @@ The 'add' command interfaces with:
 4. Exceptions component : to catch and print exceptions such as empty arguments
 
 ##### Class -Level
-1. AddCommand class : It is processed through the AddCommand class where a string item
-   is taken in representing user command and is added into list of books
+The 'add' command interfaces with several classes:
+1. Book Class: Represents a book with attributes like name, isAvailable, borrowDate, and returnDate, along with methods to manipulate these properties.
+2. AddCommand class: Handles the command entered, whether or not the command states quantity of each book, the list of books in the library,
+and handles the updating of list of books in storage 
+3. BookStorage class: Manages the status in the storage file, of list of books when new books are added and status of each book, such as whether it is borrowed, returned, borrow date, return date
+
 ##### Implementation Details
+How? Upon execution, the AddCommand class will:
+
 - The handleCommand function splits the user command into the add and description of book
-  processAddCommand then takes in the split array array[1] which is the description of the book
-  adds the new book into the bottom of the list based on the current number of books
-- The storage component stores the book added and its borrowed status into a text file
+  processAddCommand then takes in the description of the book
+- Checks for validity of Book Namee
+- Check for empty arguments where the name of book is not keyed in
+- Check whether there is a quantity keyed in
+- Checks for empty quantity argument where quantity is called in the command but not provided
+- If there is a quantity, handle the command by extracting the quantity 
+- Add that number of books into the inventory
+- By default, one book is added if quantity is not called
+- Adds the new book into the bottom of the list based on the current number of books
+- If a book with a name which matches that of a book that is already is added, update the quantity
+- The storage component stores and updates the book added and its borrowed status into a text file
 
 
-![AddCommandDiagram.png](images%2FAddCommandDiagram.png)
+![AddCommand.png](images%2FAddCommand.png)
 
 
 #### Delete Command
