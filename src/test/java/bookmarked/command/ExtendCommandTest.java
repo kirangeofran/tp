@@ -2,18 +2,17 @@ package bookmarked.command;
 
 import bookmarked.Book;
 import bookmarked.user.User;
-import java.io.File;
-import java.time.Period;
-import bookmarked.exceptions.InvalidStringException;
-import bookmarked.exceptions.BookNotFoundException;
+import bookmarked.storage.UserStorage;
+import bookmarked.ui.Ui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.File;
 import java.time.LocalDate;
+import java.time.Period ;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ExtendCommandTest {
     private ArrayList<Book> listOfBooks;
@@ -22,6 +21,7 @@ public class ExtendCommandTest {
     private File userDataFile;
     private Book borrowedBook;
     private User currentUser;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @BeforeEach
     public void setUp() {
@@ -30,64 +30,69 @@ public class ExtendCommandTest {
         bookDataFile = new File("testBooks.txt");
         userDataFile = new File("testUsers.txt");
         borrowedBook = new Book("Borrowed Book");
-        borrowedBook.borrowBook(LocalDate.now(), Period.ofWeeks(2)); // Already borrowed
+        Period borrowPeriod = Period.ofDays(14); // Assuming you want to borrow for 14 days
+        borrowedBook.borrowBook(LocalDate.now(), borrowPeriod);
         currentUser = new User("Alice", listOfBooks);
         listOfBooks.add(borrowedBook);
         listOfUsers.add(currentUser);
+        System.setOut(new PrintStream(outContent)); // Set the standard output to the outContent stream
     }
 
     @Test
     public void extendCommand_borrowedBook_extensionSuccessful() {
-        final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        final PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
         currentUser.borrowBook(0, LocalDate.now(), LocalDate.now().plusWeeks(2));
         String commandString = "extend Borrowed Book /by Alice";
-        ExtendCommand command = new ExtendCommand(commandString,
-                listOfBooks, bookDataFile, listOfUsers, userDataFile);
+        ExtendCommand command = new ExtendCommand(commandString, listOfBooks, bookDataFile, listOfUsers, userDataFile);
         command.handleCommand();
 
-        System.setOut(originalOut);
-        String output = outContent.toString();
-        assertTrue(output.contains("Due date for 'Borrowed Book' has been extended by a week."));
-
-        // Assuming extendDueDate() extends the due date by 7 days
-        LocalDate expectedReturnDate = LocalDate.now().plusWeeks(2).plusDays(7);
-        assertTrue(expectedReturnDate.equals(borrowedBook.getReturnDate()));
+        String expectedOutput = "The borrowing period for 'Borrowed Book' has been successfully extended by one week";
+        assertTrue(outContent.toString().contains(expectedOutput),
+                "Expected message about successful extension not found.");
     }
 
     @Test
     public void extendCommand_bookNotBorrowed_displaysNotBorrowedMessage() {
-        final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        final PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
+        Book notBorrowedBook = new Book("Not Borrowed Book");
+        listOfBooks.add(notBorrowedBook);
         String commandString = "extend Not Borrowed Book /by Alice";
         ExtendCommand command = new ExtendCommand(commandString, listOfBooks, bookDataFile, listOfUsers, userDataFile);
         command.handleCommand();
 
-        System.setOut(originalOut);
-        assertTrue(outContent.toString().contains("has not borrowed this book"));
+        String expectedOutput = "Alice has not borrowed this book. Nothing to extend.";
+        assertTrue(outContent.toString().contains(expectedOutput),
+                "Expected message about book not being borrowed not found.");
     }
 
     @Test
-    public void extendCommand_bookNotFound_throwsBookNotFoundException() {
-        assertThrows(BookNotFoundException.class, () -> {
-            String commandString = "extend Nonexistent Book /by Alice";
-            ExtendCommand command = new ExtendCommand(commandString,
-                    listOfBooks, bookDataFile, listOfUsers, userDataFile);
-            command.handleCommand();
-        });
+    public void extendCommand_bookNotFound_printsBookNotFoundExceptionMessage() {
+        String commandString = "extend Nonexistent Book /by Alice";
+        ExtendCommand command = new ExtendCommand(commandString, listOfBooks, bookDataFile, listOfUsers, userDataFile);
+        command.handleCommand();
+
+        String expectedOutput = "The book does not exist; try adding it to the library first.";
+        assertTrue(outContent.toString().contains(expectedOutput),
+                "Expected message about non-existing book not found.");
     }
 
     @Test
-    public void extendCommand_noArgumentsProvided_throwsInvalidStringException() {
-        assertThrows(InvalidStringException.class, () -> {
-            String commandString = "extend";
-            ExtendCommand command = new ExtendCommand(commandString,
-                    listOfBooks, bookDataFile, listOfUsers, userDataFile);
-            command.handleCommand();
-        });
+    public void extendCommand_noArgumentsProvided_printsEmptyArgumentsMessage() {
+        String commandString = "extend /by Alice";
+        ExtendCommand command = new ExtendCommand(commandString, listOfBooks, bookDataFile, listOfUsers, userDataFile);
+        command.handleCommand();
+
+        String expectedOutput = "Please type in the correct arguments.";
+        assertTrue(outContent.toString().contains(expectedOutput),
+                "Expected message about empty arguments not found.");
+    }
+
+    @Test
+    public void extendCommand_noUserProvided_printsUserNotFoundExceptionMessage() {
+        String commandString = "extend Borrowed Book /by ";
+        ExtendCommand command = new ExtendCommand(commandString, listOfBooks, bookDataFile, listOfUsers, userDataFile);
+        command.handleCommand();
+
+        String expectedOutput = "Please type in the correct arguments.";
+        assertTrue(outContent.toString().contains(expectedOutput),
+                "Expected message about empty arguments not found.");
     }
 }

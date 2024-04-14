@@ -28,15 +28,15 @@ public class Ui {
         System.out.println("These are the current available features and the format that you need");
         System.out.println("to follow to use it in using this software:");
         System.out.println("1. To add books");
-        System.out.println("   add NAME_OF_BOOK (optional)/quantity NUMBER_OF_COPIES");
+        System.out.println("   add BOOK_TITLE (optional)/quantity NUMBER_OF_COPIES");
         System.out.println("2. To delete current existing book");
         System.out.println("   delete NUMBER_ACCORDING_TO_LIST");
         System.out.println("3. To mark book as borrowed");
-        System.out.println("   borrow NAME_OF_BOOK by USER_NAME");
+        System.out.println("   borrow BOOK_TITLE by USER_NAME");
         System.out.println("4. To extend the due date of a borrowed book by a week:");
-        System.out.println("   extend NAME_OF_BOOK");
+        System.out.println("   extend BOOK_TITLE");
         System.out.println("5. To unmark book as returned");
-        System.out.println("   return NAME_OF_BOOK");
+        System.out.println("   return BOOK_TITLE");
         System.out.println("6. To list all the books added");
         System.out.println("   list /sortby default");
         System.out.println("7. To list all the books added in alphabetical order");
@@ -45,13 +45,13 @@ public class Ui {
         System.out.println("   list /sortby returndate");
         System.out.println("9. To list all the users and their borrowed books");
         System.out.println("   list /sortby user");
-        System.out.println("10. To edit the details of the existing book");
-        System.out.println("   edit NUMBER_ACCORDING_TO_LIST /WHAT_TO_EDIT DESCRIPTION");
+        System.out.println("10. To edit the title of the existing book");
+        System.out.println("   edit NUMBER_ACCORDING_TO_LIST /title DESCRIPTION");
         System.out.println("   example: edit 1 /title book");
         System.out.println("11.To find a specific user and their borrowed books:");
         System.out.println("   find /by user USER_NAME");
         System.out.println("12.To find a book in the inventory");
-        System.out.println("   find /by book BOOK_NAME");
+        System.out.println("   find /by book BOOK_TITLE");
 
     }
 
@@ -204,7 +204,7 @@ public class Ui {
     }
 
     public static void printBookNotBorrowedByUserMessage(String userName) {
-        System.out.println(userName + " has not borrowed this book. Nothing to return.");
+        System.out.println(userName + " has not borrowed this book. Nothing to extend.");
     }
 
 
