@@ -12,7 +12,8 @@ public class PrintUserBooksCommand {
     /**
      * Prints the list of books of each user
      * Prints an extra line if it is the final user in the list
-     * @param user the user that i currently represents
+     *
+     * @param user      the user that i currently represents
      * @param UserCount the number of users
      */
     public static void printUserBooks(User user, int UserCount, ArrayList<User> listOfUsers) {
@@ -21,7 +22,6 @@ public class PrintUserBooksCommand {
             if (Book.isOverdue(user.getUserBooks().get(i).getReturnDate())) {
                 Ui.printOverdue();
             }
-            System.out.println();
         }
         if (UserCount < listOfUsers.size() - 1) {
             System.out.println();
