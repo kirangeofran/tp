@@ -33,13 +33,13 @@ public class Ui {
         System.out.println("   add BOOK_TITLE (optional)/quantity NUMBER_OF_COPIES");
         System.out.println();
         System.out.println("2. To delete current existing book");
-        System.out.println("   delete INDEX");
+        System.out.println("   delete INDEX (optional)/quantity NUMBER_OF_COPIES");
         System.out.println();
         System.out.println("3. To mark book as borrowed by book index");
-        System.out.println("   borrow INDEX by USER_NAME");
+        System.out.println("   borrow INDEX /by USER_NAME");
         System.out.println();
         System.out.println("4. To mark book as borrowed by book title");
-        System.out.println("   borrow BOOK_TITLE by USER_NAME");
+        System.out.println("   borrow BOOK_TITLE /by USER_NAME");
         System.out.println();
         System.out.println("5. To extend the due date of a borrowed book by a week by book index");
         System.out.println("   extend INDEX");
@@ -204,7 +204,7 @@ public class Ui {
 
     public static void printInvalidTitleMessage() {
         System.out.println("Please make sure the book title adheres to the format:\n" +
-                "Not blank, does not contain only numbers, and does not contain the character '|'.");
+                "Not blank, does not contain only numbers, and does not contain any special characters.");
     }
 
     public static void printInvalidBorrowDate(String bookTitle) {
@@ -271,6 +271,10 @@ public class Ui {
 
     public static void printEditSameBookExceptionMessage() {
         System.out.println("Unable to edit book title due to same title as the current book title");
+    }
+
+    public static void printInvalidUsernameMessage() {
+        System.out.println("Please ensure that the user name does not contain any special characters.");
     }
 
     public static void exitProgramme() {
