@@ -34,7 +34,12 @@ public class FindCommand extends Command {
     }
 
     /**
-     * handles the command find and finds the books which matches the description
+     * handles the command find
+     * finds book which contains description if command find book is called
+     * finds user with name which contains description if command find user is called
+     * catches EmptyListException if list is empty
+     * catches and prints EmptyArgumentsMessage if EmptyArgumentsException is caught when there is no
+     * argument after /by or when IndexOutOfBoundsException is caught when /by is not in command
      */
 
     @Override
@@ -47,6 +52,15 @@ public class FindCommand extends Command {
             Ui.printEmptyArgumentsMessage();
         }
     }
+
+    /**
+     * splits the command into find, by user / book and description
+     * handles each case by calling the command bookcommand if by book is called
+     * calls findUserCommand class to handle the command if user is called
+     * if neither user or book is called, default asks user to command the correct arguments
+     * @throws EmptyListException if the list is empty
+     * @throws EmptyArgumentsException if the description is not given
+     */
 
     public void parseCommand() throws EmptyListException, EmptyArgumentsException {
         this.splitCommand = newItem.split(" /by");
@@ -99,10 +113,10 @@ public class FindCommand extends Command {
     }
 
 
-        /**
-         * ensures the book to be found is not an empty description
-         * @return book to be found
-         */
+    /**
+     * ensures the book to be found is not an empty description
+     * @return book to be found
+     * */
 
     private String getKeyword() {
         String keyword;
