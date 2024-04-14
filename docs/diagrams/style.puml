@@ -6,9 +6,7 @@
 !define MAIN_COLOR #honeydew
 !define BOOK_COLOR #orange
 !define LIST_COLOR #pink
-<<<<<<< HEAD
 !define USER_CLASS_COLOR #lightsalmon
-=======
 !define ADD_COLOR #blue
 
 !define USER_COLOR #pink
