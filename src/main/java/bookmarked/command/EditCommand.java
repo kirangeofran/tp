@@ -8,13 +8,14 @@ import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
 import bookmarked.user.User;
-import bookmarked.userbook.UserBook;
+import bookmarked.userBook.UserBook;
 
 import java.io.File;
 import java.util.ArrayList;
 
 /**
- * EditCommand class is to edit the details of the available book added in the library.
+ * Handles the edit command to modify details of books available in the library.
+ * This command allows for updating the title or other attributes of a book based on user input.
  */
 public class EditCommand extends Command {
     private static final int BOOK_TO_EDIT_START_INDEX = 5;
@@ -27,12 +28,12 @@ public class EditCommand extends Command {
     private int numberOfEdits = 0;
 
     /**
-     * Constructor for EditCommand, taking in user's input, array lists of books, and file for
-     * book data storage.
+     * Constructs an EditCommand with specified user input and context for book editing.
      *
-     * @param userInput user input to the terminal.
-     * @param listOfBooks array list that stores all the books and its details in the library.
-     * @param bookDataFile file for storing all the books and details.
+     * @param userInput    The raw user input containing details for the edit operation.
+     * @param listOfBooks  A list containing all the books available in the library.
+     * @param bookDataFile A file used to store book data persistently.
+     * @param listOfUsers  A list of users who may have interactions with books.
      */
     public EditCommand(String userInput, ArrayList<Book> listOfBooks, File bookDataFile, ArrayList<User> listOfUsers) {
         // Current book details
@@ -43,9 +44,8 @@ public class EditCommand extends Command {
     }
 
     /**
-     * Handles user's command to edit currently available book details in the library. If
-     * description of what to edit is empty, book number to edit is not integer within the
-     * range of the available books, or wrong input format, exceptions are handled.
+     * Processes the command to edit book details. It checks for command format and handles various
+     * editing scenarios based on the input provided.
      */
     @Override
     public void handleCommand() {
@@ -100,10 +100,23 @@ public class EditCommand extends Command {
         }
     }
 
+    /**
+     * Retrieves the index number of the book to edit based on user input.
+     *
+     * @param bookToEditArgument The part of the user input specifying the book index or title.
+     * @return The index of the book to edit.
+     */
     public int getBookNumberToEdit(String bookToEditArgument) {
         return Integer.parseInt(bookToEditArgument);
     }
 
+/**
+ * Retrieves the Book object to be edited either by index or by title.
+ *
+ * @param bookToEditArgument The input string indicating the book identifier.
+ * @param isInputIndex       A boolean indicating if the identifier is an index.
+ * @return The Book object to be edited.
+ */
     public Book getBookToEdit(String bookToEditArgument, boolean isInputIndex) {
         Book bookToEdit = null;
 
@@ -116,6 +129,12 @@ public class EditCommand extends Command {
         return bookToEdit;
     }
 
+/**
+ * Finds a book in the list by its title.
+ *
+ * @param bookToEditArgument The title of the book as provided by the user.
+ * @return The found Book object, or null if no book matches the title.
+ */
     private Book getBookByTitleInput(String bookToEditArgument, Book bookToEdit) {
         Book inputBook = new Book(bookToEditArgument);
         for (int i = 0; i < listOfBooks.size(); i += 1) {
@@ -127,6 +146,14 @@ public class EditCommand extends Command {
         return bookToEdit;
     }
 
+    /**
+     * Handles the editing of a book's title based on user input.
+     *
+     * @param bookToEdit        The book whose title is to be edited.
+     * @param bookNumberToEdit  The index of the book in the list.
+     * @throws WrongInputFormatException If the format of the edit command is incorrect.
+     * @throws EmptyArgumentsException   If the new title is empty or missing.
+     */
     public void handleEditTitle(Book bookToEdit, int bookNumberToEdit)
             throws WrongInputFormatException, EmptyArgumentsException {
         String oldName = bookToEdit.getName();
@@ -170,6 +197,12 @@ public class EditCommand extends Command {
         return isEditTitle;
     }
 
+    /**
+     * Updates the records of all users who may have interactions with the edited book.
+     *
+     * @param oldTitle The old title of the book.
+     * @param newTitle The new title of the book.
+     */
     private void updateUserBooks(String oldTitle, String newTitle) {
         for (User currentUser : this.listOfUsers) {
             ArrayList<UserBook> currentUserBooksList = currentUser.getListOfUserBooks();

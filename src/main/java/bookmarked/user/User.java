@@ -1,7 +1,7 @@
 package bookmarked.user;
 
 import bookmarked.Book;
-import bookmarked.userbook.UserBook;
+import bookmarked.userBook.UserBook;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
