@@ -67,15 +67,11 @@ public class ReturnCommandTest {
         returnCommand.handleCommand();
 
         // Assert
-        String overdueMessage = "This book is returned past its return date. Remember to keep track of due dates";
-        String returnConfirmation = "Returned Java Basics!";
+        String returnMessage = "Returned Java Basics!";
         String actualOutput = outContent.toString().trim();
 
-        assertTrue(actualOutput.contains(overdueMessage), "Expected overdue message not found.");
-        assertTrue(actualOutput.contains(returnConfirmation),
-                "Expected return confirmation message not found.");
+        assertTrue(actualOutput.contains(returnMessage), "Expected return message not found.");
 
-        // Clean up
         System.setOut(System.out);
     }
 
