@@ -8,6 +8,7 @@ import bookmarked.exceptions.NoEditChangeException;
 import bookmarked.exceptions.SameBookNameException;
 import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.storage.BookStorage;
+import bookmarked.storage.UserStorage;
 import bookmarked.ui.Ui;
 import bookmarked.user.User;
 import bookmarked.userBook.UserBook;
@@ -25,6 +26,7 @@ public class EditCommand extends Command {
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
     private File bookDataFile;
+    private File userDataFile;
     private String userInput;
     private int bookNumberToEdit;
     private int numberOfEdits = 0;
@@ -37,10 +39,12 @@ public class EditCommand extends Command {
      * @param bookDataFile A file used to store book data persistently.
      * @param listOfUsers  A list of users who may have interactions with books.
      */
-    public EditCommand(String userInput, ArrayList<Book> listOfBooks, File bookDataFile, ArrayList<User> listOfUsers) {
+    public EditCommand(String userInput, ArrayList<Book> listOfBooks, File bookDataFile,
+                       File userDataFile, ArrayList<User> listOfUsers) {
         // Current book details
         this.listOfBooks = listOfBooks;
         this.bookDataFile = bookDataFile;
+        this.userDataFile = userDataFile;
         this.userInput = userInput;
         this.listOfUsers = listOfUsers;
     }
@@ -184,6 +188,7 @@ public class EditCommand extends Command {
             updateUserBooks(bookToEdit.getName(), newBookName);
             bookToEdit.setName(newBookName);
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
+            UserStorage.writeUserToTxt(userDataFile, listOfUsers);
             Ui.printEditedBookConfirmation(newBookName, oldName);
             numberOfEdits += 1;
         } else {
