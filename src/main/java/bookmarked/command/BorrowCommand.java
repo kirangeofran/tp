@@ -49,6 +49,15 @@ public class BorrowCommand extends Command {
     private File bookDataFile;
     private File userDataFile;
 
+    /**
+     * Constructs a BorrowCommand with necessary book and user details.
+     *
+     * @param listOfBooks The list of books available for borrowing.
+     * @param bookDataFile The data file where book data is stored.
+     * @param listOfUsers The list of users in the library system.
+     * @param newItem The new item to be added or command details.
+     * @param userDataFile The data file where user data is stored.
+     */
     public BorrowCommand(ArrayList<Book> listOfBooks, File bookDataFile,
                          ArrayList<User> listOfUsers, String newItem, File userDataFile) {
         this.newItem = newItem;
@@ -58,7 +67,10 @@ public class BorrowCommand extends Command {
         this.userDataFile = userDataFile;
     }
 
-
+    /**
+     * Handles the execution of the "borrow" command. It delegates to internal methods to set up arguments,
+     * validate input, and process the borrowing of a book by a user.
+     */
     @Override
     public void handleCommand() {
         try {
@@ -88,6 +100,15 @@ public class BorrowCommand extends Command {
         return splitParts.length > 2;
     }
 
+    /**
+     * Validates the input provided for the borrow command and sets up the book and user arguments
+     * for the borrowing process.
+     *
+     * @throws EmptyArgumentsException If the command arguments are empty.
+     * @throws InvalidStringException If the book name string is invalid.
+     * @throws BookNotFoundException If the specified book is not found in the list.
+     * @throws IndexOutOfListBounds If the book index provided is out of bounds of the book list.
+     */
     private void setArguments() throws EmptyArgumentsException, InvalidStringException,
             BookNotFoundException, IndexOutOfListBounds {
         try {
@@ -107,14 +128,12 @@ public class BorrowCommand extends Command {
     }
 
 
-
     /**
-     * Attempts to mark a book as borrowed based on its availability. If the book is available,
-     * it is marked as borrowed, and a due date is set. If the book is currently borrowed, the user is
-     * informed of the expected return date. This method updates the user's list of borrowed books accordingly.
+     * Processes the borrowing of a book by marking it as borrowed and setting the due date.
+     * Informs the user if the book is already borrowed or if there are no available copies.
      *
-     * @throws EmptyListException        If the overall list of books is empty.
-     * @throws WrongInputFormatException If the input format is incorrect.
+     * @throws EmptyListException If the list of books is empty.
+     * @throws WrongInputFormatException If the format of the input command is incorrect.
      */
     public void runBorrowCommand()
             throws EmptyListException, WrongInputFormatException {
@@ -136,11 +155,11 @@ public class BorrowCommand extends Command {
         }
     }
 
-
     /**
-     * updates the list of users by adding the new user and its borrowed books to the user's list
-     * Checks whether the user has already borrowed books and hence is already in the user list
+     * Updates the list of users with the current user's borrowing details, adding the newly borrowed
+     * book and setting its due date.
      *
+     * @param borrowDate The date on which the book is being borrowed.
      */
     private void updateListOfUsers(LocalDate borrowDate) {
         LocalDate returnDueDate = borrowDate.plus(DEFAULT_BORROW_PERIOD);
@@ -148,7 +167,13 @@ public class BorrowCommand extends Command {
         UserStorage.writeUserToTxt(this.userDataFile, this.listOfUsers);
     }
 
-
+    /**
+     * Validates the format and contents of the command input to ensure it adheres to the expected
+     * structure and contains all necessary information.
+     *
+     * @throws InvalidStringException If the input string is invalid.
+     * @throws EmptyArgumentsException If the input string is empty.
+     */
     public void inputValidity() throws InvalidStringException, EmptyArgumentsException {
         try {
             InputValidity inputValidity = new InputValidity(COMMAND_STRING, this.newItem, ARGUMENT_STRING);
@@ -161,7 +186,13 @@ public class BorrowCommand extends Command {
         }
     }
 
-
+    /**
+     * Sets the book arguments for the borrow command. Determines which book the user wants to borrow
+     * based on either an index or a book title.
+     *
+     * @throws BookNotFoundException If the specified book is not found in the list.
+     * @throws IndexOutOfListBounds If the book index provided is out of bounds of the book list.
+     */
     public void setBookArguments() throws BookNotFoundException, IndexOutOfListBounds {
         try {
             SetBookIndexName setBookIndexName = new SetBookIndexName(splitUser[0].trim(), listOfBooks);
@@ -182,7 +213,13 @@ public class BorrowCommand extends Command {
         this.userName = this.currentUser.getName();
     }
 
-
+    /**
+     * Checks if the specified book is already borrowed by the given user.
+     *
+     * @param userBorrowing The name of the user borrowing the book.
+     * @param bookToBorrow The book to check if borrowed.
+     * @return True if the book is already borrowed by the user; false otherwise.
+     */
     private Boolean isBookBorrowed(String userBorrowing, Book bookToBorrow) {
         for (int i = 0; i < listOfUsers.size(); i += 1) {
             if (isBookBorrowedByCorrectUser(userBorrowing, bookToBorrow, this.currentUser)) {
@@ -193,7 +230,14 @@ public class BorrowCommand extends Command {
         return false;
     }
 
-
+    /**
+     * Determines if the specified book is borrowed by the correct user.
+     *
+     * @param userBorrowing The name of the user to check against.
+     * @param bookToBorrow The book to be checked.
+     * @param currentUser The current user attempting to borrow the book.
+     * @return True if the book is borrowed by the user; false otherwise.
+     */
     private static boolean isBookBorrowedByCorrectUser(String userBorrowing, Book bookToBorrow, User currentUser) {
         if (currentUser.getName().equals(userBorrowing)) {
             ArrayList<Book> currentUserBooks = currentUser.getUserBooks();
@@ -202,7 +246,13 @@ public class BorrowCommand extends Command {
         return false;
     }
 
-
+    /**
+     * Checks if the specified book is in the list of books borrowed by a user.
+     *
+     * @param bookToBorrow The book to be checked.
+     * @param currentUserBooks The list of books borrowed by the user.
+     * @return True if the book is in the user's list of borrowed books; false otherwise.
+     */
     private static boolean isBookInUserBooks(Book bookToBorrow, ArrayList<Book> currentUserBooks) {
         for (Book currentBook : currentUserBooks) {
             if (currentBook.equals(bookToBorrow)) {
