@@ -35,10 +35,22 @@ alt if arguments are valid
     user --> retCmd
     deactivate user
 
-    retCmd -> uStorage : writeUserToTxt(userDataFile, listOfUsers)
-    activate uStorage #DarkSalmon
-    uStorage --> retCmd
-    deactivate uStorage
+    ' Check if the user has no more borrowed books and remove them if necessary
+    retCmd -> user : getUserBooks()
+    activate user #ADD8E6
+    user --> retCmd : [Empty List]
+    deactivate user
+
+    alt if user has no more borrowed books
+        retCmd -> retCmd : removeCurrentUserIfNoBookBorrowed()
+        activate retCmd #FFBBBB
+        retCmd -> uStorage : writeUserToTxt(userDataFile, listOfUsers)
+        activate uStorage #DarkSalmon
+        uStorage --> retCmd
+        deactivate uStorage
+        retCmd --> retCmd
+        deactivate retCmd
+    end
 
     retCmd -> Ui : printReturnSuccess(bookName)
     activate Ui #Yellow

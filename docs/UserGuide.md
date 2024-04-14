@@ -206,6 +206,8 @@ Borrow by book title : `borrow The Book Thief /by Tom`
 
 Borrow by book index : `borrow 1 /by Tom`
 
+
+
 ### Extending borrowed books in the library: `extend`
 Allows a user to extend the borrowing period of a book they have already borrowed. 
 The extension is for a predefined period of 7 days.
