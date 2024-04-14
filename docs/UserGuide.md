@@ -10,22 +10,8 @@ BookMarked enables you to perform inventory management tasks more swiftly than
 traditional GUI-based applications.
 
 ## Table of Contents
-<<<<<<< HEAD
-- Quick Start
-- Features
-  - Viewing help : `help`
-  - Adding a book : `add`
-  - Deleting a book : `delete`
-  - Viewing books : `list`
-  - Editing a book : `edit`
-  - borrowing book : `borrow`
-  - extending borrowed book : `extend`
-  - returning borrowed book : `return`
-  - finding books : `find`
-  - exiting application : `bye`
-- FAQ
-- Command Summary
-=======
+Command Summary
+
 * Quick Start
 * Features
   * Viewing help : `help`
@@ -40,7 +26,6 @@ traditional GUI-based applications.
   * exiting application : `bye`
 * FAQ
 * Command Summary
->>>>>>> 2d85ec3b0ffcbe4a14c39383d7330e50a355cf66
 
 ## Quick Start
 
@@ -75,8 +60,7 @@ traditional GUI-based applications.
 Lists out all available commands and their format.
 
 Format: `help`
-<<<<<<< HEAD
-=======
+
 
 * `help` must all be lower case.
 * there **must not** be any leading character or space before the command.
@@ -85,7 +69,6 @@ Format: `help`
 
 Examples: 
 * `help`
->>>>>>> 2d85ec3b0ffcbe4a14c39383d7330e50a355cf66
 
 ### Adding a book to inventory: `add`
 Adds a new book to the library's inventory.
@@ -93,9 +76,12 @@ Adds a new book to the library's inventory.
 Format: `add NAME_OF_BOOK (optional)/quantity NUMBER_OF_COPIES`
 
 * If the /quantity argument is not inputted, the default number of copies is 1
-* A maximum of 1000 copies of the books can be registed in total in the library.
+* A maximum of 1000 copies of the books can be registered in total in the library.
 * To add more copies of a book that already exists, simply type in the name of the book
   you wish to add, and type in the command per normal.
+* The book titles are case sensitive.
+* For book titles, you cannot input books containing special characters (sspecifically, / # $ @ | ? !) or titles that are only
+  numbers (eg. 7, 193, etc).
 
 Example of usage:
 
@@ -289,15 +275,7 @@ Example of usage:
 
 ## Command Summary
 
-<<<<<<< HEAD
-* View all commands `help`
-* Add a book `add NAME_OF_BOOK (optional)/quantity NUMBER_OF_COPIES`
-* List books `list /sortby ARGUMENT`
-* Edit books `edit /ARGUMENT_TO_EDIT ARGUMENT`
-* Find books `find ARGUMENT`
-* Exit programme `bye`
-* Delete books `delete ARGUMENT`
-=======
+
 | Action                                   | Command Format                                  | Example                   |
 |------------------------------------------|-------------------------------------------------|---------------------------|
 | view all commands and its usage          | help                                            | help                      |
@@ -315,4 +293,4 @@ Example of usage:
 | list users who borrowed books            | list /sortby user                               | list /sortby user         |
 | find a book                              | find /by book FIND_KEYWORD                      | find /by book abc         |
 | find a user                              | find /by user FIND_KEYWORD                      | find /by user human       |
->>>>>>> 2d85ec3b0ffcbe4a14c39383d7330e50a355cf66
+
