@@ -271,7 +271,7 @@ Format: `find /by book KEYWORD`
 
 Example of usage:
 
-`find /by book Thief`
+* `find /by book Thief`
 
 To search for users:
 Format: `find /by user USERNAME`
@@ -280,16 +280,32 @@ Format: `find /by user USERNAME`
 * The command lists all users that contain the username in their name.
 
 Example of usage:
-`find /by user Tom`
+* `find /by user Tom`
 
 ### Exiting application: `bye`
 Safely closes the BookMarked application.
 
 Format: `bye`
 
-Example of usage: 
+* 
 
-`bye`
+Example of usage:
+* `bye`
+
+![img.png](images/code output/bye_example.png)
+
+### Storage
+There are 2 txt files created and updated when using BookMarked application, which
+are book.txt and user.txt. These 2 files saved the data related to books and users 
+of the library in local hard disk after any command that modify the data. Exceptions,
+such as:
+* duplicate name of books or user,
+* difference in books borrowed by user and in inventory,
+* wrong formatted line in txt,
+* invalid borrow date and return due date,
+
+are handled.
+
 
 ## FAQ
 > **Q**: How do I transfer my data to another computer?
