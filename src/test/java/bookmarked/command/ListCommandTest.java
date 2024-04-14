@@ -19,13 +19,9 @@ public class ListCommandTest {
         listDefault.handleCommand();
         assertThrows(EmptyListException.class, listDefault::runListBlankCommand);
 
-        ListCommand listDate = new ListCommand(listOfBooks, "list /sortby returndate", listOfUsers);
-        listDate.handleCommand();
-        assertThrows(EmptyListException.class, listDate::runListDateCommand);
-
         ListCommand listAlphabetical = new ListCommand(listOfBooks, "list /sortby alphabetical", listOfUsers);
         listAlphabetical.handleCommand();
-        assertThrows(EmptyListException.class, listDate::runListAlphabeticalCommand);
+        assertThrows(EmptyListException.class, listAlphabetical::runListAlphabeticalCommand);
     }
 
 

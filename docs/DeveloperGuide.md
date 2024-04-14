@@ -102,24 +102,40 @@ The 'add' command interfaces with:
 
 #### Delete Command
 ##### Overview
-Bookmarked is an application that allows new books bought to be added to the inventory. The delete
-book function allows discarded books to be removed from the library's inventory
+The "delete command" oversees the removal of books from the library's inventory. 
+It enables books to be deleted based on either their index or title. 
+The command verifies the specified quantity against the inventory and removes the book(s) if conditions are met. 
+It also communicates with users about the outcome of the deletion operation.
+
 ##### Component - Level
-The 'delete' command interfaces with:
-1. Ui component : To relay messages back to the user
-2. Storage component: For persistent storage operation
-3. Book domain model : represents the state and behaviour of the individual entities
-4. Exceptions component : to catch and print exceptions such as empty arguments
+The 'delete' command interfaces with multiple components within the system:
+1. Ui component : For providing user feedback and error messages.
+2. Storage component: Handles persistent storage modifications after deletion operations.
+3. Book domain model : Manages the book entities' attributes and behaviours related to deletion.
+4. Exceptions component : Catches and reports errors during the delete operations such as out-of-bound indexes. 
+
 ##### Class -Level
-1. ProcessDeleteCommand class : It is processed through the ProcessDeleteCommand class
-   where a the command delete ITEM_NUMBER is inputted as user command and split into 2 arrays.
+1. Book Class: Represents each book and includes methods for adjusting inventory counts and availability status.
+2. DeleteCommand Class: Parses user input, processes the deletion logic, and updates the state of the book entities.
+3. BookStorage Class: Ensures that the library's persistent storage reflects the updated inventory post-deletion.
+4. Ui Class: Communicates the outcome of the deletion to the user, enhancing transparency and clarity.
+
 ##### Implementation Details
-- The handleCommand function splits the user command into the add and description of book
-  processDeleteCommand then takes in the split array array[1] which is the number index of the book.
-  Iterates through the list of books to find the matching index number and deletes it from the list
-- The storage component stores the new list after the deletion into a text file
+How? The "DeleteCommand" class executes the following steps upon invocation:
 
+- Validates user input to ensure the command format and arguments are correct.
+- Determines the book to delete based on the provided index or name.
+- Validates that the book exists in the inventory and that the quantity specified does not exceed the available stock.
+- Proceeds with the deletion process, adjusting the book's inventory counts, and if the total count reaches zero,
+  removes the book from the inventory list.
+- Updates the user with messages indicating the successful deletion or reasons for failure 
+  (e.g., trying to delete more copies than are available).
+- Employs BookStorage to save the revised book data, ensuring the library's inventory is accurately recorded.
 
+With these functionalities, the "delete command" plays a pivotal role in inventory management, 
+maintaining the accuracy of the library's catalog, and facilitating an organized removal process.
+
+![DeleteCommandDiagram.png](images%2FDeleteCommandDiagram.png)
 
 #### BorrowCommand 
 ##### Overview
@@ -159,7 +175,7 @@ How ? Upon execution, the "BorrowCommand" class performs the following actions:
 This updated borrow command enhances the user experience by ensuring a flexible and reliable borrowing process, 
 preventing double borrowing by the same user, and maintaining the integrity of book and user data.
 
-
+![BorrowCommandDiagram.png](images%2FBorrowCommandDiagram.png)
 
 #### Return Command
 ##### Overview
@@ -198,6 +214,8 @@ Upon execution, the "ReturnCommand" class conducts the following operations:
   like successful return, overdue notices, or errors in finding the book or user.
 - This comprehensive return command is designed to ensure a smooth operation and maintain the integrity of both book 
   and user data within the system following a book's return.
+
+![ReturnCommandDiagram.png](images%2FReturnCommandDiagram.png)
 
 
 #### List Command
@@ -325,6 +343,7 @@ Upon execution, the ExtendCommand:
 - This ExtendCommand ensures that users can easily manage their borrowed materials 
   and maintain compliance with the library's borrowing policies, all while providing a clear and responsive feedback loop through the UI component.
 
+![ExtendCommandDiagram.png](images%2FExtendCommandDiagram.png)
 
 #### Exit Command
 

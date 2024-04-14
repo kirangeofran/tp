@@ -123,17 +123,7 @@ public class Book {
     public String toString() {
         String formattedNumberInventoryBorrowed = "Number of books in inventory: " + this.numberInInventory
                 + ". Number of books borrowed: " + this.numberBorrowed;
-        if (isBorrowed) {
-            String formattedBorrowDate =
-                    (borrowDate != null) ? borrowDate.format(DATE_FORMATTER) : "Not set";
-            String formattedReturnDate = getFormattedReturnDate();
-
-            return String.format(
-                    "%s. %s. Borrowed on: %s, due on: %s", this.description, formattedNumberInventoryBorrowed,
-                    formattedBorrowDate, formattedReturnDate);
-        } else {
-            return this.description + ". " + formattedNumberInventoryBorrowed + ".";
-        }
+        return this.description + ". " + formattedNumberInventoryBorrowed + ".";
     }
 
     @Override

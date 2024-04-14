@@ -1,6 +1,7 @@
 package bookmarked.command;
 
 import bookmarked.Book;
+import bookmarked.arguments.TitleValidity;
 import bookmarked.exceptions.NegativeQuantityException;
 import bookmarked.exceptions.MaxIntNumberException;
 import bookmarked.exceptions.EmptyArgumentsException;
@@ -12,6 +13,7 @@ import bookmarked.ui.Ui;
 import java.io.File;
 import java.util.ArrayList;
 
+
 /**
  * Represents a command to add books to the library system.
  * This class is responsible for handling the 'add' command input by the user.
@@ -20,18 +22,21 @@ public class AddCommand extends Command {
     private static final int DEFAULT_QUANTITY = 1;
     private static final int MAX_QUANTITY = 1000;
     private static final String MAX_QUANTITY_STRING = "1000";
-    private String newItem;
+    private static final String COMMAND_STRING = "add";
+    private static final String ARGUMENT_STRING = " /quantity ";
+    private final String newItem;
+    private final File bookDataFile;
     private ArrayList<Book> listOfBooks;
     private String[] splitQuantity;
-    private File bookDataFile;
     private int quantityToAdd;
     private boolean hasQuantityArgument;
+
 
     /**
      * Constructs an AddCommand object with the specified item, book list, and file storage.
      *
-     * @param newItem     The title of the new item to be added.
-     * @param listOfBooks The current list of books maintained in the library.
+     * @param newItem      The title of the new item to be added.
+     * @param listOfBooks  The current list of books maintained in the library.
      * @param bookDataFile The file used for data storage of book information.
      */
     public AddCommand(String newItem, ArrayList<Book> listOfBooks, File bookDataFile) {
@@ -49,7 +54,7 @@ public class AddCommand extends Command {
     @Override
     public void handleCommand() {
         assert newItem != null : "Item should not be null";
-        String[] newSplitBook = this.newItem.split("add");
+        String[] newSplitBook = this.newItem.split(COMMAND_STRING);
         if (newSplitBook.length < 1) {
             Ui.printEmptyArgumentsMessage();
             return;
@@ -75,7 +80,7 @@ public class AddCommand extends Command {
             throw new EmptyArgumentsException();
         }
 
-        this.splitQuantity = newSplitBook[1].split(" /quantity ");
+        this.splitQuantity = newSplitBook[1].split(ARGUMENT_STRING);
         if (this.splitQuantity[0].isBlank()) {
             throw new EmptyArgumentsException();
         }
@@ -101,9 +106,9 @@ public class AddCommand extends Command {
      * The quantity is parsed from the command arguments or set to a default value.
      *
      * @return The quantity to be added.
-     * @throws WrongQuantityException if the quantity argument is missing or invalid.
-     * @throws NumberFormatException if the quantity is not a valid number format.
-     * @throws MaxIntNumberException if the specified quantity exceeds the maximum allowed.
+     * @throws WrongQuantityException    if the quantity argument is missing or invalid.
+     * @throws NumberFormatException     if the quantity is not a valid number format.
+     * @throws MaxIntNumberException     if the specified quantity exceeds the maximum allowed.
      * @throws NegativeQuantityException if the specified quantity is negative.
      */
     public int setQuantityToAdd() throws WrongQuantityException, NumberFormatException,
@@ -132,7 +137,7 @@ public class AddCommand extends Command {
      * Validates the format of the quantity string argument.
      *
      * @throws WrongQuantityException if the quantity string is invalid or missing.
-     * @throws MaxIntNumberException if the quantity exceeds the maximum limit.
+     * @throws MaxIntNumberException  if the quantity exceeds the maximum limit.
      */
     public void checkQuantityStringValidity() throws WrongQuantityException, MaxIntNumberException {
         if (splitQuantity.length < 2 || splitQuantity[1].isBlank()) {
@@ -156,30 +161,30 @@ public class AddCommand extends Command {
     /**
      * Executes the addition of books to the library, updating inventory numbers accordingly.
      *
-     * @throws MaxIntNumberException if adding the specified quantity would exceed the library's limits.
+     * @throws MaxIntNumberException  if adding the specified quantity would exceed the library's limits.
      * @throws InvalidStringException if the book title is invalid.
      */
     public void runAddCommand() throws MaxIntNumberException, InvalidStringException {
         String bookTitle = splitQuantity[0].trim();
-        Book inputBook = getExistingBook(bookTitle);
 
         try {
-            checkTitleValidity(bookTitle);
+            TitleValidity.checkTitleValidity(bookTitle);
         } catch (InvalidStringException e) {
             throw new InvalidStringException();
         }
 
+        Book inputBook = getExistingBook(bookTitle);
         // if the current book is a new book
         if (inputBook == null) {
             Book bookName = new Book(bookTitle);
             this.listOfBooks.add(bookName);
             bookName.setNumberInInventory(quantityToAdd);
             bookName.setNumberTotal(quantityToAdd);
-            System.out.println("Added " + bookName.getName() + "!");
+            System.out.println("Added " + bookName.getName() + " with " + quantityToAdd + " copies!");
         } else {    // if the current book already exists in the library
+
             int newNumberInInventory = inputBook.getNumberInInventory() + quantityToAdd;
             int newNumberTotal = inputBook.getNumberTotal() + quantityToAdd;
-
             if (newNumberInInventory > MAX_QUANTITY || newNumberTotal > MAX_QUANTITY) {
                 throw new MaxIntNumberException();
             }
@@ -190,17 +195,6 @@ public class AddCommand extends Command {
         }
     }
 
-    /**
-     * Checks the validity of the book title string.
-     *
-     * @param bookName The title of the book to be checked.
-     * @throws InvalidStringException if the book title contains illegal characters or is numerical.
-     */
-    public void checkTitleValidity(String bookName) throws InvalidStringException {
-        if (bookName.matches("^[0-9]+$") || bookName.contains("|")) {
-            throw new InvalidStringException();
-        }
-    }
 
     /**
      * Retrieves an existing book from the library's inventory based on the given title.
