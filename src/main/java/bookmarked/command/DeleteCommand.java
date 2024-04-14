@@ -1,7 +1,14 @@
 package bookmarked.command;
 
 import bookmarked.Book;
-import bookmarked.exceptions.*;
+import bookmarked.exceptions.EmptyArgumentsException;
+import bookmarked.exceptions.EmptyListException;
+import bookmarked.exceptions.IndexOutOfListBounds;
+import bookmarked.exceptions.MaxIntNumberException;
+import bookmarked.exceptions.NegativeQuantityException;
+import bookmarked.exceptions.TooLargeQuantityException;
+import bookmarked.exceptions.WrongFormatQuantityException;
+import bookmarked.exceptions.WrongQuantityException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
 
@@ -192,7 +199,7 @@ public class DeleteCommand extends Command {
         int newNumberInInventory = currentNumberInInventory - quantityToDelete;
         int newNumberTotal = inputBook.getNumberTotal() - quantityToDelete;
 
-        if (currentNumberTotal == 0 || currentNumberInInventory == 0) {
+        if (currentNumberTotal == 0) {
             Ui.printDeleteNoCopiesErrorException(inputBook.getName());
             listOfBooks.remove(listNumberIndex);
             return;
