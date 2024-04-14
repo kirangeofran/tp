@@ -246,9 +246,12 @@ Upon execution, the "ReturnCommand" class conducts the following operations:
 
 #### List Command
 ##### Overview
-The "list command" is a feature that manages the listing all the books in the inventory.
-It is so librarians can keep track of all the books, as well as their status of whether they have
+* The "list command" is a feature that manages the listing all the books in the inventory.
+* The list command can be used for 2 lists: user list and book list
+* It is so librarians can keep track of all the books, as well as their status of whether they have
 been borrowed or are currently available in the library.
+* Librarians can also keep track of all users, their borrowed books and due dates as well as
+their due status
 
 ##### Component-Level
 The "list command" component interfaces with several others:

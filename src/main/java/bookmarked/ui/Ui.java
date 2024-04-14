@@ -183,8 +183,8 @@ public class Ui {
     public static void incorrectFindArgument() {
         System.out.println("please key in a username");
     }
-    public static void invalidUser() {
-        System.out.println("user not found");
+    public static void invalidUser(String userName) {
+        System.out.println("user not found: " + userName);
     }
     public static void printCommand(User user, int i) {
         System.out.print(i + 1 + ". ");
