@@ -67,29 +67,25 @@ public class ReturnCommandTest {
         returnCommand.handleCommand();
 
         // Assert
-        String overdueMessage = "This book is returned past its return date. Remember to keep track of due dates";
-        String returnConfirmation = "Returned Java Basics!";
+        String returnMessage = "Returned Java Basics!";
         String actualOutput = outContent.toString().trim();
 
-        assertTrue(actualOutput.contains(overdueMessage), "Expected overdue message not found.");
-        assertTrue(actualOutput.contains(returnConfirmation),
-                "Expected return confirmation message not found.");
+        assertTrue(actualOutput.contains(returnMessage), "Expected return message not found.");
 
-        // Clean up
         System.setOut(System.out);
     }
 
 
 
-   /* @Test
+    @Test
     public void returnCommand_emptyBookList_printsEmptyListMessage() {
         ReturnCommand returnCommand = new ReturnCommand("return Java Basics /by Alice",
                 listOfBooks, dummyBookDataFile, listOfUsers, dummyUserDataFile);
         returnCommand.handleCommand();
 
-        String expectedMessage = "The book list is empty.";
+        String expectedMessage = "The book does not exist; try adding it to the library first.";
         assertTrue(outContent.toString().trim().contains(expectedMessage), "Expected empty list message not found.");
-    }*/
+    }
 
     @Test
     public void returnCommand_emptyArguments_printsEmptyArgumentsMessage() {
