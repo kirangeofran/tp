@@ -134,7 +134,23 @@ There are four ways of sorting the list:
 Allows for the modification of the details of an existing book in the library. 
 This command currently supports editing the title of a book.
 
-Format: `edit BOOK_INDEX /title NEW_TITLE`
+Format:
+
+To edit by book index : `edit INDEX /title NEW_TITLE`
+
+* The `INDEX` of the book is based on the output shown in the default list function.
+* The new title of the book is specified in `NEW_TITLE`
+* `edit` and `title` are case-sensitive, and **must not** be in capital letter.
+* The title of the book, `NEW_TITLE`, is also case-sensitive, and different in case may
+  refer to a different book.
+* There **must** be at least 1 space between the word `edit` and `INDEX` in the command.
+* Similarly, there **must** be at least 1 space between the `INDEX` and `/title`
+* There **must** be at least 1 space between the `/title` and `NEW_TITLE`, should there be
+  more than 1 spaces, the space before the first character and the space after the last
+  character will be **ignored**.
+
+To edit by book title : `edit CURRENT_BOOK_TITLE /title NEW_TITLE`
+
 
 Example of usage:
 
