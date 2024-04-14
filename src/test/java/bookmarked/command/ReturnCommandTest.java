@@ -26,8 +26,8 @@ public class ReturnCommandTest {
     public void setUp() {
         listOfBooks = new ArrayList<>();
         listOfUsers = new ArrayList<>();
-        dummyBookDataFile = new File("./testBook.txt");
-        dummyUserDataFile = new File("./testUser.txt");
+        dummyBookDataFile = new File("./testBooks.txt");
+        dummyUserDataFile = new File("./testUsers.txt");
         System.setOut(new PrintStream(outContent));
     }
 
