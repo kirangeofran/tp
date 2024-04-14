@@ -338,7 +338,7 @@ Format: `bye`
 Example of usage:
 * `bye`
 
-![img.png](images/code output/bye_example.png)
+![bye_example.png](images%2Fcode%20output%2Fbye_example.png)
 
 ### Storage
 There are 2 txt files created and updated when using BookMarked application, which
