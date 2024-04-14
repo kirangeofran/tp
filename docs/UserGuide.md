@@ -10,6 +10,7 @@ BookMarked enables you to perform inventory management tasks more swiftly than
 traditional GUI-based applications.
 
 ## Table of Contents
+<<<<<<< HEAD
 - Quick Start
 - Features
   - Viewing help : `help`
@@ -24,17 +25,67 @@ traditional GUI-based applications.
   - exiting application : `bye`
 - FAQ
 - Command Summary
+=======
+* Quick Start
+* Features
+  * Viewing help : `help`
+  * Adding a book : `add`
+  * Deleting a book : `delete`
+  * Viewing books : `list`
+  * Editing a book : `edit`
+  * borrowing book : `borrow`
+  * extending borrowed book : `extend`
+  * returning borrowed book : `return`
+  * finding books : `find`
+  * exiting application : `bye`
+* FAQ
+* Command Summary
+>>>>>>> 2d85ec3b0ffcbe4a14c39383d7330e50a355cf66
 
 ## Quick Start
 
-1. Ensure that you have Java 11 or above installed.
-1. Down the latest version of `Duke` from [here](http://link.to/duke).
+1. Ensure that you have installed Java `11` on your computer.
+2. Download the latest version of `BookMarked.jar` from [here](https://github.com/AY2324S2-CS2113-W13-4/tp/releases).
+3. Copy the file to your desired folder for use as a _home folder_.
+4. Open a command terminal, `cd` into the folder you put the jar file in, 
+   and run the command `java -jar BookMarked.jar`. A command line display 
+   similar to the one shown below will appear:
+    ```
+    _______________________________________________________________________________
+    _______________________________________________________________________________
+    
+    Welcome to BookMarked, a one-stop app for all your librarian needs!
+    To get started, you can type 'help' to see a list of commands!
+    
+    _______________________________________________________________________________
+    _______________________________________________________________________________
+    ```
+5. Type some commands in the terminal and press Enter to execute it. 
+
+    Here are some commands you can try:
+    * `add book`
+    * `list /sortby default`
+    * `borrow book /by human`
+    * `bye`
+   
+6. You can refer to the features below for the details of each command.
 
 ## Features
-### Viewing all possible features: `/help`
+### Viewing all possible features: `help`
 Lists out all available commands and their format.
 
 Format: `help`
+<<<<<<< HEAD
+=======
+
+* `help` must all be lower case.
+* there **must not** be any leading character or space before the command.
+* command may include extra spaces after the command `help` 
+  but **must** not include any other character.
+
+Examples: 
+* `help`
+>>>>>>> 2d85ec3b0ffcbe4a14c39383d7330e50a355cf66
 
 ### Adding a book to inventory: `add`
 Adds a new book to the library's inventory.
@@ -98,8 +149,7 @@ There are four ways of sorting the list:
   that are currently being borrowed.
 
 4. **By user**
-   
-    Format: `list /sortbyuser`
+    Format: `list /sortby user`
 * Listing all users along with their borrowed books
 
 
@@ -116,39 +166,83 @@ Example of usage:
 ### Borrowing books in the library: `borrow`
 Allows a user to borrow a book from the library's inventory if it is available. 
 The book will be marked as borrowed, and a due date will be set for its return.
+The return date is set at a default of two weeks from the date of borrowing.
 
-Format: `borrow BOOK_NAME /by USER_NAME`
+Format: 
 
-* Books are borrowed for a default period of two weeks from the date of borrowing.
+To borrow by book title : `borrow BOOK_NAME /by USER_NAME`
+
+* The command is case-sensitive, so `borrow`, `BOOK_NAME` and `USER_NAME` must be typed exactly. 
+
+To borrow by book index : `borrow INDEX /by USER_NAME`
+
+* The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
+* The command is case-sensitive, so `borrow ` and `USER_NAME` must be typed exactly.
+
+Note :
+
 * Users do not need to be pre-added. They can be added directly when using the borrow command. 
+* If the specified book is not available for borrowing, or if there are no available copies left in the inventory,
+  an appropriate message will be displayed.
 
+Examples of usage:
 
-Example of usage:
+Borrow by book title : `borrow The Book Thief /by Tom`
 
-`borrow The Book Thief /by Tom`
+Borrow by book index : `borrow 1 /by Tom`
 
 ### Extending borrowed books in the library: `extend`
 Allows a user to extend the borrowing period of a book they have already borrowed. 
 The extension is for a predefined period of 7 days.
 
-Format: `extend BOOK_NAME`
+Format: 
 
-* You can only extend the due dates of books that are already borrowed. 
+To extend by book title : `extend BOOK_NAME /by USER_NAME`
 
-Example of usage:
+* The command is case-sensitive, so `extend`, `BOOK_NAME` and `USER_NAME` must be typed exactly.
 
-`extend The Book Thief`
+To extend by book index : `extend INDEX /by USER_NAME`
+
+* The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
+* The command is case-sensitive, so `extend` and `USER_NAME` must be typed exactly.
+
+Note:
+
+* The due dates of books can only be extended, if they are already borrowed.
+* The system will output a message confirming the successful extension of the borrowing period, 
+  along with the new due date. 
+
+Examples of usage:
+
+Extend by book title : `extend The Book Thief /by Tom`
+
+Extend by book index : `extend 1 /by Tom`
 
 ### Returning borrowed books in the library: `return`
 Allows a user to return a book they have borrowed from the library's inventory, marking it as not borrowed.
 
-Format: `return BOOK_NAME`
+Format: 
 
-* The command updates the book's status to available, making it ready for borrowing again.
+To return by book title : `return BOOK_NAME /by USER_NAME`
 
-Example of usage:
+* The command is case-sensitive, so `return`, `BOOK_NAME` AND `USER_NAME` must be typed exactly.
 
-`return The Book Thief`
+To return by book index : `return INDEX /by USER_NAME`
+
+* The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
+* The command is case-sensitive, so `return`and `USER_NAME` must be typed exactly.
+
+Note : 
+
+* Only books that have been borrowed can be returned.
+* The system will output a message confirming the successful return of the book.
+
+
+Examples of usage:
+
+Return by book title : `return The Book Thief /by Tom`
+
+Return by book index : `return 1 /by Tom`
 
 ### Finding books or users in the library: `find`
 Enables users to search for books in the library's inventory that match a given keyword.
@@ -195,6 +289,7 @@ Example of usage:
 
 ## Command Summary
 
+<<<<<<< HEAD
 * View all commands `help`
 * Add a book `add NAME_OF_BOOK (optional)/quantity NUMBER_OF_COPIES`
 * List books `list /sortby ARGUMENT`
@@ -202,3 +297,22 @@ Example of usage:
 * Find books `find ARGUMENT`
 * Exit programme `bye`
 * Delete books `delete ARGUMENT`
+=======
+| Action                                   | Command Format                                  | Example                   |
+|------------------------------------------|-------------------------------------------------|---------------------------|
+| view all commands and its usage          | help                                            | help                      |
+| add 1 book                               | add BOOK_TITLE                                  | add abc                   |
+| add specific number of books             | add BOOK_TITLE /quantity NUMBER_OF_COPIES       | add abc /quantity 5       |
+| borrow a book                            | borrow BOOK_TITLE /by USER_NAME                 | borrow abc /by human      |
+| return a book                            | return BOOK_TITLE /by USER_NAME                 | return abc /by human      |
+| extend return due date by a week         | extend BOOK_TITLE                               | extend abc                |
+| edit book title by book number in list   | edit NUMBER_ACCORDING_TO_LIST /title BOOK_TITLE | edit 1 /title def         |
+| edit book title by current book title    | edit CURRENT_BOOK_TITLE /title NEW_BOOK_TITLE   | edit abc /title def       |
+| delete a book                            | delete BOOK_TITLE                               | delete abc                |
+| list all books                           | list /sortby default                            | list /sortby default      |
+| list all books alphabetically            | list /sortby alphabetical                       | list /sortby alphabetical |
+| list borrowed books based on return date | list /sortby returndate                         | list /sortby returndate   |
+| list users who borrowed books            | list /sortby user                               | list /sortby user         |
+| find a book                              | find /by book FIND_KEYWORD                      | find /by book abc         |
+| find a user                              | find /by user FIND_KEYWORD                      | find /by user human       |
+>>>>>>> 2d85ec3b0ffcbe4a14c39383d7330e50a355cf66
