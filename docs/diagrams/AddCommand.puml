@@ -1,13 +1,18 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 !include style.puml
-participant ":AddCommand" as AddCommand STORAGE_COLOR
+participant ":AddCommand" as AddCommand ADD_COLOR
 participant "bookName:Book" as Book BOOK_COLOR
 participant ":UI" as UI UI_COLOR
 
+AddCommand -> UI: printEmptyArgumentsMessage()
+UI --> AddCommand
+deactivate UI
+deactivate AddCommand
 
 [-> AddCommand: processAddCommand(newSplitBook:String[], listOfBooks:ArrayList<Book>
 activate AddCommand
+activate Book
 create Book
 AddCommand -> Book:new Book (newSplitBook:String[])
 activate Book
