@@ -33,13 +33,13 @@ public class Ui {
         System.out.println("   add BOOK_TITLE (optional)/quantity NUMBER_OF_COPIES");
         System.out.println();
         System.out.println("2. To delete current existing book");
-        System.out.println("   delete INDEX");
+        System.out.println("   delete INDEX (optional)/quantity NUMBER_OF_COPIES");
         System.out.println();
         System.out.println("3. To mark book as borrowed by book index");
-        System.out.println("   borrow INDEX by USER_NAME");
+        System.out.println("   borrow INDEX /by USER_NAME");
         System.out.println();
         System.out.println("4. To mark book as borrowed by book title");
-        System.out.println("   borrow BOOK_TITLE by USER_NAME");
+        System.out.println("   borrow BOOK_TITLE /by USER_NAME");
         System.out.println();
         System.out.println("5. To extend the due date of a borrowed book by a week by book index");
         System.out.println("   extend INDEX");
