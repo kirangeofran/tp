@@ -149,12 +149,12 @@ Format:
 
 To borrow by book title : `borrow BOOK_NAME /by USER_NAME`
 
-* The command is case-sensitive, so `borrow `, the book title and user name must be typed exactly. 
+* The command is case-sensitive, so `borrow`, `BOOK_NAME` and `USER_NAME` must be typed exactly. 
 
 To borrow by book index : `borrow INDEX /by USER_NAME`
 
 * The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
-* The command is case-sensitive, so `borrow ` and the  user name must be typed exactly.
+* The command is case-sensitive, so `borrow ` and `USER_NAME` must be typed exactly.
 
 Note :
 
@@ -176,12 +176,12 @@ Format:
 
 To extend by book title : `extend BOOK_NAME /by USER_NAME`
 
-* The command is case-sensitive, so `extend`, the book title and user name must be typed exactly.
+* The command is case-sensitive, so `extend`, `BOOK_NAME` and `USER_NAME` must be typed exactly.
 
 To extend by book index : `extend INDEX /by USER_NAME`
 
 * The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
-* The command is case-sensitive, so `extend` and the user name must be typed exactly.
+* The command is case-sensitive, so `extend` and `USER_NAME` must be typed exactly.
 
 Note:
 
@@ -202,12 +202,12 @@ Format:
 
 To return by book title : `return BOOK_NAME /by USER_NAME`
 
-* The command is case-sensitive, so `return`, the book title and user name must be typed exactly.
+* The command is case-sensitive, so `return`, `BOOK_NAME` AND `USER_NAME` must be typed exactly.
 
 To return by book index : `return INDEX /by USER_NAME`
 
 * The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
-* The command is case-sensitive, so `return`and the user name must be typed exactly.
+* The command is case-sensitive, so `return`and `USER_NAME` must be typed exactly.
 
 Note : 
 
