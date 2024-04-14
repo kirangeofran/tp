@@ -5,7 +5,6 @@ import bookmarked.Book;
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.EmptyListException;
 import bookmarked.ui.Ui;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 
