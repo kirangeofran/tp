@@ -110,35 +110,81 @@ The 'delete' command interfaces with:
 
 #### BorrowCommand 
 ##### Overview
-The "borrow command" is a feature that manages the borrowing of books. The enhancements to this 
-command aim to provide real-time feedback on book availability, track borrowing and due dates, 
-and notify users of due dates of books that are currently being borrowed by others.
+The "borrow command" manages the borrowing process of books within the library system. 
+It allows users to borrow books by specifying either the book name or its index. 
+The command confirms the availability of the book, marks it as borrowed if available, 
+and assigns a due date based on a default two-week borrow period. 
+It also provides real-time feedback to users regarding the status of the book.
 
 ##### Component-Level 
 The "borrow command" component interfaces with several others: 
 1. UI component : To relay messages back to the user. 
-2. Storage component : For persistent storage operations.
+2. Storage component : For persistent storage operations for books and users. 
 3. Book Domain Model : Represents the state and behaviour of the individual book entities.
+4. User Domain Model : Represents the library users and their borrowing status. 
 
 ##### Class-Level
-1. Book Class : This class represents the domain entity with properties such as 'name', 'isAvailable', 
-'borrowDate' and 'returnDate' along with the methods to manipulate these properties. 
-2. BorrowCommand Class : Orchestrates the borrowing process. It parses the user command,
-interacts with the book objects to check availability, and updates book states. 
-3. BookStorage Class : Handles data persistence, ensuring that book statuses are consistently stored and 
-retrieved from a file or database. 
+1. Book Class: Represents a book with attributes like name, isAvailable, borrowDate, and returnDate, along with methods to manipulate these properties.
+2. User Class: Represents a library user with methods to manage borrowed books and their respective due dates.
+3. BorrowCommand Class: Manages the command input, validates user input, identifies the book to be borrowed, and handles the updating of book and user states.
+4. BookStorage Class: Manages the persistence of book data, updating book statuses in the storage file.
+5. UserStorage Class: Manages the persistence of user data, updating user borrowing details in the storage file.
 
 ##### Implementation Details 
-How? The "BorrowCommand" upon execution will :
-- Use the book's name provided by the user to locate the book within an 'ArrayList<Book>'.
-- Check the 'isAvailable' attribute of the 'Book' instance to determine if it can be borrowed. 
-- If available, the book's 'borrowDate' is set to the current date, and 'returnDate' is calculated based
-on the pre-determined 2-week borrow period.
-- If not available, the user is informed of the 'returnDate'.
-- Post-interaction, 'BookStorage' updates the book's status in the storage file. 
+How ? Upon execution, the "BorrowCommand" class performs the following actions:
+
+- Validates the command input format and arguments.
+- Determines the book to be borrowed by index or name using the provided input.
+- Validates the availability of the book and whether the user has already borrowed it.
+- If the book is available and not already borrowed by the same user, it marks the book as borrowed, 
+  sets the current date as the borrowDate, and calculates the returnDate using the default two-week borrow period.
+- Updates the user's borrowing details to include the newly borrowed book and its due date.
+- Provides feedback to the user by printing messages about the borrowing status, book availability, and due dates.
+- Utilizes BookStorage to write the updated book data and UserStorage to write 
+  the updated user data to their respective files.
+
+This updated borrow command enhances the user experience by ensuring a flexible and reliable borrowing process, 
+preventing double borrowing by the same user, and maintaining the integrity of book and user data.
+
 
 
 #### Return Command
+##### Overview
+The "return command" enables users to return borrowed books to the library system. 
+It allows identification of the book to be returned by either its index in the list or its name. 
+The command ensures that the book is marked as not borrowed upon successful return and updates the system accordingly.
+This command simplifies the process of returning books, enhancing user experience by allowing flexible identifiers.
+
+##### Component-Level
+The "return command" interacts with the following components:
+
+1. UI Component: To communicate messages and prompts to the user during the return process.
+2. Storage Component: For persisting changes to the state of books and users.
+3. Book Domain Model: Represents individual book entities and their borrow/return state.
+4. User Domain Model: Represents library users and tracks their borrowed books.
+
+##### Class-Level
+1. Book Class: Represents a book with properties like name, isAvailable, and methods to mark the book as returned.
+2. User Class: Represents library users and provides methods to manage returning books and updating borrowing records.
+3. ReturnCommand Class: Parses the user command, checks book availability, processes the return operation, and updates book and user statuses.
+4. BookStorage Class: Manages the persistence of updated book data.
+5. UserStorage Class: Manages the persistence of updated user data.
+6. UserBook Class: Represents the link between a user and a borrowed book, holding details like returnDueDate.
+
+##### Implementation Details
+Upon execution, the "ReturnCommand" class conducts the following operations:
+
+- Validates the format and arguments of the user input using InputValidity.
+- Identifies the book to be returned by name or index through SetBookIndexName.
+- Validates the user making the return using SetUserName and confirms the book has been borrowed by this user.
+- If valid, marks the book as returned using the Book class method setReturned.
+- Removes the book from the user's borrowed list using User class methods.
+- If the user has no more borrowed books, their record is removed from the user list.
+- Updates both the book and user data files using BookStorage.writeBookToTxt and UserStorage.writeUserToTxt.
+- Provides user feedback via System.out.println and Ui component methods for various possible outcomes 
+  like successful return, overdue notices, or errors in finding the book or user.
+- This comprehensive return command is designed to ensure a smooth operation and maintain the integrity of both book 
+  and user data within the system following a book's return.
 
 
 #### List Command
@@ -230,37 +276,41 @@ Discarded books can also be deleted through the command delete BOOK_NUMBER
 
 #### Extend Command 
 ##### Overview
-The ExtendCommand is a feature within the book management system that enables users to extend the borrowing period 
-of books. This command augments user experience by providing the flexibility to extend due dates, 
-ensuring better management of borrowed materials.
+The ExtendCommand enables users to extend the borrowing period of books they currently have borrowed. 
+This command is integral to providing flexibility in book management, allowing 
+for due date adjustments to accommodate users' needs.
 
 ##### Component-Level Design
 The ExtendCommand component interfaces with the following components of the system:
 
-1. UI Component: To communicate feedback and errors to the user.
-2. Storage Component: For updating the persistence layer with the new return dates.
-3. Book Domain Model: Represents the state and behavior of book entities, 
-   particularly regarding their borrowing status.
+1. UI Component: Communicates with the user, displaying success messages and errors.
+2. Storage Component: Updates persistent data with the new due dates for books and users.
+3. Book Domain Model: Reflects the state and behavior of book entities, 
+   especially concerning their borrow status and due date.
+4. User Domain Model: Represents the users and maintains their current state, 
+   including borrowed books and their due dates.
 
 ##### Class-Level Design 
-1. Book Class: Represents a book with properties such as name, isBorrowed, borrowDate, and dueDate. 
-   It includes methods for extending the borrowing period.
-2. ExtendCommand Class: Responsible for handling the extension of the book's borrowing period by interacting 
-   with book instances to update their due dates.
-3. BookStorage Class: Manages data persistence by saving updated book information to storage, 
-   ensuring the changes are maintained across sessions.
+1. Book Class: Manages book attributes, including the extension of due dates.
+2. User Class: Tracks user information and updates book borrowing details.
+3. ExtendCommand Class: Processes the user command to extend the due dates of borrowed books.
+4. BookStorage Class: Ensures the persistence of updated book information.
+5. UserStorage Class: Ensures the persistence of updated user borrowing details.
 
 ##### Implementation Details 
-How ?Upon execution, the ExtendCommand performs the following actions:
-1. Parses the input to identify the book name specified by the user.
-2. Searches for the book in an ArrayList of Book instances.
-3. Verifies if the book is currently borrowed by checking the isBorrowed attribute.
-4. If the book is borrowed, it calls extendDueDate() on the Book instance to
-   extend the return date by a predefined period (e.g., one week).
-5. Notifies the user of the successful extension of the due date.
-6. In case the book is not available or not found, it throws BookNotFoundException or BookNotBorrowedException, 
-   respectively, and the UI component handles user notification.
-7. Post-interaction, the BookStorage class is tasked with updating the storage with the new state of the book entity.
+Upon execution, the ExtendCommand:
+
+- Parses the user input to obtain book identification (by name or index) and the user's name.
+- Validates the existence of the book and the borrowing status of the user.
+- Extends the borrowing period by updating the book's due date.
+- Reflects this extension in the user's borrowed books list.
+- Saves the updated book data to the storage file using BookStorage.writeBookToTxt.
+- Saves the updated user data to the storage file using UserStorage.writeUserToTxt.
+- Informs the user about the successful extension using UI methods.
+- Handles any exceptions such as BookNotFoundException, UserNotFoundException, and others 
+  by displaying appropriate messages through the UI.
+- This ExtendCommand ensures that users can easily manage their borrowed materials 
+  and maintain compliance with the library's borrowing policies, all while providing a clear and responsive feedback loop through the UI component.
 
 
 #### Exit Command
