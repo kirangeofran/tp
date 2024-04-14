@@ -184,7 +184,7 @@ public class Ui {
 
     public static void printInvalidTitleMessage() {
         System.out.println("Please make sure the book title adheres to the format:\n" +
-                "Not blank, does not contain only numbers, and does not contain the character '|'.");
+                "Not blank, does not contain only numbers, and does not contain any special characters.");
     }
 
     public static void printInvalidBorrowDate(String bookTitle) {
