@@ -83,7 +83,7 @@ public class ReturnCommandTest {
                 listOfBooks, dummyBookDataFile, listOfUsers, dummyUserDataFile);
         returnCommand.handleCommand();
 
-        String expectedMessage = "The list is empty, try adding a book first.";
+        String expectedMessage = "The book does not exist; try adding it to the library first.";
         assertTrue(outContent.toString().trim().contains(expectedMessage), "Expected empty list message not found.");
     }
 

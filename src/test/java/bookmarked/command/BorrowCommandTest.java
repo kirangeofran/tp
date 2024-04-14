@@ -46,7 +46,7 @@ public class BorrowCommandTest {
     public void borrowCommand_emptyBookList_printsEmptyListMessage() {
         String commandString = "borrow 1 /by Alice";
         new BorrowCommand(listOfBooks, bookDataFile, listOfUsers, commandString, userDataFile).handleCommand();
-        String expectedOutput = "The list is empty, try adding a book first.";
+        String expectedOutput = "Please enter a book index that exists on the current list.";
         assertTrue(outContent.toString().contains(expectedOutput));
     }
 

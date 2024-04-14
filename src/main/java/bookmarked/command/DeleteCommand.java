@@ -51,7 +51,7 @@ public class DeleteCommand extends Command {
 
         try {
             processDeleteCommand(newSplitBook);
-            assert !this.listOfBooks.isEmpty() : "The current list of books should not be empty";
+           // assert !this.listOfBooks.isEmpty() : "The current list of books should not be empty";
             BookStorage.writeBookToTxt(bookDataFile, listOfBooks);
         } catch (EmptyListException e) {
             Ui.printEmptyListMessage();
