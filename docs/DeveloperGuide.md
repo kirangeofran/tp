@@ -256,43 +256,35 @@ their due status
 ##### Component-Level
 The "list command" component interfaces with several others:
 1. UI component : To relay messages back to the user.
+2. User Domain Model : Represents the borrowing status of each user
 3. Book Domain Model : Represents the state and behaviour of the individual book entities.
+4. Exceptions component : To catch and exceptions like empty list when the list of books
+is empty and empty arguments when there is no argument keyed in after list /sortby. Empty
+user list is also caught when there are no users
 
 ##### Class-Level
 1. Book Class : This class represents the domain entity with properties such as 'name', 'isAvailable',
-   'borrowDate' and 'returnDate' along with the methods to manipulate these properties.
-2. ListCommand Class : It handles the different commands of the list input, such as regular list,
-    list by alphabetical order, and so on.
+'borrowDate' and 'returnDate' along with the methods to manipulate these properties.
+2. User Class : Handles and stores the status of users who borrowed books and the status of
+each user, such as their borrowed books, return due date, overdue status 
+3. ListCommand Class : Handles the command by user and handles the different commands of the list input, such as regular list,
+list by alphabetical order and list by user
+4. ListUserCommand Class : It handles the command list by user storing user information
 
 ##### Implementation Details
 How? The "ListCommand" upon execution will:
 - Split user input with the regex "/sortby" to determine the various arguments the user has for the list function
-- Parses the argument to figure which it is, then creates a new ArrayList<Book> to copy
-    the original ArrayList and sort the new ArrayList according to the necessary argument. The toString()
-    function of each book in the newly sorted ArrayList is then called.
+- Parses the argument to figure which it is
+- If the argument is empty, an exception EmptyArgumentsException is thrown
+- In the case that the argument is `alphabetical` or `default`, the function creates a new ArrayList<Book> to copy
+the original ArrayList and sort the new ArrayList according to the necessary argument. The toString() function of each book in the newly sorted ArrayList is then called.
 - If there are no books in the original ArrayList, an exception is thrown and the user is informed of it.
+- In the case that the argument is `user`, the class ListUserCommand is called. 
+- If user list is empty, an exception EmptyUserListException is thrown
+- Iterates through the list of users. For every user, iterates through the list of books borrowed by that user
+- Repeats until the whole user list is completed
 
 ![ListCommandDiagram.png](images%2FListCommandDiagram.png)
-
-#### ListUser Command
-##### Overview
-The "listuser command" is a feature that allows the entire list of users who are people who have borrowed books
-along with all the books they borrowed 
-
-##### Component-Level
-The "listuser command" component interfaces with several others:
-1. UI component : To relay messages back to the user. 
-2. User Domain Model : Represents the state of the individual user entities.
-
-##### Class-Level
-1. User Class : This class represents the domain entity with properties such as 'name', 'borrowedBooks',
-   'unborrowBook' along with the methods to manipulate these properties.
-
-##### Implementation Details
-How? The "ListUserCommand" upon execution will:
-- Iterate through the list of users, by order of index
-- If list of users is empty, throws EmptyListException
-- For each user, iterates through the list of books and prints
 
 
 #### Find Command
@@ -322,17 +314,6 @@ username
 #### Edit Command
 
 
-#### AddCommand
-##### Overview
-Bookmarked is an application that allows new books bought to be added to the inventory
-Discarded books can also be deleted through the command delete BOOK_NUMBER
-- Add book:
-- The add book function allows for new book to be added into the inventory
-##### Class -Level
-1. AddCommand class : It is processed through the AddCommand class
-##### Implementation Details
-- The handleCommand function splits the user command into the add and description of book
-- processAddCommand adds the new book into the bottom of the list based on the current number of books
 
 #### Extend Command 
 ##### Overview
