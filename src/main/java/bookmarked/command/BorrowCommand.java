@@ -6,6 +6,7 @@ import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.EmptyListException;
 import bookmarked.exceptions.IndexOutOfListBounds;
 import bookmarked.exceptions.InvalidStringException;
+import bookmarked.exceptions.InvalidUserException;
 import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.user.User;
 import bookmarked.storage.BookStorage;
@@ -84,6 +85,9 @@ public class BorrowCommand extends Command {
         } catch (IndexOutOfListBounds e) {
             Ui.printOutOfBoundsMessage();
             return;
+        } catch (InvalidUserException e) {
+            Ui.printInvalidUsernameMessage();
+            return;
         }
 
         try {
@@ -110,7 +114,7 @@ public class BorrowCommand extends Command {
      * @throws IndexOutOfListBounds If the book index provided is out of bounds of the book list.
      */
     private void setArguments() throws EmptyArgumentsException, InvalidStringException,
-            BookNotFoundException, IndexOutOfListBounds {
+            BookNotFoundException, IndexOutOfListBounds, InvalidUserException {
         try {
             inputValidity();
             setBookArguments();
@@ -123,7 +127,8 @@ public class BorrowCommand extends Command {
             throw new BookNotFoundException();
         } catch (IndexOutOfListBounds e) {
             throw new IndexOutOfListBounds();
-
+        } catch (InvalidUserException e) {
+            throw new InvalidUserException();
         }
     }
 
@@ -207,10 +212,15 @@ public class BorrowCommand extends Command {
     }
 
 
-    public void setUserArgument() {
+    public void setUserArgument() throws InvalidUserException {
         SetUserName setUserName = new SetUserName(this.splitUser[1].trim(), listOfUsers);
-        this.currentUser = setUserName.checkBorrowUserNameValidity(listOfBooks, userDataFile);
-        this.userName = this.currentUser.getName();
+        try {
+            this.currentUser = setUserName.checkBorrowUserNameValidity(listOfBooks, userDataFile);
+            this.userName = this.currentUser.getName();
+        } catch (InvalidStringException e) {
+            throw new InvalidUserException();
+        }
+
     }
 
     /**

@@ -204,7 +204,7 @@ public class Ui {
 
     public static void printInvalidTitleMessage() {
         System.out.println("Please make sure the book title adheres to the format:\n" +
-                "Not blank, does not contain only numbers, and does not contain the character '|'.");
+                "Not blank, does not contain only numbers, and does not contain any special characters.");
     }
 
     public static void printInvalidBorrowDate(String bookTitle) {
@@ -271,6 +271,10 @@ public class Ui {
 
     public static void printEditSameBookExceptionMessage() {
         System.out.println("Unable to edit book title due to same title as the current book title");
+    }
+
+    public static void printInvalidUsernameMessage() {
+        System.out.println("Please ensure that the user name does not contain any special characters.");
     }
 
     public static void exitProgramme() {

@@ -80,7 +80,7 @@ Format: `add NAME_OF_BOOK (optional)/quantity NUMBER_OF_COPIES`
 * To add more copies of a book that already exists, simply type in the name of the book
   you wish to add, and type in the command per normal.
 * The book titles are case sensitive.
-* For book titles, you cannot input books containing special characters (sspecifically, / # $ @ | ? !) or titles that are only
+* For book titles, you cannot input titles containing special characters, or titles that are only
   numbers (eg. 7, 193, etc).
 
 Example of usage:
