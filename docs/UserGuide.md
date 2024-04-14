@@ -126,8 +126,7 @@ There are four ways of sorting the list:
   that are currently being borrowed.
 
 4. **By user**
-   
-    Format: `list /sortbyuser`
+    Format: `list /sortby user`
 * Listing all users along with their borrowed books
 
 
