@@ -138,8 +138,9 @@ Format:
 
 To edit by book index : `edit INDEX /title NEW_TITLE`
 
-* The `INDEX` of the book is based on the output shown in the default list function.
-* The new title of the book is specified in `NEW_TITLE`
+* The `INDEX` of the book is based on the output shown in the default list function and 
+  should be the available `INDEX` in the library list.
+* The new title of the book is specified in `NEW_TITLE`, and can be in more than 1 word.
 * `edit` and `title` are case-sensitive, and **must not** be in capital letter.
 * The title of the book, `NEW_TITLE`, is also case-sensitive, and different in case may
   refer to a different book.
@@ -150,11 +151,10 @@ To edit by book index : `edit INDEX /title NEW_TITLE`
   character will be **ignored**.
 
 To edit by book title : `edit CURRENT_BOOK_TITLE /title NEW_TITLE`
-
+* 
 
 Example of usage:
-
-`edit 1 /title The Story Thief`
+* `edit 1 /title The Story Thief`
 
 ### Borrowing books in the library: `borrow`
 Allows a user to borrow a book from the library's inventory if it is available. 
