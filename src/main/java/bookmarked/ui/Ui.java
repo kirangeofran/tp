@@ -232,6 +232,14 @@ public class Ui {
         System.out.println("Skipping a line due to invalid or duplicate user");
     }
 
+    public static void printDuplicateTitleMessage() {
+        System.out.println("Unable to edit book title due to same title as other existing book title");
+    }
+
+    public static void printEditSameBookExceptionMessage() {
+        System.out.println("Unable to edit book title due to same title as the current book title");
+    }
+
     public static void exitProgramme() {
         System.out.println("Thank you for using BookMarked! See you soon!");
         System.out.println(" \n" +

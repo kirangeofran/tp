@@ -3,7 +3,9 @@ package bookmarked.command;
 import bookmarked.Book;
 import bookmarked.exceptions.BookNotFoundException;
 import bookmarked.exceptions.EmptyArgumentsException;
+import bookmarked.exceptions.ExistedBookNameException;
 import bookmarked.exceptions.NoEditChangeException;
+import bookmarked.exceptions.SameBookNameException;
 import bookmarked.exceptions.WrongInputFormatException;
 import bookmarked.storage.BookStorage;
 import bookmarked.ui.Ui;
@@ -81,7 +83,7 @@ public class EditCommand extends Command {
                 throw new BookNotFoundException();
             }
 
-            handleEditTitle(bookToEdit, bookNumberToEdit);
+            handleEditTitle(bookToEdit);
 
             if (numberOfEdits == 0) {
                 Ui.printEmptyArgumentsMessage();
@@ -97,6 +99,10 @@ public class EditCommand extends Command {
             Ui.printBookNotFoundExceptionMessage();
         } catch (WrongInputFormatException e) {
             Ui.printWrongInputFormat();
+        } catch (ExistedBookNameException e) {
+            Ui.printDuplicateTitleMessage();
+        } catch (SameBookNameException e) {
+            Ui.printEditSameBookExceptionMessage();
         }
     }
 
@@ -150,12 +156,12 @@ public class EditCommand extends Command {
      * Handles the editing of a book's title based on user input.
      *
      * @param bookToEdit        The book whose title is to be edited.
-     * @param bookNumberToEdit  The index of the book in the list.
      * @throws WrongInputFormatException If the format of the edit command is incorrect.
      * @throws EmptyArgumentsException   If the new title is empty or missing.
      */
-    public void handleEditTitle(Book bookToEdit, int bookNumberToEdit)
-            throws WrongInputFormatException, EmptyArgumentsException {
+    public void handleEditTitle(Book bookToEdit)
+            throws WrongInputFormatException, EmptyArgumentsException,
+            SameBookNameException, ExistedBookNameException {
         String oldName = bookToEdit.getName();
         String newBookName;
         boolean isEditTitle = false;
@@ -168,14 +174,12 @@ public class EditCommand extends Command {
 
             // if "/" is not found after the "/title"
             if (nextSlash == -1) {
-                newBookName = userInput.substring(titleIndex + TITLE_START_INDEX);
+                newBookName = userInput.substring(titleIndex + TITLE_START_INDEX).strip();
             } else {
-                newBookName = userInput.substring(titleIndex + TITLE_START_INDEX, nextSlash);
+                newBookName = userInput.substring(titleIndex + TITLE_START_INDEX, nextSlash).strip();
             }
 
-            if (newBookName.isBlank()) {
-                throw new EmptyArgumentsException();
-            }
+            isValidBookName(bookToEdit, newBookName);
 
             updateUserBooks(bookToEdit.getName(), newBookName);
             bookToEdit.setName(newBookName);
@@ -185,6 +189,29 @@ public class EditCommand extends Command {
         } else {
             throw new WrongInputFormatException();
         }
+    }
+
+    private void isValidBookName(Book bookToEdit, String newBookName) throws EmptyArgumentsException, SameBookNameException, ExistedBookNameException {
+        if (newBookName.isBlank()) {
+            throw new EmptyArgumentsException();
+        }
+
+        if (newBookName.equals(bookToEdit.getName())) {
+            throw new SameBookNameException();
+        }
+
+        if (isExistedBookName(newBookName)) {
+            throw new ExistedBookNameException();
+        }
+    }
+
+    private boolean isExistedBookName(String bookName) {
+        for (Book currentBook : this.listOfBooks) {
+            if (bookName.equals(currentBook.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean isEditTitle(String[] splitInput, boolean isEditTitle) {
