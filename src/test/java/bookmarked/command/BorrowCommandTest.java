@@ -48,7 +48,7 @@ public class BorrowCommandTest {
         assertTrue(outContent.toString().contains(expectedOutput));
     }
 
-   /* @Test
+    /* @Test
     public void borrowCommand_successfulBorrowByBookName_printsSuccessMessage() {
         listOfBooks.add(new Book("Java Basics"));
         User alice = new User("Alice", new ArrayList<>());

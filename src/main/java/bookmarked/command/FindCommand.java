@@ -55,7 +55,8 @@ public class FindCommand extends Command {
      * handles each case by calling the command bookcommand if by book is called
      * calls findUserCommand class to handle the command if user is called
      * if neither user or book is called, default asks user to command the correct arguments
-     * @throws EmptyListException if the list is empty
+     *
+     * @throws EmptyListException      if the list is empty
      * @throws EmptyArgumentsException if the description is not given
      */
 
@@ -64,25 +65,26 @@ public class FindCommand extends Command {
         String splitCommandCommand = splitCommand[1].trim();
         String[] findItem = splitCommandCommand.split(" ");
         switch (findItem[0].trim()) {
-            case ("book"):
-                bookCommand();
-                break;
-            case ("user"):
-                userCommand(splitCommandCommand);
-                break;
-            default:
-                Ui.printEmptyArgumentsMessage();
+        case ("book"):
+            bookCommand();
+            break;
+        case ("user"):
+            userCommand(splitCommandCommand);
+            break;
+        default:
+            Ui.printEmptyArgumentsMessage();
         }
     }
 
     /**
      * userCommand handles the case where find/ by user is called
      * splits command by user to extract user name, then calls findusercommand to find matching user
+     *
      * @param splitCommandCommand the command after "/by"
      */
     public void userCommand(String splitCommandCommand) {
         String[] userName = splitCommandCommand.split("user");
-        if (userName.length >1) {
+        if (userName.length > 1) {
             FindUserCommand findUserCommand = new FindUserCommand(listOfUsers, userName[1].trim());
             findUserCommand.handleCommand();
         } else {
@@ -91,10 +93,9 @@ public class FindCommand extends Command {
     }
 
     /**
-     *bookCommand handles the case where find /by book is called
-     *
+     * bookCommand handles the case where find /by book is called
      */
-    public void bookCommand () {
+    public void bookCommand() {
         assert listOfBooks != null : "list of books should not be empty";
         String keyword;
 
@@ -112,8 +113,9 @@ public class FindCommand extends Command {
 
     /**
      * ensures the book to be found is not an empty description
+     *
      * @return book to be found
-     * */
+     */
 
     private String getKeyword() {
         String keyword;
@@ -133,6 +135,7 @@ public class FindCommand extends Command {
      * iterates through the list of books to find the matching description
      * returns the book with the matching description
      * if not found, returns no matching book
+     *
      * @param keyword the book to be found
      * @throws EmptyListException if the list of books is empty
      */
@@ -168,7 +171,8 @@ public class FindCommand extends Command {
     /**
      * adds multiple books which contains the matching name to the list
      * prints the entire list of books
-     * @param keyword the book name
+     *
+     * @param keyword   the book name
      * @param bookFound the list of books with the book name
      */
 

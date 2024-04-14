@@ -151,7 +151,8 @@ public class BookStorage {
         return book;
     }
 
-    private static Book setBookDetails(String title, int bookNumberTotal, int bookNumberBorrowed, int bookNumberInInventory) {
+    private static Book setBookDetails(String title, int bookNumberTotal, int bookNumberBorrowed,
+                                       int bookNumberInInventory) {
         Book book = new Book(title);
         book.setNumberTotal(bookNumberTotal);
         book.setNumberBorrowed(bookNumberBorrowed);

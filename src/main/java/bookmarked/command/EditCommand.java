@@ -120,13 +120,13 @@ public class EditCommand extends Command {
         return Integer.parseInt(bookToEditArgument);
     }
 
-/**
- * Retrieves the Book object to be edited either by index or by title.
- *
- * @param bookToEditArgument The input string indicating the book identifier.
- * @param isInputIndex       A boolean indicating if the identifier is an index.
- * @return The Book object to be edited.
- */
+    /**
+     * Retrieves the Book object to be edited either by index or by title.
+     *
+     * @param bookToEditArgument The input string indicating the book identifier.
+     * @param isInputIndex       A boolean indicating if the identifier is an index.
+     * @return The Book object to be edited.
+     */
     public Book getBookToEdit(String bookToEditArgument, boolean isInputIndex) {
         Book bookToEdit = null;
 
@@ -139,12 +139,12 @@ public class EditCommand extends Command {
         return bookToEdit;
     }
 
-/**
- * Finds a book in the list by its title.
- *
- * @param bookToEditArgument The title of the book as provided by the user.
- * @return The found Book object, or null if no book matches the title.
- */
+    /**
+     * Finds a book in the list by its title.
+     *
+     * @param bookToEditArgument The title of the book as provided by the user.
+     * @return The found Book object, or null if no book matches the title.
+     */
     private Book getBookByTitleInput(String bookToEditArgument, Book bookToEdit) {
         Book inputBook = new Book(bookToEditArgument);
         for (int i = 0; i < listOfBooks.size(); i += 1) {
@@ -159,7 +159,7 @@ public class EditCommand extends Command {
     /**
      * Handles the editing of a book's title based on user input.
      *
-     * @param bookToEdit        The book whose title is to be edited.
+     * @param bookToEdit The book whose title is to be edited.
      * @throws WrongInputFormatException If the format of the edit command is incorrect.
      * @throws EmptyArgumentsException   If the new title is empty or missing.
      */
@@ -196,7 +196,8 @@ public class EditCommand extends Command {
         }
     }
 
-    private void isValidBookName(Book bookToEdit, String newBookName) throws EmptyArgumentsException, SameBookNameException, ExistedBookNameException {
+    private void isValidBookName(Book bookToEdit, String newBookName)
+            throws EmptyArgumentsException, SameBookNameException, ExistedBookNameException {
         if (newBookName.isBlank()) {
             throw new EmptyArgumentsException();
         }
