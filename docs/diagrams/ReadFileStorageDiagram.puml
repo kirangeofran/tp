@@ -5,7 +5,6 @@ hide footbox
 participant ":BookStorage" as BookStorage STORAGE_COLOR
 participant "fileReader:BufferedReader" as BufferedReader BUFFERED_READER_COLOR
 participant ":FileReader" as FileReader FILE_READER_COLOR
-participant ":StorageValidation" as StorageValidation STORAGE_VALIDATION_COLOR
 
 [-> BookStorage : readFileStorage(bookDataFile:File)
 activate BookStorage
@@ -18,17 +17,18 @@ create FileReader
 BufferedReader -> FileReader : new FileReader(bookDataFile:File)
 activate FileReader
 
-FileReader --> BufferedReader
+FileReader --> BufferedReader : return :FileReader
 deactivate FileReader
 destroy FileReader
 
-BufferedReader --> BookStorage
+BufferedReader --> BookStorage : return fileReader:BufferedReader
 
 BookStorage -> BufferedReader : fileReader.readLine()
 
 BufferedReader --> BookStorage : return currentTextLine:String
 
 loop#physical #technology line != null
+
 BookStorage -> BookStorage : add(book)
 Activate BookStorage
 
@@ -37,9 +37,14 @@ deactivate BookStorage
 
 BookStorage -> BufferedReader : fileReader.readLine()
 
-BufferedReader --> BookStorage : return currentTextLine:String
+BufferedReader --> BookStorage : return line:String
+deactivate BufferedReader
+destroy BufferedReader
+
 end
 
 [<-- BookStorage
 deactivate BookStorage
+destroy BookStorage
+
 @enduml

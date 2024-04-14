@@ -1,0 +1,20 @@
+@startuml
+!include style.puml
+hide footbox
+
+participant ":StorageValidation" as StorageValidation STORAGE_VALIDATION_COLOR
+
+[-> StorageValidation : validateUsersAndBookslists(listOfUsers, listOfBooks)
+activate StorageValidation
+
+StorageValidation -> StorageValidation : syncBookQuantity(numberOfBooksorrowedByIndex, numberOfBookBorrowedInBook, currentBookBorrowedInBook, currentBook, oldNumberInInventory)
+activate StorageValidation
+StorageValidation --> StorageValidation
+deactivate StorageValidation
+
+[<-- StorageValidation
+deactivate StorageValidation
+
+destroy StorageValidation
+
+@enduml
