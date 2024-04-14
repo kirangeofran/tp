@@ -3,8 +3,8 @@
 hide footbox
 
 participant ":BookStorage" as BookStorage STORAGE_COLOR
-participant "fileReader:BufferedWriter" as BufferedWriter BUFFERED_WRITER_COLOR
-participant ":FileReader" as FileWriter FILE_WRITER_COLOR
+participant "fileWriter:BufferedWriter" as BufferedWriter BUFFERED_WRITER_COLOR
+participant ":FileWriter" as FileWriter FILE_WRITER_COLOR
 
 [-> BookStorage : writeBookToTxt(bookDataFile:File, listOfBooks:ArrayList<Book>)
 activate BookStorage
@@ -19,17 +19,30 @@ activate FileWriter
 
 FileWriter --> BufferedWriter
 deactivate FileWriter
+destroy FileWriter
 
 BufferedWriter --> BookStorage
+deactivate BufferedWriter
 
 loop#physical #technology i < bookCount
-BookStorage -> BookStorage : writeFormattedString(i, fileWriter, listOfBooks)
+
+BookStorage -> BookStorage : serializeBook(book:Book)
 activate BookStorage
 
-BookStorage --> BookStorage
+BookStorage --> BookStorage : :String
 deactivate BookStorage
+
+BookStorage -> BufferedWriter : write(:String)
+activate BufferedWriter
+
+BookStorage <-- BufferedWriter : return
+deactivate BufferedWriter
+destroy BufferedWriter
+
 
 end
 [<-- BookStorage
+deactivate BookStorage
+destroy BookStorage
 
 @enduml

@@ -20,26 +20,39 @@ Given below is quick overview of main components and how they interact with each
 - `Parser`: Handles user input and execute the necessary command
 - `Command`: Handles functionality of the app
 - `Book`: Books in the library
+- `User`: Users who currently borrow books in the library
 
 ### Ui Component
 
 ### Storage Component
 ##### Overview
 BookMarked application is using txt file as its main storage for all the data.
-All data related to books are stored in `book.txt`.
+All data related to books in the library are stored in `book.txt`, while data 
+related to user and book borrowing are stored in `user.txt`.
 
 ##### Implementation Details
-At the start of running the application, `readFileStorage` is called to get the data saved 
-from the previous runs of the application.
+At the start of running the application, `readFileStorage` in `bookStorage` are called to get the 
+data saved from the previous runs of the application.
 
 ![ReadFileStorageDiagram.png](images%2FReadFileStorageDiagram.png)
+
+After reading from bookStorage has completed, the application will then run readFileStorage
+for userStorage to get the data saved related to user from the previous runs of the application.
+
+![ReadFileStorageUserDiagram.png](images%2FReadFileStorageUserDiagram.png)
+
+Once both data from `book.txt` and `user.txt` has been fetch into the application, validation is done
+to ensure both the data fetch, such as the total books borrowed by user and in library inventory are 
+in sync.
+
+![ValidateUserBooksListsDiagram.png](images%2FValidateUserBooksListsDiagram.png)
 
 Whenever any there's any changes in the data for books during the running of the application, 
 `writeBookToTxt` is called. Data stored in will be converted to formatted string and written 
 to the txt file, `book.txt`.
 
 ![WriteBookToTxtDiagram.png](images%2FWriteBookToTxtDiagram.png)
-
+![WriteUserToTxtDiagram.png](images%2FWriteUserToTxtDiagram.png)
 
 ### Parser Component
 
@@ -347,6 +360,8 @@ Our target user is librarians.
 Bookmarked is an application for librarians to easily keep up to date with available books, their status and
 intended return date. Other than books, librarians can also check on borrowers' return status, whether they 
 have overdue books and could potentially send reminders to them if they have due dates soon
+
+## User Component
 
 ## User Stories
 

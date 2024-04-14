@@ -1,0 +1,66 @@
+@startuml
+!include style.puml
+hide footbox
+
+participant ":UserStorage" as BookStorage USER_STORAGE_COLOR
+participant "fileReader:BufferedReader" as BufferedReader BUFFERED_READER_COLOR
+participant ":FileReader" as FileReader FILE_READER_COLOR
+participant ":StorageValidation" as StorageValidation STORAGE_VALIDATION_COLOR
+
+[-> BookStorage : readFileStorage(userDataFile:File)
+activate BookStorage
+
+create BufferedReader
+BookStorage -> BufferedReader : new BufferedReader(:FileReader)
+activate BufferedReader
+
+create FileReader
+BufferedReader -> FileReader : new FileReader(userDataFile:File)
+activate FileReader
+
+FileReader --> BufferedReader : return :FileReader
+deactivate FileReader
+destroy FileReader
+
+BufferedReader --> BookStorage : return fileReader:BufferedReader
+
+BookStorage -> BufferedReader : fileReader.readLine()
+
+BufferedReader --> BookStorage : return currentTextLine:String
+
+loop#physical #technology line != null
+BookStorage -> StorageValidation : isValidline(listOfUsers, currentUser, userAttributes)
+activate StorageValidation
+BookStorage <-- StorageValidation : return :boolean
+deactivate StorageValidation
+
+BookStorage -> StorageValidation : checkValidBookIndex(listOfBooks, bookIndex)
+activate StorageValidation
+BookStorage <-- StorageValidation : return
+deactivate StorageValidation
+
+BookStorage -> StorageValidation : checkValidBookInBookStorage(listOfBooks, bookIndex, bookTitle)
+activate StorageValidation
+BookStorage <-- StorageValidation : return
+deactivate StorageValidation
+destroy StorageValidation
+
+BookStorage -> BookStorage : setBookBorrowDetails(listOfBooks, userAttributes, i, bookIndex, currentUser)
+activate BookStorage
+BookStorage --> BookStorage : return
+deactivate
+
+
+BookStorage -> BufferedReader : fileReader.readLine()
+
+BufferedReader --> BookStorage : return line:String
+deactivate BufferedReader
+destroy BufferedReader
+
+end
+
+[<-- BookStorage
+deactivate BookStorage
+destroy BookStorage
+
+@enduml

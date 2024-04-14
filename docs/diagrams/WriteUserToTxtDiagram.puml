@@ -1,0 +1,48 @@
+@startuml
+!include style.puml
+hide footbox
+
+participant ":UserStorage" as UserStorage USER_STORAGE_COLOR
+participant "fileWriter:BufferedWriter" as BufferedWriter BUFFERED_WRITER_COLOR
+participant ":FileWriter" as FileWriter FILE_WRITER_COLOR
+
+[-> UserStorage : writeUserToTxt(userDataFile:File, listOfUsers:ArrayList<User>)
+activate UserStorage
+
+create BufferedWriter
+UserStorage -> BufferedWriter : new BufferedWriter(:FileWriter)
+activate BufferedWriter
+
+create FileWriter
+BufferedWriter -> FileWriter : new FileWriter(userDataFile:File, false:Boolean)
+activate FileWriter
+
+FileWriter --> BufferedWriter
+deactivate FileWriter
+destroy FileWriter
+
+BufferedWriter --> UserStorage
+deactivate BufferedWriter
+
+loop#physical #technology i < userCount
+
+UserStorage -> UserStorage : serializeUser(user:User)
+activate UserStorage
+
+UserStorage --> UserStorage : :String
+deactivate UserStorage
+
+UserStorage -> BufferedWriter : write(:String)
+activate BufferedWriter
+
+UserStorage <-- BufferedWriter : return
+deactivate BufferedWriter
+destroy BufferedWriter
+
+
+end
+[<-- UserStorage
+deactivate UserStorage
+destroy UserStorage
+
+@enduml
