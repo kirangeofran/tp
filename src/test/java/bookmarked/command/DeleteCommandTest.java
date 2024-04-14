@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DeleteCommandTest {
-    private static final String TEST_FILE_PATH = "./test.txt";
+    private static final String TEST_FILE_PATH = "./testBooks.txt";
     private String userInput;
     private String[] splitInput;
     private ArrayList<Book> listOfBooks;
