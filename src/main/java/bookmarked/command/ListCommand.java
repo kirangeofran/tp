@@ -10,14 +10,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class ListCommand extends Command {
+    private final String inputCommand;
+    private final int numberOfBooks;
     private ArrayList<Book> listOfBooks;
     private ArrayList<User> listOfUsers;
-    private String inputCommand;
     private ArrayList<Book> sortedListOfBooks;
     private String[] splitCommand;
-    private int numberOfBooks;
+
     public enum Status {
-        DEFAULT, ALPHABETICAL, RETURNDATE, UNBORROWED
+        DEFAULT, ALPHABETICAL, UNBORROWED
     }
 
     /**
@@ -45,7 +46,7 @@ public class ListCommand extends Command {
      */
     @Override
     public void handleCommand() {
-        this.splitCommand = inputCommand.split("/sortby");
+        this.splitCommand = inputCommand.split(" /sortby ");
         try {
             parseCommand();
         } catch (EmptyListException e) {
@@ -72,9 +73,6 @@ public class ListCommand extends Command {
         switch (splitCommand[1].trim()) {
         case ("alphabetical"):
             runListAlphabeticalCommand();
-            break;
-        case ("returndate"):
-            runListDateCommand();
             break;
         case ("default"):
             runListBlankCommand();
@@ -127,40 +125,6 @@ public class ListCommand extends Command {
         }
     }
 
-    /**
-     * Copies the current listOfBooks to sortedListOfBooks,
-     * sorts sortedListOfBooks by comparing the return dates.
-     * If there are no borrowed books, a message is printed out.
-     *
-     * @throws EmptyListException If the current list of books are empty.
-     */
-    public void runListDateCommand() throws EmptyListException {
-        if (this.listOfBooks.isEmpty()) {
-            throw new EmptyListException();
-        }
-
-        System.out.println(printMessage(Status.RETURNDATE));
-        this.sortedListOfBooks = new ArrayList<>(this.listOfBooks);
-
-        //compares two books by their names, and sorts based by return date
-        this.sortedListOfBooks.sort(Comparator.comparing(Book::getReturnDate));
-
-        int j = 0;
-        for (int i = 0; (i < numberOfBooks); i++) {
-            //Checks if the book's return date is the default return date, meaning it's currently unborrowed, and skips
-            //over the book for the sorted list
-            if (!this.sortedListOfBooks.get(i).getReturnDate().equals(LocalDate.of(1900, 1, 1))) {
-                System.out.println((j + 1) + ". " + this.sortedListOfBooks.get(i).toString());
-                j++;
-            }
-        }
-
-        if (j == 0) {
-            System.out.println(printMessage(Status.UNBORROWED));
-        }
-    }
-
-
 
     /**
      * Uses enumerations to handle message output
@@ -173,9 +137,6 @@ public class ListCommand extends Command {
         case ALPHABETICAL:
             return "Here are the list of all current books that are currently in\n" +
                     "the library's inventory listed by alphabetical order!\n";
-        case RETURNDATE:
-            return "Here are the list of all current books that are currently\n" +
-                    "being borrowed by users by date of return!\n";
         case UNBORROWED:
             return "There are no currently borrowed books!";
         default:
