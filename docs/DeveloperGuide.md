@@ -440,8 +440,9 @@ During the start of the application, details about the user name, book index, bo
 date is fetched from `user.txt` through Storage Component. If data in `user.txt` is not complete or has invalid details,
 operations are handled accordingly in Storage Component.
 
-`User` may consist of 0 to as many `UserBook` and thus book index in the ArrayList. However, if user has no
-borrowed books, it will be removed from the list of users the application track.
+The ArrayList `listOfUserBooks` inside `User` may consist of 0 to as many `UserBook` as needed.
+However, if user has no borrowed books, it will be removed from the list of users the application track.
+
 ![UserComponentClassDiagram.png](images%2FUserComponentClassDiagram.png)
 
 ### UserBook Component
