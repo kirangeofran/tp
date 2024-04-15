@@ -111,7 +111,7 @@ How? Upon execution, the AddCommand class will:
 
 - The handleCommand function splits the user command into the add and description of book
   processAddCommand then takes in the description of the book
-- Checks for validity of Book Namee
+- Checks for validity of Book Name
 - Check for empty arguments where the name of book is not keyed in
 - Check whether there is a quantity keyed in
 - Checks for empty quantity argument where quantity is called in the command but not provided
@@ -305,7 +305,10 @@ If find /by book is called, upon execution will:
 if find /by user is called, will:
 - Split command accordingly to extract username.
 - Check if username is empty, and process exception if empty user name
-- Passes command into FindUserCommand class to extract user name and iterate the list of users for users containing
+- Passes command into FindUserCommand class to extract user name 
+- Iterates through the list of users to find users with matching user name
+- Stores all users and their books in a new User array
+- Iterate the new array to print users and their books
 username
 
 ![FindCommandDiagram.png](images%2FFindCommandDiagram.png)
@@ -356,8 +359,27 @@ Upon execution, the ExtendCommand:
 ![ExtendCommandDiagram.png](images%2FExtendCommandDiagram.png)
 
 #### Exit Command
+##### Overview
+The "Exit command" is a feature that exits the program. It is run through the command 'bye'.
+This allows users to safely close the program
+
+##### Component-Level
+"Exit command" interfaces with another component:
+1. UI component: To relay messages after successfully exiting the programme back to the user.
+2. Command component: Represents the list of different commands to be called by the user.
+
+##### Class-Level
+The Exit command interfaces with various classes:
+1. Exit command class: Call UI class to print the standard message when exiting
+
+##### Implementation
+How? Upon the user calling `bye`, "Exit command" is called
+
+- Exit command activated by identifying the command
+- UI class is called to print out "bye message" when user exits the programme
 
 
+![ExitClassDiagram.png](images%2FExitClassDiagram.png)
 ### Book Component
 
 ## Product scope

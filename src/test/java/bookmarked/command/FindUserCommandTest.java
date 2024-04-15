@@ -31,6 +31,6 @@ public class FindUserCommandTest {
         userList.add(a);
         FindUserCommand findUserCommand = new FindUserCommand(userList, "Tim");
         findUserCommand.printUsers();
-        assertEquals("user not found", outputWord.toString().trim());
+        assertEquals("user not found: Tim", outputWord.toString().trim());
     }
 }

@@ -5,7 +5,7 @@ participant ":AddCommand" as AddCommand ADD_COLOR
 participant "bookName:Book" as Book BOOK_COLOR
 participant ":UI" as UI UI_COLOR
 participant ":BookStorage" as BookStorage STORAGE_COLOR
-
+hide footbox
 [->AddCommand : handleCommand()
 activate AddCommand
 AddCommand -> UI: printEmptyArgumentsMessage()
