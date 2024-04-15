@@ -492,7 +492,11 @@ outcomes of their inputs, ensuring a smooth and transparent user experience.
 
 ## Non-Functional Requirements
 
-{Give non-functional requirements}
+1. Should work on any mainstream OS as long as `Java 11` is installed.
+2. Application should be able to be run in any terminal.
+3. The application should be able to hold up to 1000 books in the library.
+4. Application should work reliably on normal operation.
+5. Application should be easy to use with the given summary command in `help`. 
 
 ## Glossary
 
