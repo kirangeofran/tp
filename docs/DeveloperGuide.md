@@ -378,13 +378,39 @@ Upon execution, the ExtendCommand:
 ## Product scope
 ### Target user profile
 
-Our target user is librarians. 
+Our target user is librarians at educational institutions. 
+
+1. Profile 
+- Work at school, college or university libraries. 
+- Manage a medium to large inventory of books.
+- Interact with a diverse group of borrowers including students, teachers and researchers. 
+- Often assist borrowers with book searches, borrowing, and returns. 
+- Handle adding and removing books from inventory. 
+
+2. Needs
+- Efficiently update and maintain a current and accurate inventory of the library's books.
+- Easily manage the borrowing process, including loan periods and due dates. 
+- Swiftly accommodate extension requests for borrowed books. 
+- Efficiently remove outdated or damaged books from the system. 
+- Edit book details for corrections or updates.
+- Record and process book returns effectively.
+
+3. Behaviours
+- Prefer quick, keyboard-driven actions over mouse-based navigation
+- Require clear, immediate feedback from the system for all actions taken.
+- Value time-saving features that simplify repetitive tasks.
 
 ### Value proposition
 
-Bookmarked is an application for librarians to easily keep up to date with available books, their status and
-intended return date. Other than books, librarians can also check on borrowers' return status, whether they 
-have overdue books and could potentially send reminders to them if they have due dates soon
+Bookmarked is an application for librarians that streamlines library management.  
+Bookmarked offers a command-line interface that allows librarians to efficiently add,borrow,extend,delete,edit 
+and return books using quick keyboard commands. This streamlines their workflow and increases efficiency, 
+especially during peak hours. 
+The application's robust storage system ensures that all changes are immediately reflected
+in the library's inventory and user records. This real-time update prevents discrepancies
+and maintains the integrity of the library's data. 
+With immediate feedback for each action and clear error messages, librarians can be confident in the 
+outcomes of their inputs, ensuring a smooth and transparent user experience. 
 
 ## User Component
 
