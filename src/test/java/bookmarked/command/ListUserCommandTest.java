@@ -16,7 +16,7 @@ public class ListUserCommandTest {
         ArrayList<User> listOfUsers = new ArrayList<>();
         ListUserCommand listUser = new ListUserCommand(listOfUsers);
         listUser.handleCommand();
-        assertThrows(EmptyUserListException.class, listUser::printUsersAndBooks);
+        assertThrows(EmptyUserListException.class, listUser::checkUsersAndBooks);
     }
 
     @Test
