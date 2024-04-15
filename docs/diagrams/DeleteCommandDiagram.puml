@@ -86,6 +86,3 @@ deactivate delCmd
 destroy delCmd
 
 @enduml
-
-
-

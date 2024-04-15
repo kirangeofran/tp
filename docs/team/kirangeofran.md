@@ -37,8 +37,7 @@ New feature:
 - Added User Profile for DG.
 - Added Value proposition for DG.
 - Added user stories for v1.0 and v2.1 for DG. 
-- Edited functional code to make sure the checkstyle tests passed.  
-
+- Edited functional code to make sure the checkstyle tests passed.
 
 ### Review/mentoring contributions
 [Link to PRs reviewed by me](https://github.com/AY2324S2-CS2113-W13-4/tp/pulls?q=is%3Apr+reviewed-by%3Akirangeofran)
