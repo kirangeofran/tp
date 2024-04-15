@@ -2,7 +2,9 @@
 
 ## Acknowledgements
 
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+- [JUnit 5](https://junit.org/junit5/)vfor testing.
+
+- [Gradle](https://gradle.org/) for build automation.
 
 ## Design & implementation
 ## Design
@@ -115,10 +117,13 @@ The 'add' command interfaces with:
 
 ##### Class -Level
 The 'add' command interfaces with several classes:
-1. Book Class: Represents a book with attributes like name, isAvailable, borrowDate, and returnDate, along with methods to manipulate these properties.
-2. AddCommand class: Handles the command entered, whether or not the command states quantity of each book, the list of books in the library,
+1. Book Class: Represents a book with attributes like name, isAvailable, borrowDate, and returnDate, along with methods 
+to manipulate these properties.
+2. AddCommand class: Handles the command entered, whether or not the command states quantity of each book, the list of 
+books in the library,
 and handles the updating of list of books in storage 
-3. BookStorage class: Manages the status in the storage file, of list of books when new books are added and status of each book, such as whether it is borrowed, returned, borrow date, return date
+3. BookStorage class: Manages the status in the storage file, of list of books when new books are added and status of 
+each book, such as whether it is borrowed, returned, borrow date, return date
 
 ##### Implementation Details
 How? Upon execution, the AddCommand class will:
@@ -197,9 +202,11 @@ The "borrow command" component interfaces with several others:
 At the class level for the "borrow command" in the BookMarked application, several classes are involved in 
 the process of borrowing a book from the library's inventory. Here's what each class does:
 
-1. Book Class: Represents a book with attributes like name, isAvailable, borrowDate, and returnDate, along with methods to manipulate these properties.
+1. Book Class: Represents a book with attributes like name, isAvailable, borrowDate, and returnDate, along with 
+methods to manipulate these properties.
 2. User Class: Represents a library user with methods to manage borrowed books and their respective due dates.
-3. BorrowCommand Class: Manages the command input, validates user input, identifies the book to be borrowed, and handles the updating of book and user states.
+3. BorrowCommand Class: Manages the command input, validates user input, identifies the book to be borrowed, and handles 
+the updating of book and user states.
 4. BookStorage Class: Manages the persistence of book data, updating book statuses in the storage file.
 5. UserStorage Class: Manages the persistence of user data, updating user borrowing details in the storage file.
 
@@ -289,8 +296,8 @@ user list is also caught when there are no users
 'borrowDate' and 'returnDate' along with the methods to manipulate these properties.
 2. User Class : Handles and stores the status of users who borrowed books and the status of
 each user, such as their borrowed books, return due date, overdue status 
-3. ListCommand Class : Handles the command by user and handles the different commands of the list input, such as regular list,
-list by alphabetical order and list by user
+3. ListCommand Class : Handles the command by user and handles the different commands of the list input, such as regular 
+list, list by alphabetical order and list by user
 4. ListUserCommand Class : It handles the command list by user storing user information
 
 ##### Implementation Details
@@ -299,7 +306,8 @@ How? The "ListCommand" upon execution will:
 - Parses the argument to figure which it is
 - If the argument is empty, an exception EmptyArgumentsException is thrown
 - In the case that the argument is `alphabetical` or `default`, the function creates a new ArrayList<Book> to copy
-the original ArrayList and sort the new ArrayList according to the necessary argument. The toString() function of each book in the newly sorted ArrayList is then called.
+the original ArrayList and sort the new ArrayList according to the necessary argument. The toString() function of each 
+book in the newly sorted ArrayList is then called.
 - If there are no books in the original ArrayList, an exception is thrown and the user is informed of it.
 - In the case that the argument is `user`, the class ListUserCommand is called. 
 - If user list is empty, an exception EmptyUserListException is thrown
@@ -362,7 +370,6 @@ edit will modify `book.txt` and `user.txt` by Storage, and confirmation message 
 
 ![EditCommandDiagram.png](images%2FEditCommandDiagram.png)
 
-
 #### Extend Command 
 ##### Overview
 The ExtendCommand enables users to extend the borrowing period of books they currently have borrowed. 
@@ -402,7 +409,8 @@ Upon execution, the ExtendCommand:
 - Handles any exceptions such as BookNotFoundException, UserNotFoundException, and others 
   by displaying appropriate messages through the UI.
 - This ExtendCommand ensures that users can easily manage their borrowed materials 
-  and maintain compliance with the library's borrowing policies, all while providing a clear and responsive feedback loop through the UI component.
+  and maintain compliance with the library's borrowing policies, all while providing a clear and responsive feedback 
+loop through the UI component.
 
 ![ExtendCommandDiagram.png](images%2FExtendCommandDiagram.png)
 
@@ -428,13 +436,30 @@ How? Upon the user calling `bye`, "Exit command" is called
 
 ![ExitClassDiagram.png](images%2FExitClassDiagram.png)
 
-
+  
 ### Book Component
+**Overview**
+
+The Book Component manages a single book in the library. It holds information such as
+its title, availability, borrow date, return date, and copy count.
+
+**Implementation details**
+
+Each book contains the following attributes:
+- Description: The title of the book.
+- Borrowed status: Whether the book is currently being borrowed by a user.
+- Borrow date: The date the book was borrowed by a user. Set to null if not borrowed.
+- Return date: The date by which the book should be returned. Set to a default date if not borrowed.
+- Number in inventory: The number of copies of the book available in the library's inventory.
+- Number borrowed: The number of copies of the book currently borrowed by users.
+- Number total: The total number of the book that exists: a sum of the copies in the inventory and borrowed by users.
+
+![BookDiagram.png](images%2FBookDiagram.png)
 
 ### User Component
 ##### Overview
-User Component manages the user who at that time has at least 1 borrowed books. It has data on the name of the user, 
-the book user borrowed, borrow date, and return due date.
+User Component manages the user who at that time has at least 1 borrowed books. It has data on the name of the user and 
+the list of books user borrowed and its index.
 
 ##### Implementation Details
 Data in User Component is stored in `user.txt` in the form:
@@ -448,11 +473,18 @@ During the start of the application, details about the user name, book index, bo
 date is fetched from `user.txt` through Storage Component. If data in `user.txt` is not complete or has invalid details,
 operations are handled accordingly in Storage Component.
 
-`User` may consist of 0 to as many `UserBook` and thus book index in the ArrayList. However, if user has no
-borrowed books, it will be removed from the list of users the application track.
+The ArrayList `listOfUserBooks` inside `User` may consist of 0 to as many `UserBook` as needed.
+However, if user has no borrowed books, it will be removed from the list of users the application track.
+
 ![UserComponentClassDiagram.png](images%2FUserComponentClassDiagram.png)
 
 ### UserBook Component
+##### Overview
+The details of Books borrowed by user are managed by the `UserBook` Component. This includes the book index based on
+the output of the  `list /sortby default` command, book title, borrow date and the return due date.
+
+
+----
 
 ## Product scope
 ### Target user profile
@@ -482,10 +514,11 @@ Our target user is librarians at educational institutions.
 ### Value proposition
 
 Bookmarked is an application for librarians that streamlines library management.  
-Bookmarked offers a command-line interface that allows librarians to efficiently add,borrow,extend,delete,edit 
+Bookmarked offers a command-line interface (CLI) that allows librarians to efficiently add, borrow, extend, delete, edit 
 and return books using quick keyboard commands. This streamlines their workflow and increases efficiency, 
 especially during peak hours. 
-The application's robust storage system ensures that all changes are immediately reflected
+
+Its robust storage system ensures that all changes are immediately reflected
 in the library's inventory and user records. This real-time update prevents discrepancies
 and maintains the integrity of the library's data. 
 With immediate feedback for each action and clear error messages, librarians can be confident in the 
@@ -493,23 +526,23 @@ outcomes of their inputs, ensuring a smooth and transparent user experience.
 
 ## User Stories
 
-| Version | As a ...       | I want to ...                                                           | So that I can ...                                                                   |
-|---------|----------------|-------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| v1.0    | new librarian  | easily access usage instructions                                        | quickly learn how to use <br/>the application without confusion.                    |
-| v1.0    | librarian      | add new book titles to my inventory                                     | keep the inventory current and offer <br/>the latest books to users.                |
-| v2.1    | librarian      | add new users to my inventory                                           | can keep track of users who are<br/> borrowing books.                               |
+| Version | As a ...       | I want to ...                                                           | So that I can ...                                                                    |
+|---------|----------------|-------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| v1.0    | new librarian  | easily access usage instructions                                        | quickly learn how to use <br/>the application without confusion.                     |
+| v1.0    | librarian      | add new book titles to my inventory                                     | keep the inventory current and offer <br/>the latest books to users.                 |
+| v2.1    | librarian      | add new users to my inventory                                           | can keep track of users who are<br/> borrowing books.                                |
 | v2.1    | librarian      | record multiple copies of the same book title                           | accurately reflect book quantities and manage<br/> multiple loans of popular titles. |
-| v1.0    | librarian      | track books that have been borrowed                                     | monitor which books are currently on loan.                                          |
-| v2.1    | librarian      | track the borrow and return dates of books that <br/>have been borrowed | manage due dates efficiently.                                                       |
-| v2.1    | librarian      | track users that have borrowed books                                    | keep track of borrow and <br/>return dates to remind users when books are overdue.  |
-| v2.1    | librarian      | extend due dates of books                                               | offer flexibility to users who need more time<br/> with borrowed books.             |
-| v1.0    | librarian      | track books that have been returned                                     | keep track of available books currently<br/> in the inventory.                      |
-| v2.1    | librarian      | track books that have been returned past the due date                   | remind users of late fees.                                                          |
-| v2.1    | librarian      | edit books in my inventory                                              | make sure the book details in <br/>the inventory are up-to-date.                    |
-| v1.0    | librarian      | delete books from my inventory                                          | make sure the inventory does not<br/>reflect outdated or damaged books.             |
-| v1.0    | librarian      | view a complete list of the books in the inventory                      | have a comprehensive<br/>overview of the inventory.                                 |
-| v2.1    | busy librarian | view the list of books in my inventory in alphabetical order            | locate books more easily in the inventory, <br/>especially during peak hours.       |
-| v2.1    | librarian      | view the list of users who are currently borrowing books                | keep track of the inventory and users,<br/> including following up on book returns       |
+| v1.0    | librarian      | track books that have been borrowed                                     | monitor which books are currently on loan.                                           |
+| v2.1    | librarian      | track the borrow and return dates of books that <br/>have been borrowed | manage due dates efficiently.                                                        |
+| v2.1    | librarian      | track users that have borrowed books                                    | keep track of borrow and <br/>return dates to remind users when books are overdue.   |
+| v2.1    | librarian      | extend due dates of books                                               | offer flexibility to users who need more time<br/> with borrowed books.              |
+| v1.0    | librarian      | track books that have been returned                                     | keep track of available books currently<br/> in the inventory.                       |
+| v2.1    | librarian      | track books that have been returned past the due date                   | remind users of late fees.                                                           |
+| v2.1    | librarian      | edit books in my inventory                                              | make sure the book details in <br/>the inventory are up-to-date.                     |
+| v1.0    | librarian      | delete books from my inventory                                          | make sure the inventory does not<br/>reflect outdated or damaged books.              |
+| v1.0    | librarian      | view a complete list of the books in the inventory                      | have a comprehensive<br/>overview of the inventory.                                  |
+| v2.1    | busy librarian | view the list of books in my inventory in alphabetical order            | locate books more easily in the inventory, <br/>especially during peak hours.        |
+| v2.1    | librarian      | view the list of users who are currently borrowing books                | keep track of the inventory and users,<br/> including following up on book returns   |
 
 ## Non-Functional Requirements
 
@@ -521,8 +554,15 @@ outcomes of their inputs, ensuring a smooth and transparent user experience.
 
 ## Glossary
 
-* *glossary item* - Definition
+* *user* - The people who borrow the books
 
 ## Instructions for manual testing
+This section provides the instructions on how to test the product manually.
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+### Launching the Application
+To launch the application to start testing it:
+1. Download the jar file and copy to an empty folder at your desired location.
+2. Open the command terminal and `cd` to the folder location where you placed the jar file.
+3. Run the command `java -jar BookMarked.jar` and a welcome message will appear on your command terminal.
+4. Run the help command by inputting `help` into the terminal to view all the available commands and the
+   format to run each commands.

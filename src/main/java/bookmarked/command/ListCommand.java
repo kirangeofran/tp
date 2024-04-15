@@ -1,10 +1,12 @@
 package bookmarked.command;
+
 import bookmarked.user.User;
 import bookmarked.Book;
 
 import bookmarked.exceptions.EmptyArgumentsException;
 import bookmarked.exceptions.EmptyListException;
 import bookmarked.ui.Ui;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -24,12 +26,11 @@ public class ListCommand extends Command {
      * List command lists the entire list of users and their borrowed books or books
      * list books based on return date, alphabetical or the order books were added
      * depending on command
+     *
      * @param listOfBooks List of books that were added
-     * @param newItem The command by user
+     * @param newItem     The command by user
      * @param listOfUsers List of users who have borrowed books from the library
      */
-
-
     public ListCommand(ArrayList<Book> listOfBooks, String newItem, ArrayList<User> listOfUsers) {
         this.listOfBooks = listOfBooks;
         this.inputCommand = newItem;
@@ -60,10 +61,9 @@ public class ListCommand extends Command {
      * Calls on the respective methods as needed.
      * Runs class ListUserCommand if command to sort by user
      *
-     * @throws EmptyListException If the methods throw an EmptyListException
+     * @throws EmptyListException      If the methods throw an EmptyListException
      * @throws EmptyArgumentsException If there are no arguments after "/sortby".
      */
-
     public void parseCommand() throws EmptyListException, EmptyArgumentsException {
         if (this.splitCommand.length <= 1) {
             throw new EmptyArgumentsException();
@@ -97,14 +97,14 @@ public class ListCommand extends Command {
 
         System.out.println(printMessage(Status.DEFAULT));
         for (int i = 0; i < numberOfBooks; i++) {
-            System.out.println((i + 1) + ". " + this.listOfBooks.get(i).toString() );
+            System.out.println((i + 1) + ". " + this.listOfBooks.get(i).toString());
         }
     }
 
 
     /**
-     *  Copies the current listOfBooks to sortedListOfBooks,
-     *  sorts sortedListOfBooks by comparing the titles alphabetically.
+     * Copies the current listOfBooks to sortedListOfBooks,
+     * sorts sortedListOfBooks by comparing the titles alphabetically.
      *
      * @throws EmptyListException If the current list of books are empty.
      */

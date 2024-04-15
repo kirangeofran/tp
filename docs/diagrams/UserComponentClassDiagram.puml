@@ -5,33 +5,33 @@ hide circle
 skinparam classAttributeIconSize 0
 
 Class User {
-    - userName:  String
+    - {static} EXTENSION_DAYS: int
+    - userName: String
     - listOfBooks: ArrayList<Book>
-    - listOfUserBooks: ArrayList<User>
+    - listOfUserBooks: ArrayList<UserBook>
     - userBooksIndex: ArrayList<Integer>
-    + getName()
-    + getUserBooks()
-    + getUserBooksIndex()
-    + getListOfUserBooks()
+    + getName(): String
+    + getUserBooks(): ArrayList<Book>
+    + getUserBooksIndex(): ArrayList<Integer>
+    + getListOfUserBooks(): ArrayList<UserBook>
     + borrowBook(bookIndex, borrowDate, returnDueDate)
-    + unborrowBook(bookIndex)
-    + editBook(oldTitle, newTitle, currentUserBooksList)
-    + extendDueDate(bookIndex)
-   + setListOfBooks(listOfBooks)
+    + unborrowBook(bookIndex): void
+    + editBook(oldTitle, newTitle, currentUserBooksList): void
+    + extendDueDate(bookIndex): void
+    + setListOfBooks(listOfBooks): void
 }
 
 Class UserBook {
     - userBookIndex: int
-    - userBooktitle: String
+    - userBookTitle: String
     - borrowDate: LocalDate
     - returnDueDate: LocalDate
-    + setUserBookTitle(userBookTitle)
-    + setReturnDueDate(returnDate)
-    + setBorrowDate(borrowDate)
-    + getBorrowDate()
-    + getReturnDueDate()
-    + getUserBookIndex()
-    + getUserBookTitle()
+    + setUserBookTitle(userBookTitle): void
+    + setReturnDueDate(returnDate): void
+    + getBorrowDate(): LocalDate
+    + getReturnDueDate(): LocalDate
+    + getUserBookIndex(): int
+    + getUserBookTitle(): String
 }
 
 User --> "*" UserBook

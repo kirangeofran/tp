@@ -23,10 +23,6 @@ public class UserBook {
         this.returnDueDate = returnDate;
     }
 
-    public void setBorrowDate(LocalDate borrowDate) {
-        this.borrowDate = borrowDate;
-    }
-
     public LocalDate getBorrowDate() {
         return this.borrowDate;
     }
@@ -35,7 +31,7 @@ public class UserBook {
         return this.returnDueDate;
     }
 
-    public Integer getUserBookIndex() {
+    public int getUserBookIndex() {
         return this.userBookIndex;
     }
 
