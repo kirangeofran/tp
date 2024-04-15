@@ -282,7 +282,8 @@ Note:
 
 * The due dates of books can only be extended, if they are already borrowed.
 * The system will output a message confirming the successful extension of the borrowing period, 
-  along with the new due date. 
+  along with the new due date.
+
 
 Examples of usage:
 
@@ -330,6 +331,9 @@ Format: `find /by book KEYWORD`
 
 * 'KEYWORD' is the word or phrase you want to search for in the titles of the books in the library.
 * The command lists all books that contain the keyword in their title.
+* The command is case sensitive, so `book` and `KEYWORD` must be keyed exactly
+* Only books with the keyword in their title will be reflected. If there are no books containing the keyword currently
+output returns no book with matching keyword
 
 Example of usage:
 
@@ -339,7 +343,12 @@ To search for users:
 Format: `find /by user USERNAME`
 
 * 'USERNAME' is the name of the user you want to find.
-* The command lists all users that contain the username in their name.
+* The command lists all users that contain the username in their name along with their borrowed
+books, borrowed on date, return date and return status whether it is overdue
+* If there is more than one user containing the username, the first user is printed out
+with her corresponding books, followed by the next user
+* If there is no user containing the username, the output prints user not found
+* The command is case sensitive, so `user` and `USERNAME` must be keyed exactly
 
 Example of usage:
 * `find /by user Tom`
