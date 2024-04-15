@@ -144,6 +144,7 @@ How? Upon execution, the AddCommand class will:
 
 ![AddCommand.png](images%2FAddCommand.png)
 
+
 #### Delete Command
 ##### Overview
 The "delete command" oversees the removal of books from the library's inventory. 
