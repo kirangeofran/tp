@@ -8,6 +8,7 @@
 !define LIST_COLOR #pink
 !define USER_CLASS_COLOR #lightsalmon
 !define ADD_COLOR #blue
+!define USER_BOOK_COLOR #greenyellow
 
 !define USER_COLOR #pink
 !define FILE_COLOR #limegreen
@@ -22,3 +23,4 @@
 !define FIND_COLOR #mediumturquoise
 !define FIND_LIST_COLOR #lightskyblue
 !define BORROW_COLOR #moccasin
+!define EDIT_COLOR #steelblue

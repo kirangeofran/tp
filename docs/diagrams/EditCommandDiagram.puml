@@ -1,0 +1,15 @@
+@startuml
+!include style.puml
+hide footbox
+
+participant ":Parser" as Parser PARSER_COLOR
+participant ":EditCommand" as EditCommand EDIT_COLOR
+
+[-> Parser
+activate Parser
+
+create EditCommand
+Parser -> EditCommand
+activate EditCommand
+
+@enduml
