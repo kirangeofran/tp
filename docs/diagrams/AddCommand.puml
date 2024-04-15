@@ -11,6 +11,8 @@ activate AddCommand
 AddCommand -> UI: printEmptyArgumentsMessage()
 activate UI
 UI --> AddCommand
+deactivate UI
+destroy UI
 AddCommand -> AddCommand : processAddCommand()
 activate AddCommand ADDCOMMAND_COLOR
 AddCommand --> AddCommand
@@ -19,11 +21,18 @@ deactivate AddCommand
 AddCommand -> Book:new Book (newSplitBook:String[])
 activate Book
 Book --> AddCommand
+deactivate Book
+destroy Book
 AddCommand -> BookStorage: writeBookToTxt(bookDataFile: File, listOfBooks: ArrayList<Book>)
+
 activate BookStorage
 BookStorage --> AddCommand
 [<-- AddCommand
-autonumber
+deactivate AddCommand
+destroy AddCommand
+
+deactivate BookStorage
+destroy BookStorage
 
 
 

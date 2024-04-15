@@ -8,7 +8,7 @@ Class User {
     - {static} EXTENSION_DAYS: int
     - userName: String
     - listOfBooks: ArrayList<Book>
-    - listOfUserBooks: ArrayList<User>
+    - listOfUserBooks: ArrayList<UserBook>
     - userBooksIndex: ArrayList<Integer>
     + getName(): String
     + getUserBooks(): ArrayList<Book>

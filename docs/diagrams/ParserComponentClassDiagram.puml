@@ -1,0 +1,25 @@
+@startuml
+!include style.puml
+
+hide circle
+skinparam classAttributeIconSize 0
+
+Class Parser {
++ runCommand(newItem, in, listOfBooks, bookDataFile, listOfUsers, userDataFile)
++ parseCommand(newItem, userCommand, listOfBooks, bookDataFile, splitItem, listOfUsers, userDataFile)
+}
+
+Class Command {
++ handleCommand()
+}
+Class Ui {
++setSmallerLineBreak()
++printUnknownCommand()
++printWrongInputFormat()
++ setLineBreak()
++ setSmallerLineBreak()
+}
+
+Parser --> "*" Command
+Parser --> "*" Ui
+@enduml

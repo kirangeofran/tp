@@ -1,0 +1,45 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+Class BookMarked
+
+Class Parser {
+    + {static} runCommand(): void
+    + {static} parseCommand(): void
+}
+
+Class HelpCommand
+Class ListCommand
+Class AddCommand
+Class DeleteCommand
+Class BorrowCommand
+Class ReturnCommand
+Class FindCommand
+Class EditCommand
+Class ExtendCommand
+
+Class BookMarkedException
+Class EmptyArgumentsException
+Class WrongInputFormatException
+
+
+
+Parser .-> HelpCommand
+Parser -r--> ListCommand
+Parser -down--> AddCommand
+Parser -down--> DeleteCommand
+Parser -down---> BorrowCommand
+Parser -down--> ReturnCommand
+Parser -down---> FindCommand
+Parser -down--> EditCommand
+Parser -down---> ExtendCommand
+Parser .-> ExitCommand
+
+BookMarked .down.--> Parser
+
+Parser -up-.> "throws" BookMarkedException
+Parser -up-.> "throws" EmptyArgumentsException
+Parser -up-.> "throws" WrongInputFormatException
+
+@enduml

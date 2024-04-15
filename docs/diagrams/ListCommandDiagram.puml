@@ -1,7 +1,9 @@
 @startuml
 !include style.puml
+hide footbox
 
 participant ":ListCommand" as ListCommand LIST_COLOR
+participant "listUserCommand :ListUserCommand" as listuser
 
 [->ListCommand : handleCommand()
 activate ListCommand
@@ -9,47 +11,47 @@ activate ListCommand
 ListCommand -> ListCommand : parseCommand()
 activate ListCommand
 
-alt inputCommand.matches("list")
+alt argument is "default"
 ListCommand -> ListCommand : runListBlankCommand()
 activate ListCommand
 
-ListCommand -> ListCommand : printMessage(Status.DEFAULT)
-activate ListCommand
-ListCommand --> ListCommand
-deactivate ListCommand
 ListCommand --> ListCommand
 deactivate ListCommand
 
 
 
-else
-alt splitCommand[1].trim().equals("alphabetical")
+else argument is "alphabetical"
 ListCommand -> ListCommand : runListAlphabeticalCommand()
 activate ListCommand
-ListCommand -> ListCommand : printMessage(Status.ALPHABETICAL)
-activate ListCommand
 ListCommand --> ListCommand
-deactivate ListCommand
-ListCommand --> ListCommand
-deactivate ListCommand
 deactivate ListCommand
 
-else splitCommand[1].trim().equals("returndate")
-ListCommand -> ListCommand : runListDateCommand()
-activate ListCommand
-ListCommand -> ListCommand : printMessage(Status.RETURNDATE)
-activate ListCommand
-ListCommand --> ListCommand
-deactivate ListCommand
-ListCommand --> ListCommand
-deactivate ListCommand
-deactivate ListCommand
+else argument is "user"
+create listuser
+ListCommand -> listuser : new ListUserCommand()
+activate listuser
+ListCommand -> listuser : handleCommand()
+listuser -> listuser : checkUsersAndBooks()
+activate listuser
+listuser --> listuser
+deactivate listuser
+listuser --> ListCommand
+deactivate listuser
+
+
+
+
+
 
 end
-end
+
+ListCommand --> ListCommand
+deactivate ListCommand
 
 
 
 [<-- ListCommand
+destroy listuser
+destroy ListCommand
 deactivate ListCommand
 @enduml

@@ -20,11 +20,18 @@ participant ":User" as user USER_COLOR
 activate retCmd
 
 retCmd -> retCmd : setArguments()
+note right
+     The setArguments() method
+     calls multiple classes such as
+     InputValidity or SetUserName.
+     For the sake of brevity,
+     they are not shown here.
+end note
 activate retCmd #FFBBBB
 retCmd --> retCmd
 deactivate retCmd
 
-alt if arguments are valid
+alt if all arguments are valid
     retCmd -> book : setReturned()
     activate book #ADD8E6
     book --> retCmd
@@ -39,7 +46,7 @@ alt if arguments are valid
     ' Check if the user has no more borrowed books and remove them if necessary
     retCmd -> user : getUserBooks()
     activate user #ADD8E6
-    user --> retCmd : [Empty List]
+    user --> retCmd
     deactivate user
 
     alt if user has no more borrowed books
@@ -52,6 +59,7 @@ alt if arguments are valid
         destroy uStorage
         retCmd --> retCmd
         deactivate retCmd
+
     end
 
     retCmd -> Ui : printReturnSuccess(bookName)
@@ -79,9 +87,9 @@ else if book not borrowed
     destroy Ui
 end
 
+destroy Ui
 [<-- retCmd
 deactivate retCmd
-destroy retCmd
 
 @enduml
 
