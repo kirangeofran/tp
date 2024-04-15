@@ -230,7 +230,7 @@ The "return command" interacts with the following components:
 4. User component: Represents library users and tracks their borrowed books.
 
 ##### Class-Level
-At the class level for the "relete command" in the BookMarked application, several classes are involved 
+At the class level for the "return command" in the BookMarked application, several classes are involved 
 in the process of returning a book from the library's inventory. Here's what each class does:
 
 1. Book Class: Represents a book with properties like name, isAvailable, and methods to mark the book as returned.

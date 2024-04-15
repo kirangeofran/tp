@@ -74,4 +74,10 @@ end
 [<-- borCmd
 deactivate borCmd
 
+destroy borCmd
+destroy book
+destroy user
+destroy uStorage
+destroy Ui
+
 @enduml
