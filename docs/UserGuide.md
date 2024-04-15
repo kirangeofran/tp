@@ -52,6 +52,10 @@ Command Summary
     * `list /sortby default`
     * `borrow book /by human`
     * `bye`
+- **NOTE: all commands and arguments are case sensitive.**
+- **Furthermore, all commands are space sensitive as well***
+  - **However, all arguments are NOT space sensitive, meaning that if an argument was inputted as:
+    `"           man"`, it would register as `"man"`.**
    
 6. You can refer to the features below for the details of each command.
 
@@ -62,10 +66,6 @@ Lists out all available commands and their format.
 Format: `help`
 
 
-* `help` must all be lower case.
-* there **must not** be any leading character or space before the command.
-* command may include extra spaces after the command `help` 
-  but **must** not include any other character.
 
 Examples: 
 * `help`
@@ -79,7 +79,6 @@ Format: `add NAME_OF_BOOK (optional)/quantity NUMBER_OF_COPIES`
 * A maximum of 1000 copies of the books can be registered in total in the library.
 * To add more copies of a book that already exists, simply type in the name of the book
   you wish to add, and type in the command per normal.
-* The book titles are case sensitive.
 * For book titles, you cannot input titles containing special characters, or titles that are only
   numbers (eg. 7, 193, etc).
 
@@ -91,6 +90,9 @@ Example of usage:
   `add The Book Thief` again.
 
 `add The Hunger Games /quantity 50`
+
+![AddImage.png](images/code output/AddImage.png)
+
 
 ### Deleting books in the library: `delete`
 Removes a book from the library's inventory based on its index in the list.
@@ -111,6 +113,8 @@ Example of usage:
 
 `delete 3 /quantity 100`
 
+![DeleteImage.png](images/code output/DeleteImage.png)
+
 ### Viewing books in the library: `list`
 * Provides a list of books or users in the library.
 
@@ -125,34 +129,33 @@ There are four ways of sorting the list:
 of the book was added in regardless of their borrowed status or return date
 * Outputs each book followed by the number of copies of each book in the inventory 
 which is the number of books not borrowed, followed by the number of copies of each
-book that has been borrowed (BOOK_NAME. NUMBER_OF_BOOKS_IN_INVENTORY. NUMBER_OF_BOOKS_BORROWED)
+book that has been borrowed.
 * When a new book is added, if a book of the same title has not already been added, the
-new book adds itself into the bottom of he book list
+new book adds itself into the bottom of the book list
 * If the new book being added already has a book of the same title which was added, the
 number of books corresponding to the book title updates itself and adds a copy
-* E.g if booka was first added into the inventory, followed by book b,
+* Eg. if `booka` was first added into the inventory, followed by `book b`,
 the list of books will be as follows:
-* 1. booka. Number of books in inventory: 1. Number of books borrowed: 0.
-* 2. bookb. Number of books in inventory: 1. Number of books borrowed: 0.
-
-* This command is case sensitive. `list`, `sortby` and `default` have to be keyed exactly
+```
+1. booka. Number of books in inventory: 1. Number of books borrowed: 0.
+2. bookb. Number of books in inventory: 1. Number of books borrowed: 0.
+```
 
 2. **Alphabetical order**
 
    Format: `list /sortby alphabetical`
 
-* Lists the list of books in the library in alphabetical order
-* Format is similar to the above mentioned: BOOK_NAME. NUMBER_OF_BOOKS_IN_INVENTORY. NUMBER_OF_BOOKS_BORROWED 
-* 'Spaces' (" ") preceded any alphabet
-* E.g book c precedes booka
-* E.g if the list contains : booka, bookb, book c, when sortby alphabetical is called,
-the list is as follows:
-* 1. book c. Number of books in inventory: 1. Number of books borrowed: 0.
-* 2. booka. Number of books in inventory: 1. Number of books borrowed: 0.
-* 3. bookb. Number of books in inventory: 1. Number of books borrowed: 0.
-3. 
-* This command is case sensitive. `list`, `sortby` and `alphabetical` have to be keyed exactly
-
+* Lists the list of books in the library in alphabetical order, in the same format as the `default` sort.
+* 'Spaces' (" ") preceed any alphabet, and uppercase letters preceed lowercase letters.
+* Eg. `book c` precedes `booka`, and `Bookc` preceds `bookc`.
+* Eg. if the list contains : `booka`, `bookb`, `book c`, when sortby alphabetical is called,
+the list is as follows: 
+```
+1. book c. Number of books in inventory: 1. Number of books borrowed: 0.
+2. booka. Number of books in inventory: 1. Number of books borrowed: 0.
+3. bookb. Number of books in inventory: 1. Number of books borrowed: 0. 
+```
+![ListBookImage.png](images/code output/ListBookImage.png)
 
 3. **By user**
 
@@ -168,9 +171,11 @@ are only those that currently have books borrowed.
 hence will not be reflected
 * Under each user, the list of books currently borrowed by the user is shown
 * The list of borrowed books of each user is sorted by the order of the book being
-added to the user's book list. I.e if the user borrows 2 books, booka and bookb
-but borrows booka first, book a will be item 1 on the list
+added to the user's book list.
+  * For example: if the user borrows 2 books, `booka` and `bookb`
+  but borrows `booka` first, `booka` will be item 1 on the list
 * The output is as follows:
+```
 * User: tom
 * Borrowed Books:
 * 1. book c, Borrowed on: 2024-04-14, Return by: 2024-05-05
@@ -178,8 +183,8 @@ but borrows booka first, book a will be item 1 on the list
 * User: mary
 * Borrowed Books:
 * 1. book d, Borrowed on: 2024-04-14, Return by: 2024-04-28
-
-* This command is case sensitive. `list`, `sortby` and `user` have to be keyed exactly
+```
+![ListUserImage.png](images/code output/ListUserImage.png)
 
 
 ### Editing books in the library: `edit`
@@ -193,14 +198,8 @@ To edit by book index : `edit INDEX /title NEW_TITLE`
 * The `INDEX` of the book is based on the output shown in the default list function and 
   should be the available `INDEX` in the library list.
 * The new title of the book is specified in `NEW_TITLE`, and can be in more than 1 word.
-* `edit` and `title` are case-sensitive, and **must not** be in capital letter.
-* The title of the book, `NEW_TITLE`, is also case-sensitive, and different in case may
+* The title of the book, `NEW_TITLE`, is case-sensitive, and differences in case will
   refer to a different book.
-* There **must** be at least 1 space between the word `edit` and `INDEX` in the command.
-* Similarly, there **must** be at least 1 space between the `INDEX` and `/title`.
-* There **must** be at least 1 space between the `/title` and `NEW_TITLE`, should there be
-  more than 1 spaces, the space before the first character and the space after the last
-  character will be **ignored**.
 * The `/title` tag is compulsory to put.
 
 To edit by book title : `edit CURRENT_BOOK_TITLE /title NEW_TITLE`
@@ -209,17 +208,14 @@ To edit by book title : `edit CURRENT_BOOK_TITLE /title NEW_TITLE`
   the actual current book title and is case-sensitive.
 * The new title of the book is case-sensitive, specified in `NEW_TITLE`, and can be in more 
   than 1 word.
-* There **must** be at least 1 space between each of the arguments, such as `edit` and `CURRENT_BOOK_TITLE`.
-  If there is more than 1 space, the space before the first character and the space after the
-  last character of `CURRENT_BOOK_TITLE` and `NEW_TITLE` will be **ignored**.
 * The `/title` tag is compulsory to put.
 
 Example of usage:
-* `edit 1 /title The Story Thief`
+* `edit 1 /title The Book Thief`
 * `edit new /title The New Beginning`
   
-![img.png](images/code output/edit_example1.png)
-![edit_example2.png](images%2Fcode%20output%2Fedit_example2.png)
+![EditImage1.png](images/code output/EditImage1.png)
+![EditImage2.png](images/code output/EditImage2.png)
 
 ### Borrowing books in the library: `borrow`
 Allows a user to borrow a book from the library's inventory if it is available. 
@@ -230,21 +226,17 @@ Format:
 
 To borrow by book title : `borrow BOOK_NAME /by USER_NAME`
 
-* The command is case-sensitive, so `borrow`, `BOOK_NAME` and `USER_NAME` must be typed exactly, with no extra 
-  characters. However, extra spacing in the command is allowed. 
-
 To borrow by book index : `borrow INDEX /by USER_NAME`
 
 * The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
-* The command is case-sensitive, so `borrow ` and `USER_NAME` must be typed exactly, with no extra characters. However,
-  extra spacing in the command is allowed. 
-
-![borrow_example2.jpeg](images%2Fcode%20output%2Fborrow_example2.jpeg)
 
 Note :
 
 * Users do not need to be pre-added. They can be added directly when using the borrow command. 
 * Each user can borrow multiple books, but they can only borrow one book of each title. For example, if 'Tom' has 
+  borrowed one copy of 'The Book Thief', the user cannot borrow a second copy of 'The Book Thief', even if there is more than 
+  one copy of 'The Book Thief' available in the inventory. 
+* The username cannot any contain special characters.
   borrowed one copy of 'The Book Thief', the user cannot borrow a second copy of 'The Book Thief', even if there is 
   more than one copy of 'The Book Thief' available in the inventory. 
 * If the specified book is not available for borrowing, or if there are no available copies left in the inventory,
@@ -252,7 +244,6 @@ Note :
 * If there is more than 1 quantity of a book title available and two users want to borrow the book, the commands 
   must be typed separately. The command will only take the `USER_NAME` after the first `\by`.
 
-![borrow_example1.jpeg](images%2Fcode%20output%2Fborrow_example1.jpeg)
 
 Examples of usage:
 
@@ -260,7 +251,7 @@ Borrow by book title : `borrow The Book Thief /by Tom`
 
 Borrow by book index : `borrow 1 /by Tom`
 
-![borrow_example2.jpg](images%2Fcode%20output%2Fborrow_example2.jpg)
+![BorrowImage.png](images/code output/BorrowImage.png)
 
 ### Extending borrowed books in the library: `extend`
 Allows a user to extend the borrowing period of a book they have already borrowed. 
@@ -270,14 +261,10 @@ Format:
 
 To extend by book title : `extend BOOK_NAME /by USER_NAME`
 
-* The command is case-sensitive, so `extend`, `BOOK_NAME` and `USER_NAME` must be typed exactly, with no extra 
-  characters. However, extra spacing in the command is allowed. 
 
 To extend by book index : `extend INDEX /by USER_NAME`
 
 * The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
-* The command is case-sensitive, so `extend` and `USER_NAME` must be typed exactly, with no extra characters.
-  However, extra spacing in the command is allowed. 
 
 Note:
 
@@ -292,7 +279,8 @@ Extend by book title : `extend The Book Thief /by Tom`
 
 Extend by book index : `extend 1 /by Tom`
 
-![extend_example1.jpg](images%2Fcode%20output%2Fextend_example1.jpg)
+![ExtendImage.png](images/code output/ExtendImage.png)
+
 
 ### Returning borrowed books in the library: `return`
 Allows a user to return a book they have borrowed from the library's inventory, marking it as not borrowed.
@@ -301,16 +289,11 @@ Format:
 
 To return by book title : `return BOOK_NAME /by USER_NAME`
 
-* The command is case-sensitive, so `return`, `BOOK_NAME` AND `USER_NAME` must be typed exactly, with no extra 
-  characters. However, extra spacing is allowed. 
-
-![return_example1.jpeg](images%2Fcode%20output%2Freturn_example1.jpeg)
+![ReturnImage.png](images/code output/ReturnImage.png)
 
 To return by book index : `return INDEX /by USER_NAME`
 
 * The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
-* The command is case-sensitive, so `return`and `USER_NAME` must be typed exactly, with no extra characters.
-  However, extra spacing is allowed. 
 
 Note : 
 
@@ -337,7 +320,6 @@ Format: `find /by book KEYWORD`
 
 * 'KEYWORD' is the word or phrase you want to search for in the titles of the books in the library.
 * The command lists all books that contain the keyword in their title.
-* The command is case sensitive, so `book` and `KEYWORD` must be keyed exactly
 * Only books with the keyword in their title will be reflected. If there are no books containing the keyword currently
 output returns no book with matching keyword
 
@@ -354,23 +336,21 @@ books, borrowed on date, return date and return status whether it is overdue
 * If there is more than one user containing the username, the first user is printed out
 with her corresponding books, followed by the next user
 * If there is no user containing the username, the output prints user not found
-* The command is case sensitive, so `user` and `USERNAME` must be keyed exactly
 
 Example of usage:
 * `find /by user Tom`
+
+![FindImage.png](images/code output/FindImage.png)
 
 ### Exiting application: `bye`
 Safely closes the BookMarked application.
 
 Format: `bye`
 
-* `bye` is not case-sensitive.
-* There must not be any characters including space before and after `bye`.  
-
 Example of usage:
 * `bye`
 
-![bye_example.png](images%2Fcode%20output%2Fbye_example.png)
+![ByeImage.png](images/code output/ByeImage.png)
 
 ### Storage
 There are 2 txt files created and updated when using BookMarked application, which
