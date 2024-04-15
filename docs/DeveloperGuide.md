@@ -113,17 +113,20 @@ It also communicates with users about the outcome of the deletion operation.
 The 'delete' command interfaces with multiple components within the system:
 1. Ui component : For providing user feedback and error messages.
 2. Storage component: Handles persistent storage modifications after deletion operations.
-3. Book domain model : Manages the book entities' attributes and behaviours related to deletion.
+3. Book component : Manages the book entities' attributes and behaviours related to deletion.
 4. Exceptions component : Catches and reports errors during the delete operations such as out-of-bound indexes. 
 
 ##### Class -Level
+At the class level for the "delete command" in the BookMarked application, several classes are involved in the 
+process of removing a book from the library's inventory. Here's what each class does:
+
 1. Book Class: Represents each book and includes methods for adjusting inventory counts and availability status.
 2. DeleteCommand Class: Parses user input, processes the deletion logic, and updates the state of the book entities.
 3. BookStorage Class: Ensures that the library's persistent storage reflects the updated inventory post-deletion.
 4. Ui Class: Communicates the outcome of the deletion to the user, enhancing transparency and clarity.
 
 ##### Implementation Details
-How? The "DeleteCommand" class executes the following steps upon invocation:
+How? The "DeleteCommand" class executes the following steps when called:
 
 - Validates user input to ensure the command format and arguments are correct.
 - Determines the book to delete based on the provided index or name.
@@ -151,10 +154,13 @@ It also provides real-time feedback to users regarding the status of the book.
 The "borrow command" component interfaces with several others: 
 1. UI component : To relay messages back to the user. 
 2. Storage component : For persistent storage operations for books and users. 
-3. Book Domain Model : Represents the state and behaviour of the individual book entities.
-4. User Domain Model : Represents the library users and their borrowing status. 
+3. Book component : Represents the state and behaviour of the individual book entities.
+4. User component : Represents the library users and their borrowing status. 
 
 ##### Class-Level
+At the class level for the "borrow command" in the BookMarked application, several classes are involved in 
+the process of borrowing a book from the library's inventory. Here's what each class does:
+
 1. Book Class: Represents a book with attributes like name, isAvailable, borrowDate, and returnDate, along with methods to manipulate these properties.
 2. User Class: Represents a library user with methods to manage borrowed books and their respective due dates.
 3. BorrowCommand Class: Manages the command input, validates user input, identifies the book to be borrowed, and handles the updating of book and user states.
@@ -191,13 +197,17 @@ The "return command" interacts with the following components:
 
 1. UI Component: To communicate messages and prompts to the user during the return process.
 2. Storage Component: For persisting changes to the state of books and users.
-3. Book Domain Model: Represents individual book entities and their borrow/return state.
-4. User Domain Model: Represents library users and tracks their borrowed books.
+3. Book component: Represents individual book entities and their borrow/return state.
+4. User component: Represents library users and tracks their borrowed books.
 
 ##### Class-Level
+At the class level for the "relete command" in the BookMarked application, several classes are involved 
+in the process of returning a book from the library's inventory. Here's what each class does:
+
 1. Book Class: Represents a book with properties like name, isAvailable, and methods to mark the book as returned.
 2. User Class: Represents library users and provides methods to manage returning books and updating borrowing records.
-3. ReturnCommand Class: Parses the user command, checks book availability, processes the return operation, and updates book and user statuses.
+3. ReturnCommand Class: Parses the user command, checks book availability, processes the return operation, 
+   and updates book and user statuses.
 4. BookStorage Class: Manages the persistence of updated book data.
 5. UserStorage Class: Manages the persistence of updated user data.
 6. UserBook Class: Represents the link between a user and a borrowed book, holding details like returnDueDate.
@@ -347,6 +357,9 @@ The ExtendCommand component interfaces with the following components of the syst
    including borrowed books and their due dates.
 
 ##### Class-Level Design 
+At the class level for the "extend command" in the BookMarked application, several classes are involved 
+in the process of extending a book from the library's inventory. Here's what each class does:
+
 1. Book Class: Manages book attributes, including the extension of due dates.
 2. User Class: Tracks user information and updates book borrowing details.
 3. ExtendCommand Class: Processes the user command to extend the due dates of borrowed books.
