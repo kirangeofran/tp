@@ -1,5 +1,6 @@
 @startuml
 !include style.puml
+hide footbox
 
 participant ":ListCommand" as ListCommand LIST_COLOR
 participant "listUserCommand :ListUserCommand" as listuser
