@@ -28,7 +28,7 @@ through the supported command features available.
   - Delete Command
 
 ### Contributions to the UG
-Added explanation and diagram for:
+Added explanation for:
 - Quick Start
 - Help features
 - Edit features
@@ -45,7 +45,14 @@ Added explanation for:
 - User component
 - UserBook component
 - Non-functional requirements
-- 
+
+and the following diagrams:
+- Architecture diagram
+- Command component class diagram
+- Storage component diagrams 
+  (readFileStorage, ValidateUserBooksLists, WriteBookToTxtDiagram sequence diagrams)
+- Edit command sequence diagram
+- User component class diagram
 
 ### Contributions to team-based tasks
 - Set up the Github team org and repo
