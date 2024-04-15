@@ -15,8 +15,9 @@ BookMarked -> Parser : parseCommand()
 activate Parser
 
 create EditCommand
-Parser -> EditCommand : handleCommand()
+Parser -> EditCommand : new EditCommand()
 activate EditCommand
+Parser -> EditCommand : handleCommand()
 
 EditCommand -> EditCommand : handleBookEdit()
 activate EditCommand

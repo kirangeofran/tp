@@ -103,6 +103,10 @@ public class ExtendCommand extends Command {
         }
     }
 
+    /**
+     * Runs the extension logic by checking if the book is currently borrowed by the user
+     * and then extending the due date. Notifies the user of the outcome.
+     */
     private void extendBookInUserDate() {
         for (int i = 0; i < listOfUsers.size(); i += 1) {
             User currentUserInList = listOfUsers.get(i);
@@ -112,6 +116,10 @@ public class ExtendCommand extends Command {
         }
     }
 
+    /**
+     * Processes updating of book index by accessing the book to update index and edit if
+     * book title is the same.
+     */
     private void updateBookIndex(ArrayList<Book> listOfBooks) throws BookNotFoundException {
         if (!doesBookExists()) {
             throw new BookNotFoundException();

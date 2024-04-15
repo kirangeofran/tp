@@ -361,7 +361,7 @@ the time is called in Parser component. Once called, EditCommand interfaced with
 such as Exception, Book, and User Component during the `handleBookEdit()` operation. Successful
 edit will modify `book.txt` and `user.txt` by Storage, and confirmation message is printed.
 
-![EditCommandDiagram.png](images%2FEditCommandDiagram.png)
+[EditCommandDiagram.puml](diagrams%2FEditCommandDiagram.puml)
 
 
 #### Extend Command 
@@ -427,7 +427,6 @@ How? Upon the user calling `bye`, "Exit command" is called
 
 - Exit command activated by identifying the command
 - UI class is called to print out "bye message" when user exits the programme
-
 
 ![ExitClassDiagram.png](images%2FExitClassDiagram.png)
 
