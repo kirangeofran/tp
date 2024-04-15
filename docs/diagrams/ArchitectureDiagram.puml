@@ -13,29 +13,32 @@ skinparam class {
 }
 
 package " " <<rectangle>> {
-    Class Ui UI_COLOR
+    Class UI UI_COLOR
     Class Command COMMAND_COLOR
     Class Parser PARSER_COLOR
     Class Storage STORAGE_COLOR
     Class Main MAIN_COLOR
     Class Book BOOK_COLOR
-    Class UserClass USER_CLASS_COLOR
+    Class User USER_CLASS_COLOR
+    Class UserBook USER_BOOK_COLOR
 }
 
-Class "<$user>" as User USER_COLOR
+Class "<$user>" as human USER_COLOR
 Class "<$documents>" as File FILE_COLOR
 
-Ui -[#red]-> Main
-Main -[#black]-> Ui
+UI -[#red]-> Main
+Main -[#black]-> UI
 Main -[#black]-> Storage
 Main -[#black]-> Parser
-Storage .[#green].> Main
+
 Parser -[#blue]-> Command
 Parser -[#blue]-> Storage
 Command -[#orange]-> Book
-Command -[#lightsalmon]-> UserClass
+Command -[#orange]-> User
+User -[#salmon]-> UserBook
 Storage .[#green].> File
-User .[#black]> Ui
+File .[#green].> Storage
+human .[#black]> UI
 
 
 
