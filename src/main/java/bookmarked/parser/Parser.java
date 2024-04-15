@@ -28,7 +28,7 @@ public class Parser {
                                   File bookDataFile, ArrayList<User> listOfUsers, File userDataFile) {
         Command userCommand = new ListCommand(listOfBooks, newItem, listOfUsers);
 
-        while (!newItem.equalsIgnoreCase("bye")) {
+        while (!newItem.equals("bye")) {
             String[] splitItem = newItem.split(" ");
             Ui.setSmallerLineBreak();
 
@@ -82,7 +82,7 @@ public class Parser {
         case ("edit"):
             userCommand = new EditCommand(newItem, listOfBooks, bookDataFile, userDataFile, listOfUsers);
             break;
-        case "extend":
+        case ("extend"):
             userCommand = new ExtendCommand(newItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
             break;
         default:

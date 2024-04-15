@@ -46,7 +46,7 @@ alt if book is found and arguments are valid
         uStorage --> borCmd
         deactivate uStorage
         destroy uStorage
-
+        
         borCmd -> Ui : printBorrowedMessage(bookName, userName)
         activate Ui #Yellow
         Ui --> borCmd
@@ -65,6 +65,7 @@ alt if book is found and arguments are valid
         deactivate Ui
         destroy Ui
     end
+
 else if book not found or index out of bounds
     borCmd -> Ui : printErrorMessage() ' The error message varies depending on the condition
     activate Ui #Yellow
