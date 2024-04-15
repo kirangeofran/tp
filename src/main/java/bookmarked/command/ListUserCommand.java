@@ -24,7 +24,7 @@ public class ListUserCommand extends Command {
     @Override
     public void handleCommand() {
         try {
-            printUsersAndBooks();
+            checkUsersAndBooks();
         } catch (EmptyUserListException e) {
             Ui.printEmptyUserListMessage();
         }
@@ -38,13 +38,13 @@ public class ListUserCommand extends Command {
      * @throws EmptyUserListException if the list of users is empty
      */
 
-    public void printUsersAndBooks() throws EmptyUserListException {
+    public void checkUsersAndBooks() throws EmptyUserListException {
         if (listOfUsers.isEmpty()) {
             throw new EmptyUserListException();
         }
         System.out.println("List of Users and Borrowed Books:");
         System.out.println();
-        printUserAndBooks();
+        printUsersAndBooks();
     }
 
     /**
@@ -53,7 +53,7 @@ public class ListUserCommand extends Command {
      * through the list of books of each user and prints it
      */
 
-    private static void printUserAndBooks() {
+    private static void printUsersAndBooks() {
         int userCount = 0;
         for (User user : listOfUsers) {
             System.out.println("User: " + user.getName());

@@ -228,6 +228,10 @@ public class Ui {
         System.out.println(userName + " has not borrowed this book. Nothing to extend.");
     }
 
+    public static void printBookNotBorrowedReturnMessage(String userName) {
+        System.out.println(userName + " has not borrowed this book. Nothing to return.");
+    }
+
 
     public static void printNoAvailableCopiesInInventoryMessage() {
         System.out.println("There are currently no available copies of the book in the inventory.");

@@ -152,7 +152,7 @@ public class ReturnCommand extends Command {
             UserStorage.writeUserToTxt(userDataFile, listOfUsers);
             System.out.println("Returned " + returningBook.getName() + "!");
         } else {
-            Ui.printBookNotBorrowedByUserMessage(this.currentUser.getName());
+            Ui.printBookNotBorrowedReturnMessage(this.currentUser.getName());
         }
     }
 

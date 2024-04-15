@@ -10,14 +10,13 @@ public class Book {
     private static final int EXTENSION_DAYS = 7;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final LocalDate DEFAULT_RETURNED_DATE = LocalDate.of(1900, 1, 1);
-    protected String description;
-    protected boolean isBorrowed;
-    protected LocalDate borrowDate;
-    protected LocalDate returnDate;
-    protected String user;
-    protected int numberInInventory;
-    protected int numberBorrowed;
-    protected int numberTotal;
+    private String description;
+    private LocalDate borrowDate;
+    private LocalDate returnDate;
+    private int numberInInventory;
+    private int numberBorrowed;
+    private int numberTotal;
+    public boolean isBorrowed;
 
 
     public Book(String description) {
@@ -57,14 +56,6 @@ public class Book {
 
     public LocalDate getReturnDate() {
         return this.returnDate;
-    }
-
-    public boolean getIsBorrowed() {
-        return this.isBorrowed;
-    }
-
-    public void setBorrowed() {
-        this.isBorrowed = true;
     }
 
     public void setBorrowDate(LocalDate borrowDate) {
@@ -142,8 +133,3 @@ public class Book {
     }
 
 }
-
-
-
-
-
