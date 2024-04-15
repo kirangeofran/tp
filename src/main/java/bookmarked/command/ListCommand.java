@@ -31,8 +31,6 @@ public class ListCommand extends Command {
      * @param newItem     The command by user
      * @param listOfUsers List of users who have borrowed books from the library
      */
-
-
     public ListCommand(ArrayList<Book> listOfBooks, String newItem, ArrayList<User> listOfUsers) {
         this.listOfBooks = listOfBooks;
         this.inputCommand = newItem;
@@ -66,7 +64,6 @@ public class ListCommand extends Command {
      * @throws EmptyListException      If the methods throw an EmptyListException
      * @throws EmptyArgumentsException If there are no arguments after "/sortby".
      */
-
     public void parseCommand() throws EmptyListException, EmptyArgumentsException {
         if (this.splitCommand.length <= 1) {
             throw new EmptyArgumentsException();

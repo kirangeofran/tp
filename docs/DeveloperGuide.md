@@ -26,8 +26,17 @@ Given below is quick overview of main components and how they interact with each
 - `UserBook`: Books borrowed by user which specified the borrow and 
               return due date
 
-### Ui Component
+### UI Component
+##### Overview
+* BookMarked application makes use of the UI component to print out messages to the user.
+* Messages include introduction messages when the user first loads the application, exit
+messages when the user exits the programme as well as minor messages such as lines (-------)
+to make the output neater
 
+##### Implementation details
+When UI is called, it finds the desired function and runs it, printing out the wanted message
+
+![UiComponentClassDiagram.png](images%2FUiComponentClassDiagram.png)
 ### Storage Component
 ##### Overview
 BookMarked application is using txt file as its main storage for all the data.
@@ -361,7 +370,7 @@ the time is called in Parser component. Once called, EditCommand interfaced with
 such as Exception, Book, and User Component during the `handleBookEdit()` operation. Successful
 edit will modify `book.txt` and `user.txt` by Storage, and confirmation message is printed.
 
-![EditCommandDiagram.png](images%2FEditCommandDiagram.png)
+[EditCommandDiagram.puml](diagrams%2FEditCommandDiagram.puml)
 
 
 #### Extend Command 
@@ -427,7 +436,6 @@ How? Upon the user calling `bye`, "Exit command" is called
 
 - Exit command activated by identifying the command
 - UI class is called to print out "bye message" when user exits the programme
-
 
 ![ExitClassDiagram.png](images%2FExitClassDiagram.png)
 
