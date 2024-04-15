@@ -186,6 +186,11 @@ public class FindCommand extends Command {
         }
     }
 
+    /**
+     * Return the number of book found from find operation
+     *
+     * @return numberOfBookFound the total number of book to match the find keyword
+     */
     public int getNumberOfBookFound() {
         return numberOfBookFound;
     }
