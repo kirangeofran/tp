@@ -10,7 +10,7 @@ through the supported command features available.
 ## Summary of Contributions
 ### Code contributed
 
-https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=kirangeofran&breakdown=true
+[RepoSense link](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=kirangeofran&breakdown=true)
 
 ### Enhancement implemented
 New feature:
@@ -41,4 +41,4 @@ New feature:
 
 
 ### Review/mentoring contributions
-https://github.com/AY2324S2-CS2113-W13-4/tp/pulls?q=is%3Apr+reviewed-by%3Akirangeofran
+[Link to PRs reviewed by me](https://github.com/AY2324S2-CS2113-W13-4/tp/pulls?q=is%3Apr+reviewed-by%3Akirangeofran)
