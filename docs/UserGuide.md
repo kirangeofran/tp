@@ -45,7 +45,7 @@ Command Summary
     _______________________________________________________________________________
     _______________________________________________________________________________
     ```
-5. Type some commands in the terminal and press Enter to execute it. 
+5. Type some commands in the terminal and press Enter to execute them. 
 
     Here are some commands you can try:
     * `add book`
@@ -131,7 +131,7 @@ of the book was added in regardless of their borrowed status or return date
 which is the number of books not borrowed, followed by the number of copies of each
 book that has been borrowed.
 * When a new book is added, if a book of the same title has not already been added, the
-new book adds itself into the bottom of the book list
+new book adds itself to the bottom of the book list
 * If the new book being added already has a book of the same title which was added, the
 number of books corresponding to the book title updates itself and adds a copy
 * Eg. if `booka` was first added into the inventory, followed by `book b`,
@@ -146,7 +146,7 @@ the list of books will be as follows:
    Format: `list /sortby alphabetical`
 
 * Lists the list of books in the library in alphabetical order, in the same format as the `default` sort.
-* 'Spaces' (" ") preceed any alphabet, and uppercase letters preceed lowercase letters.
+* 'Spaces' (" ") precede any alphabet, and uppercase letters precede lowercase letters.
 * Eg. `book c` precedes `booka`, and `Bookc` preceds `bookc`.
 * Eg. if the list contains : `booka`, `bookb`, `book c`, when sortby alphabetical is called,
 the list is as follows: 
@@ -165,9 +165,9 @@ the list is as follows:
 * When a user borrows a book, the user is added to the user list
 * Similar to list /sortby default, the users are listed according to their order
 of being added to the user list. This is regardless of their borrow or return date
-* The list of users only contain current users : meaning the list of users
-are only those that currently have books borrowed.
-* When a user returns all his books, he is deleted from the user list
+* The list of users only contains current users : meaning the list of users
+is only those that currently have books borrowed.
+* When a user returns all his books, he is deleted from the user list and
 hence will not be reflected
 * Under each user, the list of books currently borrowed by the user is shown
 * The list of borrowed books of each user is sorted by the order of the book being
@@ -268,7 +268,7 @@ To extend by book index : `extend INDEX /by USER_NAME`
 
 Note:
 
-* The due dates of books can only be extended, if they are already borrowed.
+* The due dates of books can only be extended if they are already borrowed.
 * The system will output a message confirming the successful extension of the borrowing period, 
   along with the new due date.
 
@@ -298,7 +298,7 @@ Note :
 
 * Only books that have been borrowed by the user can be returned.
 * The system will output a message confirming the successful return of the book.
-* If the book being returned is overdue, system outputs a message to alert users of the overdue.
+* If the book being returned is overdue, the system outputs a message to alert users of the overdue.
 
 Examples of usage:
 
@@ -352,12 +352,12 @@ Example of usage:
 ### Storage
 There are 2 txt files created and updated when using BookMarked application, which
 are book.txt and user.txt. These 2 files saved the data related to books and users 
-of the library in local hard disk after any command that modify the data. Exceptions,
+of the library in local hard disk after any command that modifies the data. Exceptions,
 such as:
-* duplicate name of books or user,
-* difference in books borrowed by user and in inventory,
-* wrong formatted line in txt,
-* invalid borrow date and return due date,
+* Duplicate name of books or user,
+* Differences in books borrowed by user and in inventory,
+* Wrong formatted line in txt,
+* Invalid borrow date and return due date,
 
 are handled.
 
@@ -365,7 +365,7 @@ are handled.
 ## FAQ
 > **Q**: How do I transfer my data to another computer?
 >
-> **A**: Copy the /book.txt file to another computer and paste it in the
+> **A**: Copy the /book.txt file to another computer and paste it into the
 > same folder inside bookMarked.jar
 
 > **Q**: Can I access the task I previously added when I restart the application?
