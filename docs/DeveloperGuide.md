@@ -404,10 +404,23 @@ outcomes of their inputs, ensuring a smooth and transparent user experience.
 
 ## User Stories
 
-|Version| As a ... | I want to ... | So that I can ...|
-|--------|----------|---------------|------------------|
-|v1.0|new user|see usage instructions|refer to them when I forget how to use the application|
-|v2.0|user|find a to-do item by name|locate a to-do without having to go through the entire list|
+| Version | As a ...       | I want to ...                                                           | So that I can ...                                                                    |
+|---------|----------------|-------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| v1.0    | new librarian  | easily access usage instructions                                        | quickly learnt how to use <br/>the application without confusion.                    |
+| v1.0    | librarian      | add new book titles to my inventory                                     | keep the <br/>inventory current and offer the latest books to users.                 |
+| v2.1    | librarian      | add new users to my inventory                                           | can keep track <br/> of users who are borrowing books.                               |
+| v2.1    | librarian      | record multiple copies of the same book title                           | accurately reflect book <br/>quantities and manage multiple loans of popular titles. |
+| v1.0    | librarian      | track books that have been borrowed                                     | monitor which books are <br/>currently on loan.                                      |
+| v2.1    | librarian      | track the borrow and return dates of books that <br/>have been borrowed | manage due dates <br/>efficiently.                                                   |
+| v2.1    | librarian      | track users that have borrowed books                                    | keep track of borrow and <br/>return dates to remind users when books are overdue.   |
+| v2.1    | librarian      | extend due dates of books                                               | offer flexibility to users <br/>who need mroe time with borrowed books.              |
+| v1.0    | librarian      | track books that have been returned                                     | keep track of<br/>available books currently in the inventory.                        |
+| v2.1    | librarian      | track books that have been returned past the due date                   | remind users of<br/> late fees.                                                      |
+| v2.1    | librarian      | edit books in my inventory                                              | make sure the book details in <br/>the inventory are up-to-date.                     |
+| v1.0    | librarian      | delete books from my inventory                                          | make sure the inventory does not<br/>reflect outdated or damaged books.              |
+| v1.0    | librarian      | view a complete list of the books in the inventory                      | have a comprehensive<br/>overview of the inventory.                                  |
+| v2.1    | busy librarian | view the list of books in my inventory in alphabetical order            | locate books<br/>more easily in the inventory, especially during peak hours.         |
+| v2.1    | librarian      | view the list of users who are currently borrowing books                | keep track<br/> of the inventory and users, including following up on book returns   |
 
 ## Non-Functional Requirements
 
