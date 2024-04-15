@@ -91,7 +91,7 @@ Example of usage:
 
 `add The Hunger Games /quantity 50`
 
-![AddImage.png](images/code output/AddImage.png)
+![AddImage.png](images/code%20output/AddImage.png)
 
 
 ### Deleting books in the library: `delete`
@@ -113,7 +113,7 @@ Example of usage:
 
 `delete 3 /quantity 100`
 
-![DeleteImage.png](images/code output/DeleteImage.png)
+![DeleteImage.png](images/code%20output/DeleteImage.png)
 
 ### Viewing books in the library: `list`
 * Provides a list of books or users in the library.
@@ -155,7 +155,7 @@ the list is as follows:
 2. booka. Number of books in inventory: 1. Number of books borrowed: 0.
 3. bookb. Number of books in inventory: 1. Number of books borrowed: 0. 
 ```
-![ListBookImage.png](images/code output/ListBookImage.png)
+![ListBookImage.png](images/code%20output/ListBookImage.png)
 
 3. **By user**
 
@@ -184,7 +184,7 @@ added to the user's book list.
 * Borrowed Books:
 * 1. book d, Borrowed on: 2024-04-14, Return by: 2024-04-28
 ```
-![ListUserImage.png](images/code output/ListUserImage.png)
+![ListUserImage.png](images/code%20output/ListUserImage.png)
 
 
 ### Editing books in the library: `edit`
@@ -214,8 +214,8 @@ Example of usage:
 * `edit 1 /title The Book Thief`
 * `edit new /title The New Beginning`
   
-![EditImage1.png](images/code output/EditImage1.png)
-![EditImage2.png](images/code output/EditImage2.png)
+![EditImage1.png](images/code%20output/EditImage1.png)
+![EditImage2.png](images/code%20output/EditImage2.png)
 
 ### Borrowing books in the library: `borrow`
 Allows a user to borrow a book from the library's inventory if it is available. 
@@ -251,7 +251,7 @@ Borrow by book title : `borrow The Book Thief /by Tom`
 
 Borrow by book index : `borrow 1 /by Tom`
 
-![BorrowImage.png](images/code output/BorrowImage.png)
+![BorrowImage.png](images/code%20output/BorrowImage.png)
 
 ### Extending borrowed books in the library: `extend`
 Allows a user to extend the borrowing period of a book they have already borrowed. 
@@ -279,7 +279,7 @@ Extend by book title : `extend The Book Thief /by Tom`
 
 Extend by book index : `extend 1 /by Tom`
 
-![ExtendImage.png](images/code output/ExtendImage.png)
+![ExtendImage.png](images/code%20output/ExtendImage.png)
 
 
 ### Returning borrowed books in the library: `return`
@@ -289,7 +289,6 @@ Format:
 
 To return by book title : `return BOOK_NAME /by USER_NAME`
 
-![ReturnImage.png](images/code output/ReturnImage.png)
 
 To return by book index : `return INDEX /by USER_NAME`
 
@@ -301,15 +300,13 @@ Note :
 * The system will output a message confirming the successful return of the book.
 * If the book being returned is overdue, the system outputs a message to alert users of the overdue.
 
-![return_example2.jpg](images%2Fcode%20output%2Freturn_example2.jpg)
-
 Examples of usage:
 
 Return by book title : `return The Book Thief /by Tom`
 
 Return by book index : `return 1 /by Tom`
 
-![return_example3.jpeg](images%2Fcode%20output%2Freturn_example3.jpeg)
+![ReturnImage.png](images/code%20output/ReturnImage.png)
 
 ### Finding books or users in the library: `find`
 Enables users to search for books in the library's inventory that match a given keyword.
@@ -318,7 +315,7 @@ Enables users to search for those who borrowed books
 To search for books:
 Format: `find /by book KEYWORD`
 
-* 'KEYWORD' is the word or phrase you want to search for in the titles of the books in the library.
+* `KEYWORD` is the word or phrase you want to search for in the titles of the books in the library.
 * The command lists all books that contain the keyword in their title.
 * Only books with the keyword in their title will be reflected. If there are no books containing the keyword currently
 output returns no book with matching keyword
@@ -330,7 +327,7 @@ Example of usage:
 To search for users:
 Format: `find /by user USERNAME`
 
-* 'USERNAME' is the name of the user you want to find.
+* `USERNAME` is the name of the user you want to find.
 * The command lists all users that contain the username in their name along with their borrowed
 books, borrowed on date, return date and return status whether it is overdue
 * If there is more than one user containing the username, the first user is printed out
@@ -340,7 +337,7 @@ with her corresponding books, followed by the next user
 Example of usage:
 * `find /by user Tom`
 
-![FindImage.png](images/code output/FindImage.png)
+![FindImage.png](images/code%20output/FindImage.png)
 
 ### Exiting application: `bye`
 Safely closes the BookMarked application.
@@ -350,7 +347,7 @@ Format: `bye`
 Example of usage:
 * `bye`
 
-![ByeImage.png](images/code output/ByeImage.png)
+![ByeImage.png](images/code%20output/ByeImage.png)
 
 ### Storage
 There are 2 txt files created and updated when using BookMarked application, which

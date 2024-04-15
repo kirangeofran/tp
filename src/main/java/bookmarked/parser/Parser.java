@@ -82,7 +82,7 @@ public class Parser {
         case ("edit"):
             userCommand = new EditCommand(newItem, listOfBooks, bookDataFile, userDataFile, listOfUsers);
             break;
-        case "extend":
+        case ("extend"):
             userCommand = new ExtendCommand(newItem, listOfBooks, bookDataFile, listOfUsers, userDataFile);
             break;
         default:

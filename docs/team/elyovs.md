@@ -19,6 +19,8 @@ through the supported command features available.
 - Implemented the help function that shows a summary of the available commands
 - Implemented storage for users who borrowed at least one book, storing the
   users' names and all the books borrowed
+- Implemented storage for books, which stores all the available books in the library and
+  its details
 - Contributed to JUnit testing for
   - Find Command
   - List Command
@@ -26,9 +28,31 @@ through the supported command features available.
   - Delete Command
 
 ### Contributions to the UG
-
+Added explanation for:
+- Quick Start
+- Help features
+- Edit features
+- Storage features
+- FAQ
+- Command Summary
 
 ### Contributions to the DG
+Added explanation for:
+- Architecture
+- Main components of architecture
+- Command component overview
+- Edit command
+- User component
+- UserBook component
+- Non-functional requirements
+
+and the following diagrams:
+- Architecture diagram
+- Command component class diagram
+- Storage component diagrams 
+  (readFileStorage, ValidateUserBooksLists, WriteBookToTxtDiagram sequence diagrams)
+- Edit command sequence diagram
+- User component class diagram
 
 ### Contributions to team-based tasks
 - Set up the Github team org and repo
