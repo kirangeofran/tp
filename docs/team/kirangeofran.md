@@ -9,28 +9,36 @@ through the supported command features available.
 
 ## Summary of Contributions
 ### Code contributed
-[RepoSense link](https://github.com/kirangeofran)
+
+https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=kirangeofran&breakdown=true
 
 ### Enhancement implemented
 New feature:
-- Added the ability to borrow a book 
-- What it does: Allows users to indicate who borrows a book
-- Justification: This feature is important to our user, librarians, as they would need to keep track
-  of what books have been borrowed. 
-- Added the ability to extend the due date of a book 
-- What it does: Extends the due date of the book by 2 weeks. 
-- Justification: This feature is important to librarians as they can easily change the due date of the book instead of 
-- having to access the txt.file
+- Added code for 'ExtendCommand'
+- Added code for book storage feature
+- Added code for book class
+- Added code for exception classes
+- Created junit tests for : 'BorrowCommand', 'ExtendCommand', 'ReturnCommand'
 
 
 ### Contributions to the UG
-- Updated UG for borrow, extend and return command. 
+- Added explanation for 'BorrowCommand'.
+- Added explanation for 'ExtendCommand'.
+- Added explanation for 'ReturnCommand'.
 
 ### Contributions to the DG
-- Added extend DG. 
+- Added explanation for 'BorrowCommand' . Created the UML diagram for the 'BorrowCommand'.
+- Added explanation for 'ExtendCommand' . Created the UML diagram for the 'ExtendCommand'.
+- Added explanation for 'ReturnCommand' . Created the UML diagram for the 'ReturnCommand'.
+- Added explanation for 'DeleteCommand' . Created the UML diagram for the 'DeleteCommand'.
 
 ### Contributions to team-based tasks
-- Update user profile, value proposition
+- Added Javadocs for 'AddCommand', 'BorrowCommand', 'DeleteCommand', 'EditCommand' and 'ExtendCommand'. 
+- Added User Profile for DG.
+- Added Value proposition for DG.
+- Added user stories for v1.0 and v2.1 for DG. 
+- Edited functional code to make sure the checkstyle tests pass. 
 
 
 ### Review/mentoring contributions
+https://github.com/AY2324S2-CS2113-W13-4/tp/pulls?q=is%3Apr+reviewed-by%3Akirangeofran
