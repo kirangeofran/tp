@@ -67,6 +67,7 @@ to the txt file, `book.txt`.
 
 ### Parser Component
 
+![ParserComponentClassDiagram.png](images%2FParserComponentClassDiagram.png)
 
 ### Command Component
 All the command user can input to the application are inheriting from the `Command` class.
