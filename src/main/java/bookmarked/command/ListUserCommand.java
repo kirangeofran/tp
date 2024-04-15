@@ -20,11 +20,10 @@ public class ListUserCommand extends Command {
      * Calls function print users and books to iterate through list of
      * books of each user to print each user followed by their books
      */
-
     @Override
     public void handleCommand() {
         try {
-            printUsersAndBooks();
+            checkUsersAndBooks();
         } catch (EmptyUserListException e) {
             Ui.printEmptyUserListMessage();
         }
@@ -37,14 +36,14 @@ public class ListUserCommand extends Command {
      *
      * @throws EmptyUserListException if the list of users is empty
      */
+    public void checkUsersAndBooks() throws EmptyUserListException {
 
-    public void printUsersAndBooks() throws EmptyUserListException {
         if (listOfUsers.isEmpty()) {
             throw new EmptyUserListException();
         }
         System.out.println("List of Users and Borrowed Books:");
         System.out.println();
-        printUserAndBooks();
+        printUsersAndBooks();
     }
 
     /**
@@ -52,8 +51,7 @@ public class ListUserCommand extends Command {
      * Iterates through the list of users to find all users. Within each user, iterates
      * through the list of books of each user and prints it
      */
-
-    private static void printUserAndBooks() {
+    private static void printUsersAndBooks() {
         int userCount = 0;
         for (User user : listOfUsers) {
             System.out.println("User: " + user.getName());

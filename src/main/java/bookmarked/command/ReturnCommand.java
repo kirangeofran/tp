@@ -105,7 +105,15 @@ public class ReturnCommand extends Command {
         }
     }
 
-
+    /**
+     * Sets the details of Book and User class based on the arguments
+     *
+     * @throws InvalidStringException If the user input is not in the correct argument format
+     * @throws UserNotFoundException If user's name input does not exist in the system
+     * @throws BookNotFoundException If book input does not exist in the system
+     * @throws EmptyArgumentsException If no input is provided
+     * @throws IndexOutOfListBounds If input index is not within the range of the number of books in the library
+     */
     public void setArguments() throws InvalidStringException, UserNotFoundException,
             BookNotFoundException, EmptyArgumentsException, IndexOutOfListBounds {
 
@@ -152,7 +160,7 @@ public class ReturnCommand extends Command {
             UserStorage.writeUserToTxt(userDataFile, listOfUsers);
             System.out.println("Returned " + returningBook.getName() + "!");
         } else {
-            Ui.printBookNotBorrowedByUserMessage(this.currentUser.getName());
+            Ui.printBookNotBorrowedReturnMessage(this.currentUser.getName());
         }
     }
 
@@ -176,7 +184,6 @@ public class ReturnCommand extends Command {
      * removes a user from the user list if they have no more books borrowed. Checks
      * after returning book, if there are no borrowed books in their userbook list
      */
-
     public void removeCurrentUserIfNoBookBorrowed() {
         Iterator<User> iterator = listOfUsers.iterator();
         while (iterator.hasNext()) {
@@ -188,7 +195,12 @@ public class ReturnCommand extends Command {
         }
     }
 
-
+    /**
+     * inputValidity checks whether input is valid and set the splitUser into the correct split Argument
+     * based on the input
+     * @throws InvalidStringException If the user input is not in the correct argument format
+     * @throws EmptyArgumentsException If no input is provided
+     */
     public void inputValidity() throws InvalidStringException, EmptyArgumentsException {
         try {
             InputValidity inputValidity = new InputValidity(COMMAND_STRING, this.newItem, ARGUMENT_STRING);
@@ -201,7 +213,11 @@ public class ReturnCommand extends Command {
         }
     }
 
-
+    /**
+     * Set the details in the Book class based on the arguments
+     * @throws BookNotFoundException If book input does not exist in the system
+     * @throws IndexOutOfListBounds If input index is not within the range of the number of books in the library
+     */
     public void setBookArguments() throws BookNotFoundException, IndexOutOfListBounds {
         try {
             SetBookIndexName setBookIndexName = new SetBookIndexName(splitUser[0].trim(), listOfBooks);
@@ -215,7 +231,10 @@ public class ReturnCommand extends Command {
         }
     }
 
-
+    /**
+     * Set the details in the User class based on the arguments
+     * @throws UserNotFoundException If user's name input does not exist in the system
+     */
     public void setUserArgument() throws UserNotFoundException {
         try {
             SetUserName setUserName = new SetUserName(this.splitUser[1].trim(), listOfUsers);
@@ -225,7 +244,10 @@ public class ReturnCommand extends Command {
         }
     }
 
-
+    /**
+     * Find out whether a user borrowed a given book
+     * @return boolean true if user borrowed the given book, false otherwise
+     */
     public boolean hasUserBorrowedBook() {
         for (Book book : this.currentUser.getUserBooks()) {
             if (book.getName().matches(this.bookName)) {
