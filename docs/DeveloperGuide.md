@@ -484,8 +484,6 @@ The details of Books borrowed by user are managed by the `UserBook` Component. T
 the output of the  `list /sortby default` command, book title, borrow date and the return due date.
 
 
-----
-
 ## Product scope
 ### Target user profile
 
