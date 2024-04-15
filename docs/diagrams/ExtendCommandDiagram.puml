@@ -9,8 +9,8 @@
 hide footbox
 
 ' Define participants with colors
-participant ":UI" as Ui UI_COLOR
 participant ":ExtendCommand" as extCmd EXTEND_COLOR
+participant ":UI" as Ui UI_COLOR
 participant ":UserStorage" as uStorage USERSTORAGE_COLOR
 participant ":Book" as book BOOK_COLOR
 participant ":User" as user USER_COLOR
@@ -20,6 +20,13 @@ participant ":User" as user USER_COLOR
 activate extCmd
 
 extCmd -> extCmd : setArguments()
+note right
+    The setArguments() method
+    calls multiple methods such
+    as checkUserNameValidity() or
+    updateBookIndex(). For the sake of
+    brevity, they are not shown here.
+end note
 activate extCmd #FFBBBB
 extCmd --> extCmd
 deactivate extCmd
@@ -62,6 +69,11 @@ else if book not borrowed
 end
 
 [<-- extCmd
+destroy Ui
+destroy extCmd
+destroy uStorage
+destroy book
+destroy user
 deactivate extCmd
 
 @enduml

@@ -18,6 +18,13 @@ participant ":User" as user USER_COLOR
 activate borCmd
 
 borCmd -> borCmd : setArguments()
+note right
+    The setArguments() method
+    calls multiple classes such
+    as SetBookIndexName or
+    SetUserName. For the sake of
+    brevity, they are not shown here.
+end note
 activate borCmd #FFBBBB
 borCmd --> borCmd
 deactivate borCmd
@@ -43,7 +50,6 @@ alt if book is found and arguments are valid
         activate uStorage #DarkSalmon
         uStorage --> borCmd
         deactivate uStorage
-
         borCmd -> Ui : printBorrowedMessage(bookName, userName)
         activate Ui #Yellow
         Ui --> borCmd
@@ -64,14 +70,26 @@ else if book not found
     activate Ui #Yellow
     Ui --> borCmd
     deactivate Ui
+
+
 else if index out of bounds
     borCmd -> Ui : printOutOfBoundsMessage()
     activate Ui #Yellow
     Ui --> borCmd
     deactivate Ui
+
 end
 
+
+
+
 [<-- borCmd
+destroy Ui
+destroy borCmd
+destroy uStorage
+destroy book
+destroy user
+
 deactivate borCmd
 
 @enduml
