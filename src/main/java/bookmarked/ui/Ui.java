@@ -99,9 +99,6 @@ public class Ui {
         System.out.println("The book does not exist; try adding it to the library first.");
     }
 
-    public static void printBookNotBorrowedExceptionMessage() {
-        System.out.println("Book not borrowed.");
-    }
 
     public static void printNotNumberMessage() {
         System.out.println("Please enter the number index of the book.");
@@ -132,9 +129,6 @@ public class Ui {
         System.out.println("Skipping a line due to invalid book index");
     }
 
-    public static void printBookNotBorrowedInBookStorage() {
-        System.out.println("Book not borrowed in library, updating user to follow library data");
-    }
 
     public static void printWrongQuantityFormat() {
         System.out.println("Please ensure that you input the proper arguments: \n" +
