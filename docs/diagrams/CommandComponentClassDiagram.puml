@@ -2,6 +2,7 @@
 !include style.puml
 
 hide circle
+skinparam classAttributeIconSize 0
 
 abstract Class Command <<abstract>> {
     + handleCommand()
@@ -12,7 +13,6 @@ Class AddCommand {
     - listOfBooks: ArrayList
     - splitItem: String[]
     - bookDataFile: File
-    --
     + processAddCommand(newSplitBook, listOfBooks)
 }
 
@@ -20,7 +20,6 @@ Class BorrowCommand {
     - bookName: String
     - listOfBooks: ArrayList
     - bookDataFile: File
-    --
     + runBorrowCommand(foundBooks)
 }
 
@@ -28,7 +27,6 @@ Class DeleteCommand {
     - listOfBooks: ArrayList
     - splitInput: String[]
     - bookDataFile: File
-    --
     + processDeleteCommand(listOfBooks)
 }
 
@@ -36,7 +34,6 @@ Class EditCommand {
     - listOfBooks: ArrayList
     - userInput: String
     - bookDataFile: File
-    --
     + handleEditTitle(bookToEdit, bookNumberToEdit)
 }
 
@@ -54,7 +51,6 @@ Class FindCommand {
     - numberOfBookFound: static int
     - newItem: String
     - listOfBooks: ArrayList
-    --
     - getKeyword()
     - processFind(keyword)
     - filterBooks(keyword, bookFound)
@@ -71,7 +67,6 @@ Class ListCommand {
     - sortedListOfBooks: ArrayList
     - splitCommand: String[]
     - numberOfBooks: int
-    --
     + parseCommand()
     + runListBlankCommand()
     + runListAlphabeticalCommand()
@@ -83,18 +78,17 @@ Class ReturnCommand {
     - bookName: String
     - listOfBooks: ArrayList
     - bookDataFile: File
-    --
     + runReturnCommand(foundBooks)
 }
 
-Command <|-- AddCommand
+Command <|--- AddCommand
 Command <|-- BorrowCommand
 Command <|-- DeleteCommand
-Command <|-- EditCommand
+Command <|--- EditCommand
 Command <|-- ExitCommand
-Command <|-- ExtendCommand
-Command <|-- FindCommand
+Command <|--- ExtendCommand
+Command <|--- FindCommand
 Command <|-- HelpCommand
-Command <|-- ListCommand
+Command <|--- ListCommand
 Command <|-- ReturnCommand
 @enduml
