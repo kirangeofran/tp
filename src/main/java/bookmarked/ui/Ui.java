@@ -1,5 +1,8 @@
 package bookmarked.ui;
+import bookmarked.Book;
 import bookmarked.user.User;
+
+import java.util.ArrayList;
 
 
 public class Ui {
@@ -279,5 +282,25 @@ public class Ui {
 
     public static void exitProgramme() {
         System.out.println("Thank you for using BookMarked! See you soon!");
+    }
+    /**
+     * Prints the list of books of each user
+     * Prints an extra line if it is the final user in the list
+     * Used by both lisuser and find user class
+     * hence placing this function under UI since it prints output and to avoid duplicate
+     * @param user      the user that i currently represents
+     * @param userCount the number of users
+     */
+    public static void printUserBooks(User user, int userCount, ArrayList<User> listOfUsers) {
+        for (int i = 0; i < user.getUserBooks().size(); i++) {
+            Ui.printCommand(user, i);
+            if (Book.isOverdue(user.getUserBooks().get(i).getReturnDate())) {
+                Ui.printOverdue();
+            }
+            System.out.println();
+        }
+        if (userCount < listOfUsers.size() - 1) {
+            System.out.println();
+        }
     }
 }

@@ -77,7 +77,7 @@ public class FindUserCommand extends Command {
             if (user.getUserBooks().isEmpty()) {
                 System.out.println("None");
             } else {
-                PrintUserBooksCommand.printUserBooks(user, userCount, foundUsers);
+                Ui.printUserBooks(user, userCount, foundUsers);
             }
             userCount++;
         }
