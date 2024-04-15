@@ -36,6 +36,7 @@ alt if all arguments are valid
     activate book #ADD8E6
     book --> retCmd
     deactivate book
+    destroy book
 
     retCmd -> user : unborrowBook(bookIndex)
     activate user #ADD8E6
@@ -55,6 +56,7 @@ alt if all arguments are valid
         activate uStorage #DarkSalmon
         uStorage --> retCmd
         deactivate uStorage
+        destroy uStorage
         retCmd --> retCmd
         deactivate retCmd
 
@@ -64,29 +66,29 @@ alt if all arguments are valid
     activate Ui #Yellow
     Ui --> retCmd
     deactivate Ui
+    destroy Ui
 else if user not found
     retCmd -> Ui : printNotExistingUserMessage()
     activate Ui #Yellow
     Ui --> retCmd
     deactivate Ui
+    destroy Ui
 else if book not found
     retCmd -> Ui : printBookNotFoundExceptionMessage()
     activate Ui #Yellow
     Ui --> retCmd
     deactivate Ui
+    destroy Ui
 else if book not borrowed
     retCmd -> Ui : printBookNotBorrowedByUserMessage(currentUser.getName())
     activate Ui #Yellow
     Ui --> retCmd
     deactivate Ui
+    destroy Ui
 end
 
 destroy Ui
 [<-- retCmd
 deactivate retCmd
-destroy book
-destroy user
-destroy uStorage
-destroy retCmd
 
 @enduml

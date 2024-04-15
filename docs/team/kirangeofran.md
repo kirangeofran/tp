@@ -1,5 +1,5 @@
 # Kiran's Project Portfolio Page
-## Project : Bookmarked
+## Project : BookMarked
 
 ## Overview
 BookMarked is a desktop application designed specifically for librarians to streamline
@@ -18,7 +18,7 @@ New feature:
 - Added code for book storage feature
 - Added code for book class
 - Added code for exception classes
-- Created junit tests for : 'BorrowCommand', 'ExtendCommand', 'ReturnCommand'
+- Created Junit tests for : 'BorrowCommand', 'ExtendCommand', 'ReturnCommand'
 
 
 ### Contributions to the UG
@@ -37,7 +37,7 @@ New feature:
 - Added User Profile for DG.
 - Added Value proposition for DG.
 - Added user stories for v1.0 and v2.1 for DG. 
-- Edited functional code to make sure the checkstyle tests pass. 
+- Edited functional code to make sure the checkstyle tests passed. 
 
 
 ### Review/mentoring contributions

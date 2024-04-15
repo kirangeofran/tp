@@ -18,13 +18,6 @@ participant ":User" as user USER_COLOR
 activate borCmd
 
 borCmd -> borCmd : setArguments()
-note right
-    The setArguments() method
-    calls multiple classes such
-    as SetBookIndexName or
-    SetUserName. For the sake of
-    brevity, they are not shown here.
-end note
 activate borCmd #FFBBBB
 borCmd --> borCmd
 deactivate borCmd
@@ -34,6 +27,7 @@ alt if book is found and arguments are valid
     activate book #ADD8E6
     book --> borCmd
     deactivate book
+    destroy book
 
     alt if book is available and not already borrowed
         borCmd -> book : borrowBook(LocalDate.now(), DEFAULT_BORROW_PERIOD)
@@ -45,57 +39,41 @@ alt if book is found and arguments are valid
         activate user #ADD8E6
         user --> borCmd
         deactivate user
+        destroy user
 
         borCmd -> uStorage : writeUserToTxt(userDataFile, listOfUsers)
         activate uStorage #DarkSalmon
         uStorage --> borCmd
         deactivate uStorage
+        destroy uStorage
+        
         borCmd -> Ui : printBorrowedMessage(bookName, userName)
         activate Ui #Yellow
         Ui --> borCmd
         deactivate Ui
+        destroy Ui
     else if book is already borrowed
         borCmd -> Ui : printUserAlreadyBorrowedBookMessage(userName)
         activate Ui #Yellow
         Ui --> borCmd
         deactivate Ui
+        destroy Ui
     else if no copies available
         borCmd -> Ui : printNoAvailableCopiesInInventoryMessage()
         activate Ui #Yellow
         Ui --> borCmd
         deactivate Ui
+        destroy Ui
     end
-else if book not found
-    borCmd -> Ui : printBookNotFoundExceptionMessage()
+
+else if book not found or index out of bounds
+    borCmd -> Ui : printErrorMessage() ' The error message varies depending on the condition
     activate Ui #Yellow
     Ui --> borCmd
     deactivate Ui
-
-
-else if index out of bounds
-    borCmd -> Ui : printOutOfBoundsMessage()
-    activate Ui #Yellow
-    Ui --> borCmd
-    deactivate Ui
-
+    destroy Ui
 end
 
-
-
-
-[<-- borCmd
-destroy Ui
 destroy borCmd
-destroy uStorage
-destroy book
-destroy user
-
-deactivate borCmd
-
-destroy borCmd
-destroy book
-destroy user
-destroy uStorage
-destroy Ui
 
 @enduml

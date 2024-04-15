@@ -36,36 +36,43 @@ alt if arguments are valid
     activate book #ADD8E6
     book --> extCmd
     deactivate book
+    destroy book
 
     extCmd -> user : extendDueDate(bookIndex)
     activate user #ADD8E6
     user --> extCmd
     deactivate user
+    destroy user
 
     extCmd -> uStorage : writeUserToTxt(userDataFile, listOfUsers)
     activate uStorage #DarkSalmon
     uStorage --> extCmd
     deactivate uStorage
+    destroy uStorage
 
     extCmd -> Ui : printExtensionSuccessMessage(bookName)
     activate Ui #Yellow
     Ui --> extCmd
     deactivate Ui
+    destroy Ui
 else if user not found
     extCmd -> Ui : printNotExistingUserMessage()
     activate Ui #Yellow
     Ui --> extCmd
     deactivate Ui
+    destroy Ui
 else if book not found
     extCmd -> Ui : printBookNotFoundExceptionMessage()
     activate Ui #Yellow
     Ui --> extCmd
     deactivate Ui
+    destroy Ui
 else if book not borrowed
     extCmd -> Ui : printBookNotBorrowedByUserMessage(currentUser.getName())
     activate Ui #Yellow
     Ui --> extCmd
     deactivate Ui
+    destroy Ui
 end
 
 [<-- extCmd
@@ -75,5 +82,6 @@ destroy uStorage
 destroy book
 destroy user
 deactivate extCmd
+destroy extCmd
 
 @enduml
