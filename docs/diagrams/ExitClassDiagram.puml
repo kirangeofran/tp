@@ -1,0 +1,18 @@
+@startuml
+!include style.puml
+
+participant ":ExitCommand" as Exit EXITCOMMAND_COLOR
+participant ":UI" as UI UI_COLOR
+
+[->Exit : handleCommand()
+activate Exit
+
+Exit -> UI : exitProgramme()
+activate UI
+
+UI --> Exit
+deactivate UI
+
+[<-- Exit
+deactivate Exit
+@enduml

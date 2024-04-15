@@ -9,6 +9,8 @@
 !define USER_CLASS_COLOR #lightsalmon
 !define ADD_COLOR #blue
 !define USER_BOOK_COLOR #greenyellow
+!define ADDCOMMAND_COLOR #yellow
+!define EXITCOMMAND_COLOR #lightsalmon
 
 !define USER_COLOR #pink
 !define FILE_COLOR #limegreen
