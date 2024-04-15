@@ -301,17 +301,22 @@ by the index shown in default list or the book title.
 
 ##### Component-Level
 The `EditCommand` interfaces with the following components during the operation:
-1. Storage component
-2. UI component
-3. User Component
-4. UserBook Component
+1. Storage component : For persistent storage operations for books and users.
+2. UI component : To relay back message to user.
 
 ##### Class-Level
 Editing the title of a book is handled in:
-
+1. `EditCommand` : This class is handling operation by taking user input which has been
+                   identified as an edit command by parser and modified data in the library
+                   according to user needs.
 
 #### Implementation Details
+The `FindCommand` is called when `handleCommand()` is called for this class, which most of
+the time is called in Parser component. Once called, EditCommand interfaced with some component,
+such as Exception, Book, and User Component during the `handleBookEdit()` operation. Successful
+edit will modify `book.txt` and `user.txt` by Storage, and confirmation message is printed.
 
+![EditCommandDiagram.png](images%2FEditCommandDiagram.png)
 
 #### AddCommand
 ##### Overview
