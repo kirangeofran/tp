@@ -99,7 +99,8 @@ Removes a book from the library's inventory based on its index in the list.
 
 Format: `delete INDEX (optional)/quantity NUMBER_OF_COPIES`
 
-* 'Index' is the position number of the book in the list as shown by the `list` command.
+* `INDEX` is the position number of the book in the list as shown by the default `list` command
+  which is `list /sortby default`.
 * A maximum of 1000 copies can be stored, and thus deleted from the library's inventory.
 * Delete does not affect the books currently being borrowed by users, only those currently
    available in the library's inventory.
@@ -233,9 +234,11 @@ Note :
 
 * Users do not need to be pre-added. They can be added directly when using the borrow command. 
 * Each user can borrow multiple books, but they can only borrow one book of each title. For example, if 'Tom' has 
-  borrowed one copy of 'The Book Thief', he cannot borrow a second copy of 'The Book Thief', even if there is more than 
+  borrowed one copy of 'The Book Thief', the user cannot borrow a second copy of 'The Book Thief', even if there is more than 
   one copy of 'The Book Thief' available in the inventory. 
 * The username cannot any contain special characters.
+  borrowed one copy of 'The Book Thief', the user cannot borrow a second copy of 'The Book Thief', even if there is 
+  more than one copy of 'The Book Thief' available in the inventory. 
 * If the specified book is not available for borrowing, or if there are no available copies left in the inventory,
   an appropriate message will be displayed.
 * If there is more than 1 quantity of a book title available and two users want to borrow the book, the commands 
@@ -249,8 +252,6 @@ Borrow by book title : `borrow The Book Thief /by Tom`
 Borrow by book index : `borrow 1 /by Tom`
 
 ![BorrowImage.png](images/code output/BorrowImage.png)
-
-
 
 ### Extending borrowed books in the library: `extend`
 Allows a user to extend the borrowing period of a book they have already borrowed. 
@@ -280,6 +281,7 @@ Extend by book index : `extend 1 /by Tom`
 
 ![ExtendImage.png](images/code output/ExtendImage.png)
 
+
 ### Returning borrowed books in the library: `return`
 Allows a user to return a book they have borrowed from the library's inventory, marking it as not borrowed.
 
@@ -299,12 +301,15 @@ Note :
 * The system will output a message confirming the successful return of the book.
 * If the book being returned is overdue, system outputs a message to alert users of the overdue.
 
+![return_example2.jpg](images%2Fcode%20output%2Freturn_example2.jpg)
 
 Examples of usage:
 
 Return by book title : `return The Book Thief /by Tom`
 
 Return by book index : `return 1 /by Tom`
+
+![return_example3.jpeg](images%2Fcode%20output%2Freturn_example3.jpeg)
 
 ### Finding books or users in the library: `find`
 Enables users to search for books in the library's inventory that match a given keyword.

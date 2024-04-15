@@ -1,6 +1,6 @@
 @startuml
 !include style.puml
-
+hide footbox
 participant ":ExitCommand" as Exit EXITCOMMAND_COLOR
 participant ":UI" as UI UI_COLOR
 
@@ -12,7 +12,9 @@ activate UI
 
 UI --> Exit
 deactivate UI
-
+destroy UI
 [<-- Exit
 deactivate Exit
+destroy Exit
+
 @enduml
