@@ -32,6 +32,7 @@ alt if arguments are valid
     activate book #ADD8E6
     book --> delCmd
     deactivate book
+    destroy book
 
     delCmd -> delCmd : runDeleteCommand()
     activate delCmd #FFBBBB
@@ -47,11 +48,13 @@ alt if arguments are valid
     activate book #ADD8E6
     book --> delCmd
     deactivate book
+    destroy book
 
     delCmd -> Ui : printDeleteStatement(quantityToDelete, inputBook.getName(), newNumberInInventory, newNumberTotal)
     activate Ui #Yellow
     Ui --> delCmd
     deactivate Ui
+    destroy Ui
 
     alt if all copies are deleted
         delCmd -> book : remove(listNumberIndex)
@@ -69,14 +72,18 @@ alt if arguments are valid
     activate bStorage #DarkSalmon
     bStorage --> delCmd
     deactivate bStorage
+    destroy bStorage
 else if user not found or input out of bounds or any other exception
     delCmd -> Ui : printErrorMessage()
     activate Ui #Yellow
     Ui --> delCmd
     deactivate Ui
+    destroy Ui
 end
 
 [<-- delCmd
 deactivate delCmd
+destroy delCmd
 
 @enduml
+
