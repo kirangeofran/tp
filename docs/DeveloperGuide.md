@@ -490,23 +490,23 @@ outcomes of their inputs, ensuring a smooth and transparent user experience.
 
 ## User Stories
 
-| Version | As a ...       | I want to ...                                                           | So that I can ...                                                                   |
-|---------|----------------|-------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| v1.0    | new librarian  | easily access usage instructions                                        | quickly learn how to use <br/>the application without confusion.                    |
-| v1.0    | librarian      | add new book titles to my inventory                                     | keep the inventory current and offer <br/>the latest books to users.                |
-| v2.1    | librarian      | add new users to my inventory                                           | can keep track of users who are<br/> borrowing books.                               |
+| Version | As a ...       | I want to ...                                                           | So that I can ...                                                                    |
+|---------|----------------|-------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| v1.0    | new librarian  | easily access usage instructions                                        | quickly learn how to use <br/>the application without confusion.                     |
+| v1.0    | librarian      | add new book titles to my inventory                                     | keep the inventory current and offer <br/>the latest books to users.                 |
+| v2.1    | librarian      | add new users to my inventory                                           | can keep track of users who are<br/> borrowing books.                                |
 | v2.1    | librarian      | record multiple copies of the same book title                           | accurately reflect book quantities and manage<br/> multiple loans of popular titles. |
-| v1.0    | librarian      | track books that have been borrowed                                     | monitor which books are currently on loan.                                          |
-| v2.1    | librarian      | track the borrow and return dates of books that <br/>have been borrowed | manage due dates efficiently.                                                       |
-| v2.1    | librarian      | track users that have borrowed books                                    | keep track of borrow and <br/>return dates to remind users when books are overdue.  |
-| v2.1    | librarian      | extend due dates of books                                               | offer flexibility to users who need more time<br/> with borrowed books.             |
-| v1.0    | librarian      | track books that have been returned                                     | keep track of available books currently<br/> in the inventory.                      |
-| v2.1    | librarian      | track books that have been returned past the due date                   | remind users of late fees.                                                          |
-| v2.1    | librarian      | edit books in my inventory                                              | make sure the book details in <br/>the inventory are up-to-date.                    |
-| v1.0    | librarian      | delete books from my inventory                                          | make sure the inventory does not<br/>reflect outdated or damaged books.             |
-| v1.0    | librarian      | view a complete list of the books in the inventory                      | have a comprehensive<br/>overview of the inventory.                                 |
-| v2.1    | busy librarian | view the list of books in my inventory in alphabetical order            | locate books more easily in the inventory, <br/>especially during peak hours.       |
-| v2.1    | librarian      | view the list of users who are currently borrowing books                | keep track of the inventory and users,<br/> including following up on book returns       |
+| v1.0    | librarian      | track books that have been borrowed                                     | monitor which books are currently on loan.                                           |
+| v2.1    | librarian      | track the borrow and return dates of books that <br/>have been borrowed | manage due dates efficiently.                                                        |
+| v2.1    | librarian      | track users that have borrowed books                                    | keep track of borrow and <br/>return dates to remind users when books are overdue.   |
+| v2.1    | librarian      | extend due dates of books                                               | offer flexibility to users who need more time<br/> with borrowed books.              |
+| v1.0    | librarian      | track books that have been returned                                     | keep track of available books currently<br/> in the inventory.                       |
+| v2.1    | librarian      | track books that have been returned past the due date                   | remind users of late fees.                                                           |
+| v2.1    | librarian      | edit books in my inventory                                              | make sure the book details in <br/>the inventory are up-to-date.                     |
+| v1.0    | librarian      | delete books from my inventory                                          | make sure the inventory does not<br/>reflect outdated or damaged books.              |
+| v1.0    | librarian      | view a complete list of the books in the inventory                      | have a comprehensive<br/>overview of the inventory.                                  |
+| v2.1    | busy librarian | view the list of books in my inventory in alphabetical order            | locate books more easily in the inventory, <br/>especially during peak hours.        |
+| v2.1    | librarian      | view the list of users who are currently borrowing books                | keep track of the inventory and users,<br/> including following up on book returns   |
 
 ## Non-Functional Requirements
 
@@ -521,5 +521,12 @@ outcomes of their inputs, ensuring a smooth and transparent user experience.
 * *glossary item* - Definition
 
 ## Instructions for manual testing
+This section provides the instructions on how to test the product manually.
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+### Launching the Application
+To launch the application to start testing it:
+1. Download the jar file and copy to an empty folder at your desired location.
+2. Open the command terminal and `cd` to the folder location where you placed the jar file.
+3. Run the command `java -jar BookMarked.jar` and a welcome message will appear on your command terminal.
+4. Run the help command by inputting `help` into the terminal to view all the available commands and the
+   format to run each commands.
