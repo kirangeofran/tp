@@ -3,22 +3,56 @@
 hide footbox
 
 participant ":FindCommand" as find FIND_COLOR
-participant ":FindCommandList" as findList FIND_LIST_COLOR
-participant ":UI" as Ui UI_COLOR
+participant "findUserCommand :FindUserCommand" as FindUser
+participant ":Ui" as ui
 
 [->find : handleCommand()
 activate find
 
-find -> findList : filterBooks(keyword, bookFound)
-activate findList
-findList --> find
-deactivate findList
+find -> find : parseCommand()
+activate find
 
-find -> Ui : printMatchingBooks(bookFound)
-activate Ui
-Ui --> find
-deactivate Ui
+alt argument is "book"
+find -> find : bookCommand()
+activate find
+
+find --> find
+deactivate find
+
+else argument is "user""
+find -> find : userCommand(splitCommandCommand)
+activate find
+create FindUser
+find -> FindUser : new findUserCommand(listOfUsers, userName[1].trim())
+activate FindUser
+find -> FindUser : handleCommand()
+FindUser -> FindUser : printUsers()
+activate FindUser
+FindUser -> FindUser : findUser(user, userCount)
+activate FindUser
+
+FindUser -> ui : printUserBooks(user, userCount, foundUsers)
+activate ui
+ui --> FindUser
+deactivate ui
+destroy ui
+
+FindUser --> FindUser
+deactivate FindUser
+FindUser --> FindUser
+deactivate FindUser
+FindUser --> find
+deactivate FindUser
+destroy FindUser
+find --> find
+deactivate find
+
+
+end
+find --> find
+deactivate find
 
 [<-- find
+destroy find
 
 @enduml
