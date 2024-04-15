@@ -141,9 +141,7 @@ How? Upon execution, the AddCommand class will:
 - If a book with a name which matches that of a book that is already is added, update the quantity
 - The storage component stores and updates the book added and its borrowed status into a text file
 
-
 ![AddCommand.png](images%2FAddCommand.png)
-
 
 #### Delete Command
 ##### Overview
@@ -438,6 +436,7 @@ How? Upon the user calling `bye`, "Exit command" is called
 
 ![ExitClassDiagram.png](images%2FExitClassDiagram.png)
 
+  
 ### Book Component
 **Overview**
 

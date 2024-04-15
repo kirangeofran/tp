@@ -23,7 +23,14 @@ AddCommand -> BookStorage: writeBookToTxt(bookDataFile: File, listOfBooks: Array
 activate BookStorage
 BookStorage --> AddCommand
 [<-- AddCommand
-autonumber
+deactivate AddCommand
+destroy AddCommand
+deactivate Book
+destroy Book
+deactivate UI
+destroy UI
+deactivate BookStorage
+destroy BookStorage
 
 
 
