@@ -229,18 +229,29 @@ Format:
 
 To borrow by book title : `borrow BOOK_NAME /by USER_NAME`
 
-* The command is case-sensitive, so `borrow`, `BOOK_NAME` and `USER_NAME` must be typed exactly. 
+* The command is case-sensitive, so `borrow`, `BOOK_NAME` and `USER_NAME` must be typed exactly, with no extra 
+  characters. However, extra spacing in the command is allowed. 
 
 To borrow by book index : `borrow INDEX /by USER_NAME`
 
 * The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
-* The command is case-sensitive, so `borrow ` and `USER_NAME` must be typed exactly.
+* The command is case-sensitive, so `borrow ` and `USER_NAME` must be typed exactly, with no extra characters. However,
+  extra spacing in the command is allowed. 
+
+![borrow_example2.jpeg](images%2Fcode%20output%2Fborrow_example2.jpeg)
 
 Note :
 
 * Users do not need to be pre-added. They can be added directly when using the borrow command. 
+* Each user can borrow multiple books, but they can only borrow one book of each title. For example, if 'Tom' has 
+  borrowed one copy of 'The Book Thief', he cannot borrow a second copy of 'The Book Thief', even if there is more than 
+  one copy of 'The Book Thief' available in the inventory. 
 * If the specified book is not available for borrowing, or if there are no available copies left in the inventory,
   an appropriate message will be displayed.
+* If there is more than 1 quantity of a book title available and two users want to borrow the book, the commands 
+  must be typed separately. The command will only take the `USER_NAME` after the first `\by`.
+
+![borrow_example1.jpeg](images%2Fcode%20output%2Fborrow_example1.jpeg)
 
 Examples of usage:
 
@@ -258,12 +269,14 @@ Format:
 
 To extend by book title : `extend BOOK_NAME /by USER_NAME`
 
-* The command is case-sensitive, so `extend`, `BOOK_NAME` and `USER_NAME` must be typed exactly.
+* The command is case-sensitive, so `extend`, `BOOK_NAME` and `USER_NAME` must be typed exactly, with no extra 
+  characters. However, extra spacing in the command is allowed. 
 
 To extend by book index : `extend INDEX /by USER_NAME`
 
 * The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
-* The command is case-sensitive, so `extend` and `USER_NAME` must be typed exactly.
+* The command is case-sensitive, so `extend` and `USER_NAME` must be typed exactly, with no extra characters.
+  However, extra spacing in the command is allowed. 
 
 Note:
 
@@ -284,12 +297,16 @@ Format:
 
 To return by book title : `return BOOK_NAME /by USER_NAME`
 
-* The command is case-sensitive, so `return`, `BOOK_NAME` AND `USER_NAME` must be typed exactly.
+* The command is case-sensitive, so `return`, `BOOK_NAME` AND `USER_NAME` must be typed exactly, with no extra 
+  characters. However, extra spacing is allowed. 
+
+![return_example1.jpeg](images%2Fcode%20output%2Freturn_example1.jpeg)
 
 To return by book index : `return INDEX /by USER_NAME`
 
 * The `INDEX` of the book can be seen using the default list command which is `list /sortby default`.
-* The command is case-sensitive, so `return`and `USER_NAME` must be typed exactly.
+* The command is case-sensitive, so `return`and `USER_NAME` must be typed exactly, with no extra characters.
+  However, extra spacing is allowed. 
 
 Note : 
 
@@ -338,7 +355,7 @@ Format: `bye`
 Example of usage:
 * `bye`
 
-![img.png](images/code output/bye_example.png)
+![bye_example.png](images%2Fcode%20output%2Fbye_example.png)
 
 ### Storage
 There are 2 txt files created and updated when using BookMarked application, which

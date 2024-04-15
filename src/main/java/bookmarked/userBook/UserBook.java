@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class UserBook {
-    private Integer userBookIndex;
+    private int userBookIndex;
     private String userBookTitle;
     private LocalDate borrowDate;
     private LocalDate returnDueDate;
 
-    public UserBook(Integer userBookIndex, String userBookTitle, LocalDate borrowDate, LocalDate returnDueDate) {
+    public UserBook(int userBookIndex, String userBookTitle, LocalDate borrowDate, LocalDate returnDueDate) {
         this.userBookIndex = userBookIndex;
         this.userBookTitle = userBookTitle;
         this.borrowDate = borrowDate;

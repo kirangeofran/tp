@@ -14,13 +14,15 @@ The architecture given above explains the high-level design of BookMarked applic
 Given below is quick overview of main components and how they interact with each other.
 
 #### Main components of the architecture
-- `Ui`: The UI of the app shown in CLI
+- `UI`: The UI of the app shown in CLI
 - `Main`: The main code that handles the running of program 
 - `Storage`: Handles write and read data to and from txt file
 - `Parser`: Handles user input and execute the necessary command
 - `Command`: Handles functionality of the app
 - `Book`: Books in the library
 - `User`: Users who currently borrow books in the library
+- `UserBook`: Books borrowed by user which specified the borrow and 
+              return due date
 
 ### Ui Component
 
@@ -58,6 +60,9 @@ to the txt file, `book.txt`.
 
 
 ### Command Component
+All the command user can input to the application are inheriting from the `Command` class.
+Each of these classes are explained in details below.
+
 ![CommandComponentClassDiagram.png](images%2FCommandComponentClassDiagram.png)
 
 #### HelpCommand
@@ -111,17 +116,20 @@ It also communicates with users about the outcome of the deletion operation.
 The 'delete' command interfaces with multiple components within the system:
 1. Ui component : For providing user feedback and error messages.
 2. Storage component: Handles persistent storage modifications after deletion operations.
-3. Book domain model : Manages the book entities' attributes and behaviours related to deletion.
+3. Book component : Manages the book entities' attributes and behaviours related to deletion.
 4. Exceptions component : Catches and reports errors during the delete operations such as out-of-bound indexes. 
 
 ##### Class -Level
+At the class level for the "delete command" in the BookMarked application, several classes are involved in the 
+process of removing a book from the library's inventory. Here's what each class does:
+
 1. Book Class: Represents each book and includes methods for adjusting inventory counts and availability status.
 2. DeleteCommand Class: Parses user input, processes the deletion logic, and updates the state of the book entities.
 3. BookStorage Class: Ensures that the library's persistent storage reflects the updated inventory post-deletion.
 4. Ui Class: Communicates the outcome of the deletion to the user, enhancing transparency and clarity.
 
 ##### Implementation Details
-How? The "DeleteCommand" class executes the following steps upon invocation:
+How? The "DeleteCommand" class executes the following steps when called:
 
 - Validates user input to ensure the command format and arguments are correct.
 - Determines the book to delete based on the provided index or name.
@@ -149,10 +157,13 @@ It also provides real-time feedback to users regarding the status of the book.
 The "borrow command" component interfaces with several others: 
 1. UI component : To relay messages back to the user. 
 2. Storage component : For persistent storage operations for books and users. 
-3. Book Domain Model : Represents the state and behaviour of the individual book entities.
-4. User Domain Model : Represents the library users and their borrowing status. 
+3. Book component : Represents the state and behaviour of the individual book entities.
+4. User component : Represents the library users and their borrowing status. 
 
 ##### Class-Level
+At the class level for the "borrow command" in the BookMarked application, several classes are involved in 
+the process of borrowing a book from the library's inventory. Here's what each class does:
+
 1. Book Class: Represents a book with attributes like name, isAvailable, borrowDate, and returnDate, along with methods to manipulate these properties.
 2. User Class: Represents a library user with methods to manage borrowed books and their respective due dates.
 3. BorrowCommand Class: Manages the command input, validates user input, identifies the book to be borrowed, and handles the updating of book and user states.
@@ -189,13 +200,17 @@ The "return command" interacts with the following components:
 
 1. UI Component: To communicate messages and prompts to the user during the return process.
 2. Storage Component: For persisting changes to the state of books and users.
-3. Book Domain Model: Represents individual book entities and their borrow/return state.
-4. User Domain Model: Represents library users and tracks their borrowed books.
+3. Book component: Represents individual book entities and their borrow/return state.
+4. User component: Represents library users and tracks their borrowed books.
 
 ##### Class-Level
+At the class level for the "relete command" in the BookMarked application, several classes are involved 
+in the process of returning a book from the library's inventory. Here's what each class does:
+
 1. Book Class: Represents a book with properties like name, isAvailable, and methods to mark the book as returned.
 2. User Class: Represents library users and provides methods to manage returning books and updating borrowing records.
-3. ReturnCommand Class: Parses the user command, checks book availability, processes the return operation, and updates book and user statuses.
+3. ReturnCommand Class: Parses the user command, checks book availability, processes the return operation, 
+   and updates book and user statuses.
 4. BookStorage Class: Manages the persistence of updated book data.
 5. UserStorage Class: Manages the persistence of updated user data.
 6. UserBook Class: Represents the link between a user and a borrowed book, holding details like returnDueDate.
@@ -268,13 +283,13 @@ How? The "ListUserCommand" upon execution will:
 
 #### Find Command
 ##### Overview
-The "find command" is a feature that allows user to search a book or user in the library based on the given keyword.
+The `FindCommand` is a feature that allows user to search a book or user in the library based on the given keyword.
 find command will find any books (if the book function is called) or user (if the user function is called) that contains 
 the keyword and show the book in the form of list. If no books are found with the given keyword, the application will 
 show a message for no result.
 
 ##### Implementation Details
-How? The "FindCommand", when called, will:
+How? The `FindCommand`, when called, will:
 - Identify the command as find /by book or find /by user
 If find /by book is called, upon execution will:
 - Check if keyword argument is empty, and process exception when empty keyword is given by user.
@@ -291,7 +306,30 @@ username
 
 
 #### Edit Command
+##### Overview
+The `EditCommand` is a feature that allows book title of current existing books to be
+updated or changed. This is done through the command `edit INDEX /title NEW_BOOK_TITLE` or
+`edit CURRENT_BOOK_TITLE /title NEW_BOOK_TITLE`, which user can choose to specify the book to
+by the index shown in default list or the book title. 
 
+##### Component-Level
+The `EditCommand` interfaces with the following components during the operation:
+1. Storage component : For persistent storage operations for books and users.
+2. UI component : To relay back message to user.
+
+##### Class-Level
+Editing the title of a book is handled in:
+1. `EditCommand` : This class is handling operation by taking user input which has been
+                   identified as an edit command by parser and modified data in the library
+                   according to user needs.
+
+#### Implementation Details
+The `FindCommand` is called when `handleCommand()` is called for this class, which most of
+the time is called in Parser component. Once called, EditCommand interfaced with some component,
+such as Exception, Book, and User Component during the `handleBookEdit()` operation. Successful
+edit will modify `book.txt` and `user.txt` by Storage, and confirmation message is printed.
+
+![EditCommandDiagram.png](images%2FEditCommandDiagram.png)
 
 #### AddCommand
 ##### Overview
@@ -299,7 +337,7 @@ Bookmarked is an application that allows new books bought to be added to the inv
 Discarded books can also be deleted through the command delete BOOK_NUMBER
 - Add book:
 - The add book function allows for new book to be added into the inventory
-##### Class -Level
+##### Class-Level
 1. AddCommand class : It is processed through the AddCommand class
 ##### Implementation Details
 - The handleCommand function splits the user command into the add and description of book
@@ -322,6 +360,9 @@ The ExtendCommand component interfaces with the following components of the syst
    including borrowed books and their due dates.
 
 ##### Class-Level Design 
+At the class level for the "extend command" in the BookMarked application, several classes are involved 
+in the process of extending a book from the library's inventory. Here's what each class does:
+
 1. Book Class: Manages book attributes, including the extension of due dates.
 2. User Class: Tracks user information and updates book borrowing details.
 3. ExtendCommand Class: Processes the user command to extend the due dates of borrowed books.
@@ -350,18 +391,65 @@ Upon execution, the ExtendCommand:
 
 ### Book Component
 
+### User Component
+##### Overview
+User Component manages the user who at that time has at least 1 borrowed books. It has data on the name of the user, 
+the book user borrowed, borrow date, and return due date.
+
+##### Implementation Details
+Data in User Component is stored in `user.txt` in the form:
+```
+USER_NAME | BOOK_INDEX1 | BOOK_TITLE1 | BORROW_DATE1 | RETURN_DATE1 | BOOK_INDEX2 | BOOK_TITLE2 | BORROW_DATE2 | RETURN_DATE2
+```
+If user borrowed more than 1 books, all the details are placed after the details of the other book, as shown by the
+above format for 2 books borrowed.
+
+During the start of the application, details about the user name, book index, book title, borrow date, and return due
+date is fetched from `user.txt` through Storage Component. If data in `user.txt` is not complete or has invalid details,
+operations are handled accordingly in Storage Component.
+
+`User` may consist of 0 to as many `UserBook` and thus book index in the ArrayList. However, if user has no
+borrowed books, it will be removed from the list of users the application track.
+![UserComponentClassDiagram.png](images%2FUserComponentClassDiagram.png)
+
+### UserBook Component
+
 ## Product scope
 ### Target user profile
 
-Our target user is librarians. 
+Our target user is librarians at educational institutions. 
+
+1. Profile 
+- Work at school, college or university libraries. 
+- Manage a medium to large inventory of books.
+- Interact with a diverse group of borrowers including students, teachers and researchers. 
+- Often assist borrowers with book searches, borrowing, and returns. 
+- Handle adding and removing books from inventory. 
+
+2. Needs
+- Efficiently update and maintain a current and accurate inventory of the library's books.
+- Easily manage the borrowing process, including loan periods and due dates. 
+- Swiftly accommodate extension requests for borrowed books. 
+- Efficiently remove outdated or damaged books from the system. 
+- Edit book details for corrections or updates.
+- Record and process book returns effectively.
+
+3. Behaviours
+- Prefer quick, keyboard-driven actions over mouse-based navigation
+- Require clear, immediate feedback from the system for all actions taken.
+- Value time-saving features that simplify repetitive tasks.
 
 ### Value proposition
 
-Bookmarked is an application for librarians to easily keep up to date with available books, their status and
-intended return date. Other than books, librarians can also check on borrowers' return status, whether they 
-have overdue books and could potentially send reminders to them if they have due dates soon
-
-## User Component
+Bookmarked is an application for librarians that streamlines library management.  
+Bookmarked offers a command-line interface that allows librarians to efficiently add,borrow,extend,delete,edit 
+and return books using quick keyboard commands. This streamlines their workflow and increases efficiency, 
+especially during peak hours. 
+The application's robust storage system ensures that all changes are immediately reflected
+in the library's inventory and user records. This real-time update prevents discrepancies
+and maintains the integrity of the library's data. 
+With immediate feedback for each action and clear error messages, librarians can be confident in the 
+outcomes of their inputs, ensuring a smooth and transparent user experience. 
 
 ## User Stories
 
