@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+!include style.puml
+hide circle
+skinparam classAttributeIconSize 0
+
+class Book {
+- {static}EXTENSION_DAYS : int
+- {static}DATE_FORMATTER : DateTimeFormatter
+- {static}DEFAULT_RETURNED_DATE : LocalDate
+- description: String
+- borrowDate : LocalDate
+- returnDate : LocalDate
+- numberInInventory : int
+- numberBorrowed : int
+- numberTotal : int
++ isBorrowed : boolean
+
++ {static}isOverdue(returnDate) + boolean
++ getName() : String
++ isAvailable() : boolean
++ borrowBook(borrowDate, borrowPeriod) : void
++ extendDueDate() : void
++ getBorrowDate() : LocalDate
++ getReturnDate() : LocalDate
++ setBorrowDate() : void
++ setReturnDate() : void
++ setReturned() : void
++ setName(bookName) : void
++ getFormattedReturnDate() : String
++ getBorrowedStatus() : String
++ setNumberInInventory(newNumber) : void
++ getNumberInInventory() : int
++ setNumberBorrowed() : void
++ getNumberBorrowed() : int
++ setNumberTotal(newNumber) : void
++ getNumberTotal() : int
++ toString() : String
++ equals() : boolean
+}
+
+@enduml
