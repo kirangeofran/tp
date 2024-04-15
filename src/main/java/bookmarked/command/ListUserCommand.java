@@ -62,7 +62,7 @@ public class ListUserCommand extends Command {
                 System.out.println("None");
             } else {
                 System.out.println();
-                PrintUserBooksCommand.printUserBooks(user, userCount, listOfUsers);
+                Ui.printUserBooks(user, userCount, listOfUsers);
             }
             userCount++;
         }
