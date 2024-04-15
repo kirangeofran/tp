@@ -81,9 +81,11 @@ public class User {
 
     public void extendDueDate(Integer bookIndex) {
         for (int i = 0; i < this.listOfUserBooks.size(); i += 1) {
-            UserBook currentUserBook = this.listOfUserBooks.get(i);
-            LocalDate currentReturnDueDate = currentUserBook.getReturnDueDate();
-            currentUserBook.setReturnDueDate(currentReturnDueDate.plusDays(EXTENSION_DAYS));
+            if (bookIndex == i) {
+                UserBook currentUserBook = this.listOfUserBooks.get(i);
+                LocalDate currentReturnDueDate = currentUserBook.getReturnDueDate();
+                currentUserBook.setReturnDueDate(currentReturnDueDate.plusDays(EXTENSION_DAYS));
+            }
         }
     }
 

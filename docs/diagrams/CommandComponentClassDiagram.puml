@@ -3,41 +3,28 @@
 
 hide circle
 
+skinparam classAttributeIconSize 0
+
 abstract Class Command <<abstract>> {
     + handleCommand()
 }
 
+Class FindUserCommand{
+}
+
+Class ListUserCommand {
+}
+
 Class AddCommand {
-    - newItem: String
-    - listOfBooks: ArrayList
-    - splitItem: String[]
-    - bookDataFile: File
-    --
-    + processAddCommand(newSplitBook, listOfBooks)
 }
 
 Class BorrowCommand {
-    - bookName: String
-    - listOfBooks: ArrayList
-    - bookDataFile: File
-    --
-    + runBorrowCommand(foundBooks)
 }
 
 Class DeleteCommand {
-    - listOfBooks: ArrayList
-    - splitInput: String[]
-    - bookDataFile: File
-    --
-    + processDeleteCommand(listOfBooks)
 }
 
 Class EditCommand {
-    - listOfBooks: ArrayList
-    - userInput: String
-    - bookDataFile: File
-    --
-    + handleEditTitle(bookToEdit, bookNumberToEdit)
 }
 
 Class ExitCommand {
@@ -45,20 +32,9 @@ Class ExitCommand {
 }
 
 Class ExtendCommand {
-    - bookName: String
-    - listOfBooks: ArrayList
-    - bookDataFile: File
 }
 
 Class FindCommand {
-    - numberOfBookFound: static int
-    - newItem: String
-    - listOfBooks: ArrayList
-    --
-    - getKeyword()
-    - processFind(keyword)
-    - filterBooks(keyword, bookFound)
-    + getNumberOfBookFound()
 }
 
 Class HelpCommand {
@@ -66,35 +42,22 @@ Class HelpCommand {
 }
 
 Class ListCommand {
-    - listOfBooks: ArrayList
-    - inputCommand: String
-    - sortedListOfBooks: ArrayList
-    - splitCommand: String[]
-    - numberOfBooks: int
-    --
-    + parseCommand()
-    + runListBlankCommand()
-    + runListAlphabeticalCommand()
-    + runListDateCommand()
-
 }
 
 Class ReturnCommand {
-    - bookName: String
-    - listOfBooks: ArrayList
-    - bookDataFile: File
-    --
-    + runReturnCommand(foundBooks)
 }
 
 Command <|-- AddCommand
-Command <|-- BorrowCommand
+Command <|--- BorrowCommand
 Command <|-- DeleteCommand
-Command <|-- EditCommand
+Command <|--- EditCommand
 Command <|-- ExitCommand
-Command <|-- ExtendCommand
+Command <|--- ExtendCommand
 Command <|-- FindCommand
-Command <|-- HelpCommand
+Command <|--- HelpCommand
 Command <|-- ListCommand
-Command <|-- ReturnCommand
+Command <|--- ReturnCommand
+Command <|-- FindUserCommand
+Command <|--- ListUserCommand
+
 @enduml
