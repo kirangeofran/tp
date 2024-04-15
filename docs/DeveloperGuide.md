@@ -425,8 +425,8 @@ How? Upon the user calling `bye`, "Exit command" is called
 
 ### User Component
 ##### Overview
-User Component manages the user who at that time has at least 1 borrowed books. It has data on the name of the user, 
-the book user borrowed, borrow date, and return due date.
+User Component manages the user who at that time has at least 1 borrowed books. It has data on the name of the user and 
+the list of books user borrowed and its index.
 
 ##### Implementation Details
 Data in User Component is stored in `user.txt` in the form:
@@ -445,6 +445,10 @@ borrowed books, it will be removed from the list of users the application track.
 ![UserComponentClassDiagram.png](images%2FUserComponentClassDiagram.png)
 
 ### UserBook Component
+##### Overview
+The details of Books borrowed by user are managed by the `UserBook` Component. This includes the book index based on
+the output of the  `list /sortby default` command, book title, borrow date and the return due date.
+
 
 ## Product scope
 ### Target user profile
