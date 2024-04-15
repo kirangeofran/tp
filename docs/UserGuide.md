@@ -238,8 +238,7 @@ To borrow by book index : `borrow INDEX /by USER_NAME`
 * The command is case-sensitive, so `borrow ` and `USER_NAME` must be typed exactly, with no extra characters. However,
   extra spacing in the command is allowed. 
 
-![photo1713147572.jpeg](..%2F..%2F..%2FDownloads%2Fphoto1713147572.jpeg)
-
+![borrow_example2.jpeg](images%2Fcode%20output%2Fborrow_example2.jpeg)
 
 Note :
 
@@ -252,7 +251,7 @@ Note :
 * If there is more than 1 quantity of a book title available and two users want to borrow the book, the commands 
   must be typed separately. The command will only take the `USER_NAME` after the first `\by`.
 
-  ![photo1713147532 (1).jpeg](..%2F..%2F..%2FDownloads%2Fphoto1713147532%20%281%29.jpeg)
+![borrow_example1.jpeg](images%2Fcode%20output%2Fborrow_example1.jpeg)
 
 Examples of usage:
 
@@ -301,7 +300,7 @@ To return by book title : `return BOOK_NAME /by USER_NAME`
 * The command is case-sensitive, so `return`, `BOOK_NAME` AND `USER_NAME` must be typed exactly, with no extra 
   characters. However, extra spacing is allowed. 
 
-  ![photo1713147461 (1).jpeg](..%2F..%2F..%2FDownloads%2Fphoto1713147461%20%281%29.jpeg)
+![return_example1.jpeg](images%2Fcode%20output%2Freturn_example1.jpeg)
 
 To return by book index : `return INDEX /by USER_NAME`
 
