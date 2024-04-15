@@ -14,13 +14,15 @@ The architecture given above explains the high-level design of BookMarked applic
 Given below is quick overview of main components and how they interact with each other.
 
 #### Main components of the architecture
-- `Ui`: The UI of the app shown in CLI
+- `UI`: The UI of the app shown in CLI
 - `Main`: The main code that handles the running of program 
 - `Storage`: Handles write and read data to and from txt file
 - `Parser`: Handles user input and execute the necessary command
 - `Command`: Handles functionality of the app
 - `Book`: Books in the library
 - `User`: Users who currently borrow books in the library
+- `UserBook`: Books borrowed by user which specified the borrow and 
+              return due date
 
 ### Ui Component
 
@@ -268,13 +270,13 @@ How? The "ListUserCommand" upon execution will:
 
 #### Find Command
 ##### Overview
-The "find command" is a feature that allows user to search a book or user in the library based on the given keyword.
+The `FindCommand` is a feature that allows user to search a book or user in the library based on the given keyword.
 find command will find any books (if the book function is called) or user (if the user function is called) that contains 
 the keyword and show the book in the form of list. If no books are found with the given keyword, the application will 
 show a message for no result.
 
 ##### Implementation Details
-How? The "FindCommand", when called, will:
+How? The `FindCommand`, when called, will:
 - Identify the command as find /by book or find /by user
 If find /by book is called, upon execution will:
 - Check if keyword argument is empty, and process exception when empty keyword is given by user.
@@ -291,7 +293,30 @@ username
 
 
 #### Edit Command
+##### Overview
+The `EditCommand` is a feature that allows book title of current existing books to be
+updated or changed. This is done through the command `edit INDEX /title NEW_BOOK_TITLE` or
+`edit CURRENT_BOOK_TITLE /title NEW_BOOK_TITLE`, which user can choose to specify the book to
+by the index shown in default list or the book title. 
 
+##### Component-Level
+The `EditCommand` interfaces with the following components during the operation:
+1. Storage component : For persistent storage operations for books and users.
+2. UI component : To relay back message to user.
+
+##### Class-Level
+Editing the title of a book is handled in:
+1. `EditCommand` : This class is handling operation by taking user input which has been
+                   identified as an edit command by parser and modified data in the library
+                   according to user needs.
+
+#### Implementation Details
+The `FindCommand` is called when `handleCommand()` is called for this class, which most of
+the time is called in Parser component. Once called, EditCommand interfaced with some component,
+such as Exception, Book, and User Component during the `handleBookEdit()` operation. Successful
+edit will modify `book.txt` and `user.txt` by Storage, and confirmation message is printed.
+
+![EditCommandDiagram.png](images%2FEditCommandDiagram.png)
 
 #### AddCommand
 ##### Overview
@@ -299,7 +324,7 @@ Bookmarked is an application that allows new books bought to be added to the inv
 Discarded books can also be deleted through the command delete BOOK_NUMBER
 - Add book:
 - The add book function allows for new book to be added into the inventory
-##### Class -Level
+##### Class-Level
 1. AddCommand class : It is processed through the AddCommand class
 ##### Implementation Details
 - The handleCommand function splits the user command into the add and description of book

@@ -1,0 +1,51 @@
+@startuml
+!include style.puml
+hide footbox
+
+participant ":BookMarked" as BookMarked BOOKMARKED_COLOR
+participant ":Parser" as Parser PARSER_COLOR
+participant ":EditCommand" as EditCommand EDIT_COLOR
+participant ":Storage" as Storage STORAGE_COLOR
+participant ":UI" as UI UI_COLOR
+
+[-> BookMarked : user input
+activate BookMarked
+
+BookMarked -> Parser : parseCommand()
+activate Parser
+
+create EditCommand
+Parser -> EditCommand : handleCommand()
+activate EditCommand
+
+EditCommand -> EditCommand : handleBookEdit()
+activate EditCommand
+
+EditCommand -> Storage : writeBookToTxt()
+activate Storage
+EditCommand <-- Storage
+deactivate Storage
+destroy Storage
+
+EditCommand -> UI : printEditedBookConfirmation(newBookName, oldName)
+activate UI
+EditCommand <-- UI
+deactivate UI
+destroy UI
+
+EditCommand --> EditCommand
+deactivate EditCommand
+
+EditCommand --> Parser
+deactivate EditCommand
+destroy EditCommand
+
+Parser --> BookMarked
+deactivate Parser
+destroy Parser
+
+[<-- BookMarked
+deactivate BookMarked
+destroy BookMarked
+
+@enduml
