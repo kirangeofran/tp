@@ -72,11 +72,21 @@ BookMarked application. It also includes all the command format that user can fo
 
 ##### Component-Level
 "Help command" interfaces with another component:
-1. UI component : To relay messages back to the user.
+1. UI component: To relay messages on command instructions back to the user.
+2. Command component: Represents the list of different commands to be called by the user.
+
+##### Class-Level
+The help command interfaces with various classes:
+1. Help command class: Call UI class to print the standard message of list of commands
+that can be called
 
 ##### Implementation
-Whenever the user input in `/help`, "help command" is called and command handled by calling method in UI
-to show to user the messages.
+How? Upon the user calling `help`, "help command" is called 
+
+- Help command handled by calling method in UI to show to user the messages
+- Prints a list of 15 commands that can be called by the user
+- Instructions on what parameters to be typed are clearly stated
+- Examples on how to use the commands are shown
 
 ![HelpCommandDiagram.png](images%2FHelpCommandDiagram.png)
 
@@ -84,7 +94,9 @@ to show to user the messages.
 #### AddCommand
 ##### Overview
 Bookmarked is an application that allows new books bought to be added to the inventory. The add
-book function allows new books to be added into the library's inventory
+book function allows new books that have just been bought to be added into the library's inventory.
+If more than one book with the same name is added, the book count of that particular book is updated
+
 ##### Component - Level
 The 'add' command interfaces with:
 1. Ui component : To relay messages back to the user
@@ -93,16 +105,30 @@ The 'add' command interfaces with:
 4. Exceptions component : to catch and print exceptions such as empty arguments
 
 ##### Class -Level
-1. AddCommand class : It is processed through the AddCommand class where a string item
-   is taken in representing user command and is added into list of books
+The 'add' command interfaces with several classes:
+1. Book Class: Represents a book with attributes like name, isAvailable, borrowDate, and returnDate, along with methods to manipulate these properties.
+2. AddCommand class: Handles the command entered, whether or not the command states quantity of each book, the list of books in the library,
+and handles the updating of list of books in storage 
+3. BookStorage class: Manages the status in the storage file, of list of books when new books are added and status of each book, such as whether it is borrowed, returned, borrow date, return date
+
 ##### Implementation Details
+How? Upon execution, the AddCommand class will:
+
 - The handleCommand function splits the user command into the add and description of book
-  processAddCommand then takes in the split array array[1] which is the description of the book
-  adds the new book into the bottom of the list based on the current number of books
-- The storage component stores the book added and its borrowed status into a text file
+  processAddCommand then takes in the description of the book
+- Checks for validity of Book Name
+- Check for empty arguments where the name of book is not keyed in
+- Check whether there is a quantity keyed in
+- Checks for empty quantity argument where quantity is called in the command but not provided
+- If there is a quantity, handle the command by extracting the quantity 
+- Add that number of books into the inventory
+- By default, one book is added if quantity is not called
+- Adds the new book into the bottom of the list based on the current number of books
+- If a book with a name which matches that of a book that is already is added, update the quantity
+- The storage component stores and updates the book added and its borrowed status into a text file
 
 
-![AddCommandDiagram.png](images%2FAddCommandDiagram.png)
+![AddCommand.png](images%2FAddCommand.png)
 
 
 #### Delete Command
@@ -235,50 +261,45 @@ Upon execution, the "ReturnCommand" class conducts the following operations:
 
 #### List Command
 ##### Overview
-The "list command" is a feature that manages the listing all the books in the inventory.
-It is so librarians can keep track of all the books, as well as their status of whether they have
+* The "list command" is a feature that manages the listing all the books in the inventory.
+* The list command can be used for 2 lists: user list and book list
+* It is so librarians can keep track of all the books, as well as their status of whether they have
 been borrowed or are currently available in the library.
+* Librarians can also keep track of all users, their borrowed books and due dates as well as
+their due status
 
 ##### Component-Level
 The "list command" component interfaces with several others:
 1. UI component : To relay messages back to the user.
+2. User Domain Model : Represents the borrowing status of each user
 3. Book Domain Model : Represents the state and behaviour of the individual book entities.
+4. Exceptions component : To catch and exceptions like empty list when the list of books
+is empty and empty arguments when there is no argument keyed in after list /sortby. Empty
+user list is also caught when there are no users
 
 ##### Class-Level
 1. Book Class : This class represents the domain entity with properties such as 'name', 'isAvailable',
-   'borrowDate' and 'returnDate' along with the methods to manipulate these properties.
-2. ListCommand Class : It handles the different commands of the list input, such as regular list,
-    list by alphabetical order, and so on.
+'borrowDate' and 'returnDate' along with the methods to manipulate these properties.
+2. User Class : Handles and stores the status of users who borrowed books and the status of
+each user, such as their borrowed books, return due date, overdue status 
+3. ListCommand Class : Handles the command by user and handles the different commands of the list input, such as regular list,
+list by alphabetical order and list by user
+4. ListUserCommand Class : It handles the command list by user storing user information
 
 ##### Implementation Details
 How? The "ListCommand" upon execution will:
 - Split user input with the regex "/sortby" to determine the various arguments the user has for the list function
-- Parses the argument to figure which it is, then creates a new ArrayList<Book> to copy
-    the original ArrayList and sort the new ArrayList according to the necessary argument. The toString()
-    function of each book in the newly sorted ArrayList is then called.
+- Parses the argument to figure which it is
+- If the argument is empty, an exception EmptyArgumentsException is thrown
+- In the case that the argument is `alphabetical` or `default`, the function creates a new ArrayList<Book> to copy
+the original ArrayList and sort the new ArrayList according to the necessary argument. The toString() function of each book in the newly sorted ArrayList is then called.
 - If there are no books in the original ArrayList, an exception is thrown and the user is informed of it.
+- In the case that the argument is `user`, the class ListUserCommand is called. 
+- If user list is empty, an exception EmptyUserListException is thrown
+- Iterates through the list of users. For every user, iterates through the list of books borrowed by that user
+- Repeats until the whole user list is completed
 
 ![ListCommandDiagram.png](images%2FListCommandDiagram.png)
-
-#### ListUser Command
-##### Overview
-The "listuser command" is a feature that allows the entire list of users who are people who have borrowed books
-along with all the books they borrowed 
-
-##### Component-Level
-The "listuser command" component interfaces with several others:
-1. UI component : To relay messages back to the user. 
-2. User Domain Model : Represents the state of the individual user entities.
-
-##### Class-Level
-1. User Class : This class represents the domain entity with properties such as 'name', 'borrowedBooks',
-   'unborrowBook' along with the methods to manipulate these properties.
-
-##### Implementation Details
-How? The "ListUserCommand" upon execution will:
-- Iterate through the list of users, by order of index
-- If list of users is empty, throws EmptyListException
-- For each user, iterates through the list of books and prints
 
 
 #### Find Command
@@ -299,7 +320,10 @@ If find /by book is called, upon execution will:
 if find /by user is called, will:
 - Split command accordingly to extract username.
 - Check if username is empty, and process exception if empty user name
-- Passes command into FindUserCommand class to extract user name and iterate the list of users for users containing
+- Passes command into FindUserCommand class to extract user name 
+- Iterates through the list of users to find users with matching user name
+- Stores all users and their books in a new User array
+- Iterate the new array to print users and their books
 username
 
 ![FindCommandDiagram.png](images%2FFindCommandDiagram.png)
@@ -331,17 +355,6 @@ edit will modify `book.txt` and `user.txt` by Storage, and confirmation message 
 
 ![EditCommandDiagram.png](images%2FEditCommandDiagram.png)
 
-#### AddCommand
-##### Overview
-Bookmarked is an application that allows new books bought to be added to the inventory
-Discarded books can also be deleted through the command delete BOOK_NUMBER
-- Add book:
-- The add book function allows for new book to be added into the inventory
-##### Class-Level
-1. AddCommand class : It is processed through the AddCommand class
-##### Implementation Details
-- The handleCommand function splits the user command into the add and description of book
-- processAddCommand adds the new book into the bottom of the list based on the current number of books
 
 #### Extend Command 
 ##### Overview
@@ -387,14 +400,33 @@ Upon execution, the ExtendCommand:
 ![ExtendCommandDiagram.png](images%2FExtendCommandDiagram.png)
 
 #### Exit Command
+##### Overview
+The "Exit command" is a feature that exits the program. It is run through the command 'bye'.
+This allows users to safely close the program
+
+##### Component-Level
+"Exit command" interfaces with another component:
+1. UI component: To relay messages after successfully exiting the programme back to the user.
+2. Command component: Represents the list of different commands to be called by the user.
+
+##### Class-Level
+The Exit command interfaces with various classes:
+1. Exit command class: Call UI class to print the standard message when exiting
+
+##### Implementation
+How? Upon the user calling `bye`, "Exit command" is called
+
+- Exit command activated by identifying the command
+- UI class is called to print out "bye message" when user exits the programme
 
 
+![ExitClassDiagram.png](images%2FExitClassDiagram.png)
 ### Book Component
 
 ### User Component
 ##### Overview
-User Component manages the user who at that time has at least 1 borrowed books. It has data on the name of the user, 
-the book user borrowed, borrow date, and return due date.
+User Component manages the user who at that time has at least 1 borrowed books. It has data on the name of the user and 
+the list of books user borrowed and its index.
 
 ##### Implementation Details
 Data in User Component is stored in `user.txt` in the form:
@@ -413,6 +445,10 @@ borrowed books, it will be removed from the list of users the application track.
 ![UserComponentClassDiagram.png](images%2FUserComponentClassDiagram.png)
 
 ### UserBook Component
+##### Overview
+The details of Books borrowed by user are managed by the `UserBook` Component. This includes the book index based on
+the output of the  `list /sortby default` command, book title, borrow date and the return due date.
+
 
 ## Product scope
 ### Target user profile
@@ -453,14 +489,31 @@ outcomes of their inputs, ensuring a smooth and transparent user experience.
 
 ## User Stories
 
-|Version| As a ... | I want to ... | So that I can ...|
-|--------|----------|---------------|------------------|
-|v1.0|new user|see usage instructions|refer to them when I forget how to use the application|
-|v2.0|user|find a to-do item by name|locate a to-do without having to go through the entire list|
+| Version | As a ...       | I want to ...                                                           | So that I can ...                                                                   |
+|---------|----------------|-------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| v1.0    | new librarian  | easily access usage instructions                                        | quickly learn how to use <br/>the application without confusion.                    |
+| v1.0    | librarian      | add new book titles to my inventory                                     | keep the inventory current and offer <br/>the latest books to users.                |
+| v2.1    | librarian      | add new users to my inventory                                           | can keep track of users who are<br/> borrowing books.                               |
+| v2.1    | librarian      | record multiple copies of the same book title                           | accurately reflect book quantities and manage<br/> multiple loans of popular titles. |
+| v1.0    | librarian      | track books that have been borrowed                                     | monitor which books are currently on loan.                                          |
+| v2.1    | librarian      | track the borrow and return dates of books that <br/>have been borrowed | manage due dates efficiently.                                                       |
+| v2.1    | librarian      | track users that have borrowed books                                    | keep track of borrow and <br/>return dates to remind users when books are overdue.  |
+| v2.1    | librarian      | extend due dates of books                                               | offer flexibility to users who need more time<br/> with borrowed books.             |
+| v1.0    | librarian      | track books that have been returned                                     | keep track of available books currently<br/> in the inventory.                      |
+| v2.1    | librarian      | track books that have been returned past the due date                   | remind users of late fees.                                                          |
+| v2.1    | librarian      | edit books in my inventory                                              | make sure the book details in <br/>the inventory are up-to-date.                    |
+| v1.0    | librarian      | delete books from my inventory                                          | make sure the inventory does not<br/>reflect outdated or damaged books.             |
+| v1.0    | librarian      | view a complete list of the books in the inventory                      | have a comprehensive<br/>overview of the inventory.                                 |
+| v2.1    | busy librarian | view the list of books in my inventory in alphabetical order            | locate books more easily in the inventory, <br/>especially during peak hours.       |
+| v2.1    | librarian      | view the list of users who are currently borrowing books                | keep track of the inventory and users,<br/> including following up on book returns       |
 
 ## Non-Functional Requirements
 
-{Give non-functional requirements}
+1. Should work on any mainstream OS as long as `Java 11` is installed.
+2. Application should be able to be run in any terminal.
+3. The application should be able to hold up to 1000 books in the library.
+4. Application should work reliably on normal operation.
+5. Application should be easy to use with the given summary command in `help`. 
 
 ## Glossary
 
