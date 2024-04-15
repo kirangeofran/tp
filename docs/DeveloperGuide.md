@@ -26,8 +26,17 @@ Given below is quick overview of main components and how they interact with each
 - `UserBook`: Books borrowed by user which specified the borrow and 
               return due date
 
-### Ui Component
+### UI Component
+##### Overview
+* BookMarked application makes use of the UI component to print out messages to the user.
+* Messages include introduction messages when the user first loads the application, exit
+messages when the user exits the programme as well as minor messages such as lines (-------)
+to make the output neater
 
+##### Implementation details
+When UI is called, it finds the desired function and runs it, printing out the wanted message
+
+![UiComponentClassDiagram.png](images%2FUiComponentClassDiagram.png)
 ### Storage Component
 ##### Overview
 BookMarked application is using txt file as its main storage for all the data.
