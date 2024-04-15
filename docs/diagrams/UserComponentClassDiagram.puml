@@ -1,0 +1,38 @@
+@startuml
+!include style.puml
+
+hide circle
+skinparam classAttributeIconSize 0
+
+Class User {
+    - userName:  String
+    - listOfBooks: ArrayList<Book>
+    - listOfUserBooks: ArrayList<User>
+    - userBooksIndex: ArrayList<Integer>
+    + getName()
+    + getUserBooks()
+    + getUserBooksIndex()
+    + getListOfUserBooks()
+    + borrowBook(bookIndex, borrowDate, returnDueDate)
+    + unborrowBook(bookIndex)
+    + editBook(oldTitle, newTitle, currentUserBooksList)
+    + extendDueDate(bookIndex)
+   + setListOfBooks(listOfBooks)
+}
+
+Class UserBook {
+    - userBookIndex: int
+    - userBooktitle: String
+    - borrowDate: LocalDate
+    - returnDueDate: LocalDate
+    + setUserBookTitle(userBookTitle)
+    + setReturnDueDate(returnDate)
+    + setBorrowDate(borrowDate)
+    + getBorrowDate()
+    + getReturnDueDate()
+    + getUserBookIndex()
+    + getUserBookTitle()
+}
+
+User --> "*" UserBook
+@enduml

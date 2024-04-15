@@ -60,6 +60,9 @@ to the txt file, `book.txt`.
 
 
 ### Command Component
+All the command user can input to the application are inheriting from the `Command` class.
+Each of these classes are explained in details below.
+
 ![CommandComponentClassDiagram.png](images%2FCommandComponentClassDiagram.png)
 
 #### HelpCommand
@@ -375,6 +378,29 @@ Upon execution, the ExtendCommand:
 
 ### Book Component
 
+### User Component
+##### Overview
+User Component manages the user who at that time has at least 1 borrowed books. It has data on the name of the user, 
+the book user borrowed, borrow date, and return due date.
+
+##### Implementation Details
+Data in User Component is stored in `user.txt` in the form:
+```
+USER_NAME | BOOK_INDEX1 | BOOK_TITLE1 | BORROW_DATE1 | RETURN_DATE1 | BOOK_INDEX2 | BOOK_TITLE2 | BORROW_DATE2 | RETURN_DATE2
+```
+If user borrowed more than 1 books, all the details are placed after the details of the other book, as shown by the
+above format for 2 books borrowed.
+
+During the start of the application, details about the user name, book index, book title, borrow date, and return due
+date is fetched from `user.txt` through Storage Component. If data in `user.txt` is not complete or has invalid details,
+operations are handled accordingly in Storage Component.
+
+`User` may consist of 0 to as many `UserBook` and thus book index in the ArrayList. However, if user has no
+borrowed books, it will be removed from the list of users the application track.
+![UserComponentClassDiagram.png](images%2FUserComponentClassDiagram.png)
+
+### UserBook Component
+
 ## Product scope
 ### Target user profile
 
@@ -411,8 +437,6 @@ in the library's inventory and user records. This real-time update prevents disc
 and maintains the integrity of the library's data. 
 With immediate feedback for each action and clear error messages, librarians can be confident in the 
 outcomes of their inputs, ensuring a smooth and transparent user experience. 
-
-## User Component
 
 ## User Stories
 
