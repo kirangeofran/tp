@@ -10,13 +10,13 @@ public class Book {
     private static final int EXTENSION_DAYS = 7;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final LocalDate DEFAULT_RETURNED_DATE = LocalDate.of(1900, 1, 1);
+    public boolean isBorrowed;
     private String description;
     private LocalDate borrowDate;
     private LocalDate returnDate;
     private int numberInInventory;
     private int numberBorrowed;
     private int numberTotal;
-    public boolean isBorrowed;
 
 
     public Book(String description) {
