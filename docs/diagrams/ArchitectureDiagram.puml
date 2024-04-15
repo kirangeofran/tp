@@ -37,7 +37,7 @@ Command -[#orange]-> Book
 Command -[#orange]-> User
 User -[#salmon]-> UserBook
 Storage .[#green].> File
-File .[#green].> Storage
+
 human .[#black]> UI
 
 

@@ -26,12 +26,12 @@ to follow to use it in using this software:
    borrow BOOK_TITLE /by USER_NAME
 
 5. To extend the due date of a borrowed book by a week by book index
-   extend INDEX
+   extend INDEX /by USER_NAME
 
 6. To extend the due date of a borrowed book by a week by book title
-   extend BOOK_TITLE
+   extend BOOK_TITLE /by USER_NAME
 
-7. To unmark book as returnedby book index
+7. To unmark book as returned by book index
    return INDEX /by USER_NAME
 
 8. To unmark book as returned by book title

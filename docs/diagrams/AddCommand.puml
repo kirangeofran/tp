@@ -4,21 +4,27 @@
 participant ":AddCommand" as AddCommand ADD_COLOR
 participant "bookName:Book" as Book BOOK_COLOR
 participant ":UI" as UI UI_COLOR
-
+participant ":BookStorage" as BookStorage STORAGE_COLOR
+hide footbox
+[->AddCommand : handleCommand()
+activate AddCommand
 AddCommand -> UI: printEmptyArgumentsMessage()
+activate UI
 UI --> AddCommand
-deactivate UI
+AddCommand -> AddCommand : processAddCommand()
+activate AddCommand ADDCOMMAND_COLOR
+AddCommand --> AddCommand
 deactivate AddCommand
 
-[-> AddCommand: processAddCommand(newSplitBook:String[], listOfBooks:ArrayList<Book>
-activate AddCommand
-activate Book
-create Book
 AddCommand -> Book:new Book (newSplitBook:String[])
 activate Book
 Book --> AddCommand
-
+AddCommand -> BookStorage: writeBookToTxt(bookDataFile: File, listOfBooks: ArrayList<Book>)
+activate BookStorage
+BookStorage --> AddCommand
+[<-- AddCommand
 autonumber
+
 
 
 @enduml
