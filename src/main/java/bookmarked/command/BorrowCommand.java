@@ -100,10 +100,6 @@ public class BorrowCommand extends Command {
         }
     }
 
-    private static boolean isMoreThanOneBy(String[] splitParts) {
-        return splitParts.length > 2;
-    }
-
     /**
      * Validates the input provided for the borrow command and sets up the book and user arguments
      * for the borrowing process.
@@ -116,7 +112,7 @@ public class BorrowCommand extends Command {
     private void setArguments() throws EmptyArgumentsException, InvalidStringException,
             BookNotFoundException, IndexOutOfListBounds, InvalidUserException {
         try {
-            inputValidity();
+            checkInputValidity();
             setBookArguments();
             setUserArgument();
         } catch (InvalidStringException e) {
@@ -179,7 +175,7 @@ public class BorrowCommand extends Command {
      * @throws InvalidStringException If the input string is invalid.
      * @throws EmptyArgumentsException If the input string is empty.
      */
-    public void inputValidity() throws InvalidStringException, EmptyArgumentsException {
+    public void checkInputValidity() throws InvalidStringException, EmptyArgumentsException {
         try {
             InputValidity inputValidity = new InputValidity(COMMAND_STRING, this.newItem, ARGUMENT_STRING);
             inputValidity.checkInputValidity();
