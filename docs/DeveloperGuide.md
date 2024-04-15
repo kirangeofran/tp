@@ -474,8 +474,9 @@ During the start of the application, details about the user name, book index, bo
 date is fetched from `user.txt` through Storage Component. If data in `user.txt` is not complete or has invalid details,
 operations are handled accordingly in Storage Component.
 
-`User` may consist of 0 to as many `UserBook` and thus book index in the ArrayList. However, if user has no
-borrowed books, it will be removed from the list of users the application track.
+The ArrayList `listOfUserBooks` inside `User` may consist of 0 to as many `UserBook` as needed.
+However, if user has no borrowed books, it will be removed from the list of users the application track.
+
 ![UserComponentClassDiagram.png](images%2FUserComponentClassDiagram.png)
 
 ### UserBook Component
@@ -555,5 +556,12 @@ outcomes of their inputs, ensuring a smooth and transparent user experience.
 * *user* - The people who borrow the books
 
 ## Instructions for manual testing
+This section provides the instructions on how to test the product manually.
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+### Launching the Application
+To launch the application to start testing it:
+1. Download the jar file and copy to an empty folder at your desired location.
+2. Open the command terminal and `cd` to the folder location where you placed the jar file.
+3. Run the command `java -jar BookMarked.jar` and a welcome message will appear on your command terminal.
+4. Run the help command by inputting `help` into the terminal to view all the available commands and the
+   format to run each commands.
